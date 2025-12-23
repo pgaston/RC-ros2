@@ -10,6 +10,8 @@ Features:
 
 ![stream robot video to user](image-1.png)
 
+![camera processing pipeline](image-2.png)
+
 [isaac ROS base page](https://nvidia-isaac-ros.github.io/v/release-3.2/index.html)
 
 
