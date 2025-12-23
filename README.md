@@ -2,9 +2,18 @@
 # RC car autonomous control
 
 Features:
-- ROS2 true, as much as possible
+- ROS2 true, as much as possible.   Note this is using Humble.   While the most recent update from nVidia is moving to Jazzy.    This change alone will break things.
 - leverage nVidia stack as much as possible (via the NVidia docker setup for Jetson (Orin) Nano/x86)
 - WebRTC
+
+![general architecture](image.png)
+
+![stream robot video to user](image-1.png)
+
+[isaac ROS base page](https://nvidia-isaac-ros.github.io/v/release-3.2/index.html)
+
+
+Summary Table: Component MappingGoalIsaac ROS PackageHardware Resource UsedVIO / Odometryisaac_ros_visual_slamGPU & IMUStereo Depthisaac_ros_ess (Optional)DLA / GPUMappingisaac_ros_nvbloxGPU (CUDA)PlanningNav2 (Integrated)CPU / GPUWebRTC Videoisaac_ros_h264_encoderNVENC (Video Encoder)Remote Control10isaac_ros_mission_client11CPU12
 
 Commands of high interest:
 
