@@ -11,12 +11,12 @@ Features:
 Command of high interest:
 
 '''
-# Launch - note the-d flag
+Launch - note the-d flag
 
 cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 ./run_dev.sh -d ${ISAAC_ROS_WS}
 
-# Testing the hardware control
+Testing the hardware control
 colcon build --packages-select rc_hardware_control
 
 ros2 launch rc_hardware_control steering_tracking_example.launch.py
@@ -33,7 +33,7 @@ ros2 topic echo /joint_states --field velocity
 ros2 launch rc_hardware_control basic_steering_traction.launch.py
 
 
-# 1. Start with everything stopped/centered
+Start with everything stopped/centered
 ros2 topic pub /steering_controller/commands std_msgs/msg/Float64MultiArray "data: [0.0]" --once
 ros2 topic pub /traction_controller/commands std_msgs/msg/Float64MultiArray "data: [0.0]" --once
 
@@ -43,10 +43,10 @@ ros2 topic pub /traction_controller/commands std_msgs/msg/Float64MultiArray "dat
 
 Also
 '''
-# i2c access - fixed (using gemini AI - go there to see how)
+i2c access - fixed (using gemini AI - go there to see how)
 sudo chmod 666 /dev/gpiochip0 /dev/gpiochip1 /dev/i2c-0 /dev/i2c-1 /dev/i2c-7
 
-# need video (only needed if startted without a video monitor live ???)
+need video (only needed if startted without a video monitor live ???)
 sudo rm /dev/fb0 && sudo mknod /dev/fb0 c 29 0 && sudo chmod 666 /dev/fb0
 
 '''
