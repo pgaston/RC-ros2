@@ -6,9 +6,9 @@ Features:
 - leverage nVidia stack as much as possible (via the NVidia docker setup for Jetson (Orin) Nano/x86)
 - WebRTC
 
-###Commands of high interest:
+Commands of high interest:
 
-'''
+```
 Launch - note the-d flag
 
 cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
@@ -37,21 +37,21 @@ ros2 topic pub /traction_controller/commands std_msgs/msg/Float64MultiArray "dat
 
 
 
-'''
+```
 
 Also
-'''
+```
 i2c access - fixed (using gemini AI - go there to see how)
 sudo chmod 666 /dev/gpiochip0 /dev/gpiochip1 /dev/i2c-0 /dev/i2c-1 /dev/i2c-7
 
 need video (only needed if startted without a video monitor live ???)
 sudo rm /dev/fb0 && sudo mknod /dev/fb0 c 29 0 && sudo chmod 666 /dev/fb0
 
-'''
+```
 
 ## Github sync
 Our repositories so far under this are pca9685_ros2_control and TeleOpROS2 (which will go away/change)
-'''
+```
 Push
 
 go to folder
@@ -59,7 +59,7 @@ git add .
 git commit -m "next commit?"
 git push
 
-'''
+```
 
 ## vcs
 The standard "Sync Up" workflow for a vcstool workspace looks like this:
