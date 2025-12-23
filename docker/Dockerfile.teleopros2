@@ -1,0 +1,63 @@
+ARG BASE_IMAGE=ubuntu:22.04
+FROM ${BASE_IMAGE}
+
+ARG TARGET_ROS_DISTRO=humble
+
+# Build a docker that extends the Jetson docker image and Realsense docker image:
+# 1. Installs things needed for WebRTC and aiortc
+# 2. Installs things for gscam extension
+# 3. Installs ros2_control and ros2_controllers
+# 4. Installs jetson specific needs
+
+# Note: the number of "RUN" commands is limited 
+
+# some of this is only for the python webrtc - it may not be needed
+RUN pip install pyopenssl --upgrade
+RUN pip install google-crc32c pyee pylibsrtp natsort 
+RUN pip install aiohttp[speedups] aiortc 
+
+ # Seems strange to need to do this, but it is
+RUN apt update --allow-releaseinfo-change && apt upgrade -y
+
+# for gscam
+RUN apt install -y libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools \
+    gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio \
+    libgstreamer-plugins-base1.0-dev \
+    libgstreamer-plugins-bad1.0-dev \
+    libgstrtspserver-1.0-dev \
+    gstreamer1.0-plugins-bad \
+    libjson-glib-dev libsoup2.4-dev
+
+# Install basic packages for i2c and 9685 control
+RUN apt install -y dialog libi2c-dev i2c-tools 
+
+# Install standard ROS 2 packages
+RUN apt install -y \
+    ros-humble-ros2-control \
+    ros-humble-ros2-controllers \
+    ros-humble-xacro \
+    ros-humble-joint-state-publisher-gui
+
+# Install specialized packages (may need to be built from source)
+# RUN apt install -y \
+#     ros-humble-pca9685-hardware-interface \
+#     ros-humble-ackermann-steering-controller
+
+##########################
+# for Jetson only - though doesn't kill x86
+#
+# blinka added, not sure what previous installs are still needed...
+##########################
+RUN pip install adafruit-circuitpython-motorkit \
+    Jetson.GPIO \
+    adafruit-circuitpython-ssd1306 \
+    jetson-stats \
+    adafruit-blinka
+
+# for  ip command - so stats can show local IP
+RUN apt install -y iproute2
+
+# don't want setuptools-scm - not sure why it is installed, but it causes problems
+RUN pip uninstall -y setuptools-scm
+

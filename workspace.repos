@@ -1,0 +1,25 @@
+repositories:
+  TeleOpROS2:
+    type: git
+    url: git@github.com:pgaston/TeleOpROS2.git
+    version: main
+  gscam2:
+    type: git
+    url: git@github.com:clydemcqueen/gscam2.git
+    version: main
+  isaac_ros_common:
+    type: git
+    url: git@github.com:NVIDIA-ISAAC-ROS/isaac_ros_common.git
+    version: release-3.2
+  jetson-inference:
+    type: git
+    url: git@github.com:dusty-nv/jetson-inference
+    version: master
+  pca9685_ros2_control:
+    type: git
+    url: git@github.com:pgaston/pca9685_ros2_control
+    version: main
+  ros2_shared:
+    type: git
+    url: git@github.com:ptrmu/ros2_shared.git
+    version: master
