@@ -1,14 +1,12 @@
 
-# RC car autonomous control using ROS2
-## via the NVidia docker setup for Jetson (Orin) Nano/x86
-
+# RC car autonomous control
 
 Features:
 - ROS2 true, as much as possible
-- leverage nVidia stack as much as possible
+- leverage nVidia stack as much as possible (via the NVidia docker setup for Jetson (Orin) Nano/x86)
 - WebRTC
 
-Command of high interest:
+###Commands of high interest:
 
 '''
 Launch - note the-d flag
