@@ -1,0 +1,158 @@
+ros2 launch isaac_ros_realsense_control realsense_ess.launch.py
+[INFO] [launch]: All log files can be found below /home/admin/.ros/log/2025-12-29-10-53-49-065393-ubuntu-198137
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [realsense2_camera_node-1]: process started with pid [198157]
+[INFO] [component_container_mt-2]: process started with pid [198159]
+[realsense2_camera_node-1] [INFO] [1767023629.503274901] [camera.camera]: RealSense ROS v4.57.0
+[realsense2_camera_node-1] [INFO] [1767023629.505286087] [camera.camera]: Built with LibRealSense v2.57.5
+[realsense2_camera_node-1] [INFO] [1767023629.506335216] [camera.camera]: Running with LibRealSense v2.57.5
+[component_container_mt-2] [INFO] [1767023629.528992117] [ess_container]: Load Library: /opt/ros/humble/lib/libess_disparity_node.so
+[component_container_mt-2] [INFO] [1767023629.616204973] [ess_container]: Found class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::dnn_stereo_depth::ESSDisparityNode>
+[component_container_mt-2] [INFO] [1767023629.616338542] [ess_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::dnn_stereo_depth::ESSDisparityNode>
+[component_container_mt-2] [INFO] [1767023629.633864294] [disparity]: [NitrosNode] Initializing NitrosNode
+[component_container_mt-2] [INFO] [1767023629.635314323] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/std/libgxf_std.so
+[component_container_mt-2] [INFO] [1767023629.637588359] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_gxf_helpers.so
+[component_container_mt-2] [INFO] [1767023629.643556955] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_sight.so
+[component_container_mt-2] [INFO] [1767023629.650288149] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_atlas.so
+[component_container_mt-2] 2025-12-29 10:53:49.665 WARN  external/com_nvidia_gxf/gxf/std/program.cpp@538: No GXF scheduler specified.
+[component_container_mt-2] [INFO] [1767023629.667075591] [disparity]: [NitrosNode] Starting NitrosNode
+[component_container_mt-2] [INFO] [1767023629.672451606] [disparity]: [NitrosNode] Loading extensions
+[component_container_mt-2] [INFO] [1767023629.673231613] [disparity]: [NitrosContext] Loading extension: gxf/lib/multimedia/libgxf_multimedia.so
+[component_container_mt-2] [INFO] [1767023629.677784229] [disparity]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_message_compositor.so
+[component_container_mt-2] [INFO] [1767023629.679008111] [disparity]: [NitrosContext] Loading extension: gxf/lib/cuda/libgxf_cuda.so
+[component_container_mt-2] [INFO] [1767023629.683696632] [disparity]: [NitrosContext] Loading extension: gxf/lib/serialization/libgxf_serialization.so
+[component_container_mt-2] [INFO] [1767023629.690083312] [disparity]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_video_buffer_utils.so
+[component_container_mt-2] [INFO] [1767023629.692195586] [disparity]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_messages.so
+[component_container_mt-2] [INFO] [1767023629.693511374] [disparity]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_tensorops.so
+[component_container_mt-2] [INFO] [1767023629.701460403] [disparity]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_sgm.so
+[component_container_mt-2] [INFO] [1767023629.703663558] [disparity]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_messages_throttler.so
+[component_container_mt-2] [INFO] [1767023629.708990388] [disparity]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_ess.so
+[component_container_mt-2] [INFO] [1767023629.734428882] [disparity]: [NitrosNode] Loading graph to the optimizer
+[component_container_mt-2] [INFO] [1767023629.744042598] [disparity]: [NitrosNode] Running optimization
+[realsense2_camera_node-1] [INFO] [1767023630.179466080] [camera.camera]: Device with serial number 052622070363 was found.
+[realsense2_camera_node-1] 
+[realsense2_camera_node-1] [INFO] [1767023630.179643330] [camera.camera]: Device with physical ID 2-1.1-3 was found.
+[realsense2_camera_node-1] [INFO] [1767023630.179665698] [camera.camera]: Device with name Intel RealSense D435I was found.
+[realsense2_camera_node-1] [INFO] [1767023630.180031749] [camera.camera]: Device with port number 2-1.1 was found.
+[realsense2_camera_node-1] [INFO] [1767023630.180062150] [camera.camera]: Device USB type: 3.2
+[realsense2_camera_node-1] [INFO] [1767023630.180234759] [camera.camera]: getParameters...
+[realsense2_camera_node-1] [WARN] [1767023630.182883742] [camera.camera]: For the 'unite_imu_method' param update to take effect, re-enable either gyro or accel stream.
+[realsense2_camera_node-1] [INFO] [1767023630.183007423] [camera.camera]: JSON file is not provided
+[realsense2_camera_node-1] [INFO] [1767023630.183033600] [camera.camera]: Device Name: Intel RealSense D435I
+[realsense2_camera_node-1] [INFO] [1767023630.183068544] [camera.camera]: Device Serial No: 052622070363
+[realsense2_camera_node-1] [INFO] [1767023630.183084064] [camera.camera]: Device physical port: 2-1.1-3
+[realsense2_camera_node-1] [INFO] [1767023630.183094752] [camera.camera]: Device FW version: 5.17.0.10
+[realsense2_camera_node-1] [INFO] [1767023630.183104992] [camera.camera]: Device Product ID: 0x0B3A
+[realsense2_camera_node-1] [INFO] [1767023630.183114720] [camera.camera]: Sync Mode: Off
+[component_container_mt-2] [INFO] [1767023630.249314405] [disparity]: [NitrosNode] Obtaining graph IO group info from the optimizer
+[component_container_mt-2] [INFO] [1767023630.279424525] [disparity]: [NitrosNode] Starting negotiation...
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/disparity' in container '/ess_container'
+[component_container_mt-2] [INFO] [1767023630.288274907] [ess_container]: Load Library: /opt/ros/humble/lib/libdisparity_to_depth_node.so
+[component_container_mt-2] [INFO] [1767023630.293681226] [ess_container]: Found class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::stereo_image_proc::DisparityToDepthNode>
+[component_container_mt-2] [INFO] [1767023630.293799435] [ess_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::stereo_image_proc::DisparityToDepthNode>
+[component_container_mt-2] [INFO] [1767023630.312831986] [disparity_to_depth]: [NitrosNode] Initializing NitrosNode
+[component_container_mt-2] [INFO] [1767023630.316632916] [disparity_to_depth]: [NitrosNode] Starting NitrosNode
+[component_container_mt-2] [INFO] [1767023630.323063340] [disparity_to_depth]: [NitrosNode] Loading extensions
+[component_container_mt-2] [INFO] [1767023630.326569067] [disparity_to_depth]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_utils.so
+[component_container_mt-2] [INFO] [1767023630.350971041] [disparity_to_depth]: [NitrosNode] Loading graph to the optimizer
+[component_container_mt-2] [INFO] [1767023630.352957714] [disparity_to_depth]: [NitrosNode] Running optimization
+[component_container_mt-2] [INFO] [1767023630.355969837] [disparity_to_depth]: [NitrosNode] Obtaining graph IO group info from the optimizer
+[component_container_mt-2] [INFO] [1767023630.359802351] [disparity_to_depth]: [NitrosNode] Starting negotiation...
+[component_container_mt-2] [INFO] [1767023630.360757015] [disparity]: Negotiating
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/disparity_to_depth' in container '/ess_container'
+[component_container_mt-2] [INFO] [1767023630.369143712] [ess_container]: Load Library: /opt/ros/humble/lib/libpoint_cloud_node.so
+[component_container_mt-2] [INFO] [1767023630.380314306] [ess_container]: Found class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::stereo_image_proc::PointCloudNode>
+[component_container_mt-2] [INFO] [1767023630.380533828] [ess_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::stereo_image_proc::PointCloudNode>
+[component_container_mt-2] [INFO] [1767023630.396592177] [pointcloud_xyz]: [NitrosNode] Initializing NitrosNode
+[component_container_mt-2] [INFO] [1767023630.398899494] [pointcloud_xyz]: [NitrosNode] Starting NitrosNode
+[component_container_mt-2] [INFO] [1767023630.403910737] [pointcloud_xyz]: [NitrosNode] Loading extensions
+[component_container_mt-2] [INFO] [1767023630.406417607] [pointcloud_xyz]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_point_cloud.so
+[component_container_mt-2] [INFO] [1767023630.499500248] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_ros_messages.so
+[component_container_mt-2] [INFO] [1767023630.503246873] [pointcloud_xyz]: [NitrosNode] Loading graph to the optimizer
+[component_container_mt-2] [INFO] [1767023630.508047907] [pointcloud_xyz]: [NitrosNode] Running optimization
+[component_container_mt-2] [INFO] [1767023630.541211974] [pointcloud_xyz]: [NitrosNode] Obtaining graph IO group info from the optimizer
+[component_container_mt-2] [INFO] [1767023630.550635769] [pointcloud_xyz]: [NitrosNode] Starting negotiation...
+[component_container_mt-2] [INFO] [1767023630.551491328] [disparity]: Negotiating
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/pointcloud_xyz' in container '/ess_container'
+[component_container_mt-2] [INFO] [1767023631.281636761] [disparity]: [NitrosNode] Starting post negotiation setup
+[component_container_mt-2] [INFO] [1767023631.281775578] [disparity]: [NitrosNode] Getting data format negotiation results
+[component_container_mt-2] [INFO] [1767023631.281815354] [disparity]: [NitrosPublisher] Use the negotiated data format: "nitros_disparity_image_32FC1"
+[component_container_mt-2] [INFO] [1767023631.281841787] [disparity]: [NitrosPublisher] Negotiation ended with no results
+[component_container_mt-2] [INFO] [1767023631.281853627] [disparity]: [NitrosPublisher] Use only the compatible publisher: topic_name="/camera_info", data_format="nitros_camera_info"
+[component_container_mt-2] [INFO] [1767023631.281866299] [disparity]: [NitrosSubscriber] Negotiation ended with no results
+[component_container_mt-2] [INFO] [1767023631.281877179] [disparity]: [NitrosSubscriber] Use the compatible subscriber: topic_name="/camera/infra1/image_rect_raw", data_format="nitros_image_rgb8"
+[component_container_mt-2] [INFO] [1767023631.281888763] [disparity]: [NitrosSubscriber] Negotiation ended with no results
+[component_container_mt-2] [INFO] [1767023631.281897339] [disparity]: [NitrosSubscriber] Use the compatible subscriber: topic_name="/camera/infra2/image_rect_raw", data_format="nitros_image_rgb8"
+[component_container_mt-2] [INFO] [1767023631.281908891] [disparity]: [NitrosSubscriber] Negotiation ended with no results
+[component_container_mt-2] [INFO] [1767023631.281916987] [disparity]: [NitrosSubscriber] Use the compatible subscriber: topic_name="/camera/infra1/camera_info", data_format="nitros_camera_info"
+[component_container_mt-2] [INFO] [1767023631.281926619] [disparity]: [NitrosSubscriber] Negotiation ended with no results
+[component_container_mt-2] [INFO] [1767023631.281934587] [disparity]: [NitrosSubscriber] Use the compatible subscriber: topic_name="/camera/infra2/camera_info", data_format="nitros_camera_info"
+[component_container_mt-2] [INFO] [1767023631.283008133] [disparity]: [NitrosNode] Exporting the final graph based on the negotiation results
+[component_container_mt-2] [INFO] [1767023631.360568658] [disparity_to_depth]: [NitrosNode] Starting post negotiation setup
+[component_container_mt-2] [INFO] [1767023631.360703444] [disparity_to_depth]: [NitrosNode] Getting data format negotiation results
+[component_container_mt-2] [INFO] [1767023631.360728148] [disparity_to_depth]: [NitrosPublisher] Negotiation ended with no results
+[component_container_mt-2] [INFO] [1767023631.360745204] [disparity_to_depth]: [NitrosPublisher] Use only the compatible publisher: topic_name="/depth_image", data_format="nitros_image_32FC1"
+[component_container_mt-2] [INFO] [1767023631.360761716] [disparity_to_depth]: [NitrosSubscriber] Use the negotiated data format: "nitros_disparity_image_32FC1"
+[component_container_mt-2] [INFO] [1767023631.361154712] [disparity_to_depth]: [NitrosNode] Exporting the final graph based on the negotiation results
+[component_container_mt-2] [INFO] [1767023631.371573108] [disparity_to_depth]: [NitrosNode] Wrote the final top level YAML graph to "/tmp/isaac_ros_nitros/graphs/LHZXIDQYSK/LHZXIDQYSK.yaml"
+[component_container_mt-2] [INFO] [1767023631.371718485] [disparity_to_depth]: [NitrosNode] Loading application
+[component_container_mt-2] [INFO] [1767023631.387860740] [disparity_to_depth]: [NitrosNode] Initializing and running GXF graph
+[component_container_mt-2] [INFO] [1767023631.458208434] [disparity_to_depth]: [NitrosNode] Node was started
+[component_container_mt-2] [INFO] [1767023631.551349097] [pointcloud_xyz]: [NitrosNode] Starting post negotiation setup
+[component_container_mt-2] [INFO] [1767023631.551476234] [pointcloud_xyz]: [NitrosNode] Getting data format negotiation results
+[component_container_mt-2] [INFO] [1767023631.551599307] [pointcloud_xyz]: [NitrosPublisher] Negotiation ended with no results
+[component_container_mt-2] [INFO] [1767023631.551623851] [pointcloud_xyz]: [NitrosPublisher] Use only the compatible publisher: topic_name="/pointcloud", data_format="nitros_point_cloud"
+[component_container_mt-2] [INFO] [1767023631.551642380] [pointcloud_xyz]: [NitrosSubscriber] Use the negotiated data format: "nitros_disparity_image_32FC1"
+[component_container_mt-2] [INFO] [1767023631.551656844] [pointcloud_xyz]: [NitrosSubscriber] Negotiation ended with no results
+[component_container_mt-2] [INFO] [1767023631.551667820] [pointcloud_xyz]: [NitrosSubscriber] Use the compatible subscriber: topic_name="/camera/color/image_raw", data_format="nitros_image_bgr8"
+[component_container_mt-2] [INFO] [1767023631.551678732] [pointcloud_xyz]: [NitrosSubscriber] Negotiation ended with no results
+[component_container_mt-2] [INFO] [1767023631.551687276] [pointcloud_xyz]: [NitrosSubscriber] Use the compatible subscriber: topic_name="/camera/color/camera_info", data_format="nitros_camera_info"
+[component_container_mt-2] [INFO] [1767023631.551697612] [pointcloud_xyz]: [NitrosSubscriber] Negotiation ended with no results
+[component_container_mt-2] [INFO] [1767023631.551704748] [pointcloud_xyz]: [NitrosSubscriber] Use the compatible subscriber: topic_name="/camera/infra2/camera_info", data_format="nitros_camera_info"
+[component_container_mt-2] [INFO] [1767023631.551959566] [pointcloud_xyz]: [NitrosNode] Exporting the final graph based on the negotiation results
+[component_container_mt-2] [INFO] [1767023631.639562741] [pointcloud_xyz]: [NitrosNode] Wrote the final top level YAML graph to "/tmp/isaac_ros_nitros/graphs/MMOXCWTRNP/MMOXCWTRNP.yaml"
+[component_container_mt-2] [INFO] [1767023631.640514941] [pointcloud_xyz]: [PointCloudNode] preLoadGraphCallback().
+[component_container_mt-2] [INFO] [1767023631.640595774] [pointcloud_xyz]: [NitrosNode] Loading application
+[component_container_mt-2] [INFO] [1767023631.645826220] [pointcloud_xyz]: [NitrosNode] Initializing and running GXF graph
+[component_container_mt-2] NvMapMemAllocInternalTagged: 1075072515 error 12
+[component_container_mt-2] NvMapMemHandleAlloc: error 0
+[component_container_mt-2] NvMapMemAllocInternalTagged: 1075072515 error 12
+[component_container_mt-2] NvMapMemHandleAlloc: error 0
+[component_container_mt-2] 2025-12-29 10:53:52.289 ERROR external/com_nvidia_gxf/gxf/std/block_memory_pool.cpp@77: Failure in cudaMalloc. cuda_error: cudaErrorMemoryAllocation, error_str: out of memory
+[component_container_mt-2] 2025-12-29 10:53:52.289 ERROR external/com_nvidia_gxf/gxf/std/entity_warden.cpp@548: Failed to initialize component 00071 (allocator)
+[component_container_mt-2] 2025-12-29 10:53:52.289 ERROR external/com_nvidia_gxf/gxf/core/runtime.cpp@742: Could not initialize entity 'MMOXCWTRNP_point_cloud' (E60): GXF_OUT_OF_MEMORY
+[component_container_mt-2] 2025-12-29 10:53:52.289 ERROR external/com_nvidia_gxf/gxf/std/program.cpp@289: Failed to activate entity 00060 named MMOXCWTRNP_point_cloud: GXF_OUT_OF_MEMORY
+[component_container_mt-2] 2025-12-29 10:53:52.289 ERROR external/com_nvidia_gxf/gxf/std/program.cpp@291: Deactivating...
+[component_container_mt-2] 2025-12-29 10:53:52.289 ERROR external/com_nvidia_gxf/gxf/core/runtime.cpp@1625: Graph activation failed with error: GXF_OUT_OF_MEMORY
+[component_container_mt-2] [ERROR] [1767023632.289819836] [pointcloud_xyz]: [NitrosContext] GxfGraphActivate Error: GXF_OUT_OF_MEMORY
+[component_container_mt-2] [ERROR] [1767023632.290993287] [pointcloud_xyz]: [NitrosNode] runGraphAsync Error: GXF_OUT_OF_MEMORY
+[component_container_mt-2] terminate called after throwing an instance of 'std::runtime_error'
+[component_container_mt-2]   what():  [NitrosNode] runGraphAsync Error: GXF_OUT_OF_MEMORY
+[ERROR] [component_container_mt-2]: process has died [pid 198159, exit code -6, cmd '/opt/ros/humble/lib/rclcpp_components/component_container_mt --ros-args -r __node:=ess_container -r __ns:=/'].
+[realsense2_camera_node-1] [INFO] [1767023635.617350436] [camera.camera]: Stopping Sensor: Depth Module
+[realsense2_camera_node-1] [INFO] [1767023635.618013034] [camera.camera]: Stopping Sensor: RGB Camera
+[realsense2_camera_node-1] [INFO] [1767023635.618081867] [camera.camera]: Stopping Sensor: Motion Module
+[realsense2_camera_node-1] [INFO] [1767023635.980825746] [camera.camera]: Starting Sensor: Depth Module
+[realsense2_camera_node-1] [INFO] [1767023636.132744610] [camera.camera]: Open profile: stream_type: Infra(1), Format: Y8, Width: 848, Height: 480, FPS: 30
+[realsense2_camera_node-1] [INFO] [1767023636.132921188] [camera.camera]: Open profile: stream_type: Infra(2), Format: Y8, Width: 848, Height: 480, FPS: 30
+[realsense2_camera_node-1] [INFO] [1767023636.132950212] [camera.camera]: Open profile: stream_type: Depth(0), Format: Z16, Width: 848, Height: 480, FPS: 30
+[realsense2_camera_node-1] [INFO] [1767023636.162415506] [camera.camera]: Starting Sensor: RGB Camera
+[realsense2_camera_node-1] [INFO] [1767023636.202014429] [camera.camera]: Open profile: stream_type: Color(0), Format: RGB8, Width: 1280, Height: 720, FPS: 30
+[realsense2_camera_node-1] [INFO] [1767023636.229380568] [camera.camera]: Starting Sensor: Motion Module
+[realsense2_camera_node-1] [INFO] [1767023636.259261611] [camera.camera]: Open profile: stream_type: Accel(0)Format: MOTION_XYZ32F, FPS: 63
+[realsense2_camera_node-1] [INFO] [1767023636.259414668] [camera.camera]: Open profile: stream_type: Gyro(0)Format: MOTION_XYZ32F, FPS: 200
+[realsense2_camera_node-1] [INFO] [1767023636.302143636] [camera.camera]: RealSense Node Is Up!
+^C[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[realsense2_camera_node-1] [INFO] [1767023655.919841092] [rclcpp]: signal_handler(signum=2)
+[realsense2_camera_node-1] [INFO] [1767023655.921076369] [camera.camera]: Stop Sensor: Depth Module
+[realsense2_camera_node-1] [INFO] [1767023655.921126674] [camera.camera]: Close Sensor. 
+[realsense2_camera_node-1] [INFO] [1767023656.557647412] [camera.camera]: Close Sensor - Done. 
+[realsense2_camera_node-1] [INFO] [1767023656.557707797] [camera.camera]: Stop Sensor: RGB Camera
+[realsense2_camera_node-1] [INFO] [1767023656.557724725] [camera.camera]: Close Sensor. 
+[realsense2_camera_node-1] [INFO] [1767023656.883708458] [camera.camera]: Close Sensor - Done. 
+[realsense2_camera_node-1] [INFO] [1767023656.883768490] [camera.camera]: Stop Sensor: Motion Module
+[realsense2_camera_node-1] [INFO] [1767023656.896447183] [camera.camera]: Close Sensor. 
+[realsense2_camera_node-1] [INFO] [1767023657.853193061] [camera.camera]: Close Sensor - Done. 
+[INFO] [realsense2_camera_node-1]: process has finished cleanly [pid 198157]
+admin@ubuntu:~/ess_models$ 
+

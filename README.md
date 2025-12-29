@@ -32,6 +32,23 @@ Launch - note the-d flag
 cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 ./run_dev.sh -d ${ISAAC_ROS_WS}
 
+#####
+#after docker launch
+#####
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+# needed!!
+sudo chmod 666 /dev/bus/usb/002/003
+sudo chgrp plugdev /dev/bus/usb/002/003
+sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/
+sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
+#####
+
+
+
+
+
+
 Testing the hardware control
 colcon build --packages-select rc_hardware_control 
 colcon build --parallel-workers 4 
@@ -58,21 +75,6 @@ ros2 topic pub /traction_controller/commands std_msgs/msg/Float64MultiArray "dat
 sudo chmod +666 /etc
 
 # Clean and rebuild librealsense2 with correct version (2.57.5) and tools enabled
-### NOT NEEDED ###
-rm -rf build/librealsense2 install/librealsense2
-colcon build --packages-select librealsense2 --parallel-workers 4 \
-  --cmake-args \
-  -DBUILD_TOOLS=ON \
-  -DBUILD_GRAPHICAL_EXAMPLES=ON \
-  -DBUILD_EXAMPLES=OFF
-
-# from Gemini - to get imu working...
-  cmake .. -DFORCE_RSUSB_BACKEND=ON \
-         -DBUILD_WITH_CUDA=ON \
-         -DCMAKE_BUILD_TYPE=release \
-         -DBUILD_EXAMPLES=true \
-         -DBUILD_GRAPHICAL_EXAMPLES=true
-
 rm -rf build/librealsense2 install/librealsense2
 colcon build --packages-select librealsense2 --parallel-workers 4 \
   --cmake-args \
@@ -82,43 +84,8 @@ colcon build --packages-select librealsense2 --parallel-workers 4 \
     -DBUILD_EXAMPLES=true \
     -DBUILD_GRAPHICAL_EXAMPLES=true
 
- -- or --
-
-# this isn't under the src directory
-cd librealsense
-mkdir -p build && cd build
-# We add CUDA support so your Orin Nano can use its GPU for depth processing
-cmake .. -DFORCE_RSUSB_BACKEND=ON \
-         -DBUILD_WITH_CUDA=ON \
-         -DCMAKE_BUILD_TYPE=release \
-         -DBUILD_EXAMPLES=true \
-         -DBUILD_GRAPHICAL_EXAMPLES=true \
-         -DBUILD_TOOLS=ON \
-         -DCMAKE_INSTALL_PREFIX=/usr/local
-make -j$(nproc)
-sudo make install
-sudo ldconfig
-
-
-
-
-
-cd /mnt/nova_ssd/workspaces/isaac_ros-dev/librealsense
-mkdir -p build && cd build
-cmake .. -DFORCE_RSUSB_BACKEND=ON \
-         -DBUILD_WITH_CUDA=ON \
-         -DCMAKE_BUILD_TYPE=release \
-         -DBUILD_EXAMPLES=true \
-         -DBUILD_GRAPHICAL_EXAMPLES=true \
-         -DBUILD_TOOLS=ON \
-         -DCMAKE_INSTALL_PREFIX=/usr/local \
-         -DCMAKE_CUDA_ARCHITECTURES=87
-make -j$(nproc)
-sudo make install
-sudo ldconfig
-
-
-## Needed
+## Needed - though can probably just use 
+# colcon build --parallel-workers 4
 colcon build --packages-select realsense2_camera --cmake-clean-cache --allow-overriding realsense2_camera --parallel-workers 4
 
 # Build your control package
@@ -127,30 +94,74 @@ colcon build --packages-select isaac_ros_realsense_control
 # Test basic camera first, then add visual SLAM later
 # ros2 launch isaac_ros_realsense_control realsense_basic.launch.py
 ros2 launch isaac_ros_realsense_control realsense_d435i.launch.py
+# not sure this is needed
 ros2 launch isaac_ros_realsense_control realsense_d435i.launch.py enable_accel:=true enable_gyro:=true unite_imu_method:=2
-
-source /opt/ros/humble/setup.bash && source install/setup.bash
-
-source /opt/ros/humble/setup.bash
-source install/setup.bash
-# needed!!
-sudo chmod 666 /dev/bus/usb/002/003
-sudo chgrp plugdev /dev/bus/usb/002/003
-sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/
-sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
 
 
 # ✅ WORKING: RealSense D435i successfully initializing with all sensors:
 # - Device Serial: 052622070363, FW: 5.17.0.10
 # - Depth/IR: 848×480@30fps, RGB: 1280×720@30fps, IMU: Accel@250fps + Gyro@200fps
 
-# To fix "udev rules missing" warning in realsense-viewer:
-# Replace incomplete custom rules with complete Intel rules (includes IMU/IIO support)
-sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/
-sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
+## Isaac ROS Visual SLAM Setup
+# ✅ WORKING: Visual SLAM with RealSense D435i is operational!
 
-# Note: udevadm doesn't work in chroot/container environments
-# sudo udevadm control --reload-rules && sudo udevadm trigger
+# Build Isaac ROS NITROS first (required dependency)
+colcon build --packages-select isaac_ros_nitros --parallel-workers 4
+source install/setup.bash
+
+# Build Visual SLAM package 
+colcon build --packages-select isaac_ros_visual_slam --parallel-workers 4
+source install/setup.bash
+
+# Launch VSLAM with RealSense D435i
+ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py
+
+# ✅ VERIFIED: VSLAM topics are publishing:
+# /visual_slam/tracking/odometry (main output for navigation)
+# /visual_slam/tracking/slam_path (trajectory)
+# /visual_slam/status (system status)
+# + 20 visualization topics for debugging
+
+# Optional: Launch with RViz visualization  
+ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py enable_rviz:=true
+
+# Test odometry output:
+ros2 topic echo /visual_slam/tracking/odometry
+
+# Move the camera around to see SLAM mapping in action
+# Note: GXF scheduler warning is harmless and doesn't affect functionality
+
+## Isaac ROS ESS (Bi3D Edge Stereo) Setup - APT Method
+# Much simpler approach using pre-compiled packages
+
+# Install ESS models via apt (in Isaac ROS container)
+sudo apt-get update
+sudo apt-get install -y ros-humble-isaac-ros-ess-models-install
+sudo apt-get install -y ros-humble-isaac-ros-ess
+
+# Build any missing dependencies
+colcon build --packages-select isaac_ros_nitros_disparity_image_type --parallel-workers 4
+source install/setup.bash
+
+# Test ESS with RealSense D435i
+ros2 launch isaac_ros_realsense_control realsense_ess.launch.py
+
+# Expected output topics:
+# /depth_image - ESS-generated depth image
+# /disparity - Raw disparity map
+# /pointcloud - 3D point cloud from ESS depth
+
+# ✅ This approach avoids TensorRT engine compilation issues
+# ✅ Uses pre-built models optimized for your platform
+
+## Fallback: Isaac ROS Stereo Depth Processing
+# If ESS still has issues, use reliable stereo processing:
+colcon build --packages-select isaac_ros_stereo_image_proc --parallel-workers 4
+source install/setup.bash
+
+# Optional: Launch with stereo + ESS + VSLAM together
+# (Advanced: combines hardware depth, ESS depth, and VSLAM)
+ros2 launch isaac_ros_realsense_control realsense_ess_vslam.launch.py
 
 ```
 
@@ -227,6 +238,21 @@ The standard "Sync Up" workflow for a vcstool workspace looks like this:
 - use vcs
 - get docker going
 - when inside, use rosdep
+
+# gui on jetson orin nano
+
+Off permanently
+# Set boot to text mode
+sudo systemctl set-default multi-user.target
+
+# Reboot to apply changes
+sudo reboot
+
+
+Restore
+sudo systemctl set-default graphical.target
+sudo reboot
+
 
 # t.b.d.
 
