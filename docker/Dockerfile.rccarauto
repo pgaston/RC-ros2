@@ -1,0 +1,102 @@
+ARG BASE_IMAGE=ubuntu:22.04
+FROM ${BASE_IMAGE}
+
+ARG TARGET_ROS_DISTRO=humble
+
+# Install RealSense udev rules and setup USB permissions
+# Build context is the docker/ directory when using run_dev.sh
+COPY udev_rules/99-realsense-libusb-custom.rules /etc/udev/rules.d/
+RUN chmod 644 /etc/udev/rules.d/99-realsense-libusb-custom.rules
+
+# Create realsense group and setup permissions
+RUN groupadd -r realsense || true && \
+    usermod -a -G realsense root && \
+    usermod -a -G video root && \
+    usermod -a -G dialout root
+
+# Setup device permissions script for runtime
+RUN echo '#!/bin/bash\n\
+if [ -e /dev/bus/usb ]; then\n\
+    chmod 755 /dev/bus/usb\n\
+    chmod 666 /dev/bus/usb/*/*\n\
+fi\n\
+udevadm control --reload-rules 2>/dev/null || true\n\
+udevadm trigger 2>/dev/null || true' > /usr/local/bin/setup-realsense-devices.sh && \
+    chmod +x /usr/local/bin/setup-realsense-devices.sh
+
+# Auto-run the device setup script at container start
+RUN echo '#!/bin/bash\n\
+/usr/local/bin/setup-realsense-devices.sh\n\
+exec "$@"' > /usr/local/bin/entrypoint.sh && \
+    chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+    
+# Build a docker that extends the Jetson docker image and Realsense docker image:
+# 1. Installs things needed for WebRTC and aiortc
+# 2. Installs things for gscam extension
+# 3. Installs ros2_control and ros2_controllers
+# 4. Installs jetson specific needs
+
+# Note: the number of "RUN" commands is limited 
+
+# May not be needed
+# some of this is only for the python webrtc - it may not be needed
+RUN pip install pyopenssl --upgrade
+RUN pip install google-crc32c pyee pylibsrtp natsort 
+RUN pip install aiohttp[speedups] aiortc 
+
+ # Seems strange to need to do this, but it is
+RUN apt update --allow-releaseinfo-change && apt upgrade -y
+
+# May not be needed
+# for gscam
+# RUN apt install -y libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
+#     gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools \
+#     gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio \
+#     libgstreamer-plugins-base1.0-dev \
+#     libgstreamer-plugins-bad1.0-dev \
+#     libgstrtspserver-1.0-dev \
+#     gstreamer1.0-plugins-bad
+    
+# Needed - for ROS2 stuff?
+RUN apt install -y libjson-glib-dev libsoup2.4-dev libpsl-dev usbutils v4l-utils
+
+# Install basic packages for i2c and 9685 control
+RUN apt install -y dialog libi2c-dev i2c-tools 
+
+# Install standard ROS 2 packages + realsense tools
+RUN apt install -y \
+    ros-humble-ros2-control \
+    ros-humble-ros2-controllers \
+    ros-humble-xacro \
+    ros-humble-joint-state-publisher-gui \
+    ros-humble-foxglove-bridge \
+    ros-humble-realsense2-camera \
+    ros-humble-realsense2-camera-msgs
+
+# Install librealsense2 build dependencies (manual build on host)
+RUN apt install -y git cmake build-essential libssl-dev libusb-1.0-0-dev pkg-config libgtk-3-dev \
+    libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev
+
+# ros-humble-librealsense2 \ (commented out - building manually on host instead)
+  
+##########################
+# for Jetson only - though doesn't kill x86
+#
+# blinka added, not sure what previous installs are still needed...
+##########################
+# May not be needed - we've moved past adafruit python libraries
+RUN pip install adafruit-circuitpython-motorkit \
+    Jetson.GPIO \
+    adafruit-circuitpython-ssd1306 \
+    jetson-stats \
+    adafruit-blinka
+
+# for  ip command - so stats can show local IP
+RUN apt install -y iproute2
+
+# don't want setuptools-scm - not sure why it is installed, but it causes problems
+RUN pip uninstall -y setuptools-scm
+

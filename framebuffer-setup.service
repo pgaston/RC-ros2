@@ -1,0 +1,13 @@
+[Unit]
+Description=Create framebuffer device for headless Jetson
+DefaultDependencies=false
+After=local-fs.target
+Before=graphical.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'if [ ! -e /dev/fb0 ]; then rm -f /dev/fb0 && mknod /dev/fb0 c 29 0 && chmod 666 /dev/fb0; fi'
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

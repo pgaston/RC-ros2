@@ -20,18 +20,26 @@ Summary Table: Component MappingGoalIsaac ROS PackageHardware Resource UsedVIO /
 Commands of high interest:
 
 ```
+docker
+docker images
+docker rm <number>
+
+
 Launch - note the-d flag
+
+
 
 cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 ./run_dev.sh -d ${ISAAC_ROS_WS}
 
 Testing the hardware control
-colcon build --packages-select rc_hardware_control
+colcon build --packages-select rc_hardware_control 
+colcon build --parallel-workers 4 
 
 ros2 launch rc_hardware_control steering_tracking_example.launch.py
 
-test
-ros2 topic pub /bicycle_steering_controller/reference_unstamped geometry_msgs/msg/Twist "{linear: {x: 0.01}, angular: {z: 0.0}}" 
+test - suggested max, conservative values to start with - twist isn't right message, probably 
+ros2 topic pub /bicycle_steering_controller/reference_unstamped geometry_msgs/msg/Twist "{linear: {x: 0.04}, angular: {z: 0.02}}" 
 
 and third window
 ros2 topic echo /joint_states
@@ -46,8 +54,120 @@ Start with everything stopped/centered
 ros2 topic pub /steering_controller/commands std_msgs/msg/Float64MultiArray "data: [0.0]" --once
 ros2 topic pub /traction_controller/commands std_msgs/msg/Float64MultiArray "data: [0.0]" --once
 
+# clean up one 'error'
+sudo chmod +666 /etc
+
+# Clean and rebuild librealsense2 with correct version (2.57.5) and tools enabled
+### NOT NEEDED ###
+rm -rf build/librealsense2 install/librealsense2
+colcon build --packages-select librealsense2 --parallel-workers 4 \
+  --cmake-args \
+  -DBUILD_TOOLS=ON \
+  -DBUILD_GRAPHICAL_EXAMPLES=ON \
+  -DBUILD_EXAMPLES=OFF
+
+# from Gemini - to get imu working...
+  cmake .. -DFORCE_RSUSB_BACKEND=ON \
+         -DBUILD_WITH_CUDA=ON \
+         -DCMAKE_BUILD_TYPE=release \
+         -DBUILD_EXAMPLES=true \
+         -DBUILD_GRAPHICAL_EXAMPLES=true
+
+rm -rf build/librealsense2 install/librealsense2
+colcon build --packages-select librealsense2 --parallel-workers 4 \
+  --cmake-args \
+    -DFORCE_RSUSB_BACKEND=ON \
+    -DBUILD_WITH_CUDA=ON \
+    -DCMAKE_BUILD_TYPE=release \
+    -DBUILD_EXAMPLES=true \
+    -DBUILD_GRAPHICAL_EXAMPLES=true
+
+ -- or --
+
+# this isn't under the src directory
+cd librealsense
+mkdir -p build && cd build
+# We add CUDA support so your Orin Nano can use its GPU for depth processing
+cmake .. -DFORCE_RSUSB_BACKEND=ON \
+         -DBUILD_WITH_CUDA=ON \
+         -DCMAKE_BUILD_TYPE=release \
+         -DBUILD_EXAMPLES=true \
+         -DBUILD_GRAPHICAL_EXAMPLES=true \
+         -DBUILD_TOOLS=ON \
+         -DCMAKE_INSTALL_PREFIX=/usr/local
+make -j$(nproc)
+sudo make install
+sudo ldconfig
 
 
+
+
+
+cd /mnt/nova_ssd/workspaces/isaac_ros-dev/librealsense
+mkdir -p build && cd build
+cmake .. -DFORCE_RSUSB_BACKEND=ON \
+         -DBUILD_WITH_CUDA=ON \
+         -DCMAKE_BUILD_TYPE=release \
+         -DBUILD_EXAMPLES=true \
+         -DBUILD_GRAPHICAL_EXAMPLES=true \
+         -DBUILD_TOOLS=ON \
+         -DCMAKE_INSTALL_PREFIX=/usr/local \
+         -DCMAKE_CUDA_ARCHITECTURES=87
+make -j$(nproc)
+sudo make install
+sudo ldconfig
+
+
+## Needed
+colcon build --packages-select realsense2_camera --cmake-clean-cache --allow-overriding realsense2_camera --parallel-workers 4
+
+# Build your control package
+colcon build --packages-select isaac_ros_realsense_control
+
+# Test basic camera first, then add visual SLAM later
+# ros2 launch isaac_ros_realsense_control realsense_basic.launch.py
+ros2 launch isaac_ros_realsense_control realsense_d435i.launch.py
+ros2 launch isaac_ros_realsense_control realsense_d435i.launch.py enable_accel:=true enable_gyro:=true unite_imu_method:=2
+
+source /opt/ros/humble/setup.bash && source install/setup.bash
+
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+# needed!!
+sudo chmod 666 /dev/bus/usb/002/003
+sudo chgrp plugdev /dev/bus/usb/002/003
+sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/
+sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
+
+
+# ✅ WORKING: RealSense D435i successfully initializing with all sensors:
+# - Device Serial: 052622070363, FW: 5.17.0.10
+# - Depth/IR: 848×480@30fps, RGB: 1280×720@30fps, IMU: Accel@250fps + Gyro@200fps
+
+# To fix "udev rules missing" warning in realsense-viewer:
+# Replace incomplete custom rules with complete Intel rules (includes IMU/IIO support)
+sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/
+sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
+
+# Note: udevadm doesn't work in chroot/container environments
+# sudo udevadm control --reload-rules && sudo udevadm trigger
+
+```
+
+## Foxglove Support
+
+To use Foxglove Studio for visualization:
+
+```bash
+# Launch Foxglove bridge
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+
+# Or run manually
+ros2 run foxglove_bridge foxglove_bridge --ros-args -p port:=8765
+
+# Then open Foxglove Studio and connect to:
+# ws://localhost:8765 (if running locally)
+# ws://<robot_ip>:8765 (if running on remote robot)
 ```
 
 Also
@@ -57,6 +177,26 @@ sudo chmod 666 /dev/gpiochip0 /dev/gpiochip1 /dev/i2c-0 /dev/i2c-1 /dev/i2c-7
 
 need video (only needed if startted without a video monitor live ???)
 sudo rm /dev/fb0 && sudo mknod /dev/fb0 c 29 0 && sudo chmod 666 /dev/fb0
+
+
+## already done!??
+RealSense USB permissions fix (for IMU access)
+sudo chmod -R 666 /dev/bus/usb
+
+RealSense UDEV rules (proper setup for IMU)
+# Note: In Docker containers, udevadm may show "Running in chroot, ignoring request" - this is normal
+wget https://raw.githubusercontent.com/IntelRealSense/librealsense/master/config/99-realsense-libusb.rules
+sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/
+sudo udevadm control --reload-rules && sudo udevadm trigger
+
+RealSense firmware update (to enable IMU)
+rs-fw-update -l  # list devices
+rs-fw-update -u  # update firmware
+# If firmware update fails/disconnects (Product ID 0x0adb = recovery mode):
+# 1. Unplug camera for 10 seconds, reconnect
+# 2. rs-fw-update -r  # recover from bootloader
+# 3. rs-fw-update -u  # try update again
+# 4. lsusb | grep Intel  # should show 0x0b3a when recovered
 
 ```
 
@@ -82,6 +222,11 @@ The standard "Sync Up" workflow for a vcstool workspace looks like this:
 - Push Map: git push at the top level (Push the workspace configuration).
 
 
+## to install
+
+- use vcs
+- get docker going
+- when inside, use rosdep
 
 # t.b.d.
 

@@ -1,0 +1,13 @@
+repositories:
+  realsense-ros:
+    type: git
+    url: https://github.com/IntelRealSense/realsense-ros.git
+    version: ros2-development
+  librealsense:
+    type: git
+    url: https://github.com/IntelRealSense/librealsense.git
+    version: master
+  isaac_ros_visual_slam:
+    type: git
+    url: https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam.git
+    version: release-3.2
