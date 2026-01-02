@@ -27,12 +27,13 @@ docker rm <number>
 
 Launch - note the-d flag
 
-
+-p 8765:8765
+--shm-size=2g
 
 cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 ./run_dev.sh -d ${ISAAC_ROS_WS}
 
-#####
+#####  
 #after docker launch
 #####
 source /opt/ros/humble/setup.bash
@@ -41,6 +42,53 @@ source install/setup.bash
 sudo chmod 666 /dev/bus/usb/002/003
 sudo chgrp plugdev /dev/bus/usb/002/003
 sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/
+sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
+
+
+Best practice: Build librealsense2 separately with its special arguments, then build the rest of your workspace normally.
+
+# for a colcon build - do librealsense special... 
+# colcon build --packages-ignore librealsense2 --symlink-install --parallel-workers 4
+colcon build --packages-ignore librealsense2 --parallel-workers 4
+
+# per Gemini - (RSUSB/Source method is the community-standard fix for Isaac ROS users.)
+# Clean and rebuild librealsense2 with correct version (2.57.5) and tools enabled
+rm -rf build/librealsense2 install/librealsense2
+colcon build --packages-select librealsense2 --parallel-workers 4 \
+  --cmake-args \
+    -DFORCE_RSUSB_BACKEND=ON \
+    -DBUILD_WITH_CUDA=ON \
+    -DCMAKE_BUILD_TYPE=release \
+    -DBUILD_EXAMPLES=true \
+    -DBUILD_GRAPHICAL_EXAMPLES=true
+source install/setup.bash
+
+
+#########################
+# Testing - basic realsense
+colcon build --packages-select isaac_ros_realsense_control
+source install/setup.bash
+ros2 launch isaac_ros_realsense_control realsense_basic.launch.py
+
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+#########################
+
+
+
+# WORKS - I think - ros2 launch isaac_ros_visual_slam isaac_ros_visual_slam_realsense.launch.py
+ros2 launch isaac_ros_realsense_control realsense_basic.launch.py
+
+# working on...
+ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.launch.py
+
+
+## ????
+sudo ufw allow 8765/tcp
+sudo ufw enable
+run sudo ufw allow ssh
+
+
+# only needed once
 sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
 #####
 
@@ -74,6 +122,8 @@ ros2 topic pub /traction_controller/commands std_msgs/msg/Float64MultiArray "dat
 # clean up one 'error'
 sudo chmod +666 /etc
 
+
+# moved back to apt install - until proven otherwise...
 # Clean and rebuild librealsense2 with correct version (2.57.5) and tools enabled
 rm -rf build/librealsense2 install/librealsense2
 colcon build --packages-select librealsense2 --parallel-workers 4 \
@@ -143,8 +193,16 @@ sudo apt-get install -y ros-humble-isaac-ros-ess
 colcon build --packages-select isaac_ros_nitros_disparity_image_type --parallel-workers 4
 source install/setup.bash
 
+#########################
+###########################
 # Test ESS with RealSense D435i
 ros2 launch isaac_ros_realsense_control realsense_ess.launch.py
+
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+#########################
+###########################
+
+
 
 # Expected output topics:
 # /depth_image - ESS-generated depth image

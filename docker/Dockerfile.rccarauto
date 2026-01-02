@@ -61,7 +61,7 @@ RUN apt update --allow-releaseinfo-change && apt upgrade -y
 #     gstreamer1.0-plugins-bad
     
 # Needed - for ROS2 stuff?
-RUN apt install -y libjson-glib-dev libsoup2.4-dev libpsl-dev usbutils v4l-utils
+RUN apt install -y libjson-glib-dev libsoup2.4-dev libpsl-dev usbutils v4l-utils ufw  
 
 # Install basic packages for i2c and 9685 control
 RUN apt install -y dialog libi2c-dev i2c-tools 
@@ -73,16 +73,27 @@ RUN apt install -y \
     ros-humble-xacro \
     ros-humble-joint-state-publisher-gui \
     ros-humble-foxglove-bridge \
+    ros-humble-foxglove-msgs \
     ros-humble-realsense2-camera \
     ros-humble-realsense2-camera-msgs \
-    ros-humble-isaac-ros-ess \
-    ros-humble-isaac-ros-ess-models-install
+    ros-humble-isaac-ros-visual-slam \
+    ros-humble-isaac-ros-nvblox
+
+
+    # ros-humble-librealsense2 \ (commented out - building manually on host instead)
+    # librealsense2-utils librealsense2-dev librealsense2-dkms
+
+    # ESS is a pain
+    # ros-humble-isaac-ros-ess \
+    # ros-humble-isaac-ros-ess-models-install
 
 # Install librealsense2 build dependencies (manual build on host)
-RUN apt install -y git cmake build-essential libssl-dev libusb-1.0-0-dev pkg-config libgtk-3-dev \
+# not sure all are really needed
+RUN apt install -y git cmake build-essential \
+    libssl-dev libusb-1.0-0-dev libudev-dev pkg-config libgtk-3-dev \
+    libusb-1.0-0-dev pkg-config libgtk-3-dev \
     libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev
 
-# ros-humble-librealsense2 \ (commented out - building manually on host instead)
   
 ##########################
 # for Jetson only - though doesn't kill x86
@@ -95,6 +106,11 @@ RUN pip install adafruit-circuitpython-motorkit \
     adafruit-circuitpython-ssd1306 \
     jetson-stats \
     adafruit-blinka
+
+
+#     The following packages will be REMOVED:
+#   python3-automat python3-bcrypt python3-click python3-colorama python3-constantly python3-hamcrest python3-hyperlink python3-incremental
+#   python3-openssl python3-pyasn1 python3-pyasn1-modules python3-service-identity python3-twisted python3-zope.interface
 
 # for  ip command - so stats can show local IP
 RUN apt install -y iproute2
