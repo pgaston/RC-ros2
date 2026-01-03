@@ -47,6 +47,7 @@ sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
 
 Best practice: Build librealsense2 separately with its special arguments, then build the rest of your workspace normally.
 
+
 # for a colcon build - do librealsense special... 
 # colcon build --packages-ignore librealsense2 --symlink-install --parallel-workers 4
 colcon build --packages-ignore librealsense2 --parallel-workers 4
@@ -79,7 +80,7 @@ ros2 launch foxglove_bridge foxglove_bridge_launch.xml
 ros2 launch isaac_ros_realsense_control realsense_basic.launch.py
 
 # working on...
-ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.launch.py
+ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py
 
 
 ## ????

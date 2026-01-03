@@ -7,18 +7,6 @@ repositories:
     type: git
     url: https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_common.git
     version: release-3.2
-  isaac_ros_nitros:
-    type: git
-    url: https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_nitros.git
-    version: release-3.2
-  isaac_ros_visual_slam:
-    type: git
-    url: https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam.git
-    version: release-3.2
-  isaac_ros_dnn_stereo_depth:
-    type: git
-    url: https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_dnn_stereo_depth.git
-    version: release-3.2
   pca9685_ros2_control:
     type: git
     url: git@github.com:pgaston/pca9685_ros2_control
@@ -27,3 +15,7 @@ repositories:
     type: git
     url: git@github.com:ptrmu/ros2_shared.git
     version: master
+  realsense-ros:
+    type: git
+    url: git@github.com:realsenseai/realsense-ros.git
+    version: ros2-master

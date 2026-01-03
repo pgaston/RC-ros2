@@ -74,12 +74,14 @@ RUN apt install -y \
     ros-humble-joint-state-publisher-gui \
     ros-humble-foxglove-bridge \
     ros-humble-foxglove-msgs \
-    ros-humble-realsense2-camera \
-    ros-humble-realsense2-camera-msgs \
     ros-humble-isaac-ros-visual-slam \
     ros-humble-isaac-ros-nvblox
 
+    # ros-humble-realsense2-camera \
+    # ros-humble-realsense2-camera-msgs \
+    # ?? Build realsense2-camera-msgs from source
 
+    # ros-humble-realsense2-camera-msgs \
     # ros-humble-librealsense2 \ (commented out - building manually on host instead)
     # librealsense2-utils librealsense2-dev librealsense2-dkms
 
