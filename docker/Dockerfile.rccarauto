@@ -66,26 +66,26 @@ RUN apt install -y libjson-glib-dev libsoup2.4-dev libpsl-dev usbutils v4l-utils
 # Install basic packages for i2c and 9685 control
 RUN apt install -y dialog libi2c-dev i2c-tools 
 
-# Install standard ROS 2 packages + realsense tools
+# Install standard ROS 2 packages + foxglove
 RUN apt install -y \
     ros-humble-ros2-control \
     ros-humble-ros2-controllers \
     ros-humble-xacro \
     ros-humble-joint-state-publisher-gui \
-    ros-humble-foxglove-bridge \
-    ros-humble-foxglove-msgs \
     ros-humble-isaac-ros-visual-slam \
-    ros-humble-isaac-ros-nvblox
+    ros-humble-isaac-ros-nvblox \
+    ros-humble-isaac-ros-gxf \
+    ros-humble-isaac-ros-nitros \
+    ros-humble-foxglove-bridge \
+    ros-humble-foxglove-msgs
 
+    # fails if these are used - building from source
     # ros-humble-realsense2-camera \
-    # ros-humble-realsense2-camera-msgs \
-    # ?? Build realsense2-camera-msgs from source
-
     # ros-humble-realsense2-camera-msgs \
     # ros-humble-librealsense2 \ (commented out - building manually on host instead)
     # librealsense2-utils librealsense2-dev librealsense2-dkms
 
-    # ESS is a pain
+    # ESS is a pain - never got to work
     # ros-humble-isaac-ros-ess \
     # ros-humble-isaac-ros-ess-models-install
 
@@ -102,17 +102,12 @@ RUN apt install -y git cmake build-essential \
 #
 # blinka added, not sure what previous installs are still needed...
 ##########################
-# May not be needed - we've moved past adafruit python libraries
+# May not be needed - adafruit - we've moved past adafruit python libraries
 RUN pip install adafruit-circuitpython-motorkit \
     Jetson.GPIO \
     adafruit-circuitpython-ssd1306 \
     jetson-stats \
     adafruit-blinka
-
-
-#     The following packages will be REMOVED:
-#   python3-automat python3-bcrypt python3-click python3-colorama python3-constantly python3-hamcrest python3-hyperlink python3-incremental
-#   python3-openssl python3-pyasn1 python3-pyasn1-modules python3-service-identity python3-twisted python3-zope.interface
 
 # for  ip command - so stats can show local IP
 RUN apt install -y iproute2

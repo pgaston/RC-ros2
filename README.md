@@ -38,6 +38,7 @@ cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 #####
 source /opt/ros/humble/setup.bash
 source install/setup.bash
+
 # needed!!
 sudo chmod 666 /dev/bus/usb/002/003
 sudo chgrp plugdev /dev/bus/usb/002/003
@@ -72,6 +73,12 @@ source install/setup.bash
 ros2 launch isaac_ros_realsense_control realsense_basic.launch.py
 
 ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+
+##########
+# optimized, less laggy
+ros2 run foxglove_bridge foxglove_bridge --ros-args \
+  -p send_buffer_limit:=100000000 \
+  -p num_threads:=2
 #########################
 
 
