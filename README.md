@@ -1,6 +1,29 @@
 
 # RC car autonomous control
 
+##### starting commads
+cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
+./run_dev.sh -d ${ISAAC_ROS_WS}
+
+#####  
+#after docker launch
+#####
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+# needed!!
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/ros/humble/share/isaac_ros_gxf/gxf/lib/serialization
+sudo chmod 666 /dev/bus/usb/002/003
+sudo chgrp plugdev /dev/bus/usb/002/003
+sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/
+sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
+
+# nope, not in docker
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+
+
+
+##### continue w/ documenation
 Features:
 - ROS2 true, as much as possible.   Note this is using Humble.   While the most recent update from nVidia is moving to Jazzy.    This change alone will break things.
 - leverage nVidia stack as much as possible (via the NVidia docker setup for Jetson (Orin) Nano/x86)
@@ -30,20 +53,7 @@ Launch - note the-d flag
 -p 8765:8765
 --shm-size=2g
 
-cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
-./run_dev.sh -d ${ISAAC_ROS_WS}
 
-#####  
-#after docker launch
-#####
-source /opt/ros/humble/setup.bash
-source install/setup.bash
-
-# needed!!
-sudo chmod 666 /dev/bus/usb/002/003
-sudo chgrp plugdev /dev/bus/usb/002/003
-sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/
-sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
 
 
 Best practice: Build librealsense2 separately with its special arguments, then build the rest of your workspace normally.
@@ -88,6 +98,7 @@ ros2 launch isaac_ros_realsense_control realsense_basic.launch.py
 
 # working on...
 ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py
+ run_foxglove:=True
 
 
 ## ????
@@ -172,7 +183,7 @@ colcon build --packages-select isaac_ros_visual_slam --parallel-workers 4
 source install/setup.bash
 
 # Launch VSLAM with RealSense D435i
-ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py
+ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py run_foxglove:=True
 
 # ✅ VERIFIED: VSLAM topics are publishing:
 # /visual_slam/tracking/odometry (main output for navigation)

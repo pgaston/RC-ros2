@@ -5,6 +5,7 @@ ARG TARGET_ROS_DISTRO=humble
 
 # Install RealSense udev rules and setup USB permissions
 # Build context is the docker/ directory when using run_dev.sh
+# btw, the chmod won't work as we're not in that environment, yet
 COPY udev_rules/99-realsense-libusb-custom.rules /etc/udev/rules.d/
 RUN chmod 644 /etc/udev/rules.d/99-realsense-libusb-custom.rules
 
@@ -15,22 +16,27 @@ RUN groupadd -r realsense || true && \
     usermod -a -G dialout root
 
 # Setup device permissions script for runtime
-RUN echo '#!/bin/bash\n\
-if [ -e /dev/bus/usb ]; then\n\
-    chmod 755 /dev/bus/usb\n\
-    chmod 666 /dev/bus/usb/*/*\n\
-fi\n\
-udevadm control --reload-rules 2>/dev/null || true\n\
-udevadm trigger 2>/dev/null || true' > /usr/local/bin/setup-realsense-devices.sh && \
-    chmod +x /usr/local/bin/setup-realsense-devices.sh
+# RUN echo '#!/bin/bash\n\
+# if [ -e /dev/bus/usb ]; then\n\
+#     chmod 755 /dev/bus/usb\n\
+#     chmod 666 /dev/bus/usb/*/*\n\
+# fi\n\
+# udevadm control --reload-rules 2>/dev/null || true\n\
+# udevadm trigger 2>/dev/null || true' > /usr/local/bin/setup-realsense-devices.sh && \
+#     chmod +x /usr/local/bin/setup-realsense-devices.sh
 
 # Auto-run the device setup script at container start
-RUN echo '#!/bin/bash\n\
-/usr/local/bin/setup-realsense-devices.sh\n\
-exec "$@"' > /usr/local/bin/entrypoint.sh && \
-    chmod +x /usr/local/bin/entrypoint.sh
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+# Add GXF serialization lib to LD_LIBRARY_PATH at container start
+# RUN echo '#!/bin/bash\n\
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/ros/humble/share/isaac_ros_gxf/gxf/lib/serialization\n\
+# /usr/local/bin/setup-realsense-devices.sh\n\
+# exec "$@"' > /usr/local/bin/entrypoint.sh && \
+#     chmod +x /usr/local/bin/entrypoint.sh
+
+# ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+# Perhaps should also do for the USB initialization?
 
     
 # Build a docker that extends the Jetson docker image and Realsense docker image:
