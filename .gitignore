@@ -7,3 +7,8 @@ src/*
 # Exclude large data and pack files
 *.mcap
 *.pack
+*.gz
+*.zip
+*.tar
+*.tar.gz
+*.bag
