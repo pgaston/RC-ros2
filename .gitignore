@@ -5,6 +5,7 @@ src/*
 !src/.anchor
 
 # Exclude large data and pack files
+*.onnx
 *.mcap
 *.pack
 *.gz
