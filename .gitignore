@@ -4,6 +4,10 @@ log/
 src/*
 !src/.anchor
 
+# Do not ignore these directories (track them)
+!src/isaac_ros_realsense_control/launch/
+!src/pca9685_ros2_control/
+
 # Exclude large data and pack files
 *.onnx
 *.mcap
