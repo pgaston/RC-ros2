@@ -1,7 +1,15 @@
 
 # RC car autonomous control
 
-##### starting commads
+### first time only - top level
+# Disable USB power saving
+sudo sh -c 'echo -1 > /sys/module/usbcore/parameters/autosuspend'
+# Force Max Performance
+sudo nvpmodel -m 0
+sudo jetson_clocks
+
+
+##### docker starting commads
 cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 ./run_dev.sh -d ${ISAAC_ROS_WS}
 
@@ -20,6 +28,50 @@ sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
 # nope, not in docker
 sudo udevadm control --reload-rules
 sudo udevadm trigger
+
+
+# Build Visual SLAM package 
+colcon build --packages-select isaac_ros_realsense_control  --symlink-install
+source install/setup.bash
+
+ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py run_foxglove:=True
+
+
+
+##########
+
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+
+To see your 3D data, configure your 3D Panel as follows:
+
+Coordinate Frame: Set your "Global Frame" to map.
+
+Transforms: Ensure /tf is active. You should see a tree connecting map -> odom -> base_link -> camera_link.
+
+Visual SLAM Topics:
+
+/visual_slam/tracking/odometry (Odometry type)
+
+/visual_slam/vis/landmarks_cloud (PointCloud2)
+
+nvblox Mesh:
+
+/nvblox_node/mesh — Important: You must install the nvblox Foxglove extension from the Foxglove Extension Marketplace to see the textured mesh properly.
+
+Pro-Tips for your Setup:
+The Mesh: If the nvblox mesh doesn't appear, ensure you have the nvblox extension enabled in Foxglove (Settings > Extensions).
+
+The Grid: I have set the global frame to map. If the grid looks like it's drifting, it means Visual SLAM has lost its "Loop Closure" or is re-initializing.
+
+Performance: If the 3D view is laggy, go to the 3D panel settings and toggle "Decay Time" for the /visual_slam/vis/landmarks_cloud to a lower value (e.g., 5 seconds).
+
+##########
+# optimized, less laggy
+ros2 run foxglove_bridge foxglove_bridge --ros-args \
+  -p send_buffer_limit:=100000000 \
+  -p num_threads:=2
+#########################
+
 
 
 

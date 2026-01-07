@@ -73,7 +73,7 @@ RUN apt install -y libjson-glib-dev libsoup2.4-dev libpsl-dev usbutils v4l-utils
 RUN apt install -y dialog libi2c-dev i2c-tools 
 
 # Install standard ROS 2 packages + foxglove
-RUN apt install -y \
+RUN apt update && apt install -y \
     ros-humble-ros2-control \
     ros-humble-ros2-controllers \
     ros-humble-xacro \
@@ -83,8 +83,13 @@ RUN apt install -y \
     ros-humble-isaac-ros-gxf \
     ros-humble-isaac-ros-nitros \
     ros-humble-foxglove-bridge \
-    ros-humble-foxglove-msgs
+    ros-humble-foxglove-msgs \
+    ros-humble-isaac-ros-jetson-stats \
+    ros-humble-image-transport-plugins
 
+    #     ros-humble-jetson-stats \
+
+    
     # fails if these are used - building from source
     # ros-humble-realsense2-camera \
     # ros-humble-realsense2-camera-msgs \

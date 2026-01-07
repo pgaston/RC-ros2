@@ -1,0 +1,72 @@
+{
+  "configById": {
+    "3D!2v8k5n": {
+      "cameraState": {
+        "perspective": true,
+        "distance": 5,
+        "phi": 60,
+        "thetaOffset": 0,
+        "target": [0, 0, 0],
+        "targetOffset": [0, 0, 0],
+        "targetOrientation": [0, 0, 0, 1],
+        "fovy": 45,
+        "near": 0.5,
+        "far": 5000
+      },
+      "followMode": "follow",
+      "followTf": "base_link",
+      "scene": {
+        "transforms": {
+          "showLabels": true,
+          "axisScale": 0.5
+        }
+      },
+      "transforms": {
+        "frame": "map"
+      },
+      "topics": {
+        "/visual_slam/tracking/odometry": {
+          "visible": true
+        },
+        "/visual_slam/vis/landmarks_cloud": {
+          "visible": true,
+          "colorMode": "rgb"
+        },
+        "/nvblox_node/mesh": {
+          "visible": true
+        }
+      },
+      "publish": {
+        "type": "point",
+        "topic": "/clicked_point"
+      }
+    },
+    "Image!3m9j1p": {
+      "cameraTopic": "/camera/camera/color/image_raw"
+    },
+    "Teleop!4k2l8v": {
+      "topic": "/cmd_vel"
+    }
+  },
+  "Diagnostics!gpu_monitor": {
+    "filter": "gpu"
+  },
+  "Plot!gpu_load": {
+    "paths": [
+      "/jetson_stats/gpu/gpu"
+    ],
+    "minYValue": 0,
+    "maxYValue": 100,
+    "showLegend": true
+  },
+  "layout": {
+    "direction": "row",
+    "first": "3D!2v8k5n",
+    "second": {
+      "direction": "column",
+      "first": "Image!3m9j1p",
+      "second": "Plot!gpu_load",
+      "splitPercentage": 50
+    }
+  }
+}
