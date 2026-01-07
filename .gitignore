@@ -3,3 +3,7 @@ install/
 log/
 src/*
 !src/.anchor
+
+# Exclude large data and pack files
+*.mcap
+*.pack
