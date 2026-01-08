@@ -1,0 +1,494 @@
+[INFO] [isaac_ros_container]: Load Library: /opt/ros/humble/lib/libvisual_slam_node.so
+[INFO] [isaac_ros_container]: Found class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::visual_slam::VisualSlamNode>
+[INFO] [isaac_ros_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::visual_slam::VisualSlamNode>
+[INFO] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/std/libgxf_std.so
+[INFO] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_gxf_helpers.so
+[INFO] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_sight.so
+[INFO] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_atlas.so
+[INFO] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/multimedia/libgxf_multimedia.so
+[INFO] [visual_slam_node.ManagedNitrosSubscriber]: Starting Managed Nitros Subscriber
+[INFO] [visual_slam_node.ManagedNitrosSubscriber]: Starting Managed Nitros Subscriber
+[INFO] [visual_slam_node]: cuVSLAM version: 12.6
+[INFO] [visual_slam_node]: Time taken by CUVSLAM_WarmUpGPU(): 0.089179
+[INFO] [isaac_ros_container]: Load Library: /opt/ros/humble/lib/libnvblox_ros_lib.so
+[INFO] [isaac_ros_container]: Found class: rclcpp_components::NodeFactoryTemplate<nvblox::NvbloxNode>
+[INFO] [isaac_ros_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nvblox::NvbloxNode>
+[INFO] [nvblox_node]: Create nvblox cuda stream with type: kBlocking
+[INFO] [nvblox_node]: Initialize Mapper:
+[INFO] [nvblox_node]: static_mapper.do_depth_preprocessing: 0
+[INFO] [nvblox_node]: static_mapper.depth_preprocessing_num_dilations: 4
+[INFO] [nvblox_node]: static_mapper.esdf_slice_min_height: 0.1
+[INFO] [nvblox_node]: static_mapper.esdf_slice_max_height: 1
+[INFO] [nvblox_node]: static_mapper.esdf_slice_height: 0.3
+[INFO] [nvblox_node]: static_mapper.exclude_last_view_from_decay: 0
+[INFO] [nvblox_node]: static_mapper.projective_integrator_max_integration_distance_m: 5
+[INFO] [nvblox_node]: static_mapper.lidar_projective_integrator_max_integration_distance_m: 10
+[INFO] [nvblox_node]: static_mapper.projective_integrator_truncation_distance_vox: 4
+[INFO] [nvblox_node]: static_mapper.projective_integrator_weighting_mode: kInverseSquareWeight
+[WARN] [nvblox_node]: Requested weighting function: "kInverseSquareWeight" not recognized. Defaulting to: kInverseSquareWeight
+[INFO] [nvblox_node]: static_mapper.projective_integrator_max_weight: 5
+[INFO] [nvblox_node]: static_mapper.projective_tsdf_integrator_invalid_depth_decay_factor: -1
+[INFO] [nvblox_node]: static_mapper.free_region_occupancy_probability: 0.3
+[INFO] [nvblox_node]: static_mapper.occupied_region_occupancy_probability: 0.7
+[INFO] [nvblox_node]: static_mapper.unobserved_region_occupancy_probability: 0.5
+[INFO] [nvblox_node]: static_mapper.occupied_region_half_width_m: 0.1
+[INFO] [nvblox_node]: static_mapper.raycast_subsampling_factor: 4
+[INFO] [nvblox_node]: static_mapper.workspace_bounds_type: kUnbounded
+[WARN] [nvblox_node]: Requested workspace bounds type: "kUnbounded" not recognized. Defaulting to: kUnbounded
+[INFO] [nvblox_node]: static_mapper.workspace_bounds_min_height_m: 0
+[INFO] [nvblox_node]: static_mapper.workspace_bounds_max_height_m: 1
+[INFO] [nvblox_node]: static_mapper.workspace_bounds_min_corner_x_m: 0
+[INFO] [nvblox_node]: static_mapper.workspace_bounds_max_corner_x_m: 0
+[INFO] [nvblox_node]: static_mapper.workspace_bounds_min_corner_y_m: 2
+[INFO] [nvblox_node]: static_mapper.workspace_bounds_max_corner_y_m: 2
+[INFO] [nvblox_node]: static_mapper.esdf_integrator_min_weight: 0.0001
+[INFO] [nvblox_node]: static_mapper.esdf_integrator_max_site_distance_vox: 1
+[INFO] [nvblox_node]: static_mapper.esdf_integrator_max_distance_m: 2
+[INFO] [nvblox_node]: static_mapper.mesh_integrator_min_weight: 0.0001
+[INFO] [nvblox_node]: static_mapper.mesh_integrator_weld_vertices: 1
+[INFO] [nvblox_node]: static_mapper.decay_integrator_deallocate_decayed_blocks: 1
+[INFO] [nvblox_node]: static_mapper.tsdf_decay_factor: 0.95
+[INFO] [nvblox_node]: static_mapper.tsdf_decayed_weight_threshold: 0.001
+[INFO] [nvblox_node]: static_mapper.tsdf_set_free_distance_on_decayed: 0
+[INFO] [nvblox_node]: static_mapper.tsdf_decayed_free_distance_vox: 4
+[INFO] [nvblox_node]: static_mapper.free_region_decay_probability: 0.55
+[INFO] [nvblox_node]: static_mapper.occupied_region_decay_probability: 0.4
+[INFO] [nvblox_node]: static_mapper.occupancy_decay_to_free: 0
+[INFO] [nvblox_node]: static_mapper.max_tsdf_distance_for_occupancy_m: 0.15
+[INFO] [nvblox_node]: static_mapper.max_unobserved_to_keep_consecutive_occupancy_ms: 200
+[INFO] [nvblox_node]: static_mapper.min_duration_since_occupied_for_freespace_ms: 1000
+[INFO] [nvblox_node]: static_mapper.min_consecutive_occupancy_duration_for_reset_ms: 2000
+[INFO] [nvblox_node]: static_mapper.check_neighborhood: 1
+[INFO] [nvblox_node]: Initialize Mapper:
+[INFO] [nvblox_node]: dynamic_mapper.do_depth_preprocessing: 0
+[INFO] [nvblox_node]: dynamic_mapper.depth_preprocessing_num_dilations: 4
+[INFO] [nvblox_node]: dynamic_mapper.esdf_slice_min_height: 0
+[INFO] [nvblox_node]: dynamic_mapper.esdf_slice_max_height: 1
+[INFO] [nvblox_node]: dynamic_mapper.esdf_slice_height: 1
+[INFO] [nvblox_node]: dynamic_mapper.exclude_last_view_from_decay: 0
+[INFO] [nvblox_node]: dynamic_mapper.projective_integrator_max_integration_distance_m: 7
+[INFO] [nvblox_node]: dynamic_mapper.lidar_projective_integrator_max_integration_distance_m: 10
+[INFO] [nvblox_node]: dynamic_mapper.projective_integrator_truncation_distance_vox: 4
+[INFO] [nvblox_node]: dynamic_mapper.projective_integrator_weighting_mode: kInverseSquareWeight
+[WARN] [nvblox_node]: Requested weighting function: "kInverseSquareWeight" not recognized. Defaulting to: kInverseSquareWeight
+[INFO] [nvblox_node]: dynamic_mapper.projective_integrator_max_weight: 5
+[INFO] [nvblox_node]: dynamic_mapper.projective_tsdf_integrator_invalid_depth_decay_factor: -1
+[INFO] [nvblox_node]: dynamic_mapper.free_region_occupancy_probability: 0.3
+[INFO] [nvblox_node]: dynamic_mapper.occupied_region_occupancy_probability: 0.7
+[INFO] [nvblox_node]: dynamic_mapper.unobserved_region_occupancy_probability: 0.5
+[INFO] [nvblox_node]: dynamic_mapper.occupied_region_half_width_m: 0.1
+[INFO] [nvblox_node]: dynamic_mapper.raycast_subsampling_factor: 4
+[INFO] [nvblox_node]: dynamic_mapper.workspace_bounds_type: kUnbounded
+[WARN] [nvblox_node]: Requested workspace bounds type: "kUnbounded" not recognized. Defaulting to: kUnbounded
+[INFO] [nvblox_node]: dynamic_mapper.workspace_bounds_min_height_m: 0
+[INFO] [nvblox_node]: dynamic_mapper.workspace_bounds_max_height_m: 1
+[INFO] [nvblox_node]: dynamic_mapper.workspace_bounds_min_corner_x_m: 0
+[INFO] [nvblox_node]: dynamic_mapper.workspace_bounds_max_corner_x_m: 0
+[INFO] [nvblox_node]: dynamic_mapper.workspace_bounds_min_corner_y_m: 2
+[INFO] [nvblox_node]: dynamic_mapper.workspace_bounds_max_corner_y_m: 2
+[INFO] [nvblox_node]: dynamic_mapper.esdf_integrator_min_weight: 0.0001
+[INFO] [nvblox_node]: dynamic_mapper.esdf_integrator_max_site_distance_vox: 1
+[INFO] [nvblox_node]: dynamic_mapper.esdf_integrator_max_distance_m: 2
+[INFO] [nvblox_node]: dynamic_mapper.mesh_integrator_min_weight: 0.0001
+[INFO] [nvblox_node]: dynamic_mapper.mesh_integrator_weld_vertices: 1
+[INFO] [nvblox_node]: dynamic_mapper.decay_integrator_deallocate_decayed_blocks: 1
+[INFO] [nvblox_node]: dynamic_mapper.tsdf_decay_factor: 0.95
+[INFO] [nvblox_node]: dynamic_mapper.tsdf_decayed_weight_threshold: 0.001
+[INFO] [nvblox_node]: dynamic_mapper.tsdf_set_free_distance_on_decayed: 0
+[INFO] [nvblox_node]: dynamic_mapper.tsdf_decayed_free_distance_vox: 4
+[INFO] [nvblox_node]: dynamic_mapper.free_region_decay_probability: 0.55
+[INFO] [nvblox_node]: dynamic_mapper.occupied_region_decay_probability: 0.4
+[INFO] [nvblox_node]: dynamic_mapper.occupancy_decay_to_free: 0
+[INFO] [nvblox_node]: dynamic_mapper.max_tsdf_distance_for_occupancy_m: 0.15
+[INFO] [nvblox_node]: dynamic_mapper.max_unobserved_to_keep_consecutive_occupancy_ms: 200
+[INFO] [nvblox_node]: dynamic_mapper.min_duration_since_occupied_for_freespace_ms: 1000
+[INFO] [nvblox_node]: dynamic_mapper.min_consecutive_occupancy_duration_for_reset_ms: 2000
+[INFO] [nvblox_node]: dynamic_mapper.check_neighborhood: 1
+[INFO] [nvblox_node]: Initialize MultiMapper:
+[INFO] [nvblox_node]: multi_mapper.connected_mask_component_size_threshold: 2000
+[INFO] [nvblox_node]: multi_mapper.remove_small_connected_components: 1
+[INFO] [nvblox_node]: NvbloxNode::subscribeToTopics()
+[INFO] [nvblox_node]: Subscribing input topics with QoS: SYSTEM_DEFAULT
+[INFO] [nvblox_node.ManagedNitrosSubscriber]: Starting Managed Nitros Subscriber
+[INFO] [nvblox_node]: NvbloxNode::setupTimers()
+[INFO] [nvblox_node]: NvbloxNode::advertiseTopics()
+[INFO] [nvblox_node]: NvbloxNode::advertiseServices()
+[INFO] [nvblox_node]: Started up nvblox node in frame map and voxel size 0.1
+[INFO] [nvblox_node]: Mapping type: kStaticTsdf
+[INFO] [nvblox_node]: nvblox parameters:
+nvblox_node
+    cuda_stream_type: kBlocking
+    global_frame: map
+    voxel_size: 0.100000
+    max_back_projection_distance: 5.000000
+    layer_visualization_min_tsdf_weight: 0.100000
+    layer_visualization_exclusion_height_m: 2.000000
+    layer_visualization_exclusion_radius_m: 5.000000
+    layer_streamer_bandwidth_limit_mbps: 30.000000
+    distance_map_unknown_value_optimistic: 1000.000000
+    distance_map_unknown_value_pessimistic: -1000.000000
+    esdf_mode: 2d
+    mapping_type: static_tsdf
+    pose_frame: base_link
+    map_clearing_frame_id: base_link
+    after_shutdown_map_save_path: 
+    esdf_slice_bounds_visualization_attachment_frame_id: base_link
+    workspace_height_bounds_visualization_attachment_frame_id: base_link
+    publish_esdf_distance_slice: 1
+    use_color: 0
+    use_depth: 1
+    use_segmentation: 0
+    use_lidar: 1
+    use_non_equal_vertical_fov_lidar_params: 0
+    print_timings_to_console: 0
+    print_rates_to_console: 0
+    print_queue_drops_to_console: 0
+    print_delays_to_console: 0
+    layer_visualization_undo_gamma_correction: 0
+    output_pessimistic_distance_map: 1
+    num_cameras: 1
+    lidar_width: 1800
+    lidar_height: 16
+    tick_period_ms: 10
+    print_statistics_on_console_period_ms: 10000
+    maximum_input_queue_length: 10
+    back_projection_subsampling: 1
+    lidar_vertical_fov_rad: 0.523599
+    lidar_min_valid_range_m: 0.100000
+    lidar_max_valid_range_m: 50.000000
+    min_angle_below_zero_elevation_rad: 0.349066
+    max_angle_above_zero_elevation_rad: 0.261799
+    esdf_slice_bounds_visualization_side_length: 10.000000
+    workspace_height_bounds_visualization_side_length: 10.000000
+    integrate_depth_rate_hz: 40.000000
+    integrate_color_rate_hz: 5.000000
+    integrate_lidar_rate_hz: 40.000000
+    update_mesh_rate_hz: 2.000000
+    update_esdf_rate_hz: 5.000000
+    publish_layer_rate_hz: 10.000000
+    publish_debug_vis_rate_hz: 2.000000
+    decay_tsdf_rate_hz: 5.000000
+    decay_dynamic_occupancy_rate_hz: 10.000000
+    clear_map_outside_radius_rate_hz: 1.000000
+    map_clearing_radius_m: 5.000000
+    esdf_and_gradients_unobserved_value: -1000.000000
+    multi_mapper
+        connected_mask_component_size_threshold: 2000
+        background_mapper
+            voxel_size_m: 0.100000
+            memory_type: kDevice
+            projective_layer_type: kTsdf
+            esdf_mode: kUnset
+            do_depth_preprocessing: 0
+            depth_preprocessing_num_dilations: 4
+            exclude_last_view_from_decay: 0
+            camera_tsdf_integrator
+                max_weight:: 5.000000
+                marked_unobserved_voxels_distance_m:: -1.000000
+                marked_unobserved_voxels_weight:: 0.100000
+                weighting_function_type:: kInverseSquareWeight
+                invalid_depth_decay_factor:: -1.000000
+                projective_integrator
+                    lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+                    lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+                    truncation_distance_vox:: 4.000000
+                    max_integration_distance_m:: 5.000000
+                    view_calculator
+                        raycast_subsampling_factor: 4
+                        workspace_bounds_type: kUnbounded
+                        workspace_bounds_min_height_m: 0.000000
+                        workspace_bounds_max_height_m: 1.000000
+                        workspace_bounds_min_corner_x_m: 0.000000
+                        workspace_bounds_max_corner_x_m: 0.000000
+                        workspace_bounds_min_corner_y_m: 2.000000
+                        workspace_bounds_max_corner_y_m: 2.000000
+            lidar_tsdf_integrator
+                max_weight:: 5.000000
+                marked_unobserved_voxels_distance_m:: -1.000000
+                marked_unobserved_voxels_weight:: 0.100000
+                weighting_function_type:: kInverseSquareWeight
+                invalid_depth_decay_factor:: -1.000000
+                projective_integrator
+                    lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+                    lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+                    truncation_distance_vox:: 4.000000
+                    max_integration_distance_m:: 10.000000
+                    view_calculator
+                        raycast_subsampling_factor: 4
+                        workspace_bounds_type: kUnbounded
+                        workspace_bounds_min_height_m: 0.000000
+                        workspace_bounds_max_height_m: 1.000000
+                        workspace_bounds_min_corner_x_m: 0.000000
+                        workspace_bounds_max_corner_x_m: 0.000000
+                        workspace_bounds_min_corner_y_m: 2.000000
+                        workspace_bounds_max_corner_y_m: 2.000000
+            projective_color_integrator
+                sphere_tracing_ray_subsampling_factor:: 4
+                max_weight:: 5.000000
+                weighting_function_type:: kInverseSquareWeight
+                projective_integrator
+                    lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+                    lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+                    truncation_distance_vox:: 4.000000
+                    max_integration_distance_m:: 5.000000
+                    view_calculator
+                        raycast_subsampling_factor: 4
+                        workspace_bounds_type: kUnbounded
+                        workspace_bounds_min_height_m: 0.000000
+                        workspace_bounds_max_height_m: 1.000000
+                        workspace_bounds_min_corner_x_m: 0.000000
+                        workspace_bounds_max_corner_x_m: 0.000000
+                        workspace_bounds_min_corner_y_m: 2.000000
+                        workspace_bounds_max_corner_y_m: 2.000000
+                view_calculator
+                    raycast_subsampling_factor: 4
+                    workspace_bounds_type: kUnbounded
+                    workspace_bounds_min_height_m: 0.000000
+                    workspace_bounds_max_height_m: 1.000000
+                    workspace_bounds_min_corner_x_m: 0.000000
+                    workspace_bounds_max_corner_x_m: 0.000000
+                    workspace_bounds_min_corner_y_m: 2.000000
+                    workspace_bounds_max_corner_y_m: 2.000000
+            camera_occupancy_integrator
+                free_region_log_odds:: -0.847298
+                occupied_region_log_odds:: 0.847298
+                unobserved_region_log_odds:: 0.000000
+                occupied_region_half_width_m:: 0.100000
+                projective_integrator
+                    lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+                    lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+                    truncation_distance_vox:: 4.000000
+                    max_integration_distance_m:: 5.000000
+                    view_calculator
+                        raycast_subsampling_factor: 4
+                        workspace_bounds_type: kUnbounded
+                        workspace_bounds_min_height_m: 0.000000
+                        workspace_bounds_max_height_m: 1.000000
+                        workspace_bounds_min_corner_x_m: 0.000000
+                        workspace_bounds_max_corner_x_m: 0.000000
+                        workspace_bounds_min_corner_y_m: 2.000000
+                        workspace_bounds_max_corner_y_m: 2.000000
+            lidar_occupancy_integrator
+                free_region_log_odds:: -0.847298
+                occupied_region_log_odds:: 0.847298
+                unobserved_region_log_odds:: 0.000000
+                occupied_region_half_width_m:: 0.100000
+                projective_integrator
+                    lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+                    lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+                    truncation_distance_vox:: 4.000000
+                    max_integration_distance_m:: 10.000000
+                    view_calculator
+                        raycast_subsampling_factor: 4
+                        workspace_bounds_type: kUnbounded
+                        workspace_bounds_min_height_m: 0.000000
+                        workspace_bounds_max_height_m: 1.000000
+                        workspace_bounds_min_corner_x_m: 0.000000
+                        workspace_bounds_max_corner_x_m: 0.000000
+                        workspace_bounds_min_corner_y_m: 2.000000
+                        workspace_bounds_max_corner_y_m: 2.000000
+            esdf_integrator
+                max_esdf_distance_m:: 2.000000
+                max_tsdf_site_distance_vox:: 1.000000
+                tsdf_min_weight:: 0.000100
+                occupied_threshold_log_odds:: 0.000000
+                esdf_slice_min_height:: 0.100000
+                esdf_slice_max_height:: 1.000000
+                esdf_slice_height:: 0.300000
+                slice_height_above_plane_m:: 0.000000
+                slice_height_thickness_m:: 0.100000
+            mesh_integrator
+                min_weight:: 0.000100
+                cutoff_distance_vox:: 5.000000
+                weld_vertices:: 1
+            occupancy_decay_integrator
+                free_space_decay_log_odds:: 0.200671
+                occupied_space_decay_log_odds:: -0.405465
+                decay_to_log_odds_:: 0.000000
+                decay_integrator
+                    deallocate_decayed_blocks:: 1
+            tsdf_decay_integrator
+                decay_factor:: 0.950000
+                decayed_weight_theshold:: 0.001000
+                set_free_distance_on_decayed:: 0
+                free_distance_vox:: 4.000000
+                decay_integrator
+                    deallocate_decayed_blocks:: 1
+            freespace_integrator
+                max_tsdf_distance_for_occupancy_m:: 0.150000
+                max_unobserved_to_keep_consecutive_occupancy_ms:: 200
+                min_duration_since_occupied_for_freespace_ms:: 1000
+                min_consecutive_occupancy_duration_for_reset_ms:: 2000
+                check_neighborhood:: 1
+        foreground_mapper
+            voxel_size_m: 0.100000
+            memory_type: kDevice
+            projective_layer_type: kNone
+            esdf_mode: kUnset
+            do_depth_preprocessing: 0
+            depth_preprocessing_num_dilations: 4
+            exclude_last_view_from_decay: 0
+            camera_tsdf_integrator
+                max_weight:: 5.000000
+                marked_unobserved_voxels_distance_m:: -1.000000
+                marked_unobserved_voxels_weight:: 0.100000
+                weighting_function_type:: kInverseSquareWeight
+                invalid_depth_decay_factor:: -1.000000
+                projective_integrator
+                    lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+                    lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+                    truncation_distance_vox:: 4.000000
+                    max_integration_distance_m:: 7.000000
+                    view_calculator
+                        raycast_subsampling_factor: 4
+                        workspace_bounds_type: kUnbounded
+                        workspace_bounds_min_height_m: 0.000000
+                        workspace_bounds_max_height_m: 1.000000
+                        workspace_bounds_min_corner_x_m: 0.000000
+                        workspace_bounds_max_corner_x_m: 0.000000
+                        workspace_bounds_min_corner_y_m: 2.000000
+                        workspace_bounds_max_corner_y_m: 2.000000
+            lidar_tsdf_integrator
+                max_weight:: 5.000000
+                marked_unobserved_voxels_distance_m:: -1.000000
+                marked_unobserved_voxels_weight:: 0.100000
+                weighting_function_type:: kInverseSquareWeight
+                invalid_depth_decay_factor:: -1.000000
+                projective_integrator
+                    lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+                    lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+                    truncation_distance_vox:: 4.000000
+                    max_integration_distance_m:: 10.000000
+                    view_calculator
+                        raycast_subsampling_factor: 4
+                        workspace_bounds_type: kUnbounded
+                        workspace_bounds_min_height_m: 0.000000
+                        workspace_bounds_max_height_m: 1.000000
+                        workspace_bounds_min_corner_x_m: 0.000000
+                        workspace_bounds_max_corner_x_m: 0.000000
+                        workspace_bounds_min_corner_y_m: 2.000000
+                        workspace_bounds_max_corner_y_m: 2.000000
+            projective_color_integrator
+                sphere_tracing_ray_subsampling_factor:: 4
+                max_weight:: 5.000000
+                weighting_function_type:: kInverseSquareWeight
+                projective_integrator
+                    lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+                    lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+                    truncation_distance_vox:: 4.000000
+                    max_integration_distance_m:: 7.000000
+                    view_calculator
+                        raycast_subsampling_factor: 4
+                        workspace_bounds_type: kUnbounded
+                        workspace_bounds_min_height_m: 0.000000
+                        workspace_bounds_max_height_m: 1.000000
+                        workspace_bounds_min_corner_x_m: 0.000000
+                        workspace_bounds_max_corner_x_m: 0.000000
+                        workspace_bounds_min_corner_y_m: 2.000000
+                        workspace_bounds_max_corner_y_m: 2.000000
+                view_calculator
+                    raycast_subsampling_factor: 4
+                    workspace_bounds_type: kUnbounded
+                    workspace_bounds_min_height_m: 0.000000
+                    workspace_bounds_max_height_m: 1.000000
+                    workspace_bounds_min_corner_x_m: 0.000000
+                    workspace_bounds_max_corner_x_m: 0.000000
+                    workspace_bounds_min_corner_y_m: 2.000000
+                    workspace_bounds_max_corner_y_m: 2.000000
+            camera_occupancy_integrator
+                free_region_log_odds:: -0.847298
+                occupied_region_log_odds:: 0.847298
+                unobserved_region_log_odds:: 0.000000
+                occupied_region_half_width_m:: 0.100000
+                projective_integrator
+                    lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+                    lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+                    truncation_distance_vox:: 4.000000
+                    max_integration_distance_m:: 7.000000
+                    view_calculator
+                        raycast_subsampling_factor: 4
+                        workspace_bounds_type: kUnbounded
+                        workspace_bounds_min_height_m: 0.000000
+                        workspace_bounds_max_height_m: 1.000000
+                        workspace_bounds_min_corner_x_m: 0.000000
+                        workspace_bounds_max_corner_x_m: 0.000000
+                        workspace_bounds_min_corner_y_m: 2.000000
+                        workspace_bounds_max_corner_y_m: 2.000000
+            lidar_occupancy_integrator
+                free_region_log_odds:: -0.847298
+                occupied_region_log_odds:: 0.847298
+                unobserved_region_log_odds:: 0.000000
+                occupied_region_half_width_m:: 0.100000
+                projective_integrator
+                    lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+                    lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+                    truncation_distance_vox:: 4.000000
+                    max_integration_distance_m:: 10.000000
+                    view_calculator
+                        raycast_subsampling_factor: 4
+                        workspace_bounds_type: kUnbounded
+                        workspace_bounds_min_height_m: 0.000000
+                        workspace_bounds_max_height_m: 1.000000
+                        workspace_bounds_min_corner_x_m: 0.000000
+                        workspace_bounds_max_corner_x_m: 0.000000
+                        workspace_bounds_min_corner_y_m: 2.000000
+                        workspace_bounds_max_corner_y_m: 2.000000
+            esdf_integrator
+                max_esdf_distance_m:: 2.000000
+                max_tsdf_site_distance_vox:: 1.000000
+                tsdf_min_weight:: 0.000100
+                occupied_threshold_log_odds:: 0.000000
+                esdf_slice_min_height:: 0.000000
+                esdf_slice_max_height:: 1.000000
+                esdf_slice_height:: 1.000000
+                slice_height_above_plane_m:: 0.000000
+                slice_height_thickness_m:: 0.100000
+            mesh_integrator
+                min_weight:: 0.000100
+                cutoff_distance_vox:: 5.000000
+                weld_vertices:: 1
+            occupancy_decay_integrator
+                free_space_decay_log_odds:: 0.200671
+                occupied_space_decay_log_odds:: -0.405465
+                decay_to_log_odds_:: 0.000000
+                decay_integrator
+                    deallocate_decayed_blocks:: 1
+            tsdf_decay_integrator
+                decay_factor:: 0.950000
+                decayed_weight_theshold:: 0.001000
+                set_free_distance_on_decayed:: 0
+                free_distance_vox:: 4.000000
+                decay_integrator
+                    deallocate_decayed_blocks:: 1
+            freespace_integrator
+                max_tsdf_distance_for_occupancy_m:: 0.150000
+                max_unobserved_to_keep_consecutive_occupancy_ms:: 200
+                min_duration_since_occupied_for_freespace_ms:: 1000
+                min_consecutive_occupancy_duration_for_reset_ms:: 2000
+                check_neighborhood:: 1
+        image_masker
+            occlusion_threshold_m:: 0.250000
+        ground_plane_estimator
+            ground_points_candidates_min_z_m:: -0.100000
+            ground_points_candidates_max_z_m:: 0.150000
+            ransac_plane_fitter
+                num_ransac_iterations:: 1000
+                ransac_distance_threshold_m:: 0.200000
+            tsdf_zero_crossings_extractor
+                min_tsdf_weight:: 0.100000
+                max_crossings:: 360000
+
+[INFO] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[INFO] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[INFO] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[INFO] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[INFO] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[INFO] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[INFO] [visual_slam_node]: Initializing cuVSLAM.
+[INFO] [visual_slam_node]: Use use_gpu: true
+[INFO] [visual_slam_node]: Enable IMU Fusion: true
+[INFO] [visual_slam_node]: gyroscope_noise_density: 0.000244
+[INFO] [visual_slam_node]: gyroscope_random_walk: 0.000019
+[INFO] [visual_slam_node]: accelerometer_noise_density: 0.001862
+[INFO] [visual_slam_node]: accelerometer_random_walk: 0.000186
+[INFO] [

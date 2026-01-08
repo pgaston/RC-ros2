@@ -5,7 +5,7 @@
 # Disable USB power saving
 sudo sh -c 'echo -1 > /sys/module/usbcore/parameters/autosuspend'
 # Force Max Performance
-sudo nvpmodel -m 0
+sudo nvpmodel -m 2
 sudo jetson_clocks
 
 

@@ -1,0 +1,58 @@
+1767888520.9320190 [INFO] [launch]: All log files can be found below /home/admin/.ros/log/2026-01-08-11-08-40-929909-ubuntu-319432
+1767888520.9323573 [INFO] [launch]: Default logging verbosity is set to INFO
+1767888521.2640512 [INFO] [robot_state_publisher-1]: process started with pid [319434]
+1767888521.2646549 [INFO] [joint_state_publisher-2]: process started with pid [319436]
+1767888521.2649918 [INFO] [jtop-3]: process started with pid [319438]
+1767888521.2652302 [INFO] [realsense2_camera_node-4]: process started with pid [319440]
+1767888521.2654626 [INFO] [republish-5]: process started with pid [319442]
+1767888521.2659128 [INFO] [foxglove_bridge-6]: process started with pid [319444]
+1767888521.3643069 [foxglove_bridge-6] [INFO] [1767888521.363526443] [foxglove_bridge]: Starting foxglove_bridge (humble, 3.2.2@)
+1767888521.3726766 [foxglove_bridge-6] [INFO] [1767888521.372093299] [foxglove_bridge]: Server listening on port 8765
+1767888521.3833272 [foxglove_bridge-6] [INFO] [1767888521.382725778] [foxglove_bridge]: Advertising new channel 1 for topic "/tf_static"
+1767888521.3847606 [foxglove_bridge-6] [INFO] [1767888521.384482299] [foxglove_bridge]: Advertising new channel 2 for topic "/tf"
+1767888521.9430008 [foxglove_bridge-6] [INFO] [1767888521.942081952] [foxglove_bridge]: Advertising new channel 3 for topic "/diagnostics"
+1767888521.9453058 [foxglove_bridge-6] [INFO] [1767888521.942904098] [foxglove_bridge]: Advertising new channel 4 for topic "/camera/camera/infra1/image_rect_raw/compressed"
+1767888521.9906819 [joint_state_publisher-2] [INFO] [1767888521.986716819] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+1767888524.7026110 [INFO] [component_container_mt-7]: process started with pid [320961]
+1767888525.2810163 [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/visual_slam_node' in container '/isaac_ros_container'
+1767888525.3459346 [foxglove_bridge-6] [INFO] [1767888525.345265544] [foxglove_bridge]: Advertising new channel 5 for topic "/visual_slam/vis/slam_odometry"
+1767888525.3472519 [foxglove_bridge-6] [INFO] [1767888525.345941316] [foxglove_bridge]: Advertising new channel 6 for topic "/visual_slam/vis/pose_graph_nodes"
+1767888525.3525453 [foxglove_bridge-6] [INFO] [1767888525.352067749] [foxglove_bridge]: Advertising new channel 7 for topic "/visual_slam/vis/pose_graph_edges2"
+1767888525.3545194 [foxglove_bridge-6] [INFO] [1767888525.352200459] [foxglove_bridge]: Advertising new channel 8 for topic "/visual_slam/vis/pose_graph_edges"
+1767888525.3563325 [foxglove_bridge-6] [INFO] [1767888525.353160691] [foxglove_bridge]: Advertising new channel 9 for topic "/visual_slam/vis/observations_cloud"
+1767888525.3568175 [foxglove_bridge-6] [INFO] [1767888525.353202037] [foxglove_bridge]: Advertising new channel 10 for topic "/visual_slam/vis/localizer_observations_cloud"
+1767888525.3576605 [foxglove_bridge-6] [INFO] [1767888525.353232118] [foxglove_bridge]: Advertising new channel 11 for topic "/visual_slam/vis/localizer_map_cloud"
+1767888525.3582859 [foxglove_bridge-6] [INFO] [1767888525.353252535] [foxglove_bridge]: Advertising new channel 12 for topic "/visual_slam/vis/localizer_loop_closure_cloud"
+1767888525.3623626 [foxglove_bridge-6] [INFO] [1767888525.354406792] [foxglove_bridge]: Advertising new channel 13 for topic "/visual_slam/vis/localizer"
+1767888525.3666191 [foxglove_bridge-6] [INFO] [1767888525.354465674] [foxglove_bridge]: Advertising new channel 14 for topic "/visual_slam/vis/velocity"
+1767888525.3674908 [foxglove_bridge-6] [INFO] [1767888525.354503532] [foxglove_bridge]: Advertising new channel 15 for topic "/visual_slam/vis/gravity"
+1767888525.3680453 [foxglove_bridge-6] [INFO] [1767888525.354999489] [foxglove_bridge]: Advertising new channel 16 for topic "/visual_slam/trigger_hint"
+1767888525.3695703 [foxglove_bridge-6] [INFO] [1767888525.355029634] [foxglove_bridge]: Advertising new channel 17 for topic "/visual_slam/tracking/vo_pose_covariance"
+1767888525.3710315 [foxglove_bridge-6] [INFO] [1767888525.355477749] [foxglove_bridge]: Advertising new channel 18 for topic "/visual_slam/tracking/vo_pose"
+1767888525.3738685 [foxglove_bridge-6] [INFO] [1767888525.356314392] [foxglove_bridge]: Advertising new channel 19 for topic "/visual_slam/tracking/vo_path"
+1767888525.3759942 [foxglove_bridge-6] [INFO] [1767888525.356346809] [foxglove_bridge]: Advertising new channel 20 for topic "/visual_slam/tracking/slam_path"
+1767888525.3766069 [foxglove_bridge-6] [INFO] [1767888525.356367098] [foxglove_bridge]: Advertising new channel 21 for topic "/visual_slam/tracking/odometry"
+1767888525.3772256 [foxglove_bridge-6] [INFO] [1767888525.356868399] [foxglove_bridge]: Advertising new channel 22 for topic "/visual_slam/status"
+1767888525.3777616 [foxglove_bridge-6] [INFO] [1767888525.356899248] [foxglove_bridge]: Advertising new channel 23 for topic "/visual_slam/initial_pose"
+1767888525.3782704 [foxglove_bridge-6] [INFO] [1767888525.356926322] [foxglove_bridge]: Advertising new channel 24 for topic "/visual_slam/vis/loop_closure_cloud"
+1767888525.3830593 [foxglove_bridge-6] [INFO] [1767888525.356947250] [foxglove_bridge]: Advertising new channel 25 for topic "/visual_slam/vis/landmarks_cloud"
+1767888525.7130797 [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/nvblox_node' in container '/isaac_ros_container'
+1767888525.9518528 [foxglove_bridge-6] [INFO] [1767888525.951100629] [foxglove_bridge]: Advertising new channel 26 for topic "/nvblox_node/workspace_bounds"
+1767888525.9529788 [foxglove_bridge-6] [INFO] [1767888525.951256188] [foxglove_bridge]: Advertising new channel 27 for topic "/nvblox_node/tsdf_layer_marker"
+1767888525.9544160 [foxglove_bridge-6] [INFO] [1767888525.952744058] [foxglove_bridge]: Advertising new channel 28 for topic "/nvblox_node/static_occupancy_grid"
+1767888525.9549251 [foxglove_bridge-6] [INFO] [1767888525.953440439] [foxglove_bridge]: Advertising new channel 29 for topic "/nvblox_node/static_map_slice"
+1767888525.9552569 [foxglove_bridge-6] [INFO] [1767888525.953537371] [foxglove_bridge]: Advertising new channel 30 for topic "/nvblox_node/static_esdf_pointcloud"
+1767888525.9554327 [foxglove_bridge-6] [INFO] [1767888525.953589374] [foxglove_bridge]: Advertising new channel 31 for topic "/nvblox_node/shapes_to_clear"
+1767888525.9559228 [foxglove_bridge-6] [INFO] [1767888525.953618687] [foxglove_bridge]: Advertising new channel 32 for topic "/nvblox_node/pessimistic_static_map_slice"
+1767888525.9562359 [foxglove_bridge-6] [INFO] [1767888525.953639424] [foxglove_bridge]: Advertising new channel 33 for topic "/nvblox_node/pessimistic_static_esdf_pointcloud"
+1767888525.9576824 [foxglove_bridge-6] [INFO] [1767888525.956578651] [foxglove_bridge]: Advertising new channel 34 for topic "/nvblox_node/mesh"
+1767888525.9590909 [foxglove_bridge-6] [INFO] [1767888525.957659881] [foxglove_bridge]: Advertising new channel 35 for topic "/nvblox_node/tsdf_layer"
+1767888525.9593310 [foxglove_bridge-6] [INFO] [1767888525.957735916] [foxglove_bridge]: Advertising new channel 36 for topic "/nvblox_node/esdf_slice_bounds"
+1767888525.9609406 [foxglove_bridge-6] [INFO] [1767888525.957770381] [foxglove_bridge]: Advertising new channel 37 for topic "/nvblox_node/dynamic_occupancy_grid"
+1767888525.9611239 [foxglove_bridge-6] [INFO] [1767888525.957792494] [foxglove_bridge]: Advertising new channel 38 for topic "/nvblox_node/combined_occupancy_grid"
+1767888525.9612398 [foxglove_bridge-6] [INFO] [1767888525.957818543] [foxglove_bridge]: Advertising new channel 39 for topic "/nvblox_node/color_layer_marker"
+1767888525.9613724 [foxglove_bridge-6] [INFO] [1767888525.957839920] [foxglove_bridge]: Advertising new channel 40 for topic "/nvblox_node/color_layer"
+1767888527.4927897 [foxglove_bridge-6] [INFO] [1767888527.492254785] [foxglove_bridge]: Advertising new channel 41 for topic "/camera/camera/infra2/image_rect_raw/compressed"
+1767888527.4931195 [foxglove_bridge-6] [INFO] [1767888527.492378726] [foxglove_bridge]: Advertising new channel 42 for topic "/camera/camera/depth/image_rect_raw/compressed"
+1767888527.4933255 [foxglove_bridge-6] [INFO] [1767888527.492404263] [foxglove_bridge]: Advertising new channel 43 for topic "/camera/camera/color/image_raw/compressed"
+1767888527.9963174 [foxglove_bridge-6] [INFO] [1767888527.995855302] [foxglove_bridge]: Advertising new channel 44 for topic "/nvblox_node/back_projected_depth/camera_depth_optical_frame"
