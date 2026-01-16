@@ -1,6 +1,20 @@
 
 # RC car autonomous control
 
+# F1 - Remote-ssh: Open configuration
+# wired - 192.168.86.42
+# wifi - 192.168.86.245
+
+# wifi off
+sudo nmcli radio wifi off
+# wifi on
+sudo nmcli radio wifi on
+# Check Wi-Fi status (look for "enabled" or "disabled")
+nmcli radio wifi
+
+# kill dead usb ownership?
+pkill -f "ros2 launch" 2>/dev/null; pkill -f realsense 2>/dev/null; pkill -f visual_slam 2>/dev/null; sleep 2; echo "Killed all"
+
 ### first time only - top level
 # Disable USB power saving
 sudo sh -c 'echo -1 > /sys/module/usbcore/parameters/autosuspend'
@@ -9,7 +23,15 @@ sudo nvpmodel -m 2
 sudo jetson_clocks
 
 
-##### docker starting commads
+## Don't do the following with realsense container - at least see if we work without
+sudo chmod -R 666 /dev/bus/usb
+sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/
+sudo udevadm control --reload-rules && sudo udevadm trigger
+# this was no power saving - hopefully not needed w/ container
+sudo bash -c 'echo -1 > /sys/module/usbcore/parameters/autosuspend'
+
+
+##### docker starting commands
 cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 ./run_dev.sh -d ${ISAAC_ROS_WS}
 
@@ -18,7 +40,7 @@ cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 #####
 source /opt/ros/humble/setup.bash
 source install/setup.bash
-# needed!!
+# needed!! 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/ros/humble/share/isaac_ros_gxf/gxf/lib/serialization
 sudo chmod 666 /dev/bus/usb/002/003
 sudo chgrp plugdev /dev/bus/usb/002/003
@@ -29,14 +51,18 @@ sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
 sudo udevadm control --reload-rules
 sudo udevadm trigger
 
-
+usbreset
 # Build Visual SLAM package 
 colcon build --packages-select isaac_ros_realsense_control  --symlink-install
 source install/setup.bash
 
-ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py run_foxglove:=True
+ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py  run_foxglove:=True
+
+ros2 launch isaac_ros_realsense_control realsense_d435i.launch
 
 
+
+ros2 launch isaac_ros_realsense_control realsense_basic.launch.py 
 
 ##########
 
@@ -108,7 +134,14 @@ Launch - note the-d flag
 
 
 
+## NO, we're back to using the realsense docker container - so no need for custom librealsense2
+
+
 Best practice: Build librealsense2 separately with its special arguments, then build the rest of your workspace normally.
+
+
+
+
 
 
 # for a colcon build - do librealsense special... 
@@ -116,9 +149,15 @@ Best practice: Build librealsense2 separately with its special arguments, then b
 colcon build --packages-ignore librealsense2 --parallel-workers 4
 
 # per Gemini - (RSUSB/Source method is the community-standard fix for Isaac ROS users.)
-# Clean and rebuild librealsense2 with correct version (2.57.5) and tools enabled
+# Clean and rebuild librealsense2 with correct version (2.55.1) and tools enabled
+# Note: Isaac ROS requires 2.55.1. Do not use 2.57.x as it causes USB disconnects.
+git fetch --all
+git checkout v2.55.1
+
+#  --parallel-workers 4
+# don't need graphical examples anymore, probably
 rm -rf build/librealsense2 install/librealsense2
-colcon build --packages-select librealsense2 --parallel-workers 4 \
+colcon build --packages-select librealsense2 \
   --cmake-args \
     -DFORCE_RSUSB_BACKEND=ON \
     -DBUILD_WITH_CUDA=ON \
@@ -149,8 +188,7 @@ ros2 run foxglove_bridge foxglove_bridge --ros-args \
 ros2 launch isaac_ros_realsense_control realsense_basic.launch.py
 
 # working on...
-ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py
- run_foxglove:=True
+ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py run_foxglove:=True
 
 
 ## ????
@@ -196,6 +234,7 @@ sudo chmod +666 /etc
 
 # moved back to apt install - until proven otherwise...
 # Clean and rebuild librealsense2 with correct version (2.57.5) and tools enabled
+# Clean and rebuild librealsense2 with correct version (2.55.1) and tools enabled
 rm -rf build/librealsense2 install/librealsense2
 colcon build --packages-select librealsense2 --parallel-workers 4 \
   --cmake-args \
@@ -204,6 +243,13 @@ colcon build --packages-select librealsense2 --parallel-workers 4 \
     -DCMAKE_BUILD_TYPE=release \
     -DBUILD_EXAMPLES=true \
     -DBUILD_GRAPHICAL_EXAMPLES=true
+
+## Downgrade realsense-ros to match librealsense 2.55.1
+# The latest ROS wrapper requires librealsense 2.56+, which causes issues on Jetson.
+# Ensure you are in the workspace root
+cd src/realsense-ros
+git checkout 4.55.1
+cd ../..
 
 ## Needed - though can probably just use 
 # colcon build --parallel-workers 4
@@ -384,4 +430,3 @@ sudo reboot
 
 
 # t.b.d.
-

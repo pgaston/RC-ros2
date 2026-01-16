@@ -85,7 +85,8 @@ RUN apt update && apt install -y \
     ros-humble-foxglove-bridge \
     ros-humble-foxglove-msgs \
     ros-humble-isaac-ros-jetson-stats \
-    ros-humble-image-transport-plugins
+    ros-humble-image-transport-plugins \
+    ros-humble-tf2-ros
 
     #     ros-humble-jetson-stats \
 

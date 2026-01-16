@@ -1,58 +1,1525 @@
-1767888520.9320190 [INFO] [launch]: All log files can be found below /home/admin/.ros/log/2026-01-08-11-08-40-929909-ubuntu-319432
-1767888520.9323573 [INFO] [launch]: Default logging verbosity is set to INFO
-1767888521.2640512 [INFO] [robot_state_publisher-1]: process started with pid [319434]
-1767888521.2646549 [INFO] [joint_state_publisher-2]: process started with pid [319436]
-1767888521.2649918 [INFO] [jtop-3]: process started with pid [319438]
-1767888521.2652302 [INFO] [realsense2_camera_node-4]: process started with pid [319440]
-1767888521.2654626 [INFO] [republish-5]: process started with pid [319442]
-1767888521.2659128 [INFO] [foxglove_bridge-6]: process started with pid [319444]
-1767888521.3643069 [foxglove_bridge-6] [INFO] [1767888521.363526443] [foxglove_bridge]: Starting foxglove_bridge (humble, 3.2.2@)
-1767888521.3726766 [foxglove_bridge-6] [INFO] [1767888521.372093299] [foxglove_bridge]: Server listening on port 8765
-1767888521.3833272 [foxglove_bridge-6] [INFO] [1767888521.382725778] [foxglove_bridge]: Advertising new channel 1 for topic "/tf_static"
-1767888521.3847606 [foxglove_bridge-6] [INFO] [1767888521.384482299] [foxglove_bridge]: Advertising new channel 2 for topic "/tf"
-1767888521.9430008 [foxglove_bridge-6] [INFO] [1767888521.942081952] [foxglove_bridge]: Advertising new channel 3 for topic "/diagnostics"
-1767888521.9453058 [foxglove_bridge-6] [INFO] [1767888521.942904098] [foxglove_bridge]: Advertising new channel 4 for topic "/camera/camera/infra1/image_rect_raw/compressed"
-1767888521.9906819 [joint_state_publisher-2] [INFO] [1767888521.986716819] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
-1767888524.7026110 [INFO] [component_container_mt-7]: process started with pid [320961]
-1767888525.2810163 [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/visual_slam_node' in container '/isaac_ros_container'
-1767888525.3459346 [foxglove_bridge-6] [INFO] [1767888525.345265544] [foxglove_bridge]: Advertising new channel 5 for topic "/visual_slam/vis/slam_odometry"
-1767888525.3472519 [foxglove_bridge-6] [INFO] [1767888525.345941316] [foxglove_bridge]: Advertising new channel 6 for topic "/visual_slam/vis/pose_graph_nodes"
-1767888525.3525453 [foxglove_bridge-6] [INFO] [1767888525.352067749] [foxglove_bridge]: Advertising new channel 7 for topic "/visual_slam/vis/pose_graph_edges2"
-1767888525.3545194 [foxglove_bridge-6] [INFO] [1767888525.352200459] [foxglove_bridge]: Advertising new channel 8 for topic "/visual_slam/vis/pose_graph_edges"
-1767888525.3563325 [foxglove_bridge-6] [INFO] [1767888525.353160691] [foxglove_bridge]: Advertising new channel 9 for topic "/visual_slam/vis/observations_cloud"
-1767888525.3568175 [foxglove_bridge-6] [INFO] [1767888525.353202037] [foxglove_bridge]: Advertising new channel 10 for topic "/visual_slam/vis/localizer_observations_cloud"
-1767888525.3576605 [foxglove_bridge-6] [INFO] [1767888525.353232118] [foxglove_bridge]: Advertising new channel 11 for topic "/visual_slam/vis/localizer_map_cloud"
-1767888525.3582859 [foxglove_bridge-6] [INFO] [1767888525.353252535] [foxglove_bridge]: Advertising new channel 12 for topic "/visual_slam/vis/localizer_loop_closure_cloud"
-1767888525.3623626 [foxglove_bridge-6] [INFO] [1767888525.354406792] [foxglove_bridge]: Advertising new channel 13 for topic "/visual_slam/vis/localizer"
-1767888525.3666191 [foxglove_bridge-6] [INFO] [1767888525.354465674] [foxglove_bridge]: Advertising new channel 14 for topic "/visual_slam/vis/velocity"
-1767888525.3674908 [foxglove_bridge-6] [INFO] [1767888525.354503532] [foxglove_bridge]: Advertising new channel 15 for topic "/visual_slam/vis/gravity"
-1767888525.3680453 [foxglove_bridge-6] [INFO] [1767888525.354999489] [foxglove_bridge]: Advertising new channel 16 for topic "/visual_slam/trigger_hint"
-1767888525.3695703 [foxglove_bridge-6] [INFO] [1767888525.355029634] [foxglove_bridge]: Advertising new channel 17 for topic "/visual_slam/tracking/vo_pose_covariance"
-1767888525.3710315 [foxglove_bridge-6] [INFO] [1767888525.355477749] [foxglove_bridge]: Advertising new channel 18 for topic "/visual_slam/tracking/vo_pose"
-1767888525.3738685 [foxglove_bridge-6] [INFO] [1767888525.356314392] [foxglove_bridge]: Advertising new channel 19 for topic "/visual_slam/tracking/vo_path"
-1767888525.3759942 [foxglove_bridge-6] [INFO] [1767888525.356346809] [foxglove_bridge]: Advertising new channel 20 for topic "/visual_slam/tracking/slam_path"
-1767888525.3766069 [foxglove_bridge-6] [INFO] [1767888525.356367098] [foxglove_bridge]: Advertising new channel 21 for topic "/visual_slam/tracking/odometry"
-1767888525.3772256 [foxglove_bridge-6] [INFO] [1767888525.356868399] [foxglove_bridge]: Advertising new channel 22 for topic "/visual_slam/status"
-1767888525.3777616 [foxglove_bridge-6] [INFO] [1767888525.356899248] [foxglove_bridge]: Advertising new channel 23 for topic "/visual_slam/initial_pose"
-1767888525.3782704 [foxglove_bridge-6] [INFO] [1767888525.356926322] [foxglove_bridge]: Advertising new channel 24 for topic "/visual_slam/vis/loop_closure_cloud"
-1767888525.3830593 [foxglove_bridge-6] [INFO] [1767888525.356947250] [foxglove_bridge]: Advertising new channel 25 for topic "/visual_slam/vis/landmarks_cloud"
-1767888525.7130797 [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/nvblox_node' in container '/isaac_ros_container'
-1767888525.9518528 [foxglove_bridge-6] [INFO] [1767888525.951100629] [foxglove_bridge]: Advertising new channel 26 for topic "/nvblox_node/workspace_bounds"
-1767888525.9529788 [foxglove_bridge-6] [INFO] [1767888525.951256188] [foxglove_bridge]: Advertising new channel 27 for topic "/nvblox_node/tsdf_layer_marker"
-1767888525.9544160 [foxglove_bridge-6] [INFO] [1767888525.952744058] [foxglove_bridge]: Advertising new channel 28 for topic "/nvblox_node/static_occupancy_grid"
-1767888525.9549251 [foxglove_bridge-6] [INFO] [1767888525.953440439] [foxglove_bridge]: Advertising new channel 29 for topic "/nvblox_node/static_map_slice"
-1767888525.9552569 [foxglove_bridge-6] [INFO] [1767888525.953537371] [foxglove_bridge]: Advertising new channel 30 for topic "/nvblox_node/static_esdf_pointcloud"
-1767888525.9554327 [foxglove_bridge-6] [INFO] [1767888525.953589374] [foxglove_bridge]: Advertising new channel 31 for topic "/nvblox_node/shapes_to_clear"
-1767888525.9559228 [foxglove_bridge-6] [INFO] [1767888525.953618687] [foxglove_bridge]: Advertising new channel 32 for topic "/nvblox_node/pessimistic_static_map_slice"
-1767888525.9562359 [foxglove_bridge-6] [INFO] [1767888525.953639424] [foxglove_bridge]: Advertising new channel 33 for topic "/nvblox_node/pessimistic_static_esdf_pointcloud"
-1767888525.9576824 [foxglove_bridge-6] [INFO] [1767888525.956578651] [foxglove_bridge]: Advertising new channel 34 for topic "/nvblox_node/mesh"
-1767888525.9590909 [foxglove_bridge-6] [INFO] [1767888525.957659881] [foxglove_bridge]: Advertising new channel 35 for topic "/nvblox_node/tsdf_layer"
-1767888525.9593310 [foxglove_bridge-6] [INFO] [1767888525.957735916] [foxglove_bridge]: Advertising new channel 36 for topic "/nvblox_node/esdf_slice_bounds"
-1767888525.9609406 [foxglove_bridge-6] [INFO] [1767888525.957770381] [foxglove_bridge]: Advertising new channel 37 for topic "/nvblox_node/dynamic_occupancy_grid"
-1767888525.9611239 [foxglove_bridge-6] [INFO] [1767888525.957792494] [foxglove_bridge]: Advertising new channel 38 for topic "/nvblox_node/combined_occupancy_grid"
-1767888525.9612398 [foxglove_bridge-6] [INFO] [1767888525.957818543] [foxglove_bridge]: Advertising new channel 39 for topic "/nvblox_node/color_layer_marker"
-1767888525.9613724 [foxglove_bridge-6] [INFO] [1767888525.957839920] [foxglove_bridge]: Advertising new channel 40 for topic "/nvblox_node/color_layer"
-1767888527.4927897 [foxglove_bridge-6] [INFO] [1767888527.492254785] [foxglove_bridge]: Advertising new channel 41 for topic "/camera/camera/infra2/image_rect_raw/compressed"
-1767888527.4931195 [foxglove_bridge-6] [INFO] [1767888527.492378726] [foxglove_bridge]: Advertising new channel 42 for topic "/camera/camera/depth/image_rect_raw/compressed"
-1767888527.4933255 [foxglove_bridge-6] [INFO] [1767888527.492404263] [foxglove_bridge]: Advertising new channel 43 for topic "/camera/camera/color/image_raw/compressed"
-1767888527.9963174 [foxglove_bridge-6] [INFO] [1767888527.995855302] [foxglove_bridge]: Advertising new channel 44 for topic "/nvblox_node/back_projected_depth/camera_depth_optical_frame"
+1768486265.4731698 [INFO] [launch]: All log files can be found below /home/admin/.ros/log/2026-01-15-09-11-05-471219-ubuntu-4098
+1768486265.4734561 [INFO] [launch]: Default logging verbosity is set to INFO
+1768486265.7999537 [INFO] [robot_state_publisher-1]: process started with pid [4118]
+1768486265.8003950 [ERROR] [robot_state_publisher-1]: process has died [pid 4118, exit code 127, cmd '/opt/ros/humble/lib/robot_state_publisher/robot_state_publisher --ros-args --log-level DEBUG --ros-args -r __node:=robot_state_publisher --params-file /tmp/launch_params_95r51o3j'].
+1768486265.8006623 [INFO] [static_transform_publisher-2]: process started with pid [4120]
+1768486265.8008554 [ERROR] [static_transform_publisher-2]: process has died [pid 4120, exit code 127, cmd '/opt/ros/humble/lib/tf2_ros/static_transform_publisher --x 0.1 --y 0 --z 0.1 --yaw 0 --pitch 0 --roll 0 --frame-id base_link --child-frame-id camera_link --ros-args --log-level DEBUG --ros-args -r __node:=base_to_camera_tf'].
+1768486265.8010511 [INFO] [joint_state_publisher-3]: process started with pid [4122]
+1768486265.8012164 [INFO] [jtop-4]: process started with pid [4124]
+1768486265.8013699 [INFO] [realsense2_camera_node-5]: process started with pid [4126]
+1768486265.8015618 [INFO] [republish-6]: process started with pid [4128]
+1768486265.8037837 [static_transform_publisher-2] /opt/ros/humble/lib/tf2_ros/static_transform_publisher: error while loading shared libraries: libstatic_transform_broadcaster_node.so: cannot open shared object file: No such file or directory
+1768486265.8293779 [republish-6] [DEBUG] [1768486265.828835464] [rclcpp]: signal handler installed
+1768486265.8302252 [republish-6] [DEBUG] [1768486265.828869609] [rclcpp]: deferred_signal_handler(): waiting for SIGINT/SIGTERM or uninstall
+1768486265.8305247 [republish-6] [DEBUG] [1768486265.829101808] [rcl]: Initializing node 'image_republisher' in namespace ''
+1768486265.8307753 [republish-6] [DEBUG] [1768486265.829145393] [rcl]: Using domain ID of '0'
+1768486265.8467078 [republish-6] [DEBUG] [1768486265.846240171] [rcl]: Initializing publisher for topic name '/rosout'
+1768486265.8470814 [republish-6] [DEBUG] [1768486265.846316686] [rcl]: Expanded and remapped topic name '/rosout'
+1768486265.8502822 [republish-6] [DEBUG] [1768486265.849853757] [rcl]: Publisher initialized
+1768486265.8506017 [republish-6] [DEBUG] [1768486265.849906463] [rcl]: Node initialized
+1768486265.8515854 [republish-6] [DEBUG] [1768486265.851283658] [rcl]: Initializing service for service name 'image_republisher/get_parameters'
+1768486265.8519430 [republish-6] [DEBUG] [1768486265.851320971] [rcl]: Expanded and remapped service name '/image_republisher/get_parameters'
+1768486265.8539503 [republish-6] [DEBUG] [1768486265.853586739] [rmw_fastrtps_cpp]: ************ Service Details *********
+1768486265.8542678 [republish-6] [DEBUG] [1768486265.853625332] [rmw_fastrtps_cpp]: Sub Topic rq/image_republisher/get_parametersRequest
+1768486265.8604310 [republish-6] [DEBUG] [1768486265.853633300] [rmw_fastrtps_cpp]: Pub Topic rr/image_republisher/get_parametersReply
+1768486265.8606448 [republish-6] [DEBUG] [1768486265.853638068] [rmw_fastrtps_cpp]: ***********
+1768486265.8613033 [republish-6] [DEBUG] [1768486265.853750040] [rcl]: Service initialized
+1768486265.8614740 [republish-6] [DEBUG] [1768486265.853804153] [rcl]: Initializing service for service name 'image_republisher/get_parameter_types'
+1768486265.8615923 [republish-6] [DEBUG] [1768486265.853819898] [rcl]: Expanded and remapped service name '/image_republisher/get_parameter_types'
+1768486265.8616962 [republish-6] [DEBUG] [1768486265.854232647] [rmw_fastrtps_cpp]: ************ Service Details *********
+1768486265.8617945 [republish-6] [DEBUG] [1768486265.854251464] [rmw_fastrtps_cpp]: Sub Topic rq/image_republisher/get_parameter_typesRequest
+1768486265.8618925 [republish-6] [DEBUG] [1768486265.854256936] [rmw_fastrtps_cpp]: Pub Topic rr/image_republisher/get_parameter_typesReply
+1768486265.8619862 [republish-6] [DEBUG] [1768486265.854261512] [rmw_fastrtps_cpp]: ***********
+1768486265.8620791 [republish-6] [DEBUG] [1768486265.854312201] [rcl]: Service initialized
+1768486265.8621986 [republish-6] [DEBUG] [1768486265.854337546] [rcl]: Initializing service for service name 'image_republisher/set_parameters'
+1768486265.8622987 [republish-6] [DEBUG] [1768486265.854352427] [rcl]: Expanded and remapped service name '/image_republisher/set_parameters'
+1768486265.8623927 [republish-6] [DEBUG] [1768486265.854757271] [rmw_fastrtps_cpp]: ************ Service Details *********
+1768486265.8624837 [republish-6] [DEBUG] [1768486265.854775832] [rmw_fastrtps_cpp]: Sub Topic rq/image_republisher/set_parametersRequest
+1768486265.8632085 [republish-6] [DEBUG] [1768486265.854782520] [rmw_fastrtps_cpp]: Pub Topic rr/image_republisher/set_parametersReply
+1768486265.8634400 [republish-6] [DEBUG] [1768486265.854786904] [rmw_fastrtps_cpp]: ***********
+1768486265.8636160 [republish-6] [DEBUG] [1768486265.854823418] [rcl]: Service initialized
+1768486265.8637605 [republish-6] [DEBUG] [1768486265.854909180] [rcl]: Initializing service for service name 'image_republisher/set_parameters_atomically'
+1768486265.8639009 [republish-6] [DEBUG] [1768486265.854924669] [rcl]: Expanded and remapped service name '/image_republisher/set_parameters_atomically'
+1768486265.8640630 [republish-6] [DEBUG] [1768486265.855363563] [rmw_fastrtps_cpp]: ************ Service Details *********
+1768486265.8642070 [republish-6] [DEBUG] [1768486265.855379691] [rmw_fastrtps_cpp]: Sub Topic rq/image_republisher/set_parameters_atomicallyRequest
+1768486265.8643434 [republish-6] [DEBUG] [1768486265.855385003] [rmw_fastrtps_cpp]: Pub Topic rr/image_republisher/set_parameters_atomicallyReply
+1768486265.8644762 [republish-6] [DEBUG] [1768486265.855389067] [rmw_fastrtps_cpp]: ***********
+1768486265.8646076 [republish-6] [DEBUG] [1768486265.855425741] [rcl]: Service initialized
+1768486265.8647470 [republish-6] [DEBUG] [1768486265.855445805] [rcl]: Initializing service for service name 'image_republisher/describe_parameters'
+1768486265.8648961 [republish-6] [DEBUG] [1768486265.855457454] [rcl]: Expanded and remapped service name '/image_republisher/describe_parameters'
+1768486265.8650355 [republish-6] [DEBUG] [1768486265.855849178] [rmw_fastrtps_cpp]: ************ Service Details *********
+1768486265.8651762 [republish-6] [DEBUG] [1768486265.855865466] [rmw_fastrtps_cpp]: Sub Topic rq/image_republisher/describe_parametersRequest
+1768486265.8653150 [republish-6] [DEBUG] [1768486265.855871035] [rmw_fastrtps_cpp]: Pub Topic rr/image_republisher/describe_parametersReply
+1768486265.8654490 [republish-6] [DEBUG] [1768486265.855876027] [rmw_fastrtps_cpp]: ***********
+1768486265.8655994 [republish-6] [DEBUG] [1768486265.855919836] [rcl]: Service initialized
+1768486265.8657341 [republish-6] [DEBUG] [1768486265.855939261] [rcl]: Initializing service for service name 'image_republisher/list_parameters'
+1768486265.8659132 [republish-6] [DEBUG] [1768486265.855951325] [rcl]: Expanded and remapped service name '/image_republisher/list_parameters'
+1768486265.8667061 [republish-6] [DEBUG] [1768486265.856436844] [rmw_fastrtps_cpp]: ************ Service Details *********
+1768486265.8669307 [republish-6] [DEBUG] [1768486265.856453229] [rmw_fastrtps_cpp]: Sub Topic rq/image_republisher/list_parametersRequest
+1768486265.8676710 [republish-6] [DEBUG] [1768486265.856458253] [rmw_fastrtps_cpp]: Pub Topic rr/image_republisher/list_parametersReply
+1768486265.8678520 [republish-6] [DEBUG] [1768486265.856462573] [rmw_fastrtps_cpp]: ***********
+1768486265.8680036 [republish-6] [DEBUG] [1768486265.856502094] [rcl]: Service initialized
+1768486265.8682003 [republish-6] [DEBUG] [1768486265.856535375] [rcl]: Initializing publisher for topic name '/parameter_events'
+1768486265.8692403 [republish-6] [DEBUG] [1768486265.856549424] [rcl]: Expanded and remapped topic name '/parameter_events'
+1768486265.8696487 [republish-6] [DEBUG] [1768486265.858808023] [rcl]: Publisher initialized
+1768486265.8700259 [republish-6] [DEBUG] [1768486265.859150402] [rcl]: Initializing subscription for topic name '/parameter_events'
+1768486265.8702385 [republish-6] [DEBUG] [1768486265.859173602] [rcl]: Expanded and remapped topic name '/parameter_events'
+1768486265.8704286 [republish-6] [DEBUG] [1768486265.859614448] [rcl]: Subscription initialized
+1768486265.8706048 [republish-6] [DEBUG] [1768486265.859995580] [pluginlib.ClassLoader]: Creating ClassLoader, base = image_transport::PublisherPlugin, address = 0xffffef31b548
+1768486265.8716941 [republish-6] [DEBUG] [1768486265.861461899] [pluginlib.ClassLoader]: Entering determineAvailableClasses()...
+1768486265.8719418 [republish-6] [DEBUG] [1768486265.861482219] [pluginlib.ClassLoader]: Processing xml file /opt/ros/humble/share/compressed_depth_image_transport/compressed_depth_plugins.xml...
+1768486265.8725798 [republish-6] [DEBUG] [1768486265.861616911] [pluginlib.ClassLoader]: XML file specifies lookup name (i.e. magic name) = image_transport/compressedDepth_pub.
+1768486265.8729789 [republish-6] [DEBUG] [1768486265.861632560] [pluginlib.ClassLoader]: XML file specifies lookup name (i.e. magic name) = image_transport/compressedDepth_sub.
+1768486265.8736861 [republish-6] [DEBUG] [1768486265.861639120] [pluginlib.ClassLoader]: Processing xml file /opt/ros/humble/share/compressed_image_transport/compressed_plugins.xml...
+1768486265.8738816 [republish-6] [DEBUG] [1768486265.861729491] [pluginlib.ClassLoader]: XML file specifies lookup name (i.e. magic name) = image_transport/compressed_pub.
+1768486265.8740616 [republish-6] [DEBUG] [1768486265.861741939] [pluginlib.ClassLoader]: XML file specifies lookup name (i.e. magic name) = image_transport/compressed_sub.
+1768486265.8742297 [republish-6] [DEBUG] [1768486265.861747828] [pluginlib.ClassLoader]: Processing xml file /opt/ros/humble/share/image_transport/default_plugins.xml...
+1768486265.8750730 [republish-6] [DEBUG] [1768486265.861833014] [pluginlib.ClassLoader]: XML file specifies lookup name (i.e. magic name) = image_transport/raw_pub.
+1768486265.8752911 [republish-6] [DEBUG] [1768486265.861844663] [pluginlib.ClassLoader]: XML file specifies lookup name (i.e. magic name) = image_transport/raw_sub.
+1768486265.8759758 [republish-6] [DEBUG] [1768486265.861849943] [pluginlib.ClassLoader]: Processing xml file /opt/ros/humble/share/theora_image_transport/theora_plugins.xml...
+1768486265.8762643 [republish-6] [DEBUG] [1768486265.861943674] [pluginlib.ClassLoader]: XML file specifies lookup name (i.e. magic name) = image_transport/theora_pub.
+1768486265.8766513 [republish-6] [DEBUG] [1768486265.861955546] [pluginlib.ClassLoader]: XML file specifies lookup name (i.e. magic name) = image_transport/theora_sub.
+1768486265.8770480 [republish-6] [DEBUG] [1768486265.861961274] [pluginlib.ClassLoader]: Exiting determineAvailableClasses()...
+1768486265.8774145 [republish-6] [DEBUG] [1768486265.861966682] [pluginlib.ClassLoader]: Finished constructring ClassLoader, base = image_transport::PublisherPlugin, address = 0xffffef31b548
+1768486265.8777628 [republish-6] [DEBUG] [1768486265.861972731] [pluginlib.ClassLoader]: Attempting to create managed (unique) instance for class image_transport/compressed_pub.
+1768486265.8781164 [republish-6] [DEBUG] [1768486265.861979387] [pluginlib.ClassLoader]: Class image_transport/compressed_pub maps to library compressed_image_transport in classes_available_.
+1768486265.8784728 [republish-6] [DEBUG] [1768486265.862310629] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/libcompressed_image_transport.so'
+1768486265.8788152 [republish-6] [DEBUG] [1768486265.862321318] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/liblibcompressed_image_transport.so'
+1768486265.8791497 [republish-6] [DEBUG] [1768486265.862325894] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/libcompressed_image_transport.so'
+1768486265.8797879 [republish-6] [DEBUG] [1768486265.862329958] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/liblibcompressed_image_transport.so'
+1768486265.8799694 [republish-6] [DEBUG] [1768486265.862333926] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/libcompressed_image_transportd.so'
+1768486265.8815374 [republish-6] [DEBUG] [1768486265.862376199] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/liblibcompressed_image_transportd.so'
+1768486265.8818252 [republish-6] [DEBUG] [1768486265.862382631] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/libcompressed_image_transportd.so'
+1768486265.8825009 [republish-6] [DEBUG] [1768486265.862386632] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/liblibcompressed_image_transportd.so'
+1768486265.8829176 [republish-6] [DEBUG] [1768486265.862390728] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/libcompressed_image_transport.so'
+1768486265.8833070 [republish-6] [DEBUG] [1768486265.862394792] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/liblibcompressed_image_transport.so'
+1768486265.8836665 [republish-6] [DEBUG] [1768486265.862398632] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/libcompressed_image_transport.so'
+1768486265.8840528 [republish-6] [DEBUG] [1768486265.862404200] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/liblibcompressed_image_transport.so'
+1768486265.8848083 [republish-6] [DEBUG] [1768486265.862408104] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/libcompressed_image_transportd.so'
+1768486265.8851576 [republish-6] [DEBUG] [1768486265.862411944] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/liblibcompressed_image_transportd.so'
+1768486265.8857367 [republish-6] [DEBUG] [1768486265.862415817] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/libcompressed_image_transportd.so'
+1768486265.8859246 [republish-6] [DEBUG] [1768486265.862419689] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/liblibcompressed_image_transportd.so'
+1768486265.8861132 [republish-6] [DEBUG] [1768486265.862423529] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/libcompressed_image_transport.so'
+1768486265.8862865 [republish-6] [DEBUG] [1768486265.862427401] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/liblibcompressed_image_transport.so'
+1768486265.8873453 [republish-6] [DEBUG] [1768486265.862431465] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/libcompressed_image_transport.so'
+1768486265.8875961 [republish-6] [DEBUG] [1768486265.862435305] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/liblibcompressed_image_transport.so'
+1768486265.8879652 [republish-6] [DEBUG] [1768486265.862439145] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/libcompressed_image_transportd.so'
+1768486265.8882186 [republish-6] [DEBUG] [1768486265.862443017] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/liblibcompressed_image_transportd.so'
+1768486265.8885932 [republish-6] [DEBUG] [1768486265.862446890] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/libcompressed_image_transportd.so'
+1768486265.8889556 [republish-6] [DEBUG] [1768486265.862450826] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/liblibcompressed_image_transportd.so'
+1768486265.8891551 [republish-6] [DEBUG] [1768486265.862454634] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/compressed_image_transport/libcompressed_image_transport.so'
+1768486265.8893902 [republish-6] [DEBUG] [1768486265.862458922] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/compressed_image_transport/liblibcompressed_image_transport.so'
+1768486265.8895857 [republish-6] [DEBUG] [1768486265.862462954] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/compressed_image_transport/libcompressed_image_transport.so'
+1768486265.8897679 [republish-6] [DEBUG] [1768486265.862467018] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/compressed_image_transport/liblibcompressed_image_transport.so'
+1768486265.8899364 [republish-6] [DEBUG] [1768486265.862470890] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/compressed_image_transport/libcompressed_image_transportd.so'
+1768486265.8901143 [republish-6] [DEBUG] [1768486265.862485067] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/compressed_image_transport/liblibcompressed_image_transportd.so'
+1768486265.8903029 [republish-6] [DEBUG] [1768486265.862490475] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/compressed_image_transport/libcompressed_image_transportd.so'
+1768486265.8904953 [republish-6] [DEBUG] [1768486265.862494347] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib/compressed_image_transport/liblibcompressed_image_transportd.so'
+1768486265.8906786 [republish-6] [DEBUG] [1768486265.862498443] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/compressed_image_transport/libcompressed_image_transport.so'
+1768486265.8908567 [republish-6] [DEBUG] [1768486265.862502283] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/compressed_image_transport/liblibcompressed_image_transport.so'
+1768486265.8910317 [republish-6] [DEBUG] [1768486265.862507051] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/compressed_image_transport/libcompressed_image_transport.so'
+1768486265.8911963 [republish-6] [DEBUG] [1768486265.862510924] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/compressed_image_transport/liblibcompressed_image_transport.so'
+1768486265.8913591 [republish-6] [DEBUG] [1768486265.862514860] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/compressed_image_transport/libcompressed_image_transportd.so'
+1768486265.8915131 [republish-6] [DEBUG] [1768486265.862518700] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/compressed_image_transport/liblibcompressed_image_transportd.so'
+1768486265.8916829 [republish-6] [DEBUG] [1768486265.862522540] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/compressed_image_transport/libcompressed_image_transportd.so'
+1768486265.8918531 [republish-6] [DEBUG] [1768486265.862526380] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/lib64/compressed_image_transport/liblibcompressed_image_transportd.so'
+1768486265.8920708 [republish-6] [DEBUG] [1768486265.862530444] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/compressed_image_transport/libcompressed_image_transport.so'
+1768486265.8922527 [republish-6] [DEBUG] [1768486265.862534508] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/compressed_image_transport/liblibcompressed_image_transport.so'
+1768486265.8924406 [republish-6] [DEBUG] [1768486265.862538604] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/compressed_image_transport/libcompressed_image_transport.so'
+1768486265.8926697 [republish-6] [DEBUG] [1768486265.862542637] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/compressed_image_transport/liblibcompressed_image_transport.so'
+1768486265.8929074 [republish-6] [DEBUG] [1768486265.862546733] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/compressed_image_transport/libcompressed_image_transportd.so'
+1768486265.8931324 [republish-6] [DEBUG] [1768486265.862550797] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/compressed_image_transport/liblibcompressed_image_transportd.so'
+1768486265.8933520 [republish-6] [DEBUG] [1768486265.862554701] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/compressed_image_transport/libcompressed_image_transportd.so'
+1768486265.8935721 [republish-6] [DEBUG] [1768486265.862558605] [pluginlib.ClassLoader]: [search path for 'compressed_image_transport']: '/opt/ros/humble/bin/compressed_image_transport/liblibcompressed_image_transportd.so'
+1768486265.8937998 [republish-6] [DEBUG] [1768486265.862563245] [pluginlib.ClassLoader]: Iterating through all possible paths where compressed_image_transport could be located...
+1768486265.8940225 [republish-6] [DEBUG] [1768486265.862567725] [pluginlib.ClassLoader]: Checking path /opt/ros/humble/lib/libcompressed_image_transport.so 
+1768486265.8942375 [republish-6] [DEBUG] [1768486265.862629199] [pluginlib.ClassLoader]: Library compressed_image_transport found at explicit path /opt/ros/humble/lib/libcompressed_image_transport.so.
+1768486266.0214124 [republish-6] [DEBUG] [1768486266.020882180] [pluginlib.ClassLoader]: image_transport/compressed_pub maps to real class type compressed_image_transport::CompressedPublisher
+1768486266.0228562 [republish-6] [DEBUG] [1768486266.021034953] [pluginlib.ClassLoader]: std::unique_ptr to object of real type compressed_image_transport::CompressedPublisher created.
+1768486266.0234635 [republish-6] [DEBUG] [1768486266.021083275] [image_republisher]: getTopicToAdvertise: /out/compressed
+1768486266.0244992 [republish-6] [DEBUG] [1768486266.021284913] [rcl]: Initializing publisher for topic name '/out/compressed'
+1768486266.0251119 [republish-6] [DEBUG] [1768486266.021312114] [rcl]: Expanded and remapped topic name '/camera/infra1/image_rect_raw/compressed'
+1768486266.0324583 [republish-6] [DEBUG] [1768486266.032028803] [rcl]: Publisher initialized
+1768486266.0336952 [republish-6] [DEBUG] [1768486266.033494161] [pluginlib.ClassLoader]: Attempting to create managed (unique) instance for class image_transport/raw_sub.
+1768486266.0350392 [republish-6] [DEBUG] [1768486266.034863068] [pluginlib.ClassLoader]: Class image_transport/raw_sub maps to library image_transport_plugins in classes_available_.
+1768486266.0361423 [republish-6] [DEBUG] [1768486266.035949695] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/libimage_transport_plugins.so'
+1768486266.0376575 [republish-6] [DEBUG] [1768486266.037491823] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/liblibimage_transport_plugins.so'
+1768486266.0381963 [republish-6] [DEBUG] [1768486266.038033920] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/libimage_transport_plugins.so'
+1768486266.0387573 [republish-6] [DEBUG] [1768486266.038601650] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/liblibimage_transport_plugins.so'
+1768486266.0392737 [republish-6] [DEBUG] [1768486266.039124547] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/libimage_transport_pluginsd.so'
+1768486266.0398281 [republish-6] [DEBUG] [1768486266.039671412] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/liblibimage_transport_pluginsd.so'
+1768486266.0403619 [republish-6] [DEBUG] [1768486266.040213061] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/libimage_transport_pluginsd.so'
+1768486266.0409634 [republish-6] [DEBUG] [1768486266.040795255] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/liblibimage_transport_pluginsd.so'
+1768486266.0417323 [republish-6] [DEBUG] [1768486266.041560015] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/libimage_transport_plugins.so'
+1768486266.0422139 [republish-6] [DEBUG] [1768486266.042068767] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/liblibimage_transport_plugins.so'
+1768486266.0426741 [republish-6] [DEBUG] [1768486266.042520941] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/libimage_transport_plugins.so'
+1768486266.0431278 [republish-6] [DEBUG] [1768486266.042975868] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/liblibimage_transport_plugins.so'
+1768486266.0435822 [republish-6] [DEBUG] [1768486266.043428746] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/libimage_transport_pluginsd.so'
+1768486266.0440810 [republish-6] [DEBUG] [1768486266.043882072] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/liblibimage_transport_pluginsd.so'
+1768486266.0445962 [republish-6] [DEBUG] [1768486266.044399721] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/libimage_transport_pluginsd.so'
+1768486266.0450482 [republish-6] [DEBUG] [1768486266.044895192] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/liblibimage_transport_pluginsd.so'
+1768486266.0455999 [republish-6] [DEBUG] [1768486266.045445130] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/libimage_transport_plugins.so'
+1768486266.0467715 [republish-6] [DEBUG] [1768486266.046010427] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/liblibimage_transport_plugins.so'
+1768486266.0470502 [republish-6] [DEBUG] [1768486266.046029372] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/libimage_transport_plugins.so'
+1768486266.0472631 [republish-6] [DEBUG] [1768486266.046038812] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/liblibimage_transport_plugins.so'
+1768486266.0474596 [republish-6] [DEBUG] [1768486266.046044444] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/libimage_transport_pluginsd.so'
+1768486266.0476587 [republish-6] [DEBUG] [1768486266.046084798] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/liblibimage_transport_pluginsd.so'
+1768486266.0478518 [republish-6] [DEBUG] [1768486266.046091838] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/libimage_transport_pluginsd.so'
+1768486266.0480647 [republish-6] [DEBUG] [1768486266.046096126] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/liblibimage_transport_pluginsd.so'
+1768486266.0482857 [republish-6] [DEBUG] [1768486266.046100190] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/image_transport/libimage_transport_plugins.so'
+1768486266.0485702 [republish-6] [DEBUG] [1768486266.046104638] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/image_transport/liblibimage_transport_plugins.so'
+1768486266.0487959 [republish-6] [DEBUG] [1768486266.046109150] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/image_transport/libimage_transport_plugins.so'
+1768486266.0490642 [republish-6] [DEBUG] [1768486266.046113343] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/image_transport/liblibimage_transport_plugins.so'
+1768486266.0492849 [republish-6] [DEBUG] [1768486266.046117343] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/image_transport/libimage_transport_pluginsd.so'
+1768486266.0495617 [republish-6] [DEBUG] [1768486266.046121535] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/image_transport/liblibimage_transport_pluginsd.so'
+1768486266.0497518 [republish-6] [DEBUG] [1768486266.046125695] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/image_transport/libimage_transport_pluginsd.so'
+1768486266.0499504 [republish-6] [DEBUG] [1768486266.046129727] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib/image_transport/liblibimage_transport_pluginsd.so'
+1768486266.0502486 [republish-6] [DEBUG] [1768486266.046133887] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/image_transport/libimage_transport_plugins.so'
+1768486266.0504670 [republish-6] [DEBUG] [1768486266.046137887] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/image_transport/liblibimage_transport_plugins.so'
+1768486266.0507393 [republish-6] [DEBUG] [1768486266.046142111] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/image_transport/libimage_transport_plugins.so'
+1768486266.0509241 [republish-6] [DEBUG] [1768486266.046146080] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/image_transport/liblibimage_transport_plugins.so'
+1768486266.0511191 [republish-6] [DEBUG] [1768486266.046150240] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/image_transport/libimage_transport_pluginsd.so'
+1768486266.0513575 [republish-6] [DEBUG] [1768486266.046154272] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/image_transport/liblibimage_transport_pluginsd.so'
+1768486266.0517302 [republish-6] [DEBUG] [1768486266.046158304] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/image_transport/libimage_transport_pluginsd.so'
+1768486266.0520408 [republish-6] [DEBUG] [1768486266.046162272] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/lib64/image_transport/liblibimage_transport_pluginsd.so'
+1768486266.0521636 [republish-6] [DEBUG] [1768486266.046166240] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/image_transport/libimage_transport_plugins.so'
+1768486266.0527024 [republish-6] [DEBUG] [1768486266.046170240] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/image_transport/liblibimage_transport_plugins.so'
+1768486266.0528483 [republish-6] [DEBUG] [1768486266.046176321] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/image_transport/libimage_transport_plugins.so'
+1768486266.0551631 [republish-6] [DEBUG] [1768486266.046180545] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/image_transport/liblibimage_transport_plugins.so'
+1768486266.0603845 [republish-6] [DEBUG] [1768486266.046184545] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/image_transport/libimage_transport_pluginsd.so'
+1768486266.0605967 [republish-6] [DEBUG] [1768486266.046200257] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/image_transport/liblibimage_transport_pluginsd.so'
+1768486266.0608604 [republish-6] [DEBUG] [1768486266.046205953] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/image_transport/libimage_transport_pluginsd.so'
+1768486266.0611017 [republish-6] [DEBUG] [1768486266.046210146] [pluginlib.ClassLoader]: [search path for 'image_transport_plugins']: '/opt/ros/humble/bin/image_transport/liblibimage_transport_pluginsd.so'
+1768486266.0613313 [republish-6] [DEBUG] [1768486266.046217666] [pluginlib.ClassLoader]: Iterating through all possible paths where image_transport_plugins could be located...
+1768486266.0615954 [republish-6] [DEBUG] [1768486266.046222722] [pluginlib.ClassLoader]: Checking path /opt/ros/humble/lib/libimage_transport_plugins.so 
+1768486266.0618193 [republish-6] [DEBUG] [1768486266.046335750] [pluginlib.ClassLoader]: Library image_transport_plugins found at explicit path /opt/ros/humble/lib/libimage_transport_plugins.so.
+1768486266.0627306 [republish-6] [DEBUG] [1768486266.053958037] [pluginlib.ClassLoader]: image_transport/raw_sub maps to real class type image_transport::RawSubscriber
+1768486266.0629888 [republish-6] [DEBUG] [1768486266.054044344] [pluginlib.ClassLoader]: std::unique_ptr to object of real type image_transport::RawSubscriber created.
+1768486266.0632217 [republish-6] [DEBUG] [1768486266.054059897] [image_republisher]: Subscribing to: /in
+1768486266.0634520 [republish-6] 
+1768486266.0636675 [republish-6] [DEBUG] [1768486266.054166908] [rcl]: Initializing subscription for topic name '/in'
+1768486266.0639801 [republish-6] [DEBUG] [1768486266.054191581] [rcl]: Expanded and remapped topic name '/camera/infra1/image_rect_raw'
+1768486266.0646539 [republish-6] [DEBUG] [1768486266.062313756] [rcl]: Subscription initialized
+1768486266.0648518 [republish-6] [DEBUG] [1768486266.062475234] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '0' timers, '0' clients, '0' services
+1768486266.0650179 [republish-6] [DEBUG] [1768486266.062667720] [rcl]: Subscription taking message
+1768486266.0651758 [republish-6] [DEBUG] [1768486266.062752202] [rcl]: Subscription take succeeded: true
+1768486266.0653279 [republish-6] [DEBUG] [1768486266.062815884] [rcl]: Subscription taking message
+1768486266.0654793 [republish-6] [DEBUG] [1768486266.062832269] [rcl]: Subscription take succeeded: true
+1768486266.0656841 [republish-6] [DEBUG] [1768486266.063528387] [rcl]: Subscription taking message
+1768486266.0659397 [republish-6] [DEBUG] [1768486266.063989777] [rcl]: Subscription take succeeded: true
+1768486266.0664802 [republish-6] [DEBUG] [1768486266.064366941] [rcl]: Subscription taking message
+1768486266.0666785 [republish-6] [DEBUG] [1768486266.064406206] [rcl]: Subscription take succeeded: true
+1768486266.0668995 [republish-6] [DEBUG] [1768486266.064444992] [rcl]: Subscription taking message
+1768486266.0671163 [republish-6] [DEBUG] [1768486266.064459488] [rcl]: Subscription take succeeded: true
+1768486266.0673311 [republish-6] [DEBUG] [1768486266.064480289] [rcl]: Subscription taking message
+1768486266.0675297 [republish-6] [DEBUG] [1768486266.064490433] [rcl]: Subscription take succeeded: true
+1768486266.0677221 [republish-6] [DEBUG] [1768486266.064508386] [rcl]: Subscription taking message
+1768486266.0679207 [republish-6] [DEBUG] [1768486266.064519010] [rcl]: Subscription take succeeded: true
+1768486266.0681305 [republish-6] [DEBUG] [1768486266.064538434] [rcl]: Subscription taking message
+1768486266.0686731 [republish-6] [DEBUG] [1768486266.064548003] [rcl]: Subscription take succeeded: true
+1768486266.0689249 [republish-6] [DEBUG] [1768486266.064566499] [rcl]: Subscription taking message
+1768486266.0691779 [republish-6] [DEBUG] [1768486266.064576324] [rcl]: Subscription take succeeded: true
+1768486266.0694036 [republish-6] [DEBUG] [1768486266.064593284] [rcl]: Subscription taking message
+1768486266.0696354 [republish-6] [DEBUG] [1768486266.064603525] [rcl]: Subscription take succeeded: true
+1768486266.2635641 [republish-6] [DEBUG] [1768486266.263083436] [rcl]: Subscription taking message
+1768486266.2644269 [republish-6] [DEBUG] [1768486266.263150254] [rcl]: Subscription take succeeded: true
+1768486266.3358898 [republish-6] [DEBUG] [1768486266.335415537] [rcl]: Subscription taking message
+1768486266.3364410 [republish-6] [DEBUG] [1768486266.335487699] [rcl]: Subscription take succeeded: true
+1768486266.5806174 [joint_state_publisher-3] [INFO] [1768486266.579984738] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+1768486266.7619188 [republish-6] [DEBUG] [1768486266.761400465] [rcl]: Subscription taking message
+1768486266.7621832 [republish-6] [DEBUG] [1768486266.761472339] [rcl]: Subscription take succeeded: true
+1768486266.7623000 [republish-6] [DEBUG] [1768486266.761529397] [rcl]: Subscription taking message
+1768486266.7623975 [republish-6] [DEBUG] [1768486266.761546485] [rcl]: Subscription take succeeded: true
+1768486266.7624857 [republish-6] [DEBUG] [1768486266.761567638] [rcl]: Subscription taking message
+1768486266.7625754 [republish-6] [DEBUG] [1768486266.761578486] [rcl]: Subscription take succeeded: true
+1768486266.7648532 [republish-6] [DEBUG] [1768486266.762354831] [rcl]: Subscription taking message
+1768486266.7650468 [republish-6] [DEBUG] [1768486266.762432529] [rcl]: Subscription take succeeded: true
+1768486266.7651613 [republish-6] [DEBUG] [1768486266.762556693] [rcl]: Subscription taking message
+1768486266.7652600 [republish-6] [DEBUG] [1768486266.762589174] [rcl]: Subscription take succeeded: true
+1768486266.7653518 [republish-6] [DEBUG] [1768486266.762664856] [rcl]: Subscription taking message
+1768486266.7654412 [republish-6] [DEBUG] [1768486266.762680985] [rcl]: Subscription take succeeded: true
+1768486266.7655268 [republish-6] [DEBUG] [1768486266.762700506] [rcl]: Subscription taking message
+1768486266.7656121 [republish-6] [DEBUG] [1768486266.762710106] [rcl]: Subscription take succeeded: true
+1768486266.7659962 [republish-6] [DEBUG] [1768486266.762800381] [rcl]: Subscription taking message
+1768486266.7661176 [republish-6] [DEBUG] [1768486266.762827902] [rcl]: Subscription take succeeded: true
+1768486266.7662165 [republish-6] [DEBUG] [1768486266.762864031] [rcl]: Subscription taking message
+1768486266.7663167 [republish-6] [DEBUG] [1768486266.762878783] [rcl]: Subscription take succeeded: true
+1768486266.7664003 [republish-6] [DEBUG] [1768486266.762898688] [rcl]: Subscription taking message
+1768486266.7664816 [republish-6] [DEBUG] [1768486266.762909664] [rcl]: Subscription take succeeded: true
+1768486266.7665608 [republish-6] [DEBUG] [1768486266.762926497] [rcl]: Subscription taking message
+1768486266.7666395 [republish-6] [DEBUG] [1768486266.762935937] [rcl]: Subscription take succeeded: true
+1768486266.7667220 [republish-6] [DEBUG] [1768486266.762952097] [rcl]: Subscription taking message
+1768486266.7668045 [republish-6] [DEBUG] [1768486266.762960610] [rcl]: Subscription take succeeded: true
+1768486266.7668848 [republish-6] [DEBUG] [1768486266.762976450] [rcl]: Subscription taking message
+1768486266.7669649 [republish-6] [DEBUG] [1768486266.762986659] [rcl]: Subscription take succeeded: true
+1768486266.7672801 [republish-6] [DEBUG] [1768486266.764605302] [rcl]: Subscription taking message
+1768486266.7675629 [republish-6] [DEBUG] [1768486266.764767931] [rcl]: Subscription take succeeded: true
+1768486266.7676723 [republish-6] [DEBUG] [1768486266.765556147] [rcl]: Subscription taking message
+1768486266.7677662 [republish-6] [DEBUG] [1768486266.765596181] [rcl]: Subscription take succeeded: true
+1768486266.7704651 [republish-6] [DEBUG] [1768486266.765837340] [rcl]: Subscription taking message
+1768486266.7711356 [republish-6] [DEBUG] [1768486266.765868829] [rcl]: Subscription take succeeded: true
+1768486266.7716579 [republish-6] [DEBUG] [1768486266.765931071] [rcl]: Subscription taking message
+1768486266.7718129 [republish-6] [DEBUG] [1768486266.765954016] [rcl]: Subscription take succeeded: true
+1768486267.4374130 [republish-6] [DEBUG] [1768486267.436810268] [rcl]: Subscription taking message
+1768486267.4377346 [republish-6] [DEBUG] [1768486267.436877374] [rcl]: Subscription take succeeded: true
+1768486267.5421276 [republish-6] [DEBUG] [1768486267.541527292] [rcl]: Subscription taking message
+1768486267.5424523 [republish-6] [DEBUG] [1768486267.541598494] [rcl]: Subscription take succeeded: true
+1768486267.8234608 [republish-6] [DEBUG] [1768486267.822826034] [rcl]: Subscription taking message
+1768486267.8237851 [republish-6] [DEBUG] [1768486267.822894420] [rcl]: Subscription take succeeded: true
+1768486267.8239079 [republish-6] [DEBUG] [1768486267.822937109] [rcl]: Subscription taking message
+1768486267.8240712 [republish-6] [DEBUG] [1768486267.822952118] [rcl]: Subscription take succeeded: true
+1768486268.3329489 [republish-6] [DEBUG] [1768486268.332191186] [rcl]: Subscription taking message
+1768486268.3332632 [republish-6] [DEBUG] [1768486268.332259444] [rcl]: Subscription take succeeded: true
+1768486268.7499914 [republish-6] [DEBUG] [1768486268.749417663] [rcl]: Subscription taking message
+1768486268.7503147 [republish-6] [DEBUG] [1768486268.749544995] [rcl]: Subscription take succeeded: true
+1768486269.3291950 [republish-6] [DEBUG] [1768486269.328553267] [rcl]: Subscription taking message
+1768486269.3295071 [republish-6] [DEBUG] [1768486269.328625046] [rcl]: Subscription take succeeded: true
+1768486269.3296285 [republish-6] [DEBUG] [1768486269.328667127] [rcl]: Subscription taking message
+1768486269.3297360 [republish-6] [DEBUG] [1768486269.328682519] [rcl]: Subscription take succeeded: true
+1768486269.6026740 [republish-6] [DEBUG] [1768486269.602146807] [rcl]: Subscription taking message
+1768486269.6030996 [republish-6] [DEBUG] [1768486269.602254522] [rcl]: Subscription take succeeded: true
+1768486270.0328221 [republish-6] [DEBUG] [1768486270.032294810] [rcl]: Subscription taking message
+1768486270.0331383 [republish-6] [DEBUG] [1768486270.032367996] [rcl]: Subscription take succeeded: true
+1768486270.1244323 [republish-6] [DEBUG] [1768486270.123862556] [rcl]: Subscription taking message
+1768486270.1247427 [republish-6] [DEBUG] [1768486270.123931582] [rcl]: Subscription take succeeded: true
+1768486270.1248691 [republish-6] [DEBUG] [1768486270.123976800] [rcl]: Subscription taking message
+1768486270.1249766 [republish-6] [DEBUG] [1768486270.123994336] [rcl]: Subscription take succeeded: true
+1768486270.2358100 [republish-6] [DEBUG] [1768486270.235283535] [rcl]: Subscription taking message
+1768486270.2361736 [republish-6] [DEBUG] [1768486270.235352849] [rcl]: Subscription take succeeded: true
+1768486270.2906442 [republish-6] [DEBUG] [1768486270.290099277] [rcl]: Subscription taking message
+1768486270.2909791 [republish-6] [DEBUG] [1768486270.290169807] [rcl]: Subscription take succeeded: true
+1768486270.2915325 [republish-6] [DEBUG] [1768486270.290865765] [rcl]: Subscription taking message
+1768486270.2916775 [republish-6] [DEBUG] [1768486270.290906406] [rcl]: Subscription take succeeded: true
+1768486270.2918139 [republish-6] [DEBUG] [1768486270.290954888] [rcl]: Subscription taking message
+1768486270.2919388 [republish-6] [DEBUG] [1768486270.290973160] [rcl]: Subscription take succeeded: true
+1768486270.2922642 [republish-6] [DEBUG] [1768486270.290997033] [rcl]: Subscription taking message
+1768486270.2923841 [republish-6] [DEBUG] [1768486270.291009865] [rcl]: Subscription take succeeded: true
+1768486270.3636007 [republish-6] [DEBUG] [1768486270.363083206] [rcl]: Subscription taking message
+1768486270.3639240 [republish-6] [DEBUG] [1768486270.363151496] [rcl]: Subscription take succeeded: true
+1768486270.4483848 [republish-6] [DEBUG] [1768486270.447613514] [rcl]: Subscription taking message
+1768486270.4487021 [republish-6] [DEBUG] [1768486270.447679597] [rcl]: Subscription take succeeded: true
+1768486270.5427485 [republish-6] [DEBUG] [1768486270.542215148] [rcl]: Subscription taking message
+1768486270.5432725 [republish-6] [DEBUG] [1768486270.542283726] [rcl]: Subscription take succeeded: true
+1768486270.6491168 [republish-6] [DEBUG] [1768486270.648539935] [rcl]: Subscription taking message
+1768486270.6494353 [republish-6] [DEBUG] [1768486270.648611521] [rcl]: Subscription take succeeded: true
+1768486270.9187825 [republish-6] [DEBUG] [1768486270.850086439] [rcl]: Subscription taking message
+1768486270.9190729 [republish-6] [DEBUG] [1768486270.850150569] [rcl]: Subscription take succeeded: true
+1768486270.9191992 [republish-6] [DEBUG] [1768486270.850195946] [rcl]: Subscription taking message
+1768486270.9193048 [republish-6] [DEBUG] [1768486270.850211851] [rcl]: Subscription take succeeded: true
+1768486270.9199376 [republish-6] [DEBUG] [1768486270.850326350] [rcl]: Subscription taking message
+1768486270.9204042 [republish-6] [DEBUG] [1768486270.850359727] [rcl]: Subscription take succeeded: true
+1768486270.9206917 [republish-6] [DEBUG] [1768486270.850519540] [rcl]: Subscription taking message
+1768486270.9209347 [republish-6] [DEBUG] [1768486270.850549237] [rcl]: Subscription take succeeded: true
+1768486270.9211988 [republish-6] [DEBUG] [1768486270.850581878] [rcl]: Subscription taking message
+1768486270.9214342 [republish-6] [DEBUG] [1768486270.850594935] [rcl]: Subscription take succeeded: true
+1768486270.9216840 [republish-6] [DEBUG] [1768486270.850614807] [rcl]: Subscription taking message
+1768486270.9220312 [republish-6] [DEBUG] [1768486270.850625272] [rcl]: Subscription take succeeded: true
+1768486270.9221723 [republish-6] [DEBUG] [1768486270.850706106] [rcl]: Subscription taking message
+1768486270.9223928 [republish-6] [DEBUG] [1768486270.850732187] [rcl]: Subscription take succeeded: true
+1768486270.9226615 [republish-6] [DEBUG] [1768486270.850879584] [rcl]: Subscription taking message
+1768486270.9227765 [republish-6] [DEBUG] [1768486270.850905600] [rcl]: Subscription take succeeded: true
+1768486270.9230969 [republish-6] [DEBUG] [1768486270.850935617] [rcl]: Subscription taking message
+1768486270.9234619 [republish-6] [DEBUG] [1768486270.850949698] [rcl]: Subscription take succeeded: true
+1768486270.9236162 [republish-6] [DEBUG] [1768486270.851068357] [rcl]: Subscription taking message
+1768486270.9238482 [republish-6] [DEBUG] [1768486270.851093510] [rcl]: Subscription take succeeded: true
+1768486270.9243848 [republish-6] [DEBUG] [1768486270.851225194] [rcl]: Subscription taking message
+1768486270.9250677 [republish-6] [DEBUG] [1768486270.851249067] [rcl]: Subscription take succeeded: true
+1768486270.9252126 [republish-6] [DEBUG] [1768486270.851320973] [rcl]: Subscription taking message
+1768486270.9253180 [republish-6] [DEBUG] [1768486270.851337422] [rcl]: Subscription take succeeded: true
+1768486270.9260941 [republish-6] [DEBUG] [1768486270.851609719] [rcl]: Subscription taking message
+1768486270.9262462 [republish-6] [DEBUG] [1768486270.851637207] [rcl]: Subscription take succeeded: true
+1768486270.9263492 [republish-6] [DEBUG] [1768486270.852638199] [rcl]: Subscription taking message
+1768486270.9264379 [republish-6] [DEBUG] [1768486270.852689528] [rcl]: Subscription take succeeded: true
+1768486270.9265234 [republish-6] [DEBUG] [1768486270.852728570] [rcl]: Subscription taking message
+1768486270.9266067 [republish-6] [DEBUG] [1768486270.852743866] [rcl]: Subscription take succeeded: true
+1768486270.9266980 [republish-6] [DEBUG] [1768486270.852763803] [rcl]: Subscription taking message
+1768486270.9267843 [republish-6] [DEBUG] [1768486270.852774075] [rcl]: Subscription take succeeded: true
+1768486270.9268711 [republish-6] [DEBUG] [1768486270.852791132] [rcl]: Subscription taking message
+1768486270.9269555 [republish-6] [DEBUG] [1768486270.852799836] [rcl]: Subscription take succeeded: true
+1768486270.9273572 [republish-6] [DEBUG] [1768486270.852816572] [rcl]: Subscription taking message
+1768486270.9274919 [republish-6] [DEBUG] [1768486270.852826397] [rcl]: Subscription take succeeded: true
+1768486270.9275908 [republish-6] [DEBUG] [1768486270.894339607] [rcl]: Subscription taking message
+1768486270.9279678 [republish-6] [DEBUG] [1768486270.894406810] [rcl]: Subscription take succeeded: true
+1768486270.9282947 [republish-6] [DEBUG] [1768486270.913750330] [rcl]: Subscription taking message
+1768486270.9304910 [republish-6] [DEBUG] [1768486270.913840093] [rcl]: Subscription take succeeded: true
+1768486270.9318554 [INFO] [component_container_mt-7]: process started with pid [6522]
+1768486271.0178113 [republish-6] [DEBUG] [1768486271.015749829] [rcl]: Subscription taking message
+1768486271.0182037 [republish-6] [DEBUG] [1768486271.015805639] [rcl]: Subscription take succeeded: true
+1768486271.0755486 [republish-6] [DEBUG] [1768486271.075017646] [rcl]: Subscription taking message
+1768486271.0763626 [republish-6] [DEBUG] [1768486271.075083280] [rcl]: Subscription take succeeded: true
+1768486271.1444290 [republish-6] [DEBUG] [1768486271.143203537] [rcl]: Subscription taking message
+1768486271.1449416 [republish-6] [DEBUG] [1768486271.143255410] [rcl]: Subscription take succeeded: true
+1768486271.2152367 [republish-6] [DEBUG] [1768486271.214676986] [rcl]: Subscription taking message
+1768486271.2156949 [republish-6] [DEBUG] [1768486271.214758077] [rcl]: Subscription take succeeded: true
+1768486271.2781556 [republish-6] [DEBUG] [1768486271.277420625] [rcl]: Subscription taking message
+1768486271.2785923 [republish-6] [DEBUG] [1768486271.277491571] [rcl]: Subscription take succeeded: true
+1768486271.3460844 [republish-6] [DEBUG] [1768486271.345525457] [rcl]: Subscription taking message
+1768486271.3465474 [republish-6] [DEBUG] [1768486271.345589075] [rcl]: Subscription take succeeded: true
+1768486271.4023323 [republish-6] [DEBUG] [1768486271.401792476] [rcl]: Subscription taking message
+1768486271.4028077 [republish-6] [DEBUG] [1768486271.401907871] [rcl]: Subscription take succeeded: true
+1768486271.4609702 [republish-6] [DEBUG] [1768486271.460406705] [rcl]: Subscription taking message
+1768486271.4612932 [republish-6] [DEBUG] [1768486271.460477331] [rcl]: Subscription take succeeded: true
+1768486271.5044243 [republish-6] [DEBUG] [1768486271.501049360] [rcl]: Subscription taking message
+1768486271.5046668 [republish-6] [DEBUG] [1768486271.501152947] [rcl]: Subscription take succeeded: true
+1768486271.5048327 [republish-6] [DEBUG] [1768486271.501221269] [rcl]: Subscription taking message
+1768486271.5050035 [republish-6] [DEBUG] [1768486271.501242262] [rcl]: Subscription take succeeded: true
+1768486271.5051844 [republish-6] [DEBUG] [1768486271.501264791] [rcl]: Subscription taking message
+1768486271.5053735 [republish-6] [DEBUG] [1768486271.501275607] [rcl]: Subscription take succeeded: true
+1768486271.5055292 [republish-6] [DEBUG] [1768486271.501303224] [rcl]: Subscription taking message
+1768486271.5057251 [republish-6] [DEBUG] [1768486271.501316184] [rcl]: Subscription take succeeded: true
+1768486271.5059505 [republish-6] [DEBUG] [1768486271.501334041] [rcl]: Subscription taking message
+1768486271.5061703 [republish-6] [DEBUG] [1768486271.501376474] [rcl]: Subscription take succeeded: true
+1768486271.5063887 [republish-6] [DEBUG] [1768486271.501439196] [rcl]: Subscription taking message
+1768486271.5066087 [republish-6] [DEBUG] [1768486271.501475901] [rcl]: Subscription take succeeded: true
+1768486271.5068221 [republish-6] [DEBUG] [1768486271.501507294] [rcl]: Subscription taking message
+1768486271.5070381 [republish-6] [DEBUG] [1768486271.501522687] [rcl]: Subscription take succeeded: true
+1768486271.5072234 [republish-6] [DEBUG] [1768486271.501542784] [rcl]: Subscription taking message
+1768486271.5073879 [republish-6] [DEBUG] [1768486271.501553376] [rcl]: Subscription take succeeded: true
+1768486271.5075562 [republish-6] [DEBUG] [1768486271.501570592] [rcl]: Subscription taking message
+1768486271.5077152 [republish-6] [DEBUG] [1768486271.501580161] [rcl]: Subscription take succeeded: true
+1768486271.5078654 [republish-6] [DEBUG] [1768486271.501596673] [rcl]: Subscription taking message
+1768486271.5080068 [republish-6] [DEBUG] [1768486271.501605698] [rcl]: Subscription take succeeded: true
+1768486271.5082698 [republish-6] [DEBUG] [1768486271.501621762] [rcl]: Subscription taking message
+1768486271.5084298 [republish-6] [DEBUG] [1768486271.501630658] [rcl]: Subscription take succeeded: true
+1768486271.5085912 [republish-6] [DEBUG] [1768486271.501646627] [rcl]: Subscription taking message
+1768486271.5087540 [republish-6] [DEBUG] [1768486271.501656131] [rcl]: Subscription take succeeded: true
+1768486271.5089297 [republish-6] [DEBUG] [1768486271.501672324] [rcl]: Subscription taking message
+1768486271.5091164 [republish-6] [DEBUG] [1768486271.501681092] [rcl]: Subscription take succeeded: true
+1768486271.5092790 [republish-6] [DEBUG] [1768486271.501696676] [rcl]: Subscription taking message
+1768486271.5094504 [republish-6] [DEBUG] [1768486271.501705317] [rcl]: Subscription take succeeded: true
+1768486271.5096340 [republish-6] [DEBUG] [1768486271.501720741] [rcl]: Subscription taking message
+1768486271.5099680 [republish-6] [DEBUG] [1768486271.501729605] [rcl]: Subscription take succeeded: true
+1768486271.5101342 [republish-6] [DEBUG] [1768486271.501745350] [rcl]: Subscription taking message
+1768486271.5102878 [republish-6] [DEBUG] [1768486271.501754982] [rcl]: Subscription take succeeded: true
+1768486271.5104508 [republish-6] [DEBUG] [1768486271.501770439] [rcl]: Subscription taking message
+1768486271.5106156 [republish-6] [DEBUG] [1768486271.501779015] [rcl]: Subscription take succeeded: true
+1768486271.5107799 [republish-6] [DEBUG] [1768486271.501794023] [rcl]: Subscription taking message
+1768486271.5109363 [republish-6] [DEBUG] [1768486271.501802344] [rcl]: Subscription take succeeded: true
+1768486271.5110958 [republish-6] [DEBUG] [1768486271.501817832] [rcl]: Subscription taking message
+1768486271.5112596 [republish-6] [DEBUG] [1768486271.501826920] [rcl]: Subscription take succeeded: true
+1768486271.5114219 [republish-6] [DEBUG] [1768486271.501842761] [rcl]: Subscription taking message
+1768486271.5115840 [republish-6] [DEBUG] [1768486271.501851049] [rcl]: Subscription take succeeded: true
+1768486271.5117455 [republish-6] [DEBUG] [1768486271.501866826] [rcl]: Subscription taking message
+1768486271.5119076 [republish-6] [DEBUG] [1768486271.501875466] [rcl]: Subscription take succeeded: true
+1768486271.5121439 [republish-6] [DEBUG] [1768486271.501891243] [rcl]: Subscription taking message
+1768486271.5123212 [republish-6] [DEBUG] [1768486271.501900747] [rcl]: Subscription take succeeded: true
+1768486271.5124784 [republish-6] [DEBUG] [1768486271.501916555] [rcl]: Subscription taking message
+1768486271.5126352 [republish-6] [DEBUG] [1768486271.501925196] [rcl]: Subscription take succeeded: true
+1768486271.5128012 [republish-6] [DEBUG] [1768486271.501940748] [rcl]: Subscription taking message
+1768486271.5129666 [republish-6] [DEBUG] [1768486271.501949292] [rcl]: Subscription take succeeded: true
+1768486271.5131302 [republish-6] [DEBUG] [1768486271.501964653] [rcl]: Subscription taking message
+1768486271.5132606 [republish-6] [DEBUG] [1768486271.501973325] [rcl]: Subscription take succeeded: true
+1768486271.5141671 [republish-6] [DEBUG] [1768486271.501988718] [rcl]: Subscription taking message
+1768486271.5144231 [republish-6] [DEBUG] [1768486271.501997166] [rcl]: Subscription take succeeded: true
+1768486271.5146375 [republish-6] [DEBUG] [1768486271.502012814] [rcl]: Subscription taking message
+1768486271.5148432 [republish-6] [DEBUG] [1768486271.502021743] [rcl]: Subscription take succeeded: true
+1768486271.5150113 [republish-6] [DEBUG] [1768486271.502037039] [rcl]: Subscription taking message
+1768486271.5151713 [republish-6] [DEBUG] [1768486271.502046191] [rcl]: Subscription take succeeded: true
+1768486271.5153234 [republish-6] [DEBUG] [1768486271.502061872] [rcl]: Subscription taking message
+1768486271.5154719 [republish-6] [DEBUG] [1768486271.502115602] [rcl]: Subscription take succeeded: true
+1768486271.5156209 [republish-6] [DEBUG] [1768486271.502138450] [rcl]: Subscription taking message
+1768486271.5157740 [republish-6] [DEBUG] [1768486271.502148403] [rcl]: Subscription take succeeded: true
+1768486271.5159245 [republish-6] [DEBUG] [1768486271.502167635] [rcl]: Subscription taking message
+1768486271.5161030 [republish-6] [DEBUG] [1768486271.502177620] [rcl]: Subscription take succeeded: true
+1768486271.5162477 [republish-6] [DEBUG] [1768486271.502193620] [rcl]: Subscription taking message
+1768486271.5163698 [republish-6] [DEBUG] [1768486271.502202772] [rcl]: Subscription take succeeded: true
+1768486271.5164855 [republish-6] [DEBUG] [1768486271.502218741] [rcl]: Subscription taking message
+1768486271.5166020 [republish-6] [DEBUG] [1768486271.502227285] [rcl]: Subscription take succeeded: true
+1768486271.5167193 [republish-6] [DEBUG] [1768486271.502243382] [rcl]: Subscription taking message
+1768486271.5168335 [republish-6] [DEBUG] [1768486271.502251670] [rcl]: Subscription take succeeded: true
+1768486271.5169463 [republish-6] [DEBUG] [1768486271.502266806] [rcl]: Subscription taking message
+1768486271.5170805 [republish-6] [DEBUG] [1768486271.502274967] [rcl]: Subscription take succeeded: true
+1768486271.5172043 [republish-6] [DEBUG] [1768486271.502290135] [rcl]: Subscription taking message
+1768486271.5173149 [republish-6] [DEBUG] [1768486271.502298519] [rcl]: Subscription take succeeded: true
+1768486271.5174272 [republish-6] [DEBUG] [1768486271.502314232] [rcl]: Subscription taking message
+1768486271.5175414 [republish-6] [DEBUG] [1768486271.502323224] [rcl]: Subscription take succeeded: true
+1768486271.5176539 [republish-6] [DEBUG] [1768486271.502338713] [rcl]: Subscription taking message
+1768486271.5177660 [republish-6] [DEBUG] [1768486271.502347737] [rcl]: Subscription take succeeded: true
+1768486271.5178785 [republish-6] [DEBUG] [1768486271.502363097] [rcl]: Subscription taking message
+1768486271.5179901 [republish-6] [DEBUG] [1768486271.502371706] [rcl]: Subscription take succeeded: true
+1768486271.5181072 [republish-6] [DEBUG] [1768486271.502387354] [rcl]: Subscription taking message
+1768486271.5182242 [republish-6] [DEBUG] [1768486271.502395770] [rcl]: Subscription take succeeded: true
+1768486271.5183444 [republish-6] [DEBUG] [1768486271.502411259] [rcl]: Subscription taking message
+1768486271.5187540 [republish-6] [DEBUG] [1768486271.502419547] [rcl]: Subscription take succeeded: true
+1768486271.5189626 [republish-6] [DEBUG] [1768486271.502434556] [rcl]: Subscription taking message
+1768486271.5191658 [republish-6] [DEBUG] [1768486271.502442908] [rcl]: Subscription take succeeded: true
+1768486271.5193582 [republish-6] [DEBUG] [1768486271.502458652] [rcl]: Subscription taking message
+1768486271.5195448 [republish-6] [DEBUG] [1768486271.502467293] [rcl]: Subscription take succeeded: true
+1768486271.5197499 [republish-6] [DEBUG] [1768486271.502482589] [rcl]: Subscription taking message
+1768486271.5199232 [republish-6] [DEBUG] [1768486271.502490717] [rcl]: Subscription take succeeded: true
+1768486271.5201788 [republish-6] [DEBUG] [1768486271.502506302] [rcl]: Subscription taking message
+1768486271.5203640 [republish-6] [DEBUG] [1768486271.502514430] [rcl]: Subscription take succeeded: true
+1768486271.5205486 [republish-6] [DEBUG] [1768486271.502529855] [rcl]: Subscription taking message
+1768486271.5207353 [republish-6] [DEBUG] [1768486271.502538783] [rcl]: Subscription take succeeded: true
+1768486271.5209177 [republish-6] [DEBUG] [1768486271.502554175] [rcl]: Subscription taking message
+1768486271.5210764 [republish-6] [DEBUG] [1768486271.502562784] [rcl]: Subscription take succeeded: true
+1768486271.5212274 [republish-6] [DEBUG] [1768486271.502578016] [rcl]: Subscription taking message
+1768486271.5213652 [republish-6] [DEBUG] [1768486271.502586304] [rcl]: Subscription take succeeded: true
+1768486271.5214965 [republish-6] [DEBUG] [1768486271.502601569] [rcl]: Subscription taking message
+1768486271.5215960 [republish-6] [DEBUG] [1768486271.502610049] [rcl]: Subscription take succeeded: true
+1768486271.5217257 [republish-6] [DEBUG] [1768486271.502625666] [rcl]: Subscription taking message
+1768486271.5218408 [republish-6] [DEBUG] [1768486271.502634498] [rcl]: Subscription take succeeded: true
+1768486271.5222378 [republish-6] [DEBUG] [1768486271.502650434] [rcl]: Subscription taking message
+1768486271.5224078 [republish-6] [DEBUG] [1768486271.502659043] [rcl]: Subscription take succeeded: true
+1768486271.5226023 [republish-6] [DEBUG] [1768486271.502674467] [rcl]: Subscription taking message
+1768486271.5237892 [republish-6] [DEBUG] [1768486271.502683587] [rcl]: Subscription take succeeded: true
+1768486271.5239549 [republish-6] [DEBUG] [1768486271.502698884] [rcl]: Subscription taking message
+1768486271.5241122 [republish-6] [DEBUG] [1768486271.502708036] [rcl]: Subscription take succeeded: true
+1768486271.5243256 [republish-6] [DEBUG] [1768486271.502723621] [rcl]: Subscription taking message
+1768486271.5244908 [republish-6] [DEBUG] [1768486271.502732645] [rcl]: Subscription take succeeded: true
+1768486271.5258725 [republish-6] [DEBUG] [1768486271.502748037] [rcl]: Subscription taking message
+1768486271.5260618 [republish-6] [DEBUG] [1768486271.502756870] [rcl]: Subscription take succeeded: true
+1768486271.5262058 [republish-6] [DEBUG] [1768486271.502772102] [rcl]: Subscription taking message
+1768486271.5263419 [republish-6] [DEBUG] [1768486271.502780519] [rcl]: Subscription take succeeded: true
+1768486271.5264738 [republish-6] [DEBUG] [1768486271.502796327] [rcl]: Subscription taking message
+1768486271.5266013 [republish-6] [DEBUG] [1768486271.502805543] [rcl]: Subscription take succeeded: true
+1768486271.5268075 [republish-6] [DEBUG] [1768486271.502821736] [rcl]: Subscription taking message
+1768486271.5270004 [republish-6] [DEBUG] [1768486271.502830856] [rcl]: Subscription take succeeded: true
+1768486271.5271871 [republish-6] [DEBUG] [1768486271.502868073] [rcl]: Subscription taking message
+1768486271.5273638 [republish-6] [DEBUG] [1768486271.502882762] [rcl]: Subscription take succeeded: true
+1768486271.5282056 [republish-6] [DEBUG] [1768486271.504115761] [rcl]: Subscription taking message
+1768486271.5284193 [republish-6] [DEBUG] [1768486271.504169618] [rcl]: Subscription take succeeded: true
+1768486271.5286338 [republish-6] [DEBUG] [1768486271.504212436] [rcl]: Subscription taking message
+1768486271.5288637 [republish-6] [DEBUG] [1768486271.504227956] [rcl]: Subscription take succeeded: true
+1768486271.5290399 [republish-6] [DEBUG] [1768486271.515032072] [rcl]: Subscription taking message
+1768486271.5291758 [republish-6] [DEBUG] [1768486271.515103242] [rcl]: Subscription take succeeded: true
+1768486271.5853868 [republish-6] [DEBUG] [1768486271.584674808] [rcl]: Subscription taking message
+1768486271.5857372 [republish-6] [DEBUG] [1768486271.584754395] [rcl]: Subscription take succeeded: true
+1768486271.6454175 [republish-6] [DEBUG] [1768486271.644471122] [rcl]: Subscription taking message
+1768486271.6457822 [republish-6] [DEBUG] [1768486271.644521908] [rcl]: Subscription take succeeded: true
+1768486271.6483901 [republish-6] [DEBUG] [1768486271.644565653] [rcl]: Subscription taking message
+1768486271.6487708 [republish-6] [DEBUG] [1768486271.644581878] [rcl]: Subscription take succeeded: true
+1768486271.7162621 [republish-6] [DEBUG] [1768486271.701053223] [rcl]: Subscription taking message
+1768486271.7171879 [republish-6] [DEBUG] [1768486271.701113417] [rcl]: Subscription take succeeded: true
+1768486271.7179966 [republish-6] [DEBUG] [1768486271.701650298] [rcl]: Subscription taking message
+1768486271.7182875 [republish-6] [DEBUG] [1768486271.701693435] [rcl]: Subscription take succeeded: true
+1768486271.7185602 [republish-6] [DEBUG] [1768486271.701732989] [rcl]: Subscription taking message
+1768486271.7187979 [republish-6] [DEBUG] [1768486271.701748989] [rcl]: Subscription take succeeded: true
+1768486271.7192271 [republish-6] [DEBUG] [1768486271.701771518] [rcl]: Subscription taking message
+1768486271.7194564 [republish-6] [DEBUG] [1768486271.701782942] [rcl]: Subscription take succeeded: true
+1768486271.7197454 [republish-6] [DEBUG] [1768486271.703109960] [rcl]: Subscription taking message
+1768486271.7203476 [republish-6] [DEBUG] [1768486271.703150793] [rcl]: Subscription take succeeded: true
+1768486271.7213905 [republish-6] [DEBUG] [1768486271.703190571] [rcl]: Subscription taking message
+1768486271.7220719 [republish-6] [DEBUG] [1768486271.703206347] [rcl]: Subscription take succeeded: true
+1768486271.7226994 [republish-6] [DEBUG] [1768486271.703227052] [rcl]: Subscription taking message
+1768486271.7233927 [republish-6] [DEBUG] [1768486271.703238444] [rcl]: Subscription take succeeded: true
+1768486271.7309265 [republish-6] [DEBUG] [1768486271.729873426] [rcl]: Subscription taking message
+1768486271.7327993 [republish-6] [DEBUG] [1768486271.730004823] [rcl]: Subscription take succeeded: true
+1768486271.8021457 [republish-6] [DEBUG] [1768486271.798232858] [rcl]: Subscription taking message
+1768486271.8029020 [republish-6] [DEBUG] [1768486271.798357726] [rcl]: Subscription take succeeded: true
+1768486271.8037913 [republish-6] [DEBUG] [1768486271.798414272] [rcl]: Subscription taking message
+1768486271.8047128 [republish-6] [DEBUG] [1768486271.798433984] [rcl]: Subscription take succeeded: true
+1768486271.8410327 [republish-6] [DEBUG] [1768486271.840765077] [rcl]: Subscription taking message
+1768486271.8415499 [republish-6] [DEBUG] [1768486271.840834039] [rcl]: Subscription take succeeded: true
+1768486271.8418627 [republish-6] [DEBUG] [1768486271.841133824] [rcl]: Subscription taking message
+1768486271.8419855 [republish-6] [DEBUG] [1768486271.841168289] [rcl]: Subscription take succeeded: true
+1768486271.8420928 [republish-6] [DEBUG] [1768486271.841197346] [rcl]: Subscription taking message
+1768486271.8421926 [republish-6] [DEBUG] [1768486271.841209347] [rcl]: Subscription take succeeded: true
+1768486271.8422873 [republish-6] [DEBUG] [1768486271.841229699] [rcl]: Subscription taking message
+1768486271.8423781 [republish-6] [DEBUG] [1768486271.841243044] [rcl]: Subscription take succeeded: true
+1768486271.8430996 [republish-6] [DEBUG] [1768486271.842912216] [rcl]: Subscription taking message
+1768486271.8432331 [republish-6] [DEBUG] [1768486271.842965178] [rcl]: Subscription take succeeded: true
+1768486271.8442862 [republish-6] [DEBUG] [1768486271.844056924] [rcl]: Subscription taking message
+1768486271.8444543 [republish-6] [DEBUG] [1768486271.844118846] [rcl]: Subscription take succeeded: true
+1768486271.8451629 [republish-6] [DEBUG] [1768486271.844864214] [rcl]: Subscription taking message
+1768486271.8453074 [republish-6] [DEBUG] [1768486271.844908215] [rcl]: Subscription take succeeded: true
+1768486271.8458807 [republish-6] [DEBUG] [1768486271.845020699] [rcl]: Subscription taking message
+1768486271.8460259 [republish-6] [DEBUG] [1768486271.845056668] [rcl]: Subscription take succeeded: true
+1768486271.8461308 [republish-6] [DEBUG] [1768486271.845119742] [rcl]: Subscription taking message
+1768486271.8462992 [republish-6] [DEBUG] [1768486271.845141439] [rcl]: Subscription take succeeded: true
+1768486271.8464966 [republish-6] [DEBUG] [1768486271.845473577] [rcl]: Subscription taking message
+1768486271.8468120 [republish-6] [DEBUG] [1768486271.845501066] [rcl]: Subscription take succeeded: true
+1768486271.8475637 [republish-6] [DEBUG] [1768486271.845638254] [rcl]: Subscription taking message
+1768486271.8478503 [republish-6] [DEBUG] [1768486271.845668271] [rcl]: Subscription take succeeded: true
+1768486271.8481228 [republish-6] [DEBUG] [1768486271.845706800] [rcl]: Subscription taking message
+1768486271.8482654 [republish-6] [DEBUG] [1768486271.845725041] [rcl]: Subscription take succeeded: true
+1768486271.8484528 [republish-6] [DEBUG] [1768486271.846591724] [rcl]: Subscription taking message
+1768486271.8486996 [republish-6] [DEBUG] [1768486271.847070139] [rcl]: Subscription take succeeded: true
+1768486271.8493388 [republish-6] [DEBUG] [1768486271.847168542] [rcl]: Subscription taking message
+1768486271.8495784 [republish-6] [DEBUG] [1768486271.847199807] [rcl]: Subscription take succeeded: true
+1768486271.8498533 [republish-6] [DEBUG] [1768486271.847229600] [rcl]: Subscription taking message
+1768486271.8500624 [republish-6] [DEBUG] [1768486271.847240577] [rcl]: Subscription take succeeded: true
+1768486271.8529468 [republish-6] [DEBUG] [1768486271.847258529] [rcl]: Subscription taking message
+1768486271.8533356 [republish-6] [DEBUG] [1768486271.847268097] [rcl]: Subscription take succeeded: true
+1768486271.8535366 [republish-6] [DEBUG] [1768486271.847284354] [rcl]: Subscription taking message
+1768486271.8536463 [republish-6] [DEBUG] [1768486271.847293154] [rcl]: Subscription take succeeded: true
+1768486271.8548021 [republish-6] [DEBUG] [1768486271.847309603] [rcl]: Subscription taking message
+1768486271.8567154 [republish-6] [DEBUG] [1768486271.847318147] [rcl]: Subscription take succeeded: true
+1768486271.8570552 [republish-6] [DEBUG] [1768486271.847334564] [rcl]: Subscription taking message
+1768486271.8571799 [republish-6] [DEBUG] [1768486271.847343428] [rcl]: Subscription take succeeded: true
+1768486271.8572850 [republish-6] [DEBUG] [1768486271.847359172] [rcl]: Subscription taking message
+1768486271.8574049 [republish-6] [DEBUG] [1768486271.847368133] [rcl]: Subscription take succeeded: true
+1768486271.8580906 [republish-6] [DEBUG] [1768486271.847565995] [rcl]: Subscription taking message
+1768486271.8582246 [republish-6] [DEBUG] [1768486271.847607980] [rcl]: Subscription take succeeded: true
+1768486271.8583219 [republish-6] [DEBUG] [1768486271.847903669] [rcl]: Subscription taking message
+1768486271.8584120 [republish-6] [DEBUG] [1768486271.847977720] [rcl]: Subscription take succeeded: true
+1768486271.8606222 [republish-6] [DEBUG] [1768486271.848982359] [rcl]: Subscription taking message
+1768486271.8618903 [republish-6] [DEBUG] [1768486271.849056634] [rcl]: Subscription take succeeded: true
+1768486271.8620830 [republish-6] [DEBUG] [1768486271.849106939] [rcl]: Subscription taking message
+1768486271.8622010 [republish-6] [DEBUG] [1768486271.849127196] [rcl]: Subscription take succeeded: true
+1768486271.8626277 [republish-6] [DEBUG] [1768486271.849150557] [rcl]: Subscription taking message
+1768486271.8627353 [republish-6] [DEBUG] [1768486271.849161661] [rcl]: Subscription take succeeded: true
+1768486271.8628342 [republish-6] [DEBUG] [1768486271.849179710] [rcl]: Subscription taking message
+1768486271.8629255 [republish-6] [DEBUG] [1768486271.849189342] [rcl]: Subscription take succeeded: true
+1768486271.8630507 [republish-6] [DEBUG] [1768486271.849205790] [rcl]: Subscription taking message
+1768486271.8631535 [republish-6] [DEBUG] [1768486271.849215487] [rcl]: Subscription take succeeded: true
+1768486271.8632548 [republish-6] [DEBUG] [1768486271.849316994] [rcl]: Subscription taking message
+1768486271.8633599 [republish-6] [DEBUG] [1768486271.849342115] [rcl]: Subscription take succeeded: true
+1768486271.8639760 [republish-6] [DEBUG] [1768486271.852135419] [rcl]: Subscription taking message
+1768486271.8646359 [republish-6] [DEBUG] [1768486271.852208125] [rcl]: Subscription take succeeded: true
+1768486271.8653622 [republish-6] [DEBUG] [1768486271.852251966] [rcl]: Subscription taking message
+1768486271.8658440 [republish-6] [DEBUG] [1768486271.852268767] [rcl]: Subscription take succeeded: true
+1768486271.8660810 [republish-6] [DEBUG] [1768486271.852291552] [rcl]: Subscription taking message
+1768486271.8662374 [republish-6] [DEBUG] [1768486271.852302720] [rcl]: Subscription take succeeded: true
+1768486271.8663778 [republish-6] [DEBUG] [1768486271.852320192] [rcl]: Subscription taking message
+1768486271.8665631 [republish-6] [DEBUG] [1768486271.852329633] [rcl]: Subscription take succeeded: true
+1768486271.8669348 [republish-6] [DEBUG] [1768486271.852346433] [rcl]: Subscription taking message
+1768486271.8670921 [republish-6] [DEBUG] [1768486271.852356930] [rcl]: Subscription take succeeded: true
+1768486271.8672566 [republish-6] [DEBUG] [1768486271.852764654] [rcl]: Subscription taking message
+1768486271.8673575 [republish-6] [DEBUG] [1768486271.852796271] [rcl]: Subscription take succeeded: true
+1768486271.8674476 [republish-6] [DEBUG] [1768486271.852829681] [rcl]: Subscription taking message
+1768486271.8675337 [republish-6] [DEBUG] [1768486271.852849553] [rcl]: Subscription take succeeded: true
+1768486271.8676143 [republish-6] [DEBUG] [1768486271.852870226] [rcl]: Subscription taking message
+1768486271.8676927 [republish-6] [DEBUG] [1768486271.852911795] [rcl]: Subscription take succeeded: true
+1768486271.8677700 [republish-6] [DEBUG] [1768486271.852953332] [rcl]: Subscription taking message
+1768486271.8678443 [republish-6] [DEBUG] [1768486271.852970517] [rcl]: Subscription take succeeded: true
+1768486271.8679183 [republish-6] [DEBUG] [1768486271.852990294] [rcl]: Subscription taking message
+1768486271.8679910 [republish-6] [DEBUG] [1768486271.852999894] [rcl]: Subscription take succeeded: true
+1768486271.8691466 [republish-6] [DEBUG] [1768486271.853016310] [rcl]: Subscription taking message
+1768486271.8692639 [republish-6] [DEBUG] [1768486271.853025207] [rcl]: Subscription take succeeded: true
+1768486271.8693609 [republish-6] [DEBUG] [1768486271.853090617] [rcl]: Subscription taking message
+1768486271.8694687 [republish-6] [DEBUG] [1768486271.853181180] [rcl]: Subscription take succeeded: true
+1768486271.8695598 [republish-6] [DEBUG] [1768486271.853220925] [rcl]: Subscription taking message
+1768486271.8696454 [republish-6] [DEBUG] [1768486271.853238493] [rcl]: Subscription take succeeded: true
+1768486271.8697278 [republish-6] [DEBUG] [1768486271.853260606] [rcl]: Subscription taking message
+1768486271.8699250 [republish-6] [DEBUG] [1768486271.853272350] [rcl]: Subscription take succeeded: true
+1768486271.8700292 [republish-6] [DEBUG] [1768486271.853290047] [rcl]: Subscription taking message
+1768486271.8701148 [republish-6] [DEBUG] [1768486271.853347649] [rcl]: Subscription take succeeded: true
+1768486271.8701973 [republish-6] [DEBUG] [1768486271.853375714] [rcl]: Subscription taking message
+1768486271.8702772 [republish-6] [DEBUG] [1768486271.853387298] [rcl]: Subscription take succeeded: true
+1768486271.8703535 [republish-6] [DEBUG] [1768486271.853404899] [rcl]: Subscription taking message
+1768486271.8704298 [republish-6] [DEBUG] [1768486271.853415555] [rcl]: Subscription take succeeded: true
+1768486271.8705063 [republish-6] [DEBUG] [1768486271.856104024] [rcl]: Subscription taking message
+1768486271.8705826 [republish-6] [DEBUG] [1768486271.856161177] [rcl]: Subscription take succeeded: true
+1768486271.8706598 [republish-6] [DEBUG] [1768486271.856241276] [rcl]: Subscription taking message
+1768486271.8707352 [republish-6] [DEBUG] [1768486271.856260733] [rcl]: Subscription take succeeded: true
+1768486271.8708162 [republish-6] [DEBUG] [1768486271.856282269] [rcl]: Subscription taking message
+1768486271.8708963 [republish-6] [DEBUG] [1768486271.856291901] [rcl]: Subscription take succeeded: true
+1768486271.8709719 [republish-6] [DEBUG] [1768486271.856309406] [rcl]: Subscription taking message
+1768486271.8710456 [republish-6] [DEBUG] [1768486271.856318430] [rcl]: Subscription take succeeded: true
+1768486271.8711972 [republish-6] [DEBUG] [1768486271.856334943] [rcl]: Subscription taking message
+1768486271.8713605 [republish-6] [DEBUG] [1768486271.856378592] [rcl]: Subscription take succeeded: true
+1768486271.8714926 [republish-6] [DEBUG] [1768486271.856404961] [rcl]: Subscription taking message
+1768486271.8716235 [republish-6] [DEBUG] [1768486271.856418625] [rcl]: Subscription take succeeded: true
+1768486271.8717577 [republish-6] [DEBUG] [1768486271.856568422] [rcl]: Subscription taking message
+1768486271.8718953 [republish-6] [DEBUG] [1768486271.856595687] [rcl]: Subscription take succeeded: true
+1768486271.8720863 [republish-6] [DEBUG] [1768486271.856788045] [rcl]: Subscription taking message
+1768486271.8723552 [republish-6] [DEBUG] [1768486271.856812878] [rcl]: Subscription take succeeded: true
+1768486271.8746128 [republish-6] [DEBUG] [1768486271.859674344] [rcl]: Subscription taking message
+1768486271.8748088 [republish-6] [DEBUG] [1768486271.859740394] [rcl]: Subscription take succeeded: true
+1768486271.8749585 [republish-6] [DEBUG] [1768486271.859790604] [rcl]: Subscription taking message
+1768486271.8750973 [republish-6] [DEBUG] [1768486271.859804940] [rcl]: Subscription take succeeded: true
+1768486271.8752337 [republish-6] [DEBUG] [1768486271.859824813] [rcl]: Subscription taking message
+1768486271.8753679 [republish-6] [DEBUG] [1768486271.859835373] [rcl]: Subscription take succeeded: true
+1768486271.8754990 [republish-6] [DEBUG] [1768486271.859853518] [rcl]: Subscription taking message
+1768486271.8756287 [republish-6] [DEBUG] [1768486271.859862862] [rcl]: Subscription take succeeded: true
+1768486271.8757555 [republish-6] [DEBUG] [1768486271.859879118] [rcl]: Subscription taking message
+1768486271.8759060 [republish-6] [DEBUG] [1768486271.859888783] [rcl]: Subscription take succeeded: true
+1768486271.8761964 [republish-6] [DEBUG] [1768486271.859955665] [rcl]: Subscription taking message
+1768486271.8763971 [republish-6] [DEBUG] [1768486271.859972305] [rcl]: Subscription take succeeded: true
+1768486271.8764989 [republish-6] [DEBUG] [1768486271.859994098] [rcl]: Subscription taking message
+1768486271.8766108 [republish-6] [DEBUG] [1768486271.860005586] [rcl]: Subscription take succeeded: true
+1768486271.8766990 [republish-6] [DEBUG] [1768486271.860119510] [rcl]: Subscription taking message
+1768486271.8767807 [republish-6] [DEBUG] [1768486271.860138263] [rcl]: Subscription take succeeded: true
+1768486271.8768597 [republish-6] [DEBUG] [1768486271.860444000] [rcl]: Subscription taking message
+1768486271.8769376 [republish-6] [DEBUG] [1768486271.860473857] [rcl]: Subscription take succeeded: true
+1768486271.8774602 [republish-6] [DEBUG] [1768486271.861158135] [rcl]: Subscription taking message
+1768486271.8777046 [republish-6] [DEBUG] [1768486271.861191960] [rcl]: Subscription take succeeded: true
+1768486271.8778021 [republish-6] [DEBUG] [1768486271.861379742] [rcl]: Subscription taking message
+1768486271.8778875 [republish-6] [DEBUG] [1768486271.861406622] [rcl]: Subscription take succeeded: true
+1768486271.8780670 [republish-6] [DEBUG] [1768486271.861542819] [rcl]: Subscription taking message
+1768486271.8781648 [republish-6] [DEBUG] [1768486271.861569828] [rcl]: Subscription take succeeded: true
+1768486271.8783429 [republish-6] [DEBUG] [1768486271.861715336] [rcl]: Subscription taking message
+1768486271.8785062 [republish-6] [DEBUG] [1768486271.861740777] [rcl]: Subscription take succeeded: true
+1768486271.8786271 [republish-6] [DEBUG] [1768486271.862266362] [rcl]: Subscription taking message
+1768486271.8787167 [republish-6] [DEBUG] [1768486271.862300827] [rcl]: Subscription take succeeded: true
+1768486271.8788002 [republish-6] [DEBUG] [1768486271.862431807] [rcl]: Subscription taking message
+1768486271.8788803 [republish-6] [DEBUG] [1768486271.862457600] [rcl]: Subscription take succeeded: true
+1768486271.8808825 [republish-6] [DEBUG] [1768486271.864153973] [rcl]: Subscription taking message
+1768486271.8810818 [republish-6] [DEBUG] [1768486271.864197974] [rcl]: Subscription take succeeded: true
+1768486271.8812468 [republish-6] [DEBUG] [1768486271.864371036] [rcl]: Subscription taking message
+1768486271.8813646 [republish-6] [DEBUG] [1768486271.864401085] [rcl]: Subscription take succeeded: true
+1768486271.8814828 [republish-6] [DEBUG] [1768486271.864562434] [rcl]: Subscription taking message
+1768486271.8815739 [republish-6] [DEBUG] [1768486271.864589091] [rcl]: Subscription take succeeded: true
+1768486271.8816581 [republish-6] [DEBUG] [1768486271.864721543] [rcl]: Subscription taking message
+1768486271.8817782 [republish-6] [DEBUG] [1768486271.864745320] [rcl]: Subscription take succeeded: true
+1768486271.8818753 [republish-6] [DEBUG] [1768486271.864961262] [rcl]: Subscription taking message
+1768486271.8819904 [republish-6] [DEBUG] [1768486271.864988847] [rcl]: Subscription take succeeded: true
+1768486271.8820834 [republish-6] [DEBUG] [1768486271.865108435] [rcl]: Subscription taking message
+1768486271.8821645 [republish-6] [DEBUG] [1768486271.865133492] [rcl]: Subscription take succeeded: true
+1768486271.8822422 [republish-6] [DEBUG] [1768486271.865273624] [rcl]: Subscription taking message
+1768486271.8823271 [republish-6] [DEBUG] [1768486271.865297113] [rcl]: Subscription take succeeded: true
+1768486271.8824062 [republish-6] [DEBUG] [1768486271.865474719] [rcl]: Subscription taking message
+1768486271.8824825 [republish-6] [DEBUG] [1768486271.865501663] [rcl]: Subscription take succeeded: true
+1768486271.8825641 [republish-6] [DEBUG] [1768486271.865639620] [rcl]: Subscription taking message
+1768486271.8826389 [republish-6] [DEBUG] [1768486271.865683653] [rcl]: Subscription take succeeded: true
+1768486271.8900321 [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/visual_slam_node' in container '/isaac_ros_container'
+1768486271.8906024 [republish-6] [DEBUG] [1768486271.866721158] [rcl]: Subscription taking message
+1768486271.8916306 [republish-6] [DEBUG] [1768486271.866762215] [rcl]: Subscription take succeeded: true
+1768486271.8918173 [republish-6] [DEBUG] [1768486271.872693154] [rcl]: Subscription taking message
+1768486271.8924205 [republish-6] [DEBUG] [1768486271.872745763] [rcl]: Subscription take succeeded: true
+1768486271.8925707 [republish-6] [DEBUG] [1768486271.872833958] [rcl]: Subscription taking message
+1768486271.8934774 [republish-6] [DEBUG] [1768486271.872854887] [rcl]: Subscription take succeeded: true
+1768486271.8936346 [republish-6] [DEBUG] [1768486271.872979403] [rcl]: Subscription taking message
+1768486271.8941486 [republish-6] [DEBUG] [1768486271.873021932] [rcl]: Subscription take succeeded: true
+1768486271.8943424 [republish-6] [DEBUG] [1768486271.873087950] [rcl]: Subscription taking message
+1768486271.8945262 [republish-6] [DEBUG] [1768486271.873106127] [rcl]: Subscription take succeeded: true
+1768486271.8949883 [republish-6] [DEBUG] [1768486271.873224114] [rcl]: Subscription taking message
+1768486271.8951700 [republish-6] [DEBUG] [1768486271.873248659] [rcl]: Subscription take succeeded: true
+1768486271.8953323 [republish-6] [DEBUG] [1768486271.873339798] [rcl]: Subscription taking message
+1768486271.8965259 [republish-6] [DEBUG] [1768486271.873364119] [rcl]: Subscription take succeeded: true
+1768486272.0066903 [republish-6] [DEBUG] [1768486271.916980436] [rcl]: Subscription taking message
+1768486272.0070086 [republish-6] [DEBUG] [1768486271.917038934] [rcl]: Subscription take succeeded: true
+1768486272.0082715 [republish-6] [DEBUG] [1768486271.918703722] [rcl]: Subscription taking message
+1768486272.0084796 [republish-6] [DEBUG] [1768486271.918754508] [rcl]: Subscription take succeeded: true
+1768486272.0086019 [republish-6] [DEBUG] [1768486271.918993875] [rcl]: Subscription taking message
+1768486272.0086997 [republish-6] [DEBUG] [1768486271.919025044] [rcl]: Subscription take succeeded: true
+1768486272.0087864 [republish-6] [DEBUG] [1768486271.919135864] [rcl]: Subscription taking message
+1768486272.0088685 [republish-6] [DEBUG] [1768486271.919183385] [rcl]: Subscription take succeeded: true
+1768486272.0089488 [republish-6] [DEBUG] [1768486271.919301565] [rcl]: Subscription taking message
+1768486272.0090270 [republish-6] [DEBUG] [1768486271.919346654] [rcl]: Subscription take succeeded: true
+1768486272.0091074 [republish-6] [DEBUG] [1768486271.919449441] [rcl]: Subscription taking message
+1768486272.0091896 [republish-6] [DEBUG] [1768486271.919473474] [rcl]: Subscription take succeeded: true
+1768486272.0092762 [republish-6] [DEBUG] [1768486271.922510242] [rcl]: Subscription taking message
+1768486272.0093622 [republish-6] [DEBUG] [1768486271.922673415] [rcl]: Subscription take succeeded: true
+1768486272.0165136 [republish-6] [DEBUG] [1768486271.939783009] [rcl]: Subscription taking message
+1768486272.0167370 [republish-6] [DEBUG] [1768486271.939827939] [rcl]: Subscription take succeeded: true
+1768486272.0169063 [republish-6] [DEBUG] [1768486271.939872292] [rcl]: Subscription taking message
+1768486272.0170615 [republish-6] [DEBUG] [1768486271.939888421] [rcl]: Subscription take succeeded: true
+1768486272.0172081 [republish-6] [DEBUG] [1768486271.939909573] [rcl]: Subscription taking message
+1768486272.0173559 [republish-6] [DEBUG] [1768486271.939919846] [rcl]: Subscription take succeeded: true
+1768486272.0175231 [republish-6] [DEBUG] [1768486271.939938726] [rcl]: Subscription taking message
+1768486272.0176816 [republish-6] [DEBUG] [1768486271.939948391] [rcl]: Subscription take succeeded: true
+1768486272.0178118 [republish-6] [DEBUG] [1768486271.939965287] [rcl]: Subscription taking message
+1768486272.0179546 [republish-6] [DEBUG] [1768486271.939974663] [rcl]: Subscription take succeeded: true
+1768486272.0180905 [republish-6] [DEBUG] [1768486271.939991336] [rcl]: Subscription taking message
+1768486272.0182123 [republish-6] [DEBUG] [1768486271.940009929] [rcl]: Subscription take succeeded: true
+1768486272.0183485 [republish-6] [DEBUG] [1768486271.940211503] [rcl]: Subscription taking message
+1768486272.0184832 [republish-6] [DEBUG] [1768486271.940262641] [rcl]: Subscription take succeeded: true
+1768486272.6677575 [republish-6] [DEBUG] [1768486272.666584990] [rcl]: Subscription taking message
+1768486272.6682270 [republish-6] [DEBUG] [1768486272.666966858] [rcl]: Subscription take succeeded: true
+1768486272.7188668 [republish-6] [DEBUG] [1768486272.718473471] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:12.17 (33434 bytes)
+1768486272.7196934 [republish-6] [DEBUG] [1768486272.719434557] [rcl]: Subscription taking message
+1768486272.7204182 [republish-6] [DEBUG] [1768486272.719690181] [rcl]: Subscription take succeeded: true
+1768486272.7231214 [republish-6] [DEBUG] [1768486272.722082737] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:12.13 (33556 bytes)
+1768486272.7233891 [republish-6] [DEBUG] [1768486272.722260982] [rcl]: Subscription taking message
+1768486272.7236185 [republish-6] [DEBUG] [1768486272.722433340] [rcl]: Subscription take succeeded: true
+1768486272.7248487 [republish-6] [DEBUG] [1768486272.724648738] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:12.05 (33791 bytes)
+1768486272.7253795 [republish-6] [DEBUG] [1768486272.724780966] [rcl]: Subscription taking message
+1768486272.7255449 [republish-6] [DEBUG] [1768486272.724880233] [rcl]: Subscription take succeeded: true
+1768486272.7281587 [republish-6] [DEBUG] [1768486272.727134704] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:11.70 (34787 bytes)
+1768486272.7298272 [republish-6] [DEBUG] [1768486272.727243603] [rcl]: Subscription taking message
+1768486272.7300243 [republish-6] [DEBUG] [1768486272.727335254] [rcl]: Subscription take succeeded: true
+1768486272.7311490 [republish-6] [DEBUG] [1768486272.730910087] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:11.67 (34893 bytes)
+1768486272.7317574 [republish-6] [DEBUG] [1768486272.731082540] [rcl]: Subscription taking message
+1768486272.7323627 [republish-6] [DEBUG] [1768486272.731186511] [rcl]: Subscription take succeeded: true
+1768486272.7339978 [republish-6] [DEBUG] [1768486272.733773473] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:10.05 (40485 bytes)
+1768486272.7348185 [republish-6] [DEBUG] [1768486272.733928006] [rcl]: Subscription taking message
+1768486272.7349997 [republish-6] [DEBUG] [1768486272.734032265] [rcl]: Subscription take succeeded: true
+1768486272.7367313 [republish-6] [DEBUG] [1768486272.736533560] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.90 (41130 bytes)
+1768486272.7378514 [republish-6] [DEBUG] [1768486272.736666300] [rcl]: Subscription taking message
+1768486272.7380002 [republish-6] [DEBUG] [1768486272.736766527] [rcl]: Subscription take succeeded: true
+1768486272.7399127 [republish-6] [DEBUG] [1768486272.739733820] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.65 (42164 bytes)
+1768486272.7638662 [republish-6] [DEBUG] [1768486272.763364644] [rcl]: Subscription taking message
+1768486272.7645462 [republish-6] [DEBUG] [1768486272.763527401] [rcl]: Subscription take succeeded: true
+1768486272.7658327 [republish-6] [DEBUG] [1768486272.765665997] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.45 (43070 bytes)
+1768486272.7973011 [republish-6] [DEBUG] [1768486272.796818209] [rcl]: Subscription taking message
+1768486272.7981141 [republish-6] [DEBUG] [1768486272.796963078] [rcl]: Subscription take succeeded: true
+1768486272.7992694 [republish-6] [DEBUG] [1768486272.799097353] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.46 (43033 bytes)
+1768486272.8306262 [republish-6] [DEBUG] [1768486272.830254558] [rcl]: Subscription taking message
+1768486272.8312323 [republish-6] [DEBUG] [1768486272.830392770] [rcl]: Subscription take succeeded: true
+1768486272.8326764 [republish-6] [DEBUG] [1768486272.832511045] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.61 (42370 bytes)
+1768486272.8641005 [republish-6] [DEBUG] [1768486272.863587799] [rcl]: Subscription taking message
+1768486272.8647335 [republish-6] [DEBUG] [1768486272.863730203] [rcl]: Subscription take succeeded: true
+1768486272.8660357 [republish-6] [DEBUG] [1768486272.865865726] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.28 (43871 bytes)
+1768486272.8974965 [republish-6] [DEBUG] [1768486272.897001106] [rcl]: Subscription taking message
+1768486272.8981826 [republish-6] [DEBUG] [1768486272.897148695] [rcl]: Subscription take succeeded: true
+1768486272.8998148 [republish-6] [DEBUG] [1768486272.899558851] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.06 (44916 bytes)
+1768486272.9309218 [republish-6] [DEBUG] [1768486272.930148710] [rcl]: Subscription taking message
+1768486272.9311767 [republish-6] [DEBUG] [1768486272.930281930] [rcl]: Subscription take succeeded: true
+1768486272.9328623 [republish-6] [DEBUG] [1768486272.932454158] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.98 (45337 bytes)
+1768486272.9641309 [republish-6] [DEBUG] [1768486272.963618211] [rcl]: Subscription taking message
+1768486272.9647906 [republish-6] [DEBUG] [1768486272.963762312] [rcl]: Subscription take succeeded: true
+1768486272.9661186 [republish-6] [DEBUG] [1768486272.965902219] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.03 (45082 bytes)
+1768486272.9974115 [republish-6] [DEBUG] [1768486272.996927548] [rcl]: Subscription taking message
+1768486272.9980481 [republish-6] [DEBUG] [1768486272.997069440] [rcl]: Subscription take succeeded: true
+1768486272.9997220 [republish-6] [DEBUG] [1768486272.999548590] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.25 (44028 bytes)
+1768486273.0307534 [republish-6] [DEBUG] [1768486273.030262069] [rcl]: Subscription taking message
+1768486273.0314405 [republish-6] [DEBUG] [1768486273.030409786] [rcl]: Subscription take succeeded: true
+1768486273.0327148 [republish-6] [DEBUG] [1768486273.032539261] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.25 (44010 bytes)
+1768486273.0639768 [republish-6] [DEBUG] [1768486273.063597230] [rcl]: Subscription taking message
+1768486273.0645933 [republish-6] [DEBUG] [1768486273.063736339] [rcl]: Subscription take succeeded: true
+1768486273.0660670 [republish-6] [DEBUG] [1768486273.065902903] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.89 (45762 bytes)
+1768486273.0973909 [republish-6] [DEBUG] [1768486273.096924487] [rcl]: Subscription taking message
+1768486273.0980117 [republish-6] [DEBUG] [1768486273.097070188] [rcl]: Subscription take succeeded: true
+1768486273.0994141 [republish-6] [DEBUG] [1768486273.099225680] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.33 (48889 bytes)
+1768486273.1307957 [republish-6] [DEBUG] [1768486273.130307234] [rcl]: Subscription taking message
+1768486273.1311595 [republish-6] [DEBUG] [1768486273.130450534] [rcl]: Subscription take succeeded: true
+1768486273.1328926 [republish-6] [DEBUG] [1768486273.132720750] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.26 (49251 bytes)
+1768486273.1639936 [republish-6] [DEBUG] [1768486273.163703837] [rcl]: Subscription taking message
+1768486273.1645827 [republish-6] [DEBUG] [1768486273.163889699] [rcl]: Subscription take succeeded: true
+1768486273.1662591 [republish-6] [DEBUG] [1768486273.166090536] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.31 (48965 bytes)
+1768486273.1974652 [republish-6] [DEBUG] [1768486273.197006837] [rcl]: Subscription taking message
+1768486273.1981037 [republish-6] [DEBUG] [1768486273.197145850] [rcl]: Subscription take succeeded: true
+1768486273.1994882 [republish-6] [DEBUG] [1768486273.199284733] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.29 (49098 bytes)
+1768486273.2307384 [republish-6] [DEBUG] [1768486273.230263052] [rcl]: Subscription taking message
+1768486273.2314017 [republish-6] [DEBUG] [1768486273.230401136] [rcl]: Subscription take succeeded: true
+1768486273.2327769 [republish-6] [DEBUG] [1768486273.232561876] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.43 (48288 bytes)
+1768486273.2647119 [republish-6] [DEBUG] [1768486273.263645575] [rcl]: Subscription taking message
+1768486273.2649126 [republish-6] [DEBUG] [1768486273.263775883] [rcl]: Subscription take succeeded: true
+1768486273.2660990 [republish-6] [DEBUG] [1768486273.265928047] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.34 (48800 bytes)
+1768486273.2977839 [republish-6] [DEBUG] [1768486273.297343083] [rcl]: Subscription taking message
+1768486273.2983813 [republish-6] [DEBUG] [1768486273.297484112] [rcl]: Subscription take succeeded: true
+1768486273.2997916 [republish-6] [DEBUG] [1768486273.299628339] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.31 (48975 bytes)
+1768486273.3307929 [republish-6] [DEBUG] [1768486273.330291289] [rcl]: Subscription taking message
+1768486273.3311105 [republish-6] [DEBUG] [1768486273.330445053] [rcl]: Subscription take succeeded: true
+1768486273.3330569 [republish-6] [DEBUG] [1768486273.332846057] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.45 (48187 bytes)
+1768486273.3642395 [republish-6] [DEBUG] [1768486273.363730261] [rcl]: Subscription taking message
+1768486273.3648849 [republish-6] [DEBUG] [1768486273.363874170] [rcl]: Subscription take succeeded: true
+1768486273.3663967 [republish-6] [DEBUG] [1768486273.366133089] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.33 (48861 bytes)
+1768486273.3980465 [republish-6] [DEBUG] [1768486273.397577342] [rcl]: Subscription taking message
+1768486273.3986611 [republish-6] [DEBUG] [1768486273.397723587] [rcl]: Subscription take succeeded: true
+1768486273.4000854 [republish-6] [DEBUG] [1768486273.399868007] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.28 (49166 bytes)
+1768486273.4308801 [republish-6] [DEBUG] [1768486273.430399432] [rcl]: Subscription taking message
+1768486273.4315031 [republish-6] [DEBUG] [1768486273.430543948] [rcl]: Subscription take succeeded: true
+1768486273.4329278 [republish-6] [DEBUG] [1768486273.432707696] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.28 (49130 bytes)
+1768486273.4642282 [republish-6] [DEBUG] [1768486273.463730433] [rcl]: Subscription taking message
+1768486273.4648507 [republish-6] [DEBUG] [1768486273.463870341] [rcl]: Subscription take succeeded: true
+1768486273.4665508 [republish-6] [DEBUG] [1768486273.466033545] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.23 (49462 bytes)
+1768486273.4976528 [republish-6] [DEBUG] [1768486273.497259904] [rcl]: Subscription taking message
+1768486273.4978857 [republish-6] [DEBUG] [1768486273.497392292] [rcl]: Subscription take succeeded: true
+1768486273.4997351 [republish-6] [DEBUG] [1768486273.499533320] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.31 (49011 bytes)
+1768486273.5308516 [republish-6] [DEBUG] [1768486273.530376402] [rcl]: Subscription taking message
+1768486273.5314679 [republish-6] [DEBUG] [1768486273.530517495] [rcl]: Subscription take succeeded: true
+1768486273.5333407 [republish-6] [DEBUG] [1768486273.533101768] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.47 (48041 bytes)
+1768486273.5641432 [republish-6] [DEBUG] [1768486273.563632585] [rcl]: Subscription taking message
+1768486273.5644696 [republish-6] [DEBUG] [1768486273.563769837] [rcl]: Subscription take succeeded: true
+1768486273.5663421 [republish-6] [DEBUG] [1768486273.566137752] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.44 (48254 bytes)
+1768486273.5974317 [republish-6] [DEBUG] [1768486273.596957794] [rcl]: Subscription taking message
+1768486273.5981028 [republish-6] [DEBUG] [1768486273.597101351] [rcl]: Subscription take succeeded: true
+1768486273.5994015 [republish-6] [DEBUG] [1768486273.599241546] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.28 (49176 bytes)
+1768486273.6307940 [republish-6] [DEBUG] [1768486273.630406943] [rcl]: Subscription taking message
+1768486273.6313822 [republish-6] [DEBUG] [1768486273.630536675] [rcl]: Subscription take succeeded: true
+1768486273.6332154 [republish-6] [DEBUG] [1768486273.633009745] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.66 (47029 bytes)
+1768486273.6651216 [republish-6] [DEBUG] [1768486273.664650837] [rcl]: Subscription taking message
+1768486273.6657934 [republish-6] [DEBUG] [1768486273.664845723] [rcl]: Subscription take succeeded: true
+1768486273.6672311 [republish-6] [DEBUG] [1768486273.667060417] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.96 (45434 bytes)
+1768486273.6985679 [republish-6] [DEBUG] [1768486273.698124114] [rcl]: Subscription taking message
+1768486273.6992309 [republish-6] [DEBUG] [1768486273.698263447] [rcl]: Subscription take succeeded: true
+1768486273.7007034 [republish-6] [DEBUG] [1768486273.700468796] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.84 (46035 bytes)
+1768486273.7307897 [republish-6] [DEBUG] [1768486273.730461580] [rcl]: Subscription taking message
+1768486273.7313719 [republish-6] [DEBUG] [1768486273.730592944] [rcl]: Subscription take succeeded: true
+1768486273.7329271 [republish-6] [DEBUG] [1768486273.732757268] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.75 (46532 bytes)
+1768486273.7641764 [republish-6] [DEBUG] [1768486273.763697314] [rcl]: Subscription taking message
+1768486273.7647898 [republish-6] [DEBUG] [1768486273.763843527] [rcl]: Subscription take succeeded: true
+1768486273.7663078 [republish-6] [DEBUG] [1768486273.766066125] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.88 (45828 bytes)
+1768486273.7990947 [republish-6] [DEBUG] [1768486273.798663375] [rcl]: Subscription taking message
+1768486273.7997124 [republish-6] [DEBUG] [1768486273.798805843] [rcl]: Subscription take succeeded: true
+1768486273.8011415 [republish-6] [DEBUG] [1768486273.800979544] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.87 (45870 bytes)
+1768486273.8313148 [republish-6] [DEBUG] [1768486273.830486873] [rcl]: Subscription taking message
+1768486273.8315072 [republish-6] [DEBUG] [1768486273.830608924] [rcl]: Subscription take succeeded: true
+1768486273.8329258 [republish-6] [DEBUG] [1768486273.832748704] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.92 (45618 bytes)
+1768486273.8642941 [republish-6] [DEBUG] [1768486273.863836498] [rcl]: Subscription taking message
+1768486273.8649030 [republish-6] [DEBUG] [1768486273.863978135] [rcl]: Subscription take succeeded: true
+1768486273.8663888 [republish-6] [DEBUG] [1768486273.866212253] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.48 (48028 bytes)
+1768486273.8984694 [republish-6] [DEBUG] [1768486273.897981221] [rcl]: Subscription taking message
+1768486273.8996749 [republish-6] [DEBUG] [1768486273.898128138] [rcl]: Subscription take succeeded: true
+1768486273.9008510 [republish-6] [DEBUG] [1768486273.900614712] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.57 (47487 bytes)
+1768486273.9318440 [republish-6] [DEBUG] [1768486273.931358592] [rcl]: Subscription taking message
+1768486273.9325926 [republish-6] [DEBUG] [1768486273.931507236] [rcl]: Subscription take succeeded: true
+1768486273.9340429 [republish-6] [DEBUG] [1768486273.933824589] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.72 (46688 bytes)
+1768486273.9642463 [republish-6] [DEBUG] [1768486273.963915168] [rcl]: Subscription taking message
+1768486273.9647982 [republish-6] [DEBUG] [1768486273.964080293] [rcl]: Subscription take succeeded: true
+1768486273.9664705 [republish-6] [DEBUG] [1768486273.966285611] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.44 (48206 bytes)
+1768486273.9984274 [republish-6] [DEBUG] [1768486273.997942191] [rcl]: Subscription taking message
+1768486273.9990726 [republish-6] [DEBUG] [1768486273.998086452] [rcl]: Subscription take succeeded: true
+1768486274.0005100 [republish-6] [DEBUG] [1768486274.000297433] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.26 (49301 bytes)
+1768486274.0312479 [republish-6] [DEBUG] [1768486274.030790201] [rcl]: Subscription taking message
+1768486274.0318749 [republish-6] [DEBUG] [1768486274.030927774] [rcl]: Subscription take succeeded: true
+1768486274.0333223 [republish-6] [DEBUG] [1768486274.033162244] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.15 (49939 bytes)
+1768486274.0642202 [republish-6] [DEBUG] [1768486274.063858218] [rcl]: Subscription taking message
+1768486274.0644453 [republish-6] [DEBUG] [1768486274.063984750] [rcl]: Subscription take succeeded: true
+1768486274.0664361 [republish-6] [DEBUG] [1768486274.066210900] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.29 (49090 bytes)
+1768486274.0976830 [republish-6] [DEBUG] [1768486274.097218244] [rcl]: Subscription taking message
+1768486274.0983260 [republish-6] [DEBUG] [1768486274.097357032] [rcl]: Subscription take succeeded: true
+1768486274.0996621 [republish-6] [DEBUG] [1768486274.099491724] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.32 (48906 bytes)
+1768486274.1310365 [republish-6] [DEBUG] [1768486274.130545821] [rcl]: Subscription taking message
+1768486274.1316657 [republish-6] [DEBUG] [1768486274.130691394] [rcl]: Subscription take succeeded: true
+1768486274.1330316 [republish-6] [DEBUG] [1768486274.132863814] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.53 (47740 bytes)
+1768486274.1786370 [republish-6] [DEBUG] [1768486274.178277563] [rcl]: Subscription taking message
+1768486274.1792152 [republish-6] [DEBUG] [1768486274.178412576] [rcl]: Subscription take succeeded: true
+1768486274.1810040 [republish-6] [DEBUG] [1768486274.180750185] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.62 (47223 bytes)
+1768486274.1978803 [republish-6] [DEBUG] [1768486274.197520697] [rcl]: Subscription taking message
+1768486274.1984684 [republish-6] [DEBUG] [1768486274.197660894] [rcl]: Subscription take succeeded: true
+1768486274.2000036 [republish-6] [DEBUG] [1768486274.199793313] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.13 (50069 bytes)
+1768486274.2310362 [republish-6] [DEBUG] [1768486274.230571721] [rcl]: Subscription taking message
+1768486274.2316628 [republish-6] [DEBUG] [1768486274.230699917] [rcl]: Subscription take succeeded: true
+1768486274.2330501 [republish-6] [DEBUG] [1768486274.232881074] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.81 (52121 bytes)
+1768486274.2643735 [republish-6] [DEBUG] [1768486274.263875074] [rcl]: Subscription taking message
+1768486274.2646940 [republish-6] [DEBUG] [1768486274.264006566] [rcl]: Subscription take succeeded: true
+1768486274.2663481 [republish-6] [DEBUG] [1768486274.266174730] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.20 (49622 bytes)
+1768486274.2976792 [republish-6] [DEBUG] [1768486274.297304734] [rcl]: Subscription taking message
+1768486274.2982476 [republish-6] [DEBUG] [1768486274.297443874] [rcl]: Subscription take succeeded: true
+1768486274.2997942 [republish-6] [DEBUG] [1768486274.299579013] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.07 (50427 bytes)
+1768486274.3310430 [republish-6] [DEBUG] [1768486274.330559157] [rcl]: Subscription taking message
+1768486274.3316786 [republish-6] [DEBUG] [1768486274.330695513] [rcl]: Subscription take succeeded: true
+1768486274.3330467 [republish-6] [DEBUG] [1768486274.332872797] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.87 (51725 bytes)
+1768486274.3642871 [republish-6] [DEBUG] [1768486274.363761034] [rcl]: Subscription taking message
+1768486274.3646138 [republish-6] [DEBUG] [1768486274.363905070] [rcl]: Subscription take succeeded: true
+1768486274.3662820 [republish-6] [DEBUG] [1768486274.366080307] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.64 (53282 bytes)
+1768486274.3980455 [republish-6] [DEBUG] [1768486274.397270280] [rcl]: Subscription taking message
+1768486274.3982642 [republish-6] [DEBUG] [1768486274.397407501] [rcl]: Subscription take succeeded: true
+1768486274.3999357 [republish-6] [DEBUG] [1768486274.399599762] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.53 (54023 bytes)
+1768486274.4313402 [republish-6] [DEBUG] [1768486274.430884810] [rcl]: Subscription taking message
+1768486274.4319491 [republish-6] [DEBUG] [1768486274.431032591] [rcl]: Subscription take succeeded: true
+1768486274.4334219 [republish-6] [DEBUG] [1768486274.433253013] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.35 (55378 bytes)
+1768486274.4644580 [republish-6] [DEBUG] [1768486274.463938779] [rcl]: Subscription taking message
+1768486274.4653063 [republish-6] [DEBUG] [1768486274.464168962] [rcl]: Subscription take succeeded: true
+1768486274.4666345 [republish-6] [DEBUG] [1768486274.466448842] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.10 (50271 bytes)
+1768486274.4976041 [republish-6] [DEBUG] [1768486274.497131536] [rcl]: Subscription taking message
+1768486274.4982550 [republish-6] [DEBUG] [1768486274.497269140] [rcl]: Subscription take succeeded: true
+1768486274.4998939 [republish-6] [DEBUG] [1768486274.499633182] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.26 (49291 bytes)
+1768486274.5315325 [republish-6] [DEBUG] [1768486274.530849557] [rcl]: Subscription taking message
+1768486274.5322449 [republish-6] [DEBUG] [1768486274.530984377] [rcl]: Subscription take succeeded: true
+1768486274.5333583 [republish-6] [DEBUG] [1768486274.533147901] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.34 (48807 bytes)
+1768486274.5646372 [republish-6] [DEBUG] [1768486274.564170414] [rcl]: Subscription taking message
+1768486274.5652428 [republish-6] [DEBUG] [1768486274.564308562] [rcl]: Subscription take succeeded: true
+1768486274.5667639 [republish-6] [DEBUG] [1768486274.566594682] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.12 (44616 bytes)
+1768486274.5979648 [republish-6] [DEBUG] [1768486274.597484326] [rcl]: Subscription taking message
+1768486274.5986428 [republish-6] [DEBUG] [1768486274.597626027] [rcl]: Subscription take succeeded: true
+1768486274.5999942 [republish-6] [DEBUG] [1768486274.599839184] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.13 (44579 bytes)
+1768486274.6311426 [republish-6] [DEBUG] [1768486274.630883265] [rcl]: Subscription taking message
+1768486274.6316803 [republish-6] [DEBUG] [1768486274.631014502] [rcl]: Subscription take succeeded: true
+1768486274.6333163 [republish-6] [DEBUG] [1768486274.633156073] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.62 (47239 bytes)
+1768486274.6646392 [republish-6] [DEBUG] [1768486274.663988819] [rcl]: Subscription taking message
+1768486274.6649315 [republish-6] [DEBUG] [1768486274.664129080] [rcl]: Subscription take succeeded: true
+1768486274.6669934 [republish-6] [DEBUG] [1768486274.666500387] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.57 (47480 bytes)
+1768486274.6979570 [republish-6] [DEBUG] [1768486274.697495378] [rcl]: Subscription taking message
+1768486274.6986308 [republish-6] [DEBUG] [1768486274.697631030] [rcl]: Subscription take succeeded: true
+1768486274.6999586 [republish-6] [DEBUG] [1768486274.699776378] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.35 (48724 bytes)
+1768486274.7312593 [republish-6] [DEBUG] [1768486274.730750601] [rcl]: Subscription taking message
+1768486274.7316265 [republish-6] [DEBUG] [1768486274.730881005] [rcl]: Subscription take succeeded: true
+1768486274.7331960 [republish-6] [DEBUG] [1768486274.733026705] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.24 (49386 bytes)
+1768486274.7646768 [republish-6] [DEBUG] [1768486274.764274216] [rcl]: Subscription taking message
+1768486274.7652755 [republish-6] [DEBUG] [1768486274.764411692] [rcl]: Subscription take succeeded: true
+1768486274.7666543 [republish-6] [DEBUG] [1768486274.766497454] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.59 (42437 bytes)
+1768486274.7983565 [republish-6] [DEBUG] [1768486274.797888842] [rcl]: Subscription taking message
+1768486274.7989922 [republish-6] [DEBUG] [1768486274.798019182] [rcl]: Subscription take succeeded: true
+1768486274.8005011 [republish-6] [DEBUG] [1768486274.800287670] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:10.07 (40437 bytes)
+1768486274.8313098 [republish-6] [DEBUG] [1768486274.830830167] [rcl]: Subscription taking message
+1768486274.8316343 [republish-6] [DEBUG] [1768486274.830973147] [rcl]: Subscription take succeeded: true
+1768486274.8332546 [republish-6] [DEBUG] [1768486274.833091678] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:10.35 (39320 bytes)
+1768486274.8650689 [republish-6] [DEBUG] [1768486274.864640479] [rcl]: Subscription taking message
+1768486274.8657038 [republish-6] [DEBUG] [1768486274.864784452] [rcl]: Subscription take succeeded: true
+1768486274.8670449 [republish-6] [DEBUG] [1768486274.866859941] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:10.77 (37800 bytes)
+1768486274.8980873 [republish-6] [DEBUG] [1768486274.897604845] [rcl]: Subscription taking message
+1768486274.8988779 [republish-6] [DEBUG] [1768486274.897745681] [rcl]: Subscription take succeeded: true
+1768486274.9002256 [republish-6] [DEBUG] [1768486274.899883700] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:11.04 (36877 bytes)
+1768486274.9311559 [republish-6] [DEBUG] [1768486274.930702270] [rcl]: Subscription taking message
+1768486274.9317768 [republish-6] [DEBUG] [1768486274.930843331] [rcl]: Subscription take succeeded: true
+1768486274.9331126 [republish-6] [DEBUG] [1768486274.932917348] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:11.52 (35340 bytes)
+1768486274.9649229 [republish-6] [DEBUG] [1768486274.964463333] [rcl]: Subscription taking message
+1768486274.9651253 [republish-6] [DEBUG] [1768486274.964608362] [rcl]: Subscription take succeeded: true
+1768486274.9670331 [republish-6] [DEBUG] [1768486274.966869745] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:11.02 (36930 bytes)
+1768486274.9977670 [republish-6] [DEBUG] [1768486274.997364337] [rcl]: Subscription taking message
+1768486274.9983654 [republish-6] [DEBUG] [1768486274.997508533] [rcl]: Subscription take succeeded: true
+1768486274.9999378 [republish-6] [DEBUG] [1768486274.999762684] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:11.27 (36130 bytes)
+1768486275.0312393 [republish-6] [DEBUG] [1768486275.030831118] [rcl]: Subscription taking message
+1768486275.0318301 [republish-6] [DEBUG] [1768486275.030970578] [rcl]: Subscription take succeeded: true
+1768486275.0332675 [republish-6] [DEBUG] [1768486275.033070549] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:11.36 (35841 bytes)
+1768486275.0643651 [republish-6] [DEBUG] [1768486275.063938464] [rcl]: Subscription taking message
+1768486275.0649476 [republish-6] [DEBUG] [1768486275.064103365] [rcl]: Subscription take succeeded: true
+1768486275.0665159 [republish-6] [DEBUG] [1768486275.066366509] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.92 (45656 bytes)
+1768486275.0978978 [republish-6] [DEBUG] [1768486275.097463487] [rcl]: Subscription taking message
+1768486275.0986052 [republish-6] [DEBUG] [1768486275.097604388] [rcl]: Subscription take succeeded: true
+1768486275.0998943 [republish-6] [DEBUG] [1768486275.099729991] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.57 (47475 bytes)
+1768486275.1312072 [republish-6] [DEBUG] [1768486275.130825465] [rcl]: Subscription taking message
+1768486275.1317711 [republish-6] [DEBUG] [1768486275.130966302] [rcl]: Subscription take succeeded: true
+1768486275.1333752 [republish-6] [DEBUG] [1768486275.133200068] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.75 (46530 bytes)
+1768486275.1643476 [republish-6] [DEBUG] [1768486275.163969805] [rcl]: Subscription taking message
+1768486275.1650009 [republish-6] [DEBUG] [1768486275.164131186] [rcl]: Subscription take succeeded: true
+1768486275.1667385 [republish-6] [DEBUG] [1768486275.166421882] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.58 (47435 bytes)
+1768486275.1976984 [republish-6] [DEBUG] [1768486275.197390921] [rcl]: Subscription taking message
+1768486275.1982589 [republish-6] [DEBUG] [1768486275.197527533] [rcl]: Subscription take succeeded: true
+1768486275.1998405 [republish-6] [DEBUG] [1768486275.199680945] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49756 bytes)
+1768486275.2311995 [republish-6] [DEBUG] [1768486275.230718370] [rcl]: Subscription taking message
+1768486275.2318251 [republish-6] [DEBUG] [1768486275.230854758] [rcl]: Subscription take succeeded: true
+1768486275.2332695 [republish-6] [DEBUG] [1768486275.233038699] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.44 (48252 bytes)
+1768486275.2645376 [republish-6] [DEBUG] [1768486275.264044859] [rcl]: Subscription taking message
+1768486275.2651765 [republish-6] [DEBUG] [1768486275.264183423] [rcl]: Subscription take succeeded: true
+1768486275.2666221 [republish-6] [DEBUG] [1768486275.266397765] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.20 (49638 bytes)
+1768486275.2979393 [republish-6] [DEBUG] [1768486275.297398804] [rcl]: Subscription taking message
+1768486275.2985806 [republish-6] [DEBUG] [1768486275.297537881] [rcl]: Subscription take succeeded: true
+1768486275.2998412 [republish-6] [DEBUG] [1768486275.299683644] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.91 (51471 bytes)
+1768486275.3312454 [republish-6] [DEBUG] [1768486275.330821744] [rcl]: Subscription taking message
+1768486275.3318393 [republish-6] [DEBUG] [1768486275.330958261] [rcl]: Subscription take succeeded: true
+1768486275.3333347 [republish-6] [DEBUG] [1768486275.333123353] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.26 (49250 bytes)
+1768486275.3645935 [republish-6] [DEBUG] [1768486275.364131273] [rcl]: Subscription taking message
+1768486275.3649006 [republish-6] [DEBUG] [1768486275.364260429] [rcl]: Subscription take succeeded: true
+1768486275.3666406 [republish-6] [DEBUG] [1768486275.366445970] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.70 (46791 bytes)
+1768486275.3988771 [republish-6] [DEBUG] [1768486275.398342430] [rcl]: Subscription taking message
+1768486275.3996465 [republish-6] [DEBUG] [1768486275.398492034] [rcl]: Subscription take succeeded: true
+1768486275.4014602 [republish-6] [DEBUG] [1768486275.401216632] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.73 (46638 bytes)
+1768486275.4311574 [republish-6] [DEBUG] [1768486275.430795579] [rcl]: Subscription taking message
+1768486275.4317696 [republish-6] [DEBUG] [1768486275.430929311] [rcl]: Subscription take succeeded: true
+1768486275.4333181 [republish-6] [DEBUG] [1768486275.433118340] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.43 (48291 bytes)
+1768486275.4648080 [republish-6] [DEBUG] [1768486275.464319162] [rcl]: Subscription taking message
+1768486275.4656768 [republish-6] [DEBUG] [1768486275.464457055] [rcl]: Subscription take succeeded: true
+1768486275.4668880 [republish-6] [DEBUG] [1768486275.466676517] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.30 (49066 bytes)
+1768486275.4979906 [republish-6] [DEBUG] [1768486275.497522927] [rcl]: Subscription taking message
+1768486275.4986150 [republish-6] [DEBUG] [1768486275.497659796] [rcl]: Subscription take succeeded: true
+1768486275.4999676 [republish-6] [DEBUG] [1768486275.499805847] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.11 (50213 bytes)
+1768486275.5314491 [republish-6] [DEBUG] [1768486275.530942059] [rcl]: Subscription taking message
+1768486275.5316513 [republish-6] [DEBUG] [1768486275.531076944] [rcl]: Subscription take succeeded: true
+1768486275.5335207 [republish-6] [DEBUG] [1768486275.533261524] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.61 (53471 bytes)
+1768486275.5647664 [republish-6] [DEBUG] [1768486275.564293893] [rcl]: Subscription taking message
+1768486275.5654011 [republish-6] [DEBUG] [1768486275.564431689] [rcl]: Subscription take succeeded: true
+1768486275.5667522 [republish-6] [DEBUG] [1768486275.566594830] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.45 (54672 bytes)
+1768486275.5979865 [republish-6] [DEBUG] [1768486275.597502618] [rcl]: Subscription taking message
+1768486275.5983021 [republish-6] [DEBUG] [1768486275.597639871] [rcl]: Subscription take succeeded: true
+1768486275.6001830 [republish-6] [DEBUG] [1768486275.599924679] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.25 (56132 bytes)
+1768486275.6312902 [republish-6] [DEBUG] [1768486275.630789362] [rcl]: Subscription taking message
+1768486275.6316104 [republish-6] [DEBUG] [1768486275.630927478] [rcl]: Subscription take succeeded: true
+1768486275.6333187 [republish-6] [DEBUG] [1768486275.633151228] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.09 (57378 bytes)
+1768486275.6645656 [republish-6] [DEBUG] [1768486275.664200334] [rcl]: Subscription taking message
+1768486275.6653321 [republish-6] [DEBUG] [1768486275.664346322] [rcl]: Subscription take succeeded: true
+1768486275.6667540 [republish-6] [DEBUG] [1768486275.666548344] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.51 (54187 bytes)
+1768486275.6981349 [republish-6] [DEBUG] [1768486275.697615557] [rcl]: Subscription taking message
+1768486275.6987827 [republish-6] [DEBUG] [1768486275.697761192] [rcl]: Subscription take succeeded: true
+1768486275.7003369 [republish-6] [DEBUG] [1768486275.700089814] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.88 (51629 bytes)
+1768486275.7314737 [republish-6] [DEBUG] [1768486275.731008859] [rcl]: Subscription taking message
+1768486275.7321169 [republish-6] [DEBUG] [1768486275.731152286] [rcl]: Subscription take succeeded: true
+1768486275.7334747 [republish-6] [DEBUG] [1768486275.733320297] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.02 (50753 bytes)
+1768486275.7646503 [republish-6] [DEBUG] [1768486275.764200045] [rcl]: Subscription taking message
+1768486275.7651899 [republish-6] [DEBUG] [1768486275.764343600] [rcl]: Subscription take succeeded: true
+1768486275.7666917 [republish-6] [DEBUG] [1768486275.766474458] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.39 (48529 bytes)
+1768486275.7978327 [republish-6] [DEBUG] [1768486275.797414368] [rcl]: Subscription taking message
+1768486275.7984643 [republish-6] [DEBUG] [1768486275.797560163] [rcl]: Subscription take succeeded: true
+1768486275.8000419 [republish-6] [DEBUG] [1768486275.799714253] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.82 (52080 bytes)
+1768486275.8315470 [republish-6] [DEBUG] [1768486275.831047130] [rcl]: Subscription taking message
+1768486275.8322427 [republish-6] [DEBUG] [1768486275.831198077] [rcl]: Subscription take succeeded: true
+1768486275.8336160 [republish-6] [DEBUG] [1768486275.833444458] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.71 (52777 bytes)
+1768486275.8652365 [republish-6] [DEBUG] [1768486275.864251821] [rcl]: Subscription taking message
+1768486275.8654358 [republish-6] [DEBUG] [1768486275.864392815] [rcl]: Subscription take succeeded: true
+1768486275.8667715 [republish-6] [DEBUG] [1768486275.866510457] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.60 (47326 bytes)
+1768486275.8985848 [republish-6] [DEBUG] [1768486275.898100748] [rcl]: Subscription taking message
+1768486275.8992140 [republish-6] [DEBUG] [1768486275.898247791] [rcl]: Subscription take succeeded: true
+1768486275.9006639 [republish-6] [DEBUG] [1768486275.900407289] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.57 (47475 bytes)
+1768486275.9314623 [republish-6] [DEBUG] [1768486275.930986520] [rcl]: Subscription taking message
+1768486275.9321373 [republish-6] [DEBUG] [1768486275.931140699] [rcl]: Subscription take succeeded: true
+1768486275.9335322 [republish-6] [DEBUG] [1768486275.933292485] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.72 (46654 bytes)
+1768486275.9648175 [republish-6] [DEBUG] [1768486275.964335117] [rcl]: Subscription taking message
+1768486275.9651418 [republish-6] [DEBUG] [1768486275.964477168] [rcl]: Subscription take succeeded: true
+1768486275.9667916 [republish-6] [DEBUG] [1768486275.966562233] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.51 (42801 bytes)
+1768486275.9984050 [republish-6] [DEBUG] [1768486275.998030569] [rcl]: Subscription taking message
+1768486275.9990244 [republish-6] [DEBUG] [1768486275.998168652] [rcl]: Subscription take succeeded: true
+1768486276.0005453 [republish-6] [DEBUG] [1768486276.000374519] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.66 (46985 bytes)
+1768486276.0314357 [republish-6] [DEBUG] [1768486276.030974358] [rcl]: Subscription taking message
+1768486276.0320699 [republish-6] [DEBUG] [1768486276.031111449] [rcl]: Subscription take succeeded: true
+1768486276.0336354 [republish-6] [DEBUG] [1768486276.033420742] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.06 (50497 bytes)
+1768486276.0648198 [republish-6] [DEBUG] [1768486276.064345739] [rcl]: Subscription taking message
+1768486276.0651414 [republish-6] [DEBUG] [1768486276.064474510] [rcl]: Subscription take succeeded: true
+1768486276.0669181 [republish-6] [DEBUG] [1768486276.066733211] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.22 (49520 bytes)
+1768486276.0983055 [republish-6] [DEBUG] [1768486276.097490397] [rcl]: Subscription taking message
+1768486276.0985019 [republish-6] [DEBUG] [1768486276.097621727] [rcl]: Subscription take succeeded: true
+1768486276.1001818 [republish-6] [DEBUG] [1768486276.099906988] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.54 (47661 bytes)
+1768486276.1313984 [republish-6] [DEBUG] [1768486276.130946356] [rcl]: Subscription taking message
+1768486276.1319945 [republish-6] [DEBUG] [1768486276.131086903] [rcl]: Subscription take succeeded: true
+1768486276.1334436 [republish-6] [DEBUG] [1768486276.133282882] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.15 (44467 bytes)
+1768486276.1646745 [republish-6] [DEBUG] [1768486276.164241256] [rcl]: Subscription taking message
+1768486276.1652632 [republish-6] [DEBUG] [1768486276.164378763] [rcl]: Subscription take succeeded: true
+1768486276.1667252 [republish-6] [DEBUG] [1768486276.166524469] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.18 (44341 bytes)
+1768486276.1981986 [republish-6] [DEBUG] [1768486276.197715360] [rcl]: Subscription taking message
+1768486276.1988690 [republish-6] [DEBUG] [1768486276.197859138] [rcl]: Subscription take succeeded: true
+1768486276.2001162 [republish-6] [DEBUG] [1768486276.199936140] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.56 (42598 bytes)
+1768486276.2317057 [republish-6] [DEBUG] [1768486276.231294201] [rcl]: Subscription taking message
+1768486276.2324536 [republish-6] [DEBUG] [1768486276.231419580] [rcl]: Subscription take succeeded: true
+1768486276.2338631 [republish-6] [DEBUG] [1768486276.233697129] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.70 (41979 bytes)
+1768486276.2648182 [republish-6] [DEBUG] [1768486276.264345384] [rcl]: Subscription taking message
+1768486276.2654407 [republish-6] [DEBUG] [1768486276.264488267] [rcl]: Subscription take succeeded: true
+1768486276.2668557 [republish-6] [DEBUG] [1768486276.266595573] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:10.02 (40614 bytes)
+1768486276.2981040 [republish-6] [DEBUG] [1768486276.297620572] [rcl]: Subscription taking message
+1768486276.2987328 [republish-6] [DEBUG] [1768486276.297750591] [rcl]: Subscription take succeeded: true
+1768486276.3003149 [republish-6] [DEBUG] [1768486276.299898313] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:10.05 (40513 bytes)
+1768486276.3313818 [republish-6] [DEBUG] [1768486276.331127764] [rcl]: Subscription taking message
+1768486276.3318722 [republish-6] [DEBUG] [1768486276.331250551] [rcl]: Subscription take succeeded: true
+1768486276.3335264 [republish-6] [DEBUG] [1768486276.333345216] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.91 (41056 bytes)
+1768486276.3649631 [republish-6] [DEBUG] [1768486276.364454665] [rcl]: Subscription taking message
+1768486276.3656058 [republish-6] [DEBUG] [1768486276.364601132] [rcl]: Subscription take succeeded: true
+1768486276.3670149 [republish-6] [DEBUG] [1768486276.366812824] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.07 (50436 bytes)
+1768486276.3982279 [republish-6] [DEBUG] [1768486276.397769310] [rcl]: Subscription taking message
+1768486276.3988910 [republish-6] [DEBUG] [1768486276.397945345] [rcl]: Subscription take succeeded: true
+1768486276.4005144 [republish-6] [DEBUG] [1768486276.400208558] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.61 (47297 bytes)
+1768486276.4314563 [republish-6] [DEBUG] [1768486276.431028753] [rcl]: Subscription taking message
+1768486276.4322965 [republish-6] [DEBUG] [1768486276.431164180] [rcl]: Subscription take succeeded: true
+1768486276.4337378 [republish-6] [DEBUG] [1768486276.433574403] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49785 bytes)
+1768486276.4650414 [republish-6] [DEBUG] [1768486276.464549033] [rcl]: Subscription taking message
+1768486276.4654672 [republish-6] [DEBUG] [1768486276.464681484] [rcl]: Subscription take succeeded: true
+1768486276.4671323 [republish-6] [DEBUG] [1768486276.466872727] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.05 (57711 bytes)
+1768486276.4980927 [republish-6] [DEBUG] [1768486276.497676730] [rcl]: Subscription taking message
+1768486276.4983871 [republish-6] [DEBUG] [1768486276.497819325] [rcl]: Subscription take succeeded: true
+1768486276.5002484 [republish-6] [DEBUG] [1768486276.499992104] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.28 (55923 bytes)
+1768486276.5319903 [republish-6] [DEBUG] [1768486276.531488312] [rcl]: Subscription taking message
+1768486276.5323484 [republish-6] [DEBUG] [1768486276.531615099] [rcl]: Subscription take succeeded: true
+1768486276.5343716 [republish-6] [DEBUG] [1768486276.534029995] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.12 (57174 bytes)
+1768486276.5650036 [republish-6] [DEBUG] [1768486276.564714955] [rcl]: Subscription taking message
+1768486276.5660574 [republish-6] [DEBUG] [1768486276.564839310] [rcl]: Subscription take succeeded: true
+1768486276.5672348 [republish-6] [DEBUG] [1768486276.567061594] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.61 (61586 bytes)
+1768486276.5981021 [republish-6] [DEBUG] [1768486276.597736858] [rcl]: Subscription taking message
+1768486276.5986829 [republish-6] [DEBUG] [1768486276.597880637] [rcl]: Subscription take succeeded: true
+1768486276.6003208 [republish-6] [DEBUG] [1768486276.600158474] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.30 (64592 bytes)
+1768486276.6315937 [republish-6] [DEBUG] [1768486276.631221586] [rcl]: Subscription taking message
+1768486276.6321731 [republish-6] [DEBUG] [1768486276.631357172] [rcl]: Subscription take succeeded: true
+1768486276.6339304 [republish-6] [DEBUG] [1768486276.633747588] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:5.88 (69224 bytes)
+1768486276.6650167 [republish-6] [DEBUG] [1768486276.664458181] [rcl]: Subscription taking message
+1768486276.6652203 [republish-6] [DEBUG] [1768486276.664577831] [rcl]: Subscription take succeeded: true
+1768486276.6670802 [republish-6] [DEBUG] [1768486276.666877141] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:5.83 (69865 bytes)
+1768486276.6984165 [republish-6] [DEBUG] [1768486276.698052415] [rcl]: Subscription taking message
+1768486276.6989715 [republish-6] [DEBUG] [1768486276.698182049] [rcl]: Subscription take succeeded: true
+1768486276.7005932 [republish-6] [DEBUG] [1768486276.700432174] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.57 (61985 bytes)
+1768486276.7316175 [republish-6] [DEBUG] [1768486276.731209680] [rcl]: Subscription taking message
+1768486276.7323759 [republish-6] [DEBUG] [1768486276.731338162] [rcl]: Subscription take succeeded: true
+1768486276.7337751 [republish-6] [DEBUG] [1768486276.733567679] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.76 (60170 bytes)
+1768486276.7648225 [republish-6] [DEBUG] [1768486276.764497316] [rcl]: Subscription taking message
+1768486276.7653568 [republish-6] [DEBUG] [1768486276.764631911] [rcl]: Subscription take succeeded: true
+1768486276.7669828 [republish-6] [DEBUG] [1768486276.766834802] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.76 (60197 bytes)
+1768486276.7984140 [republish-6] [DEBUG] [1768486276.798024893] [rcl]: Subscription taking message
+1768486276.7989604 [republish-6] [DEBUG] [1768486276.798151231] [rcl]: Subscription take succeeded: true
+1768486276.8006387 [republish-6] [DEBUG] [1768486276.800384203] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.63 (61395 bytes)
+1768486276.8316803 [republish-6] [DEBUG] [1768486276.831222287] [rcl]: Subscription taking message
+1768486276.8323231 [republish-6] [DEBUG] [1768486276.831347697] [rcl]: Subscription take succeeded: true
+1768486276.8337972 [republish-6] [DEBUG] [1768486276.833556829] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.08 (57473 bytes)
+1768486276.8649838 [republish-6] [DEBUG] [1768486276.864512675] [rcl]: Subscription taking message
+1768486276.8655953 [republish-6] [DEBUG] [1768486276.864654917] [rcl]: Subscription take succeeded: true
+1768486276.8674018 [republish-6] [DEBUG] [1768486276.866950035] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.78 (60015 bytes)
+1768486276.8986754 [republish-6] [DEBUG] [1768486276.897949849] [rcl]: Subscription taking message
+1768486276.8989179 [republish-6] [DEBUG] [1768486276.898071484] [rcl]: Subscription take succeeded: true
+1768486276.9013286 [republish-6] [DEBUG] [1768486276.900765169] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.74 (60434 bytes)
+1768486276.9318438 [republish-6] [DEBUG] [1768486276.931379728] [rcl]: Subscription taking message
+1768486276.9325390 [republish-6] [DEBUG] [1768486276.931516915] [rcl]: Subscription take succeeded: true
+1768486276.9344521 [republish-6] [DEBUG] [1768486276.933768320] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.74 (60434 bytes)
+1768486276.9649692 [republish-6] [DEBUG] [1768486276.964522145] [rcl]: Subscription taking message
+1768486276.9655716 [republish-6] [DEBUG] [1768486276.964654244] [rcl]: Subscription take succeeded: true
+1768486276.9674425 [republish-6] [DEBUG] [1768486276.967064180] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.37 (63924 bytes)
+1768486276.9984407 [republish-6] [DEBUG] [1768486276.997974296] [rcl]: Subscription taking message
+1768486276.9990675 [republish-6] [DEBUG] [1768486276.998116411] [rcl]: Subscription take succeeded: true
+1768486277.0007801 [republish-6] [DEBUG] [1768486277.000377704] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.46 (62965 bytes)
+1768486277.0315673 [republish-6] [DEBUG] [1768486277.031183019] [rcl]: Subscription taking message
+1768486277.0321617 [republish-6] [DEBUG] [1768486277.031318734] [rcl]: Subscription take succeeded: true
+1768486277.0339196 [republish-6] [DEBUG] [1768486277.033575738] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.57 (61974 bytes)
+1768486277.0648668 [republish-6] [DEBUG] [1768486277.064410302] [rcl]: Subscription taking message
+1768486277.0654714 [republish-6] [DEBUG] [1768486277.064548768] [rcl]: Subscription take succeeded: true
+1768486277.0671074 [republish-6] [DEBUG] [1768486277.066769996] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.71 (60694 bytes)
+1768486277.0982940 [republish-6] [DEBUG] [1768486277.097830644] [rcl]: Subscription taking message
+1768486277.0989194 [republish-6] [DEBUG] [1768486277.097962039] [rcl]: Subscription take succeeded: true
+1768486277.1003573 [republish-6] [DEBUG] [1768486277.100184899] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.71 (60670 bytes)
+1768486277.1316216 [republish-6] [DEBUG] [1768486277.131281483] [rcl]: Subscription taking message
+1768486277.1322210 [republish-6] [DEBUG] [1768486277.131423502] [rcl]: Subscription take succeeded: true
+1768486277.1338923 [republish-6] [DEBUG] [1768486277.133663002] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.60 (61698 bytes)
+1768486277.1651061 [republish-6] [DEBUG] [1768486277.164645889] [rcl]: Subscription taking message
+1768486277.1657197 [republish-6] [DEBUG] [1768486277.164784323] [rcl]: Subscription take succeeded: true
+1768486277.1672013 [republish-6] [DEBUG] [1768486277.166994287] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.66 (61142 bytes)
+1768486277.1983507 [republish-6] [DEBUG] [1768486277.197894772] [rcl]: Subscription taking message
+1768486277.1989746 [republish-6] [DEBUG] [1768486277.198019734] [rcl]: Subscription take succeeded: true
+1768486277.2005122 [republish-6] [DEBUG] [1768486277.200302244] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.52 (62396 bytes)
+1768486277.2323036 [republish-6] [DEBUG] [1768486277.231307338] [rcl]: Subscription taking message
+1768486277.2324965 [republish-6] [DEBUG] [1768486277.231443565] [rcl]: Subscription take succeeded: true
+1768486277.2340417 [republish-6] [DEBUG] [1768486277.233699258] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.36 (64045 bytes)
+1768486277.2654297 [republish-6] [DEBUG] [1768486277.264985190] [rcl]: Subscription taking message
+1768486277.2660375 [republish-6] [DEBUG] [1768486277.265123401] [rcl]: Subscription take succeeded: true
+1768486277.2677526 [republish-6] [DEBUG] [1768486277.267573337] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.05 (67226 bytes)
+1768486277.2985942 [republish-6] [DEBUG] [1768486277.298067830] [rcl]: Subscription taking message
+1768486277.2988944 [republish-6] [DEBUG] [1768486277.298202616] [rcl]: Subscription take succeeded: true
+1768486277.3006907 [republish-6] [DEBUG] [1768486277.300488870] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:5.97 (68232 bytes)
+1768486277.3343055 [republish-6] [DEBUG] [1768486277.331287720] [rcl]: Subscription taking message
+1768486277.3350692 [republish-6] [DEBUG] [1768486277.331427115] [rcl]: Subscription take succeeded: true
+1768486277.3372512 [republish-6] [DEBUG] [1768486277.333729497] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.04 (67406 bytes)
+1768486277.3656335 [republish-6] [DEBUG] [1768486277.364979492] [rcl]: Subscription taking message
+1768486277.3658216 [republish-6] [DEBUG] [1768486277.365080038] [rcl]: Subscription take succeeded: true
+1768486277.3675256 [republish-6] [DEBUG] [1768486277.367343987] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.11 (66631 bytes)
+1768486277.4009066 [republish-6] [DEBUG] [1768486277.399975290] [rcl]: Subscription taking message
+1768486277.4011192 [republish-6] [DEBUG] [1768486277.400100477] [rcl]: Subscription take succeeded: true
+1768486277.4027419 [republish-6] [DEBUG] [1768486277.402466699] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.00 (67880 bytes)
+1768486277.4327159 [republish-6] [DEBUG] [1768486277.431591693] [rcl]: Subscription taking message
+1768486277.4329269 [republish-6] [DEBUG] [1768486277.431696911] [rcl]: Subscription take succeeded: true
+1768486277.4342992 [republish-6] [DEBUG] [1768486277.433991580] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:5.85 (69637 bytes)
+1768486277.4652972 [republish-6] [DEBUG] [1768486277.464923938] [rcl]: Subscription taking message
+1768486277.4655023 [republish-6] [DEBUG] [1768486277.465049412] [rcl]: Subscription take succeeded: true
+1768486277.4676960 [republish-6] [DEBUG] [1768486277.467534229] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:5.86 (69460 bytes)
+1768486277.4985697 [republish-6] [DEBUG] [1768486277.497965809] [rcl]: Subscription taking message
+1768486277.4987757 [republish-6] [DEBUG] [1768486277.498086099] [rcl]: Subscription take succeeded: true
+1768486277.5006392 [republish-6] [DEBUG] [1768486277.500460610] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:5.88 (69233 bytes)
+1768486277.5318151 [republish-6] [DEBUG] [1768486277.531260645] [rcl]: Subscription taking message
+1768486277.5322850 [republish-6] [DEBUG] [1768486277.531395655] [rcl]: Subscription take succeeded: true
+1768486277.5338714 [republish-6] [DEBUG] [1768486277.533707637] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.04 (67437 bytes)
+1768486277.5652699 [republish-6] [DEBUG] [1768486277.564673467] [rcl]: Subscription taking message
+1768486277.5654731 [republish-6] [DEBUG] [1768486277.564805630] [rcl]: Subscription take succeeded: true
+1768486277.5674818 [republish-6] [DEBUG] [1768486277.567250126] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.09 (66883 bytes)
+1768486277.5983462 [republish-6] [DEBUG] [1768486277.598154739] [rcl]: Subscription taking message
+1768486277.5988045 [republish-6] [DEBUG] [1768486277.598301654] [rcl]: Subscription take succeeded: true
+1768486277.6009414 [republish-6] [DEBUG] [1768486277.600664005] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.10 (66744 bytes)
+1768486277.6316605 [republish-6] [DEBUG] [1768486277.631490024] [rcl]: Subscription taking message
+1768486277.6321223 [republish-6] [DEBUG] [1768486277.631617226] [rcl]: Subscription take succeeded: true
+1768486277.6341372 [republish-6] [DEBUG] [1768486277.633957881] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.07 (67099 bytes)
+1768486277.6651874 [republish-6] [DEBUG] [1768486277.664995840] [rcl]: Subscription taking message
+1768486277.6656342 [republish-6] [DEBUG] [1768486277.665128227] [rcl]: Subscription take succeeded: true
+1768486277.6675491 [republish-6] [DEBUG] [1768486277.667399056] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:5.99 (67936 bytes)
+1768486277.6984577 [republish-6] [DEBUG] [1768486277.698256339] [rcl]: Subscription taking message
+1768486277.6989017 [republish-6] [DEBUG] [1768486277.698390326] [rcl]: Subscription take succeeded: true
+1768486277.7008302 [republish-6] [DEBUG] [1768486277.700666275] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.14 (66304 bytes)
+1768486277.7319214 [republish-6] [DEBUG] [1768486277.731694282] [rcl]: Subscription taking message
+1768486277.7324250 [republish-6] [DEBUG] [1768486277.731835085] [rcl]: Subscription take succeeded: true
+1768486277.7342682 [republish-6] [DEBUG] [1768486277.734120346] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:5.95 (68465 bytes)
+1768486277.7649770 [republish-6] [DEBUG] [1768486277.764674744] [rcl]: Subscription taking message
+1768486277.7655091 [republish-6] [DEBUG] [1768486277.764816507] [rcl]: Subscription take succeeded: true
+1768486277.7672336 [republish-6] [DEBUG] [1768486277.767089480] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:5.96 (68240 bytes)
+1768486277.7984090 [republish-6] [DEBUG] [1768486277.797972044] [rcl]: Subscription taking message
+1768486277.7986031 [republish-6] [DEBUG] [1768486277.798098799] [rcl]: Subscription take succeeded: true
+1768486277.8005526 [republish-6] [DEBUG] [1768486277.800401180] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:5.99 (68010 bytes)
+1768486277.8321013 [republish-6] [DEBUG] [1768486277.831813291] [rcl]: Subscription taking message
+1768486277.8325951 [republish-6] [DEBUG] [1768486277.831946798] [rcl]: Subscription take succeeded: true
+1768486277.8343637 [republish-6] [DEBUG] [1768486277.834213915] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.17 (65943 bytes)
+1768486277.8651710 [republish-6] [DEBUG] [1768486277.864901947] [rcl]: Subscription taking message
+1768486277.8656697 [republish-6] [DEBUG] [1768486277.865035422] [rcl]: Subscription take succeeded: true
+1768486277.8674474 [republish-6] [DEBUG] [1768486277.867269226] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.43 (63291 bytes)
+1768486277.8989298 [republish-6] [DEBUG] [1768486277.898638328] [rcl]: Subscription taking message
+1768486277.8994806 [republish-6] [DEBUG] [1768486277.898778459] [rcl]: Subscription take succeeded: true
+1768486277.9011767 [republish-6] [DEBUG] [1768486277.901016519] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.94 (58669 bytes)
+1768486277.9319713 [republish-6] [DEBUG] [1768486277.931661735] [rcl]: Subscription taking message
+1768486277.9325707 [republish-6] [DEBUG] [1768486277.931801993] [rcl]: Subscription take succeeded: true
+1768486277.9341917 [republish-6] [DEBUG] [1768486277.934014101] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.05 (57731 bytes)
+1768486277.9652948 [republish-6] [DEBUG] [1768486277.964970779] [rcl]: Subscription taking message
+1768486277.9658732 [republish-6] [DEBUG] [1768486277.965103006] [rcl]: Subscription take succeeded: true
+1768486277.9681489 [republish-6] [DEBUG] [1768486277.967375051] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:6.89 (59046 bytes)
+1768486277.9985356 [republish-6] [DEBUG] [1768486277.998188973] [rcl]: Subscription taking message
+1768486277.9990935 [republish-6] [DEBUG] [1768486277.998332112] [rcl]: Subscription take succeeded: true
+1768486278.0007260 [republish-6] [DEBUG] [1768486278.000544380] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.05 (57758 bytes)
+1768486278.0317283 [republish-6] [DEBUG] [1768486278.031504738] [rcl]: Subscription taking message
+1768486278.0322294 [republish-6] [DEBUG] [1768486278.031657157] [rcl]: Subscription take succeeded: true
+1768486278.0340762 [republish-6] [DEBUG] [1768486278.033888049] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.07 (57572 bytes)
+1768486278.0649500 [republish-6] [DEBUG] [1768486278.064700212] [rcl]: Subscription taking message
+1768486278.0654244 [republish-6] [DEBUG] [1768486278.064827063] [rcl]: Subscription take succeeded: true
+1768486278.0675285 [republish-6] [DEBUG] [1768486278.067184389] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.09 (57421 bytes)
+1768486278.0985773 [republish-6] [DEBUG] [1768486278.098090090] [rcl]: Subscription taking message
+1768486278.0991926 [republish-6] [DEBUG] [1768486278.098231213] [rcl]: Subscription take succeeded: true
+1768486278.1006262 [republish-6] [DEBUG] [1768486278.100456025] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.05 (57754 bytes)
+1768486278.1321404 [republish-6] [DEBUG] [1768486278.131391102] [rcl]: Subscription taking message
+1768486278.1324573 [republish-6] [DEBUG] [1768486278.131528609] [rcl]: Subscription take succeeded: true
+1768486278.1339066 [republish-6] [DEBUG] [1768486278.133724940] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.15 (56922 bytes)
+1768486278.1652563 [republish-6] [DEBUG] [1768486278.164844565] [rcl]: Subscription taking message
+1768486278.1658628 [republish-6] [DEBUG] [1768486278.164980376] [rcl]: Subscription take succeeded: true
+1768486278.1672943 [republish-6] [DEBUG] [1768486278.167128931] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.78 (52316 bytes)
+1768486278.1986783 [republish-6] [DEBUG] [1768486278.198225899] [rcl]: Subscription taking message
+1768486278.1992626 [republish-6] [DEBUG] [1768486278.198361134] [rcl]: Subscription take succeeded: true
+1768486278.2007952 [republish-6] [DEBUG] [1768486278.200554105] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.48 (54396 bytes)
+1768486278.2317972 [republish-6] [DEBUG] [1768486278.231319163] [rcl]: Subscription taking message
+1768486278.2324984 [republish-6] [DEBUG] [1768486278.231459454] [rcl]: Subscription take succeeded: true
+1768486278.2338006 [republish-6] [DEBUG] [1768486278.233644329] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.46 (54591 bytes)
+1768486278.2653868 [republish-6] [DEBUG] [1768486278.265006839] [rcl]: Subscription taking message
+1768486278.2659559 [republish-6] [DEBUG] [1768486278.265144826] [rcl]: Subscription take succeeded: true
+1768486278.2675533 [republish-6] [DEBUG] [1768486278.267357158] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.70 (46788 bytes)
+1768486278.2986994 [republish-6] [DEBUG] [1768486278.298251242] [rcl]: Subscription taking message
+1768486278.2992892 [republish-6] [DEBUG] [1768486278.298400077] [rcl]: Subscription take succeeded: true
+1768486278.3008091 [republish-6] [DEBUG] [1768486278.300590297] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.02 (45119 bytes)
+1768486278.3317816 [republish-6] [DEBUG] [1768486278.331321306] [rcl]: Subscription taking message
+1768486278.3323846 [republish-6] [DEBUG] [1768486278.331455964] [rcl]: Subscription take succeeded: true
+1768486278.3339143 [republish-6] [DEBUG] [1768486278.333696521] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.35 (48738 bytes)
+1768486278.3653877 [republish-6] [DEBUG] [1768486278.364755825] [rcl]: Subscription taking message
+1768486278.3655965 [republish-6] [DEBUG] [1768486278.364905460] [rcl]: Subscription take succeeded: true
+1768486278.3672402 [republish-6] [DEBUG] [1768486278.367028286] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.05 (44954 bytes)
+1768486278.3990290 [republish-6] [DEBUG] [1768486278.398561231] [rcl]: Subscription taking message
+1768486278.3997595 [republish-6] [DEBUG] [1768486278.398711250] [rcl]: Subscription take succeeded: true
+1768486278.4011464 [republish-6] [DEBUG] [1768486278.400891485] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.34 (48784 bytes)
+1768486278.4320924 [republish-6] [DEBUG] [1768486278.431573309] [rcl]: Subscription taking message
+1768486278.4327855 [republish-6] [DEBUG] [1768486278.431735808] [rcl]: Subscription take succeeded: true
+1768486278.4340847 [republish-6] [DEBUG] [1768486278.433904235] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.61 (47284 bytes)
+1768486278.4655714 [republish-6] [DEBUG] [1768486278.465128694] [rcl]: Subscription taking message
+1768486278.4662120 [republish-6] [DEBUG] [1768486278.465261177] [rcl]: Subscription take succeeded: true
+1768486278.4676263 [republish-6] [DEBUG] [1768486278.467400100] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.67 (46932 bytes)
+1768486278.4986901 [republish-6] [DEBUG] [1768486278.498310216] [rcl]: Subscription taking message
+1768486278.4992568 [republish-6] [DEBUG] [1768486278.498450059] [rcl]: Subscription take succeeded: true
+1768486278.5008161 [republish-6] [DEBUG] [1768486278.500639542] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.65 (47039 bytes)
+1768486278.5320563 [republish-6] [DEBUG] [1768486278.531574172] [rcl]: Subscription taking message
+1768486278.5329101 [republish-6] [DEBUG] [1768486278.531713375] [rcl]: Subscription take succeeded: true
+1768486278.5340810 [republish-6] [DEBUG] [1768486278.533910986] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.94 (45530 bytes)
+1768486278.5655274 [republish-6] [DEBUG] [1768486278.565078004] [rcl]: Subscription taking message
+1768486278.5658448 [republish-6] [DEBUG] [1768486278.565206967] [rcl]: Subscription take succeeded: true
+1768486278.5674982 [republish-6] [DEBUG] [1768486278.567335169] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:9.11 (44697 bytes)
+1768486278.5987172 [republish-6] [DEBUG] [1768486278.598344935] [rcl]: Subscription taking message
+1768486278.5992944 [republish-6] [DEBUG] [1768486278.598489034] [rcl]: Subscription take succeeded: true
+1768486278.6008027 [republish-6] [DEBUG] [1768486278.600639989] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:10.01 (40672 bytes)
+1768486278.6320949 [republish-6] [DEBUG] [1768486278.631588283] [rcl]: Subscription taking message
+1768486278.6330090 [republish-6] [DEBUG] [1768486278.631736637] [rcl]: Subscription take succeeded: true
+1768486278.6340220 [republish-6] [DEBUG] [1768486278.633843367] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:11.04 (36859 bytes)
+1768486278.6654758 [republish-6] [DEBUG] [1768486278.664915887] [rcl]: Subscription taking message
+1768486278.6661310 [republish-6] [DEBUG] [1768486278.665066514] [rcl]: Subscription take succeeded: true
+1768486278.6673646 [republish-6] [DEBUG] [1768486278.667150556] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:11.16 (36457 bytes)
+1768486278.6991937 [republish-6] [DEBUG] [1768486278.698203843] [rcl]: Subscription taking message
+1768486278.6993916 [republish-6] [DEBUG] [1768486278.698335942] [rcl]: Subscription take succeeded: true
+1768486278.7006109 [republish-6] [DEBUG] [1768486278.700430063] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:11.21 (36310 bytes)
+1768486278.7320731 [republish-6] [DEBUG] [1768486278.731659578] [rcl]: Subscription taking message
+1768486278.7326503 [republish-6] [DEBUG] [1768486278.731798781] [rcl]: Subscription take succeeded: true
+1768486278.7341263 [republish-6] [DEBUG] [1768486278.733927047] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:10.92 (37266 bytes)
+1768486278.7656171 [republish-6] [DEBUG] [1768486278.765093681] [rcl]: Subscription taking message
+1768486278.7662416 [republish-6] [DEBUG] [1768486278.765239220] [rcl]: Subscription take succeeded: true
+1768486278.7675683 [republish-6] [DEBUG] [1768486278.767379807] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.44 (48210 bytes)
+1768486278.7986653 [republish-6] [DEBUG] [1768486278.798216930] [rcl]: Subscription taking message
+1768486278.7992580 [republish-6] [DEBUG] [1768486278.798353477] [rcl]: Subscription take succeeded: true
+1768486278.8007514 [republish-6] [DEBUG] [1768486278.800583601] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.21 (49553 bytes)
+1768486278.8319063 [republish-6] [DEBUG] [1768486278.831626072] [rcl]: Subscription taking message
+1768486278.8324375 [republish-6] [DEBUG] [1768486278.831769979] [rcl]: Subscription take succeeded: true
+1768486278.8341315 [republish-6] [DEBUG] [1768486278.833949030] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.12 (50149 bytes)
+1768486278.8653545 [republish-6] [DEBUG] [1768486278.864910860] [rcl]: Subscription taking message
+1768486278.8659492 [republish-6] [DEBUG] [1768486278.865050223] [rcl]: Subscription take succeeded: true
+1768486278.8674901 [republish-6] [DEBUG] [1768486278.867325500] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:7.06 (57655 bytes)
+1768486278.8990891 [republish-6] [DEBUG] [1768486278.898612872] [rcl]: Subscription taking message
+1768486278.8997653 [republish-6] [DEBUG] [1768486278.898746699] [rcl]: Subscription take succeeded: true
+1768486278.9015970 [republish-6] [DEBUG] [1768486278.900917110] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.40 (48474 bytes)
+1768486278.9324312 [republish-6] [DEBUG] [1768486278.931593654] [rcl]: Subscription taking message
+1768486278.9326396 [republish-6] [DEBUG] [1768486278.931727961] [rcl]: Subscription take succeeded: true
+1768486278.9342508 [republish-6] [DEBUG] [1768486278.934052551] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.55 (47582 bytes)
+1768486278.9654412 [republish-6] [DEBUG] [1768486278.964972012] [rcl]: Subscription taking message
+1768486278.9661145 [republish-6] [DEBUG] [1768486278.965114991] [rcl]: Subscription take succeeded: true
+1768486278.9674482 [republish-6] [DEBUG] [1768486278.967250809] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.50 (47883 bytes)
+1768486278.9986820 [republish-6] [DEBUG] [1768486278.998214079] [rcl]: Subscription taking message
+1768486278.9993150 [republish-6] [DEBUG] [1768486278.998359682] [rcl]: Subscription take succeeded: true
+1768486279.0007477 [republish-6] [DEBUG] [1768486279.000542989] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.26 (49308 bytes)
+1768486279.0323052 [republish-6] [DEBUG] [1768486279.031776376] [rcl]: Subscription taking message
+1768486279.0329802 [republish-6] [DEBUG] [1768486279.031912251] [rcl]: Subscription take succeeded: true
+1768486279.0342982 [republish-6] [DEBUG] [1768486279.034092582] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.14 (50025 bytes)
+1768486279.0655246 [republish-6] [DEBUG] [1768486279.065155918] [rcl]: Subscription taking message
+1768486279.0661080 [republish-6] [DEBUG] [1768486279.065297201] [rcl]: Subscription take succeeded: true
+1768486279.0676775 [republish-6] [DEBUG] [1768486279.067463228] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.10 (50254 bytes)
+1768486279.0988052 [republish-6] [DEBUG] [1768486279.098351264] [rcl]: Subscription taking message
+1768486279.0994239 [republish-6] [DEBUG] [1768486279.098489667] [rcl]: Subscription take succeeded: true
+1768486279.1008945 [republish-6] [DEBUG] [1768486279.100678766] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.05 (50578 bytes)
+1768486279.1320579 [republish-6] [DEBUG] [1768486279.131560914] [rcl]: Subscription taking message
+1768486279.1326754 [republish-6] [DEBUG] [1768486279.131699829] [rcl]: Subscription take succeeded: true
+1768486279.1341445 [republish-6] [DEBUG] [1768486279.133884608] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.06 (50517 bytes)
+1768486279.1652300 [republish-6] [DEBUG] [1768486279.164977289] [rcl]: Subscription taking message
+1768486279.1657760 [republish-6] [DEBUG] [1768486279.165116300] [rcl]: Subscription take succeeded: true
+1768486279.1686032 [republish-6] [DEBUG] [1768486279.168301675] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.04 (50598 bytes)
+1768486279.1989424 [republish-6] [DEBUG] [1768486279.198475329] [rcl]: Subscription taking message
+1768486279.1995411 [republish-6] [DEBUG] [1768486279.198627236] [rcl]: Subscription take succeeded: true
+1768486279.2009978 [republish-6] [DEBUG] [1768486279.200813295] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.05 (50546 bytes)
+1768486279.2321997 [republish-6] [DEBUG] [1768486279.231743508] [rcl]: Subscription taking message
+1768486279.2328641 [republish-6] [DEBUG] [1768486279.231882071] [rcl]: Subscription take succeeded: true
+1768486279.2342794 [republish-6] [DEBUG] [1768486279.234110947] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.05 (50580 bytes)
+1768486279.2654231 [republish-6] [DEBUG] [1768486279.264920358] [rcl]: Subscription taking message
+1768486279.2661026 [republish-6] [DEBUG] [1768486279.265061993] [rcl]: Subscription take succeeded: true
+1768486279.2673998 [republish-6] [DEBUG] [1768486279.267217716] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49755 bytes)
+1768486279.2993035 [republish-6] [DEBUG] [1768486279.298927368] [rcl]: Subscription taking message
+1768486279.2998598 [republish-6] [DEBUG] [1768486279.299054155] [rcl]: Subscription take succeeded: true
+1768486279.3015902 [republish-6] [DEBUG] [1768486279.301372569] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49778 bytes)
+1768486279.3321571 [republish-6] [DEBUG] [1768486279.331695026] [rcl]: Subscription taking message
+1768486279.3327460 [republish-6] [DEBUG] [1768486279.331817332] [rcl]: Subscription take succeeded: true
+1768486279.3341436 [republish-6] [DEBUG] [1768486279.333984255] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.19 (49692 bytes)
+1768486279.3654191 [republish-6] [DEBUG] [1768486279.364968486] [rcl]: Subscription taking message
+1768486279.3660223 [republish-6] [DEBUG] [1768486279.365105000] [rcl]: Subscription take succeeded: true
+1768486279.3674126 [republish-6] [DEBUG] [1768486279.367256563] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49731 bytes)
+1768486279.3992417 [republish-6] [DEBUG] [1768486279.398816005] [rcl]: Subscription taking message
+1768486279.3998318 [republish-6] [DEBUG] [1768486279.398948839] [rcl]: Subscription take succeeded: true
+1768486279.4013691 [republish-6] [DEBUG] [1768486279.401127218] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49834 bytes)
+1768486279.4320545 [republish-6] [DEBUG] [1768486279.431621999] [rcl]: Subscription taking message
+1768486279.4326487 [republish-6] [DEBUG] [1768486279.431754322] [rcl]: Subscription take succeeded: true
+1768486279.4341662 [republish-6] [DEBUG] [1768486279.433970302] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49764 bytes)
+1768486279.4655223 [republish-6] [DEBUG] [1768486279.465095719] [rcl]: Subscription taking message
+1768486279.4661245 [republish-6] [DEBUG] [1768486279.465227561] [rcl]: Subscription take succeeded: true
+1768486279.4677014 [republish-6] [DEBUG] [1768486279.467451957] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.19 (49711 bytes)
+1768486279.4989102 [republish-6] [DEBUG] [1768486279.498394075] [rcl]: Subscription taking message
+1768486279.4991071 [republish-6] [DEBUG] [1768486279.498524157] [rcl]: Subscription take succeeded: true
+1768486279.5009115 [republish-6] [DEBUG] [1768486279.500699496] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.16 (49868 bytes)
+1768486279.5322783 [republish-6] [DEBUG] [1768486279.531789073] [rcl]: Subscription taking message
+1768486279.5328979 [republish-6] [DEBUG] [1768486279.531936596] [rcl]: Subscription take succeeded: true
+1768486279.5343256 [republish-6] [DEBUG] [1768486279.534124639] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49770 bytes)
+1768486279.5655673 [republish-6] [DEBUG] [1768486279.565097797] [rcl]: Subscription taking message
+1768486279.5661993 [republish-6] [DEBUG] [1768486279.565236520] [rcl]: Subscription take succeeded: true
+1768486279.5675938 [republish-6] [DEBUG] [1768486279.567393907] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49827 bytes)
+1768486279.5989022 [republish-6] [DEBUG] [1768486279.598434650] [rcl]: Subscription taking message
+1768486279.5996680 [republish-6] [DEBUG] [1768486279.598576093] [rcl]: Subscription take succeeded: true
+1768486279.6009595 [republish-6] [DEBUG] [1768486279.600758120] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.19 (49714 bytes)
+1768486279.6322913 [republish-6] [DEBUG] [1768486279.631918130] [rcl]: Subscription taking message
+1768486279.6328678 [republish-6] [DEBUG] [1768486279.632082389] [rcl]: Subscription take succeeded: true
+1768486279.6343868 [republish-6] [DEBUG] [1768486279.634234880] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49807 bytes)
+1768486279.6655495 [republish-6] [DEBUG] [1768486279.665094756] [rcl]: Subscription taking message
+1768486279.6661782 [republish-6] [DEBUG] [1768486279.665234918] [rcl]: Subscription take succeeded: true
+1768486279.6676271 [republish-6] [DEBUG] [1768486279.667384273] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.19 (49718 bytes)
+1768486279.6988304 [republish-6] [DEBUG] [1768486279.698381559] [rcl]: Subscription taking message
+1768486279.6994536 [republish-6] [DEBUG] [1768486279.698517786] [rcl]: Subscription take succeeded: true
+1768486279.7010148 [republish-6] [DEBUG] [1768486279.700758503] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49817 bytes)
+1768486279.7321439 [republish-6] [DEBUG] [1768486279.731767373] [rcl]: Subscription taking message
+1768486279.7326851 [republish-6] [DEBUG] [1768486279.731912976] [rcl]: Subscription take succeeded: true
+1768486279.7344360 [republish-6] [DEBUG] [1768486279.734223838] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49835 bytes)
+1768486279.7655106 [republish-6] [DEBUG] [1768486279.765122659] [rcl]: Subscription taking message
+1768486279.7661102 [republish-6] [DEBUG] [1768486279.765265221] [rcl]: Subscription take succeeded: true
+1768486279.7676406 [republish-6] [DEBUG] [1768486279.767419376] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49731 bytes)
+1768486279.7988720 [republish-6] [DEBUG] [1768486279.798419447] [rcl]: Subscription taking message
+1768486279.7994895 [republish-6] [DEBUG] [1768486279.798565082] [rcl]: Subscription take succeeded: true
+1768486279.8009319 [republish-6] [DEBUG] [1768486279.800741093] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49831 bytes)
+1768486279.8321204 [republish-6] [DEBUG] [1768486279.831616873] [rcl]: Subscription taking message
+1768486279.8327601 [republish-6] [DEBUG] [1768486279.831758476] [rcl]: Subscription take succeeded: true
+1768486279.8340945 [republish-6] [DEBUG] [1768486279.833933559] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.16 (49885 bytes)
+1768486279.8655341 [republish-6] [DEBUG] [1768486279.865170498] [rcl]: Subscription taking message
+1768486279.8660724 [republish-6] [DEBUG] [1768486279.865298085] [rcl]: Subscription take succeeded: true
+1768486279.8676145 [republish-6] [DEBUG] [1768486279.867451887] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49785 bytes)
+1768486279.8992076 [republish-6] [DEBUG] [1768486279.898730139] [rcl]: Subscription taking message
+1768486279.8998673 [republish-6] [DEBUG] [1768486279.898871870] [rcl]: Subscription take succeeded: true
+1768486279.9013758 [republish-6] [DEBUG] [1768486279.901102666] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.19 (49714 bytes)
+1768486279.9323862 [republish-6] [DEBUG] [1768486279.931867596] [rcl]: Subscription taking message
+1768486279.9329946 [republish-6] [DEBUG] [1768486279.932015503] [rcl]: Subscription take succeeded: true
+1768486279.9343517 [republish-6] [DEBUG] [1768486279.934198522] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.22 (49538 bytes)
+1768486279.9655039 [republish-6] [DEBUG] [1768486279.965186209] [rcl]: Subscription taking message
+1768486279.9660585 [republish-6] [DEBUG] [1768486279.965327716] [rcl]: Subscription take succeeded: true
+1768486279.9676306 [republish-6] [DEBUG] [1768486279.967477294] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49772 bytes)
+1768486279.9987717 [republish-6] [DEBUG] [1768486279.998398323] [rcl]: Subscription taking message
+1768486279.9993570 [republish-6] [DEBUG] [1768486279.998533782] [rcl]: Subscription take succeeded: true
+1768486280.0009007 [republish-6] [DEBUG] [1768486280.000715649] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.16 (49890 bytes)
+1768486280.0322344 [republish-6] [DEBUG] [1768486280.031797929] [rcl]: Subscription taking message
+1768486280.0328701 [republish-6] [DEBUG] [1768486280.031941388] [rcl]: Subscription take succeeded: true
+1768486280.0343149 [republish-6] [DEBUG] [1768486280.034116695] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49836 bytes)
+1768486280.0658004 [republish-6] [DEBUG] [1768486280.065049789] [rcl]: Subscription taking message
+1768486280.0660074 [republish-6] [DEBUG] [1768486280.065169983] [rcl]: Subscription take succeeded: true
+1768486280.0675128 [republish-6] [DEBUG] [1768486280.067327914] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.19 (49704 bytes)
+1768486280.0989151 [republish-6] [DEBUG] [1768486280.098520724] [rcl]: Subscription taking message
+1768486280.0995336 [republish-6] [DEBUG] [1768486280.098666679] [rcl]: Subscription take succeeded: true
+1768486280.1010695 [republish-6] [DEBUG] [1768486280.100848482] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49762 bytes)
+1768486280.1321907 [republish-6] [DEBUG] [1768486280.131727174] [rcl]: Subscription taking message
+1768486280.1328325 [republish-6] [DEBUG] [1768486280.131863081] [rcl]: Subscription take succeeded: true
+1768486280.1343555 [republish-6] [DEBUG] [1768486280.134176759] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.19 (49671 bytes)
+1768486280.1656628 [republish-6] [DEBUG] [1768486280.165238527] [rcl]: Subscription taking message
+1768486280.1662962 [republish-6] [DEBUG] [1768486280.165370881] [rcl]: Subscription take succeeded: true
+1768486280.1677032 [republish-6] [DEBUG] [1768486280.167533388] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49816 bytes)
+1768486280.1988614 [republish-6] [DEBUG] [1768486280.198494386] [rcl]: Subscription taking message
+1768486280.1994636 [republish-6] [DEBUG] [1768486280.198633813] [rcl]: Subscription take succeeded: true
+1768486280.2010899 [republish-6] [DEBUG] [1768486280.200845633] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.19 (49725 bytes)
+1768486280.2326958 [republish-6] [DEBUG] [1768486280.232282608] [rcl]: Subscription taking message
+1768486280.2333019 [republish-6] [DEBUG] [1768486280.232419347] [rcl]: Subscription take succeeded: true
+1768486280.2347453 [republish-6] [DEBUG] [1768486280.234569181] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49802 bytes)
+1768486280.2656457 [republish-6] [DEBUG] [1768486280.265213373] [rcl]: Subscription taking message
+1768486280.2663062 [republish-6] [DEBUG] [1768486280.265353344] [rcl]: Subscription take succeeded: true
+1768486280.2676871 [republish-6] [DEBUG] [1768486280.267515050] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.19 (49701 bytes)
+1768486280.2991240 [republish-6] [DEBUG] [1768486280.298731765] [rcl]: Subscription taking message
+1768486280.2996809 [republish-6] [DEBUG] [1768486280.298876024] [rcl]: Subscription take succeeded: true
+1768486280.3012810 [republish-6] [DEBUG] [1768486280.301053923] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.16 (49906 bytes)
+1768486280.3323686 [republish-6] [DEBUG] [1768486280.331919367] [rcl]: Subscription taking message
+1768486280.3329742 [republish-6] [DEBUG] [1768486280.332085515] [rcl]: Subscription take succeeded: true
+1768486280.3344855 [republish-6] [DEBUG] [1768486280.334245269] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49798 bytes)
+1768486280.3655517 [republish-6] [DEBUG] [1768486280.365071256] [rcl]: Subscription taking message
+1768486280.3661704 [republish-6] [DEBUG] [1768486280.365217115] [rcl]: Subscription take succeeded: true
+1768486280.3676114 [republish-6] [DEBUG] [1768486280.367439943] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.15 (49933 bytes)
+1768486280.3996551 [republish-6] [DEBUG] [1768486280.398644274] [rcl]: Subscription taking message
+1768486280.3998518 [republish-6] [DEBUG] [1768486280.398776373] [rcl]: Subscription take succeeded: true
+1768486280.4013960 [republish-6] [DEBUG] [1768486280.401179108] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49770 bytes)
+1768486280.4328973 [republish-6] [DEBUG] [1768486280.432474833] [rcl]: Subscription taking message
+1768486280.4334879 [republish-6] [DEBUG] [1768486280.432611795] [rcl]: Subscription take succeeded: true
+1768486280.4349658 [republish-6] [DEBUG] [1768486280.434759646] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.15 (49931 bytes)
+1768486280.4660964 [republish-6] [DEBUG] [1768486280.465639106] [rcl]: Subscription taking message
+1768486280.4666967 [republish-6] [DEBUG] [1768486280.465783621] [rcl]: Subscription take succeeded: true
+1768486280.4681215 [republish-6] [DEBUG] [1768486280.467943184] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.16 (49897 bytes)
+1768486280.4993083 [republish-6] [DEBUG] [1768486280.498844276] [rcl]: Subscription taking message
+1768486280.4998996 [republish-6] [DEBUG] [1768486280.498991127] [rcl]: Subscription take succeeded: true
+1768486280.5013525 [republish-6] [DEBUG] [1768486280.501198467] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.14 (49987 bytes)
+1768486280.5325761 [republish-6] [DEBUG] [1768486280.532235146] [rcl]: Subscription taking message
+1768486280.5331464 [republish-6] [DEBUG] [1768486280.532374733] [rcl]: Subscription take succeeded: true
+1768486280.5348783 [republish-6] [DEBUG] [1768486280.534516152] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49825 bytes)
+1768486280.5657053 [republish-6] [DEBUG] [1768486280.565246841] [rcl]: Subscription taking message
+1768486280.5662875 [republish-6] [DEBUG] [1768486280.565381692] [rcl]: Subscription take succeeded: true
+1768486280.5677102 [republish-6] [DEBUG] [1768486280.567540838] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49847 bytes)
+1768486280.5992601 [republish-6] [DEBUG] [1768486280.598787218] [rcl]: Subscription taking message
+1768486280.5995731 [republish-6] [DEBUG] [1768486280.598926805] [rcl]: Subscription take succeeded: true
+1768486280.6013172 [republish-6] [DEBUG] [1768486280.601106016] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49814 bytes)
+1768486280.6327047 [republish-6] [DEBUG] [1768486280.632216425] [rcl]: Subscription taking message
+1768486280.6329184 [republish-6] [DEBUG] [1768486280.632345195] [rcl]: Subscription take succeeded: true
+1768486280.6346729 [republish-6] [DEBUG] [1768486280.634497558] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.15 (49954 bytes)
+1768486280.6658952 [republish-6] [DEBUG] [1768486280.665450363] [rcl]: Subscription taking message
+1768486280.6664944 [republish-6] [DEBUG] [1768486280.665592894] [rcl]: Subscription take succeeded: true
+1768486280.6679351 [republish-6] [DEBUG] [1768486280.667748809] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49835 bytes)
+1768486280.6991911 [republish-6] [DEBUG] [1768486280.698768496] [rcl]: Subscription taking message
+1768486280.6997888 [republish-6] [DEBUG] [1768486280.698913683] [rcl]: Subscription take succeeded: true
+1768486280.7012630 [republish-6] [DEBUG] [1768486280.701098110] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49821 bytes)
+1768486280.7327490 [republish-6] [DEBUG] [1768486280.732285512] [rcl]: Subscription taking message
+1768486280.7334182 [republish-6] [DEBUG] [1768486280.732425099] [rcl]: Subscription take succeeded: true
+1768486280.7347605 [republish-6] [DEBUG] [1768486280.734580854] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.18 (49736 bytes)
+1768486280.7657378 [republish-6] [DEBUG] [1768486280.765366488] [rcl]: Subscription taking message
+1768486280.7663281 [republish-6] [DEBUG] [1768486280.765507739] [rcl]: Subscription take succeeded: true
+1768486280.7678256 [republish-6] [DEBUG] [1768486280.767654918] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49821 bytes)
+1768486280.7991970 [republish-6] [DEBUG] [1768486280.798773006] [rcl]: Subscription taking message
+1768486280.7997968 [republish-6] [DEBUG] [1768486280.798910609] [rcl]: Subscription take succeeded: true
+1768486280.8013418 [republish-6] [DEBUG] [1768486280.801136029] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.16 (49879 bytes)
+1768486280.8325117 [republish-6] [DEBUG] [1768486280.832006209] [rcl]: Subscription taking message
+1768486280.8330877 [republish-6] [DEBUG] [1768486280.832216933] [rcl]: Subscription take succeeded: true
+1768486280.8345296 [republish-6] [DEBUG] [1768486280.834367920] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.14 (50017 bytes)
+1768486280.8656878 [republish-6] [DEBUG] [1768486280.865375095] [rcl]: Subscription taking message
+1768486280.8662388 [republish-6] [DEBUG] [1768486280.865512090] [rcl]: Subscription take succeeded: true
+1768486280.8678243 [republish-6] [DEBUG] [1768486280.867664772] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.14 (50006 bytes)
+1768486280.8994215 [republish-6] [DEBUG] [1768486280.898950480] [rcl]: Subscription taking message
+1768486280.9000542 [republish-6] [DEBUG] [1768486280.899099187] [rcl]: Subscription take succeeded: true
+1768486280.9015021 [republish-6] [DEBUG] [1768486280.901287775] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49826 bytes)
+1768486280.9327288 [republish-6] [DEBUG] [1768486280.932252293] [rcl]: Subscription taking message
+1768486280.9333479 [republish-6] [DEBUG] [1768486280.932389191] [rcl]: Subscription take succeeded: true
+1768486280.9347210 [republish-6] [DEBUG] [1768486280.934554162] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.16 (49866 bytes)
+1768486280.9658766 [republish-6] [DEBUG] [1768486280.965374485] [rcl]: Subscription taking message
+1768486280.9665143 [republish-6] [DEBUG] [1768486280.965522648] [rcl]: Subscription take succeeded: true
+1768486280.9678855 [republish-6] [DEBUG] [1768486280.967723588] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.17 (49843 bytes)
+1768486280.9991972 [republish-6] [DEBUG] [1768486280.998827629] [rcl]: Subscription taking message
+1768486280.9997852 [republish-6] [DEBUG] [1768486280.998969935] [rcl]: Subscription take succeeded: true
+1768486281.0013118 [republish-6] [DEBUG] [1768486281.001150587] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.15 (49940 bytes)
+1768486281.0323598 [republish-6] [DEBUG] [1768486281.031973374] [rcl]: Subscription taking message
+1768486281.0329413 [republish-6] [DEBUG] [1768486281.032145569] [rcl]: Subscription take succeeded: true
+1768486281.0349195 [republish-6] [DEBUG] [1768486281.034683411] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.15 (49941 bytes)
+1768486281.0658188 [republish-6] [DEBUG] [1768486281.065362772] [rcl]: Subscription taking message
+1768486281.0664105 [republish-6] [DEBUG] [1768486281.065503190] [rcl]: Subscription take succeeded: true
+1768486281.0678713 [republish-6] [DEBUG] [1768486281.067696386] [CompressedPublisher]: Compressed Image Transport - Codec: jpg, Compression Ratio: 1:8.15 (49943 bytes)
+1768486281.0875838 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+1768486281.9049301 [ERROR] [jtop-4]: process has died [pid 4124, exit code 1, cmd '/opt/ros/humble/lib/isaac_ros_jetson_stats/jtop --ros-args -r __node:=jetson_stats_node --params-file /tmp/launch_params_v0wt1num'].
+1768486281.9051983 [INFO] [joint_state_publisher-3]: process has finished cleanly [pid 4122]
+1768486281.9053855 [ERROR] [republish-6]: process has died [pid 4128, exit code -11, cmd '/opt/ros/humble/lib/image_transport/republish raw compressed --ros-args --log-level DEBUG --ros-args -r __node:=image_republisher --params-file /tmp/launch_params_lyev0xce -r in:=/camera/infra1/image_rect_raw -r out/compressed:=/camera/infra1/image_rect_raw/compressed'].
+1768486281.9055543 [ERROR] [component_container_mt-7]: process has died [pid 6522, exit code -6, cmd '/opt/ros/humble/lib/rclcpp_components/component_container_mt --ros-args --log-level DEBUG --ros-args -r __node:=isaac_ros_container -r __ns:=/'].
+1768486281.9058974 [republish-6] [DEBUG] [1768486281.086863646] [rclcpp]: deferred_signal_handler(): woken up due to SIGINT/SIGTERM or uninstall
+1768486281.9060245 [republish-6] [INFO] [1768486281.086895486] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+1768486281.9061329 [republish-6] [DEBUG] [1768486281.086903679] [rclcpp]: deferred_signal_handler(): shutting down
+1768486281.9062338 [republish-6] [DEBUG] [1768486281.087043329] [rclcpp]: deferred_signal_handler(): shutting down rclcpp::Context @ 0xaaaafab8e8f0, because it had shutdown_on_signal == true
+1768486281.9063325 [republish-6] [DEBUG] [1768486281.087063202] [rcl]: Shutting down ROS client library, for context at address: 0xaaaafab918d0
+1768486281.9073329 [republish-6] [DEBUG] [1768486281.088359035] [rcl]: Finalizing publisher
+1768486281.9074526 [republish-6] [DEBUG] [1768486281.088673250] [rcl]: Finalizing event
+1768486281.9075584 [republish-6] [DEBUG] [1768486281.088695682] [rcl]: Event finalized
+1768486281.9076550 [republish-6] [DEBUG] [1768486281.088707682] [rcl]: Finalizing subscription
+1768486281.9077492 [republish-6] [DEBUG] [1768486281.090992080] [rcl]: Publisher finalized
+1768486281.9078407 [republish-6] [DEBUG] [1768486281.091357207] [rclcpp]: deferred_signal_handler(): waiting for SIGINT/SIGTERM or uninstall
+1768486281.9079707 [republish-6] [DEBUG] [1768486281.092047429] [rcl]: Subscription finalized
+1768486281.9081442 [republish-6] [DEBUG] [1768486281.092145671] [rcl]: Finalizing event
+1768486281.9082425 [republish-6] [DEBUG] [1768486281.092156999] [rcl]: Event finalized
+1768486281.9083517 [republish-6] [DEBUG] [1768486281.092168199] [rcl]: Finalizing publisher
+1768486281.9084449 [republish-6] [DEBUG] [1768486281.093716742] [rcl]: Publisher finalized
+1768486281.9085336 [republish-6] [DEBUG] [1768486281.093750310] [pluginlib.ClassLoader]: Destroying ClassLoader, base = image_transport::PublisherPlugin, address = 0xffffef31b548
+1768486281.9086213 [republish-6] [DEBUG] [1768486281.125363257] [rcl]: Finalizing event
+1768486281.9087067 [republish-6] [DEBUG] [1768486281.125405370] [rcl]: Event finalized
+1768486281.9087913 [republish-6] [DEBUG] [1768486281.125412890] [rcl]: Finalizing subscription
+1768486281.9088748 [republish-6] [DEBUG] [1768486281.126547217] [rcl]: Subscription finalized
+1768486281.9089589 [republish-6] [DEBUG] [1768486281.126607666] [rcl]: Finalizing service
+1768486281.9090469 [republish-6] [DEBUG] [1768486281.127485347] [rcl]: Service finalized
+1768486281.9091527 [republish-6] [DEBUG] [1768486281.127513028] [rcl]: Finalizing service
+1768486281.9092433 [republish-6] [DEBUG] [1768486281.128434742] [rcl]: Service finalized
+1768486281.9093332 [republish-6] [DEBUG] [1768486281.128465559] [rcl]: Finalizing service
+1768486281.9094188 [republish-6] [DEBUG] [1768486281.129253894] [rcl]: Service finalized
+1768486281.9095027 [republish-6] [DEBUG] [1768486281.129280679] [rcl]: Finalizing service
+1768486281.9095860 [republish-6] [DEBUG] [1768486281.130468990] [rcl]: Service finalized
+1768486281.9096711 [republish-6] [DEBUG] [1768486281.130503679] [rcl]: Finalizing service
+1768486281.9097536 [republish-6] [DEBUG] [1768486281.131513267] [rcl]: Service finalized
+1768486281.9098351 [republish-6] [DEBUG] [1768486281.131544020] [rcl]: Finalizing service
+1768486281.9099164 [republish-6] [DEBUG] [1768486281.132396292] [rcl]: Service finalized
+1768486281.9099975 [republish-6] [DEBUG] [1768486281.132440229] [rcl]: Finalizing event
+1768486281.9100802 [republish-6] [DEBUG] [1768486281.132448006] [rcl]: Event finalized
+1768486281.9101639 [republish-6] [DEBUG] [1768486281.132454054] [rcl]: Finalizing publisher
+1768486281.9102521 [republish-6] [DEBUG] [1768486281.133046609] [rcl]: Publisher finalized
+1768486284.4161348 [INFO] [realsense2_camera_node-5]: process has finished cleanly [pid 4126]
