@@ -1,13 +1,7 @@
 
 # RC car autonomous control
 
-1. Pre-Flight Hardware Check
-# Verify the HID modules are loaded
-sudo modprobe hid-sensor-hub hid-sensor-accel-3d hid-sensor-gyro-3d
-
-# Quick check that the camera sees the Motion Module
-rs-enumerate-devices -s
-
+1. Pre-Docker
 sudo sh -c 'echo -1 > /sys/module/usbcore/parameters/autosuspend'
 # Force Max Performance
 sudo nvpmodel -m 2
@@ -32,6 +26,9 @@ ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py  run_fox
 
 5. Test
 ros2 topic echo (camera/vslam/nvblox...)
+ros2 topic topic echo /visual_slam/status --once
+/nvblox_node/mesh  -- camera needs to move
+
 foxglove - 3D nvblox_node/mesh, image - camera/infra1/rect_raw_whatever
 
 6. rebuild as needed
@@ -45,6 +42,11 @@ source install/setup.bash
 
 
 
+# Verify the HID modules are loaded
+sudo modprobe hid-sensor-hub hid-sensor-accel-3d hid-sensor-gyro-3d
+
+# Quick check that the camera sees the Motion Module
+rs-enumerate-devices -v
 
 
 # F1 - Remote-ssh: Open configuration
