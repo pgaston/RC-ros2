@@ -11,12 +11,8 @@ nano / pca9685
  5 - SCL
  6 - GND
 
- .
-
-
-
 Control a servo motor and ESC drive motor using PCA9685 on Jetson Orin Nano
-- ESC is a brushless 2852 3100KV motor with a 45A ESC
+- ESC is a Hyric brushless motor controller - Brush-X60-RTR
     Arming: set to neutral for 2 seconds
     Switch to reverse: set to neutral, then min pulse, then neutral again
     Switch to forward: no change needed, just set to neutral
@@ -65,11 +61,6 @@ class SteeringDriveMotorController: # PCA9685 based controller for steering serv
         self.servo_channel.duty_cycle = self.neutral_pulse
         self.Servoinitialized = True
 
-
-        return
-
-
-
         # Initialize ESC
         print("Initializing ESC...")
         self.drive_channel.duty_cycle = self.neutral_pulse
@@ -90,8 +81,8 @@ class SteeringDriveMotorController: # PCA9685 based controller for steering serv
             # Reverse direction (if ESC supports it - ours does)
             duty_cycle = int(self.neutral_pulse + speed * (self.neutral_pulse - self.min_pulse))
         
-        print(f"Motor speed: {speed*100:.1f}% (duty cycle: {duty_cycle})")
         channel.duty_cycle = duty_cycle         # send to actual motor
+        print(f"Motor speed: {speed*100:.1f}% (duty cycle: {duty_cycle})")
 
     def done(self):
         # Turn off PWM signal to servo and ESC
@@ -165,16 +156,11 @@ def servo_test():
     time.sleep(1)
     
     try:
-
+        # Move to 0 degrees
         motors.set_SteeringServo(-0.5)
-        while True:
-            time.sleep(1)
-
-
-        time.sleep(2)
+        time.sleep(3)
 
         motors.set_SteeringServo(0)
-        time.sleep(2)
         return
 
         
