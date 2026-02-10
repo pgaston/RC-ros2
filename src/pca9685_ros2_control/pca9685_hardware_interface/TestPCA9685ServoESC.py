@@ -1,4 +1,7 @@
 '''
+pip install adafruit-blinka adafruit-circuitpython-pca9685
+pip install --upgrade Jetson.GPIO adafruit-blinka
+
 Hook up:
 nano / pca9685
  1 - (VCC comes from ESC via BEC)
@@ -155,7 +158,11 @@ def servo_test():
     try:
         # Move to 0 degrees
         motors.set_SteeringServo(-0.5)
-        time.sleep(1)
+        time.sleep(3)
+
+        motors.set_SteeringServo(0)
+        return
+
         
         # Move to 90 degrees (center)
         motors.set_SteeringServo(0)
@@ -301,6 +308,6 @@ def steerDrive_test():
 
 
 if __name__ == "__main__":
-    # servo_test()
-    motor_test()
+    servo_test()
+    # motor_test()
     # steerDrive_test()
