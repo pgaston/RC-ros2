@@ -11,12 +11,8 @@ nano / pca9685
  5 - SCL
  6 - GND
 
- .
-
-
-
 Control a servo motor and ESC drive motor using PCA9685 on Jetson Orin Nano
-- ESC is a brushless 2852 3100KV motor with a 45A ESC
+- ESC is a Hyric brushless motor controller - Brush-X60-RTR
     Arming: set to neutral for 2 seconds
     Switch to reverse: set to neutral, then min pulse, then neutral again
     Switch to forward: no change needed, just set to neutral
@@ -65,15 +61,11 @@ class SteeringDriveMotorController: # PCA9685 based controller for steering serv
         self.servo_channel.duty_cycle = self.neutral_pulse
         self.Servoinitialized = True
 
-
-        return
-
-
-
         # Initialize ESC
         print("Initializing ESC...")
         self.drive_channel.duty_cycle = self.neutral_pulse
         time.sleep(2)  # ESCs typically need 2-3 seconds to initialize
+        self.reset_DriveDirection()
         print("ESC initialized!")
         self.forward = True
         self.ESCinitialized = True
@@ -90,8 +82,8 @@ class SteeringDriveMotorController: # PCA9685 based controller for steering serv
             # Reverse direction (if ESC supports it - ours does)
             duty_cycle = int(self.neutral_pulse + speed * (self.neutral_pulse - self.min_pulse))
         
-        print(f"Motor speed: {speed*100:.1f}% (duty cycle: {duty_cycle})")
         channel.duty_cycle = duty_cycle         # send to actual motor
+        print(f"Motor speed: {speed*100:.1f}% (duty cycle: {duty_cycle})")
 
     def done(self):
         # Turn off PWM signal to servo and ESC
@@ -117,6 +109,14 @@ class SteeringDriveMotorController: # PCA9685 based controller for steering serv
         self.set_MotorSpeed(self.servo_channel, steer)  # Ensure ESC is stopped before changing steering
         print(f"Steering servo set to {steer}")
 
+    def reset_DriveDirection(self):
+        kQkSleep = 0.5
+        print("Switching mode")
+        self.set_MotorSpeed(self.drive_channel, 0.1)
+        time.sleep(kQkSleep)
+        self.set_MotorSpeed(self.drive_channel, 0.0)
+        time.sleep(kQkSleep)
+        print("Reset drive direction complete")
 
     def set_Drivespeed(self, speed):
         """
@@ -129,21 +129,9 @@ class SteeringDriveMotorController: # PCA9685 based controller for steering serv
             print("ESC not initialized!")
             return
         
-        if speed < 0 and self.forward:
-            print("Switching to reverse mode")
-            self.forward = False
-            # Some ESCs may require a neutral signal before changing direction
-            self.drive_channel.duty_cycle = self.neutral_pulse
-            time.sleep(.1)
-            self.drive_channel.duty_cycle = self.min_pulse
-            time.sleep(.1)
-            self.drive_channel.duty_cycle = self.neutral_pulse
-            time.sleep(.1)
-   
-        elif speed >= 0 and not self.forward:
-            print("Switching to forward mode")
-            self.forward = True
-            # no change needed
+        if (speed < 0 and self.forward) or (speed > 0 and not self.forward):
+            self.reset_DriveDirection()
+            self.forward = not self.forward
 
         self.set_MotorSpeed(self.drive_channel, speed)  # Ensure ESC is stopped before changing steering
         print(f"Motor speed set to {speed}")
@@ -165,19 +153,10 @@ def servo_test():
     time.sleep(1)
     
     try:
-
+        # Move to 0 degrees
         motors.set_SteeringServo(-0.5)
-        while True:
-            time.sleep(1)
+        time.sleep(1)
 
-
-        time.sleep(2)
-
-        motors.set_SteeringServo(0)
-        time.sleep(2)
-        return
-
-        
         # Move to 90 degrees (center)
         motors.set_SteeringServo(0)
         time.sleep(1)
@@ -222,12 +201,48 @@ def motor_test():
 
     
     try:
-        print("Testing forward speeds...")
+        print("Testing forward...")
+        motors.set_Drivespeed(0.3)
+        time.sleep(3)
+        motors.set_Drivespeed(0.0)
+        time.sleep(1)
+
+        print("Testing reverse...")
+        motors.set_Drivespeed(-0.2)
+        time.sleep(3)
+        motors.set_Drivespeed(0.0)
+        time.sleep(1)
+
+
+        print("Testing forward...")
+        motors.set_Drivespeed(0.3)
+        time.sleep(3)
+        motors.set_Drivespeed(0.0)
+        time.sleep(1)
+
+        print("Testing forward...")
+        motors.set_Drivespeed(0.28)
+        time.sleep(3)
+        motors.set_Drivespeed(0.0)
+        time.sleep(1)
+
+
+        print("Testing reverse...")
+        motors.set_Drivespeed(-0.18)
+        time.sleep(3)
+        motors.set_Drivespeed(0.0)
+        time.sleep(1)
+
+
+        # motors.set_Drivespeed(1.0)
+        # time.sleep(3)
+
+
         # # for speed in [0.2, 0.5, 0.8, 1.0]:
-        for speed in [x * 0.05 for x in range(-3,4)]:
-            print(f"Speed {speed*100}%...")
-            motors.set_Drivespeed(speed)
-            time.sleep(1)
+        # for speed in [x * 0.15 for x in range(2,4)]:
+        #     print(f"Speed {speed*100}%...")
+        #     motors.set_Drivespeed(speed)
+        #     time.sleep(2)
         
         # print("Stopping ...")
         # motors.reset()
@@ -322,6 +337,6 @@ def steerDrive_test():
 
 
 if __name__ == "__main__":
-    servo_test()
-    # motor_test()
+    # servo_test()
+    motor_test()
     # steerDrive_test()
