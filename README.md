@@ -37,6 +37,9 @@ source install/setup.bash
 
 
 
+############## PCA9685 - motor test ##################
+ros2 launch rc_hardware_control basic_steering_traction.launch.py
+
 
 
 
