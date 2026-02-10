@@ -1,0 +1,23 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 50  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    joint_group_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+    tracking_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+joint_group_velocity_controller:
+  ros__parameters:
+    joints: 
+      - "traction_joint"
+
+tracking_controller:
+  ros__parameters:
+    joints:
+      - "traction_joint"
+  

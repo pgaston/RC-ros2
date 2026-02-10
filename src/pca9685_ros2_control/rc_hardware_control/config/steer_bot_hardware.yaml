@@ -1,0 +1,73 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 50
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    # Individual controllers using available controller types
+    steering_controller:
+      type: position_controllers/JointGroupPositionController
+
+    traction_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+    bicycle_steering_controller:
+      type: bicycle_steering_controller/BicycleSteeringController
+
+    # LED brightness controller - use effort interface for 0.0-1.0 brightness control
+    led_controller:
+      type: effort_controllers/JointGroupEffortController
+
+# Individual controller configurations
+joint_state_broadcaster:
+  ros__parameters:
+    # Leaving 'joints' empty or omitting it tells the 
+    # broadcaster to publish ALL joints from the hardware interface.
+    use_local_topics: false
+
+steering_controller:
+  ros__parameters:
+    joints: ["steering_joint"]
+
+traction_controller:
+  ros__parameters:
+    joints: ["traction_joint"]
+
+# LED controller configuration
+led_controller:
+  ros__parameters:
+    joints: ["led_joint"]
+    # Command interface for LED brightness control (0.0 = off, 1.0 = full brightness)
+    interface_name: effort
+
+# Bicycle steering controller configuration
+bicycle_steering_controller:
+  ros__parameters:
+    # HUMBLE SPECIFIC - Use these parameter names (not traction_joints_names/steering_joints_names)
+    rear_wheels_names: ["traction_joint"]      # For the drive/traction wheel
+    front_wheels_names: ["steering_joint"]     # For the steered wheel
+    front_steering: true                       # Required: steering is on front wheel
+    
+    # Interface types
+    traction_interface_name: velocity
+    steering_interface_name: position
+    
+    # Physical parameters (all required > 0.0)
+    wheelbase: 0.27
+    front_wheel_radius: 0.035
+    rear_wheel_radius: 0.035
+
+    # Optional control parameters
+    update_rate: 50
+    reference_timeout: 1.0
+    
+    # Odometry configuration
+    open_loop: true
+    base_frame_id: "base_link"
+    odom_frame_id: "odom"
+    enable_odom_tf: true
+    
+    # Enable cmd_vel subscription (required for Humble)
+    subscribe_to_joint_state: false
+
