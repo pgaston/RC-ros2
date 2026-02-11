@@ -11,6 +11,9 @@ nano / pca9685
  5 - SCL
  6 - GND
 
+ESC
+
+
 Control a servo motor and ESC drive motor using PCA9685 on Jetson Orin Nano
 - ESC is a Hyric brushless motor controller - Brush-X60-RTR
     Arming: set to neutral for 2 seconds
@@ -63,25 +66,44 @@ class SteeringDriveMotorController: # PCA9685 based controller for steering serv
 
         # Initialize ESC
         print("Initializing ESC...")
-        self.drive_channel.duty_cycle = self.neutral_pulse
-        time.sleep(2)  # ESCs typically need 2-3 seconds to initialize
-        self.reset_DriveDirection()
+                # forward: 0.271
+        # backward: -0.0405
+
+        self.deadbandForward = 0.271  # Minimum power to move
+        self.deadbandReverse = -0.0405 # Minimum power to move in reverse
+        self.max_speed = 0.4  # Limit top speed to 40% - above deadband
+        self.current_direction = 0 # 1 for Fwd, -1 for Rev, 0 for Neutral
+
+
+
+        # self.drive_channel.duty_cycle = self.neutral_pulse
+        # time.sleep(2)  # ESCs typically need 2-3 seconds to initialize
+        self.set_DriveDirection(1)   # go forward first
+
         print("ESC initialized!")
-        self.forward = True
-        self.ESCinitialized = True
+        # self.forward = True
+        # self.ESCinitialized = True
 
     # raw - set duty cycle directly - range from -1.0 to 0 to 1.0
     def set_MotorSpeed(self, channel, speed):
+        # print("Setting motor speed to " + str(speed))
         speed = max(-1.0, min(1.0, speed))      # clamp
-        if speed == 0:
+        if abs(speed) < 0.01:
+            print("Within deadband - stopping motor")
             duty_cycle = self.neutral_pulse     # Neutral position
         elif speed > 0:
             # Forward direction
+            # speed = speed * self.max_speed        # Scale speed to max limit
+            # speed = speed + self.deadbandForward  # Add deadband to forward speeds
+            speed = min(1.0, speed)               # clamp
             duty_cycle = int(self.neutral_pulse + speed * (self.max_pulse - self.neutral_pulse))
         else:
             # Reverse direction (if ESC supports it - ours does)
+            # speed = speed * self.max_speed        # Scale speed to max limit
+            # speed = speed - self.deadbandReverse  # Add deadband to reverse speeds
+            speed = max(-1.0, speed)               # clamp
             duty_cycle = int(self.neutral_pulse + speed * (self.neutral_pulse - self.min_pulse))
-        
+
         channel.duty_cycle = duty_cycle         # send to actual motor
         print(f"Motor speed: {speed*100:.1f}% (duty cycle: {duty_cycle})")
 
@@ -109,13 +131,21 @@ class SteeringDriveMotorController: # PCA9685 based controller for steering serv
         self.set_MotorSpeed(self.servo_channel, steer)  # Ensure ESC is stopped before changing steering
         print(f"Steering servo set to {steer}")
 
-    def reset_DriveDirection(self):
-        kQkSleep = 0.5
-        print("Switching mode")
+    def set_DriveDirection(self, desired_direction):
+        # self.current_direction = 0 # 1 for Fwd, -1 for Rev, 0 for Neutral
+        if desired_direction == self.current_direction:
+            print("Already in desired direction, no change needed" + str(desired_direction))
+            return  # No change needed
+
+
+        print("Switching mode to " + str(desired_direction))
+        kQkSleep = 1.0
         self.set_MotorSpeed(self.drive_channel, 0.1)
         time.sleep(kQkSleep)
         self.set_MotorSpeed(self.drive_channel, 0.0)
         time.sleep(kQkSleep)
+        self.current_direction = desired_direction
+
         print("Reset drive direction complete")
 
     def set_Drivespeed(self, speed):
@@ -125,13 +155,9 @@ class SteeringDriveMotorController: # PCA9685 based controller for steering serv
         - For bidirectional ESCs: negative = reverse, positive = forward
         - For unidirectional ESCs: 0 = stop, positive = forward
         """
-        if not self.ESCinitialized:
-            print("ESC not initialized!")
-            return
-        
-        if (speed < 0 and self.forward) or (speed > 0 and not self.forward):
-            self.reset_DriveDirection()
-            self.forward = not self.forward
+
+        desired_direction = 1 if speed >= 0 else -1
+        self.set_DriveDirection(desired_direction)
 
         self.set_MotorSpeed(self.drive_channel, speed)  # Ensure ESC is stopped before changing steering
         print(f"Motor speed set to {speed}")
@@ -201,37 +227,36 @@ def motor_test():
 
     
     try:
-        print("Testing forward...")
-        motors.set_Drivespeed(0.3)
-        time.sleep(3)
-        motors.set_Drivespeed(0.0)
-        time.sleep(1)
-
-        print("Testing reverse...")
-        motors.set_Drivespeed(-0.2)
-        time.sleep(3)
-        motors.set_Drivespeed(0.0)
-        time.sleep(1)
+        # Deadbands - wheels just barely move when off the ground
+        # forward: 0.271
+        # backward: -0.0405
+        for speed in [0.1, -0.1]:
+            print(f"Testing movement...   {speed}")
+            motors.set_Drivespeed(speed)
+            time.sleep(3)
+            motors.set_Drivespeed(0.0)
+            time.sleep(1)
 
 
-        print("Testing forward...")
-        motors.set_Drivespeed(0.3)
-        time.sleep(3)
-        motors.set_Drivespeed(0.0)
-        time.sleep(1)
 
-        print("Testing forward...")
-        motors.set_Drivespeed(0.28)
-        time.sleep(3)
-        motors.set_Drivespeed(0.0)
-        time.sleep(1)
+        # print("Testing forward...")
+        # motors.set_Drivespeed(0.3)
+        # time.sleep(3)
+        # motors.set_Drivespeed(0.0)
+        # time.sleep(1)
+
+        # print("Testing forward...")
+        # motors.set_Drivespeed(0.28)
+        # time.sleep(3)
+        # motors.set_Drivespeed(0.0)
+        # time.sleep(1)
 
 
-        print("Testing reverse...")
-        motors.set_Drivespeed(-0.18)
-        time.sleep(3)
-        motors.set_Drivespeed(0.0)
-        time.sleep(1)
+        # print("Testing reverse...")
+        # motors.set_Drivespeed(-0.18)
+        # time.sleep(3)
+        # motors.set_Drivespeed(0.0)
+        # time.sleep(1)
 
 
         # motors.set_Drivespeed(1.0)
