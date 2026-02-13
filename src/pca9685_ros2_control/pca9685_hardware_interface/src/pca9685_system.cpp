@@ -92,6 +92,11 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_init(
         joint_configs_[i].max_angle = std::stod(max_angle->second);
       }
       
+      auto offset = joint.parameters.find("offset");
+      if (offset != joint.parameters.end()) {
+        joint_configs_[i].offset = std::stod(offset->second);
+      }
+
       auto min_pulse = joint.parameters.find("min_pulse_us");
       if (min_pulse != joint.parameters.end()) {
         joint_configs_[i].min_pulse_us = std::stoi(min_pulse->second);
@@ -107,7 +112,8 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_init(
     {
       PwmMotorController::Config motor_config;
       motor_config.input_deadband = 0.01;
-      motor_config.max_speed_scale = 0.4;
+      motor_config.max_speed_scale = 0.01;
+      motor_config.max_output = 0.4; // Safety limit: never exceed 40% full throttle
       motor_config.forward_offset = 0.271;
       motor_config.reverse_offset = -0.0405;
       motor_config.watchdog_timeout = TEST_WATCHDOG_TIMEOUT;
@@ -180,7 +186,8 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_activate(
       // Re-configure resets the state machine to INITIALIZING -> Arming sequence
       PwmMotorController::Config motor_config;
       motor_config.input_deadband = 0.01;
-      motor_config.max_speed_scale = 0.4;
+      motor_config.max_speed_scale = 0.01;
+      motor_config.max_output = 0.4; // Safety limit: never exceed 40% full throttle
       motor_config.forward_offset = 0.271;
       motor_config.reverse_offset = -0.0405;
       motor_config.watchdog_timeout = TEST_WATCHDOG_TIMEOUT;
@@ -192,8 +199,8 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_activate(
   }
 
   // Set arming end time to 2 seconds from now (used only for debug/legacy check if any)
-  esc_arming_end_time_ = std::chrono::steady_clock::now() + std::chrono::seconds(2);
-
+  // esc_arming_end_time_ removed using controller state machine
+  
   RCLCPP_INFO(rclcpp::get_logger("Pca9685SystemHardware"), "Successfully activated!");
   return hardware_interface::CallbackReturn::SUCCESS;
 }
@@ -244,47 +251,15 @@ hardware_interface::return_type Pca9685SystemHardware::read(
   return hardware_interface::return_type::OK;
 }
 
-double Pca9685SystemHardware::command_to_duty_cycle_velocity(double command)
-{
-  // For velocity commands (ESC control) - adjusted for motor deadband
-  // RC ESCs typically need ~0.3-0.4 minimum command to start moving
-  // Scale so that small linear.x values give usable motor commands
-  
-  double scale_factor = 0.15;  // Increased scaling: linear.x=0.1 → motor=0.43
-  double scaled_command = command * scale_factor;
-  
-  // Apply minimum threshold to overcome ESC deadband
-  double min_threshold = 0.35;  // Minimum command to move motor
-  if (std::abs(scaled_command) > 0.02 && std::abs(scaled_command) < min_threshold) {
-    scaled_command = (scaled_command > 0) ? min_threshold : -min_threshold;
-  }
-  
-  double min_input = -1.0;
-  double max_input = 1.0;
-
-  double clamped_command = std::clamp(scaled_command, min_input, max_input);
-
-  // Use same pulse width range as working PCA9685ServoESC.py:
-  double min_duty_cycle = 1.0;  // 1ms pulse (full reverse)
-  double neutral_duty_cycle = 1.5; // 1.5ms pulse (stop)  
-  double max_duty_cycle = 2.0;  // 2ms pulse (full forward)
-
-  if (std::abs(clamped_command) < 0.02) {  // Deadband to ensure clean stop
-    return neutral_duty_cycle;  
-  } else if (clamped_command > 0.0) {
-    // Forward: interpolate between neutral and max
-    return neutral_duty_cycle + clamped_command * (max_duty_cycle - neutral_duty_cycle);
-  } else {
-    // Reverse: interpolate between neutral and min  
-    return neutral_duty_cycle + clamped_command * (neutral_duty_cycle - min_duty_cycle);
-  }
-}
-
 double Pca9685SystemHardware::command_to_duty_cycle_position(double command, const JointConfig& config)
 {
   // For position commands (servo control)
   // Command and min/max_angle are in radians
-  double angle = std::clamp(command, config.min_angle, config.max_angle);
+  
+  // Apply steering offset
+  double commanded_angle = command + config.offset;
+
+  double angle = std::clamp(commanded_angle, config.min_angle, config.max_angle);
   // Convert to pulse width
   double pulse_width_us = angle_to_pulse_width(angle, config);
   // Convert microseconds to milliseconds for PCA9685
@@ -314,7 +289,6 @@ double Pca9685SystemHardware::angle_to_pulse_width(double angle, const JointConf
 hardware_interface::return_type Pca9685SystemHardware::write(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
-  auto now = std::chrono::steady_clock::now();
   for (auto i = 0u; i < hw_commands_.size(); i++)
   {
     if (std::isnan(hw_commands_[i]))
@@ -340,6 +314,19 @@ hardware_interface::return_type Pca9685SystemHardware::write(
       motor_controllers_[i].set_command(hw_commands_[i]);
       motor_controllers_[i].update();
       duty_cycle = motor_controllers_[i].get_duty_cycle();
+
+      // DEBUG: Print command and resulting duty cycle occasionally
+      /*
+      static int debug_counter = 0;
+      if (debug_counter++ % 50 == 0) {
+          RCLCPP_INFO(rclcpp::get_logger("Pca9685SystemHardware"), 
+              "VEL DEBUG: Cmd=%.4f, Offset=%.3f, Scale=%.3f, Duty=%.4f", 
+              hw_commands_[i], 
+              config.interface_type == hardware_interface::HW_IF_VELOCITY ? 0.271 : 0.0,
+              config.interface_type == hardware_interface::HW_IF_VELOCITY ? 0.01 : 0.0,
+              duty_cycle);
+      }
+      */
       
       // Legacy deadband/arming check removed as controller handles state machine
     }

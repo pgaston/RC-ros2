@@ -33,6 +33,7 @@ public:
     double max_speed_scale = 0.4;        // Scale factor for input
     double forward_offset = 0.271;       // Added to output if forward
     double reverse_offset = -0.0405;     // Added to output if reverse
+    double max_output = 1.0;             // Absolute limit for output (0.0 to 1.0)
 
     double min_pwm_duty = 1.0;     // 1.0 ms
     double neutral_pwm_duty = 1.5; // 1.5 ms
@@ -46,6 +47,7 @@ public:
   void set_command(double command);
   void update();
   double get_duty_cycle() const;
+  double get_velocity() const;
   MotorState get_state() const { return state_; }
 
 private:
@@ -66,8 +68,6 @@ private:
   // Process specific sequences
   void process_state_machine(double dt);
   double compute_duty_cycle(double command);
-
-  double get_velocity() const;
 };
 
 } // namespace pca9685_hardware_interface

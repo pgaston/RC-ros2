@@ -59,13 +59,16 @@ def generate_launch_description():
         arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
     )
 
-    # Individual steering and traction controllers removed
-
-    # Spawn bicycle steering controller for integrated vehicle control
-    bicycle_steering_controller_spawner = Node(
+    steering_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["bicycle_steering_controller", "--controller-manager", "/controller_manager"],
+        arguments=["steering_controller", "--controller-manager", "/controller_manager"],
+    )
+
+    traction_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["traction_controller", "--controller-manager", "/controller_manager"],
     )
 
     # Robot state publisher
@@ -77,10 +80,17 @@ def generate_launch_description():
     )
 
     # Register event handlers for sequential controller spawning
-    delayed_bicycle_steering_controller_spawner = RegisterEventHandler(
+    delayed_steering_controller_spawner = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=joint_state_broadcaster_spawner,
-            on_exit=[bicycle_steering_controller_spawner],
+            on_exit=[steering_controller_spawner],
+        )
+    )
+
+    delayed_traction_controller_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=joint_state_broadcaster_spawner,
+            on_exit=[traction_controller_spawner],
         )
     )
 
@@ -88,7 +98,8 @@ def generate_launch_description():
         control_node,
         robot_state_pub_node,
         joint_state_broadcaster_spawner,
-        delayed_bicycle_steering_controller_spawner,
+        delayed_steering_controller_spawner,
+        delayed_traction_controller_spawner,
     ]
 
     return LaunchDescription(nodes)

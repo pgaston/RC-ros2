@@ -60,8 +60,9 @@ double PwmMotorController::compute_duty_cycle(double command)
     final_speed = config_.reverse_offset + (command * config_.max_speed_scale);
   }
 
-  // 3. Clamp final speed to [-1.0, 1.0] just in case
-  final_speed = std::max(-1.0, std::min(1.0, final_speed));
+  // 3. Clamp final speed to [-max_output, max_output]
+  double limit = std::abs(config_.max_output);
+  final_speed = std::max(-limit, std::min(limit, final_speed));
 
   // 4. Map [-1, 1] to PWM Duty Cycle (min_pwm_duty to max_pwm_duty)
   // neutral_pwm_duty is center (0.0)

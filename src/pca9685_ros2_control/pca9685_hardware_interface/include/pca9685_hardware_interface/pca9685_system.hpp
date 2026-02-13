@@ -63,6 +63,7 @@ private:
     std::string interface_type;  // "position" or "velocity"
     double min_angle = 0.0; // radians
     double max_angle = M_PI; // radians
+    double offset = 0.0; // radians (steering offset)
     int min_pulse_us = 1000;
     int max_pulse_us = 2000;
   };
