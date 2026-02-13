@@ -29,6 +29,7 @@ add_library(
   pca9685_hardware_interface
   SHARED
   src/pca9685_system.cpp
+  src/pwm_motor_controller.cpp
   src/pca9685_comm.cpp
   src/I2CPeripheral.cpp
 )

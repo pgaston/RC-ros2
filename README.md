@@ -1,21 +1,33 @@
 
 # RC car autonomous control
 
-1. Pre-Docker
-sudo sh -c 'echo -1 > /sys/module/usbcore/parameters/autosuspend'
-# Force Max Performance
+once only - 
 sudo nvpmodel -m 2
+
+moved to /boot/extlinux/extlinux.conf
+# for realsense camera stability
+sudo sh -c 'echo -1 > /sys/module/usbcore/parameters/autosuspend'
+
+# Force Max Performance
 sudo jetson_clocks
+
+
+1. Pre-Docker, ON HOST  - after every reboot
+./configure_system.sh
+
 
 2. Launch Docker - then 2 more after first is loaded
 cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 ./run_dev.sh -d ${ISAAC_ROS_WS}
 
 3. Inside Docker
+./source_dev.sh
+
+# NOT NEEDED NOW inside of the above
 source /opt/ros/humble/setup.bash
 source install/setup.bash
-# needed!! 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/ros/humble/share/isaac_ros_gxf/gxf/lib/serialization
+# Part of above, says Gemini
 sudo chmod 666 /dev/bus/usb/002/003
 sudo chgrp plugdev /dev/bus/usb/002/003
 sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/

@@ -14,8 +14,7 @@
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-// Set to -1.0 to disable watchdog for testing, 0.2 for production
-static constexpr double TEST_WATCHDOG_TIMEOUT = -1.0; 
+
 
 namespace pca9685_hardware_interface
 {
@@ -36,7 +35,6 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_init(
   hw_positions_.resize(info_.joints.size(), 0.0);
   hw_velocities_.resize(info_.joints.size(), 0.0);
   joint_configs_.resize(info_.joints.size());
-  motor_controllers_.resize(info_.joints.size());
 
   for (size_t i = 0; i < info_.joints.size(); i++)
   {
@@ -102,17 +100,6 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_init(
         joint_configs_[i].max_pulse_us = std::stoi(max_pulse->second);
       }
     }
-    // Configure motor controller for velocity interface
-    else if (interface_name == hardware_interface::HW_IF_VELOCITY)
-    {
-      PwmMotorController::Config motor_config;
-      motor_config.input_deadband = 0.01;
-      motor_config.max_speed_scale = 0.4;
-      motor_config.forward_offset = 0.271;
-      motor_config.reverse_offset = -0.0405;
-      motor_config.watchdog_timeout = TEST_WATCHDOG_TIMEOUT;
-      motor_controllers_[i].configure(motor_config);
-    }
     // Effort interface (LED PWM) - no additional parameters needed
 
     RCLCPP_INFO(
@@ -174,24 +161,16 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_activate(
     {
       hw_commands_[i] = 0;
     }
-    // If this joint is the traction ESC (velocity interface), reset controller logic
+    // If this joint is the traction ESC (velocity interface), send neutral PWM (1.5 ms) for arming
     const JointConfig& config = joint_configs_[i];
     if (config.interface_type == hardware_interface::HW_IF_VELOCITY) {
-      // Re-configure resets the state machine to INITIALIZING -> Arming sequence
-      PwmMotorController::Config motor_config;
-      motor_config.input_deadband = 0.01;
-      motor_config.max_speed_scale = 0.4;
-      motor_config.forward_offset = 0.271;
-      motor_config.reverse_offset = -0.0405;
-      motor_config.watchdog_timeout = TEST_WATCHDOG_TIMEOUT;
-      motor_controllers_[i].configure(motor_config);
-      
+      pca.set_pwm_ms(config.channel, 1.5); // 1.5 ms = neutral
       RCLCPP_INFO(rclcpp::get_logger("Pca9685SystemHardware"),
-        "ESC on channel %d controller reset. Starting arming sequence.", config.channel);
+        "ESC on channel %d initialized with neutral PWM (1.5 ms) for arming.", config.channel);
     }
   }
 
-  // Set arming end time to 2 seconds from now (used only for debug/legacy check if any)
+  // Set arming end time to 2 seconds from now
   esc_arming_end_time_ = std::chrono::steady_clock::now() + std::chrono::seconds(2);
 
   RCLCPP_INFO(rclcpp::get_logger("Pca9685SystemHardware"), "Successfully activated!");
@@ -223,12 +202,10 @@ hardware_interface::return_type Pca9685SystemHardware::read(
       }
       else if (config.interface_type == hardware_interface::HW_IF_VELOCITY)
       {
-        // For velocity control, use estimate from motor controller (handles deadband/watchdog)
-        double estimated_velocity = motor_controllers_[i].get_velocity();
+        // For velocity control, integrate velocity to get position
         double dt = period.seconds();
-        
-        hw_positions_[i] += estimated_velocity * dt;
-        hw_velocities_[i] = estimated_velocity;
+        hw_positions_[i] += hw_commands_[i] * dt;
+        hw_velocities_[i] = hw_commands_[i];
       }
       else if (config.interface_type == hardware_interface::HW_IF_EFFORT)
       {
@@ -325,6 +302,18 @@ hardware_interface::return_type Pca9685SystemHardware::write(
     double duty_cycle;
     const JointConfig& config = joint_configs_[i];
 
+    // During arming period, always send neutral to ESC (velocity interface)
+    if (config.interface_type == hardware_interface::HW_IF_VELOCITY && now < esc_arming_end_time_)
+    {
+      duty_cycle = 1.5;
+      pca.set_pwm_ms(config.channel, duty_cycle);
+      RCLCPP_DEBUG(
+        rclcpp::get_logger("Pca9685SystemHardware"),
+        "[ESC ARMING] Joint %u (%s): forced neutral duty_cycle=%.3f, channel=%d",
+        i, config.interface_type.c_str(), duty_cycle, config.channel);
+      continue;
+    }
+
     // Use appropriate conversion based on interface type
     if (config.interface_type == hardware_interface::HW_IF_POSITION)
     {
@@ -336,12 +325,7 @@ hardware_interface::return_type Pca9685SystemHardware::write(
     }
     else // velocity interface
     {
-      // Update motor controller logic
-      motor_controllers_[i].set_command(hw_commands_[i]);
-      motor_controllers_[i].update();
-      duty_cycle = motor_controllers_[i].get_duty_cycle();
-      
-      // Legacy deadband/arming check removed as controller handles state machine
+      duty_cycle = command_to_duty_cycle_velocity(hw_commands_[i]);
     }
 
     pca.set_pwm_ms(config.channel, duty_cycle);

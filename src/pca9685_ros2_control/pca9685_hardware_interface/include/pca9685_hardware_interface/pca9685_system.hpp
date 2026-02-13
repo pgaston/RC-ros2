@@ -21,12 +21,11 @@
 
 #include "pca9685_hardware_interface/visibility_control.h"
 #include <pca9685_hardware_interface/pca9685_comm.h>
+#include "pca9685_hardware_interface/pwm_motor_controller.hpp"
 
 namespace pca9685_hardware_interface
 {
 class Pca9685SystemHardware : public hardware_interface::SystemInterface
-  // Track ESC arming end time
-  std::chrono::steady_clock::time_point esc_arming_end_time_;
 {
 public:
   RCLCPP_SHARED_PTR_DEFINITIONS(Pca9685SystemHardware);
@@ -73,9 +72,12 @@ private:
   std::vector<double> hw_velocities_;
   std::vector<JointConfig> joint_configs_;
   PiPCA9685::PCA9685 pca;
+
+  // Motor controllers for velocity interfaces
+  std::vector<PwmMotorController> motor_controllers_;
   
   // Conversion methods
-  double command_to_duty_cycle_velocity(double command);
+  // double command_to_duty_cycle_velocity(double command); // Replaced by PwmMotorController
   double command_to_duty_cycle_position(double command, const JointConfig& config);
   double command_to_duty_cycle_effort(double command);
   double angle_to_pulse_width(double angle, const JointConfig& config);

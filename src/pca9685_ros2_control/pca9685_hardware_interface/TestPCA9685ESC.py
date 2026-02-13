@@ -82,10 +82,12 @@ class DriveMotorController: # PCA9685 based controller for ESC drive moto
         self.max_speed = 0.4  # Limit top speed to 40% - above deadband
         self.current_direction = 0 # 1 for Fwd, -1 for Rev, 0 for Neutral
 
-        self.set_DriveDirection(1)   # go forward first
+        self.driveInitialize()
+
+        # self.set_DriveDirection(1)   # go forward first
         print("ESC initialized!")
 
-
+        
 
     # raw - set duty cycle directly - range from -1.0 to 0 to 1.0
     def set_MotorSpeed(self, channel, speed):
@@ -109,35 +111,64 @@ class DriveMotorController: # PCA9685 based controller for ESC drive moto
         self.pca.deinit()
         print("Steering and Drive Motor Controller complete!")
  
+    def driveInitialize(self):
+        # per Gemini
+        initTime = 0.5
+        self.set_MotorSpeed(self.drive_channel, 0.0)
+        time.sleep(initTime)
+        self.set_MotorSpeed(self.drive_channel, 0.1)
+        time.sleep(initTime)
+        self.set_MotorSpeed(self.drive_channel, 0.0)
+        time.sleep(initTime)
+        self.current_direction = 1
+        print("Initialize drive direction complete")
+
     def set_DriveDirection(self, desired_direction):
         if desired_direction == self.current_direction:
             print("Already in desired direction, no change needed" + str(desired_direction))
             return  # No change needed
 
         print("Switching drive direction to " + str(desired_direction))
-        kQkSleep = 1.0
+        kQkSleep = 0.2
         # figured this out experimentally...
-        self.set_MotorSpeed(self.drive_channel, 0.1)
-        time.sleep(kQkSleep)
         self.set_MotorSpeed(self.drive_channel, 0.0)
         time.sleep(kQkSleep)
+        if desired_direction == -1:
+            print("Reverse requires extra tap")
+            self.set_MotorSpeed(self.drive_channel, 0.1)
+            time.sleep(kQkSleep)
+            self.set_MotorSpeed(self.drive_channel, 0.0)
+            time.sleep(kQkSleep)
         self.current_direction = desired_direction
         print("Reset drive direction complete")
 
-    def set_Drivespeed(self, speed):
-        desired_direction = 1 if speed >= 0 else -1
+
+    def set_Drivespeed(self, input_speed):
+        if abs(input_speed) < 0.01:
+            self.set_MotorSpeed(self.drive_channel, 0.0)
+            return
+
+        desired_direction = 1 if input_speed >= 0 else -1
         self.set_DriveDirection(desired_direction)
 
-        if abs(speed) > 0.01:
-            speed = max(-1.0, min(1.0, speed))      # clamp
-            speed = speed * self.max_speed        # Scale speed to max limit
-            if speed > 0:
-                speed = speed + self.deadbandForward  # Add deadband to forward speeds
-            else:
-                speed = speed + self.deadbandReverse  # Add deadband to reverse speeds
-            print("Fixed speed after scaling/deadband: " + str(speed))
+        # 2. Scale and Apply Deadband
+        # Formula: output = deadband + (input * (max_limit))
+        if input_speed > 0:
+            final_speed = self.deadbandForward + (input_speed * self.max_speed)
+        else:
+            # input_speed is negative here
+            final_speed = self.deadbandReverse + (input_speed * self.max_speed)
 
-        self.set_MotorSpeed(self.drive_channel, speed)  # Ensure ESC is stopped before changing steering
+
+        # speed = max(-1.0, min(1.0, speed))      # clamp
+        # speed = speed * self.max_speed        # Scale speed to max limit
+        # if speed > 0:
+        #     speed = speed + self.deadbandForward  # Add deadband to forward speeds
+        # else:
+        #     speed = speed + self.deadbandReverse  # Add deadband to reverse speeds
+        print("Fixed speed after scaling/deadband: " + str(final_speed))
+
+        self.set_MotorSpeed(self.drive_channel, final_speed)  # Ensure ESC is stopped before changing steering
 
     def reset(self):
         self.set_MotorSpeed(self.drive_channel, 0)
@@ -156,13 +187,14 @@ def motor_test():
         # Deadbands - wheels just barely move when off the ground
         # forward: 0.271
         # backward: -0.0405
-        for speed in [-0.1, 0.1]:
+        for speed in [-0.1, 0.06, -0.1, 0.06]:        # -0.1, 
             print(f"Testing movement...   {speed}")
+            # motors.set_MotorSpeed(motors.drive_channel, speed)
             motors.set_Drivespeed(speed)
             time.sleep(3)
-            print("XXXXXXXXXXXXXXXXXXXXXXXXXX")
+            # motors.set_MotorSpeed(motors.drive_channel, 0.0)
             motors.set_Drivespeed(0.0)
-            time.sleep(1)
+            time.sleep(0.5)
 
         print("Final stop...")
         motors.reset()
