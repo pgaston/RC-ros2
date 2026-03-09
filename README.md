@@ -66,6 +66,7 @@ rs-enumerate-devices -v
 
 # F1 - Remote-ssh: Open configuration
 # wired - 192.168.86.43
+use usbc connection if this fails to find out ip address
 # wifi - 192.168.86.245
 
 # wifi off
