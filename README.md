@@ -65,7 +65,7 @@ rs-enumerate-devices -v
 
 
 # F1 - Remote-ssh: Open configuration
-# wired - 192.168.86.42
+# wired - 192.168.86.43
 # wifi - 192.168.86.245
 
 # wifi off
