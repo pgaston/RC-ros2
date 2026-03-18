@@ -1,0 +1,1557 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-03-10-17-26-10-535135-ubuntu-48358
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [48397]
+[INFO] [joint_state_publisher-2]: process started with pid [48399]
+[INFO] [jtop-3]: process started with pid [48401]
+[INFO] [foxglove_bridge-4]: process started with pid [48403]
+[robot_state_publisher-1] [INFO] [1773177970.925071755] [robot_state_publisher]: got segment base_footprint
+[robot_state_publisher-1] [INFO] [1773177970.925263989] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-1] [INFO] [1773177970.925285335] [robot_state_publisher]: got segment camera_accel_optical_frame
+[robot_state_publisher-1] [INFO] [1773177970.925296439] [robot_state_publisher]: got segment camera_depth_optical_frame
+[robot_state_publisher-1] [INFO] [1773177970.925304888] [robot_state_publisher]: got segment camera_gyro_optical_frame
+[robot_state_publisher-1] [INFO] [1773177970.925312536] [robot_state_publisher]: got segment camera_imu_optical_frame
+[robot_state_publisher-1] [INFO] [1773177970.925319929] [robot_state_publisher]: got segment camera_infra1_optical_frame
+[robot_state_publisher-1] [INFO] [1773177970.925327257] [robot_state_publisher]: got segment camera_infra2_optical_frame
+[robot_state_publisher-1] [INFO] [1773177970.925334297] [robot_state_publisher]: got segment camera_link
+[robot_state_publisher-1] [INFO] [1773177970.925341402] [robot_state_publisher]: got segment front_left_wheel
+[robot_state_publisher-1] [INFO] [1773177970.925348986] [robot_state_publisher]: got segment front_right_wheel
+[robot_state_publisher-1] [INFO] [1773177970.925356123] [robot_state_publisher]: got segment rear_left_wheel
+[robot_state_publisher-1] [INFO] [1773177970.925363003] [robot_state_publisher]: got segment rear_right_wheel
+[robot_state_publisher-1] [INFO] [1773177970.925369883] [robot_state_publisher]: got segment steering_link
+[robot_state_publisher-1] [INFO] [1773177970.925377148] [robot_state_publisher]: got segment traction_link
+[foxglove_bridge-4] [INFO] [1773177971.327885336] [foxglove_bridge]: Starting foxglove_bridge (humble, 3.2.4@)
+[foxglove_bridge-4] terminate called after throwing an instance of 'std::runtime_error'
+[foxglove_bridge-4]   what():  Couldn't initialize websocket server: Bind Error
+[ERROR] [foxglove_bridge-4]: process has died [pid 48403, exit code -6, cmd '/opt/ros/humble/lib/foxglove_bridge/foxglove_bridge --ros-args -r __node:=foxglove_bridge --params-file /tmp/launch_params__kh1arcj'].
+[joint_state_publisher-2] [INFO] [1773177971.695157120] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+[jtop-3] [INFO] [1773177971.721860959] [jetson_stats_node]: Fan controller detected
+[jtop-3] [INFO] [1773177971.729453633] [jetson_stats_node]: Jetson Clocks detected
+[jtop-3] [INFO] [1773177971.734963088] [jetson_stats_node]: NVPModel control detected
+[jtop-3] [INFO] [1773177971.741952209] [jetson_stats_node]: jtop started at interval 0.5
+[INFO] [frame_rename.py-5]: process started with pid [48601]
+[INFO] [component_container_mt-6]: process started with pid [48836]
+[component_container_mt-6] [INFO] [1773177977.033611708] [isaac_ros_container]: Load Library: /workspaces/isaac_ros-dev/install/realsense2_camera/lib/librealsense2_camera.so
+[component_container_mt-6] [ERROR] [1773177977.035312313] [isaac_ros_container]: Failed to load library: Could not load library dlopen error: librealsense2.so.2.55: cannot open shared object file: No such file or directory, at ./src/shared_library.c:99
+[ERROR] [launch_ros.actions.load_composable_nodes]: Failed to load node 'camera' of type 'realsense2_camera::RealSenseNodeFactory' in container '/isaac_ros_container': Failed to load library: Could not load library dlopen error: librealsense2.so.2.55: cannot open shared object file: No such file or directory, at ./src/shared_library.c:99
+[component_container_mt-6] [INFO] [1773177977.040226888] [isaac_ros_container]: Load Library: /opt/ros/humble/lib/libvisual_slam_node.so
+[component_container_mt-6] [INFO] [1773177977.122350263] [isaac_ros_container]: Found class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::visual_slam::VisualSlamNode>
+[component_container_mt-6] [INFO] [1773177977.122473534] [isaac_ros_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::visual_slam::VisualSlamNode>
+[component_container_mt-6] [INFO] [1773177977.154792147] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/std/libgxf_std.so
+[component_container_mt-6] [INFO] [1773177977.156543700] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_gxf_helpers.so
+[component_container_mt-6] [INFO] [1773177977.161560681] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_sight.so
+[component_container_mt-6] [INFO] [1773177977.167247842] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_atlas.so
+[component_container_mt-6] [33m2026-03-10 17:26:17.180 WARN  external/com_nvidia_gxf/gxf/std/program.cpp@538: No GXF scheduler specified.[0m
+[component_container_mt-6] [INFO] [1773177977.180986039] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/multimedia/libgxf_multimedia.so
+[component_container_mt-6] [INFO] [1773177977.190535014] [visual_slam_node.ManagedNitrosSubscriber]: Starting Managed Nitros Subscriber
+[component_container_mt-6] [INFO] [1773177977.193317983] [visual_slam_node.ManagedNitrosSubscriber]: Starting Managed Nitros Subscriber
+[component_container_mt-6] [INFO] [1773177977.225002194] [visual_slam_node]: cuVSLAM version: 12.6
+[component_container_mt-6] [INFO] [1773177977.321180167] [visual_slam_node]: Time taken by CUVSLAM_WarmUpGPU(): 0.096101
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/visual_slam_node' in container '/isaac_ros_container'
+[component_container_mt-6] [INFO] [1773177977.326626804] [isaac_ros_container]: Load Library: /opt/ros/humble/lib/libnvblox_ros_lib.so
+[component_container_mt-6] [INFO] [1773177977.341142132] [isaac_ros_container]: Found class: rclcpp_components::NodeFactoryTemplate<nvblox::NvbloxNode>
+[component_container_mt-6] [INFO] [1773177977.341246746] [isaac_ros_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nvblox::NvbloxNode>
+[component_container_mt-6] [INFO] [1773177977.376822211] [nvblox_node]: Create nvblox cuda stream with type: kBlocking
+[component_container_mt-6] WARNING: Logging before InitGoogleLogging() is written to STDERR
+[component_container_mt-6] I0310 17:26:17.395011 48836 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:17.406476 48836 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:17.409547 48836 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_9TsdfVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:17.422320 48836 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:17.422780 48836 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:17.426066 48836 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_10ColorVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:17.443398 48836 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:17.444068 48836 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:17.444255 48836 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_14FreespaceVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:17.454193 48836 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:17.454825 48836 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:17.457559 48836 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_14OccupancyVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:17.478292 48836 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:17.480808 48836 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:17.480970 48836 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_9EsdfVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:17.481307 48836 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:17.481992 48836 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:17.482129 48836 layer_cake_impl.h:32] Adding Layer with type: N6nvblox10BlockLayerINS_9MeshBlockEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:17.482151 48836 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_9TsdfVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:17.482161 48836 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_10ColorVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:17.482167 48836 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_14FreespaceVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:17.482170 48836 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_14OccupancyVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:17.482174 48836 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_9EsdfVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:17.482182 48836 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_10BlockLayerINS_9MeshBlockEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:17.493360 48836 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:17.493799 48836 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:17.493911 48836 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_9TsdfVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:17.506143 48836 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:17.507650 48836 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:17.507782 48836 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_10ColorVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:17.527905 48836 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:17.528414 48836 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:17.528533 48836 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_14FreespaceVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:17.538403 48836 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:17.539081 48836 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:17.539199 48836 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_14OccupancyVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:17.559091 48836 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:17.559868 48836 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:17.559980 48836 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_9EsdfVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:17.560303 48836 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:17.560976 48836 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:17.561082 48836 layer_cake_impl.h:32] Adding Layer with type: N6nvblox10BlockLayerINS_9MeshBlockEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:17.561101 48836 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_9TsdfVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:17.561108 48836 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_10ColorVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:17.561115 48836 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_14FreespaceVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:17.561125 48836 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_14OccupancyVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:17.561129 48836 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_9EsdfVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:17.561133 48836 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_10BlockLayerINS_9MeshBlockEEEEE to LayerCake.
+[component_container_mt-6] [INFO] [1773177977.566395029] [nvblox_node]: Initialize Mapper:
+[component_container_mt-6] [INFO] [1773177977.566499482] [nvblox_node]: static_mapper.do_depth_preprocessing: 0
+[component_container_mt-6] [INFO] [1773177977.566525340] [nvblox_node]: static_mapper.depth_preprocessing_num_dilations: 4
+[component_container_mt-6] [INFO] [1773177977.566553437] [nvblox_node]: static_mapper.esdf_slice_min_height: 0
+[component_container_mt-6] [INFO] [1773177977.566570206] [nvblox_node]: static_mapper.esdf_slice_max_height: 1
+[component_container_mt-6] [INFO] [1773177977.566585567] [nvblox_node]: static_mapper.esdf_slice_height: 0.1
+[component_container_mt-6] [INFO] [1773177977.566597600] [nvblox_node]: static_mapper.exclude_last_view_from_decay: 0
+[component_container_mt-6] [INFO] [1773177977.566610817] [nvblox_node]: static_mapper.projective_integrator_max_integration_distance_m: 5
+[component_container_mt-6] [INFO] [1773177977.566625441] [nvblox_node]: static_mapper.lidar_projective_integrator_max_integration_distance_m: 10
+[component_container_mt-6] [INFO] [1773177977.566638498] [nvblox_node]: static_mapper.projective_integrator_truncation_distance_vox: 4
+[component_container_mt-6] [INFO] [1773177977.566651107] [nvblox_node]: static_mapper.projective_integrator_weighting_mode: kInverseSquareWeight
+[component_container_mt-6] [WARN] [1773177977.566665924] [nvblox_node]: Requested weighting function: "kInverseSquareWeight" not recognized. Defaulting to: kInverseSquareWeight
+[component_container_mt-6] [INFO] [1773177977.566680548] [nvblox_node]: static_mapper.projective_integrator_max_weight: 5
+[component_container_mt-6] [INFO] [1773177977.566693701] [nvblox_node]: static_mapper.projective_tsdf_integrator_invalid_depth_decay_factor: -1
+[component_container_mt-6] [INFO] [1773177977.566705990] [nvblox_node]: static_mapper.free_region_occupancy_probability: 0.3
+[component_container_mt-6] [INFO] [1773177977.566718503] [nvblox_node]: static_mapper.occupied_region_occupancy_probability: 0.7
+[component_container_mt-6] [INFO] [1773177977.566730407] [nvblox_node]: static_mapper.unobserved_region_occupancy_probability: 0.5
+[component_container_mt-6] [INFO] [1773177977.566741992] [nvblox_node]: static_mapper.occupied_region_half_width_m: 0.1
+[component_container_mt-6] [INFO] [1773177977.566753640] [nvblox_node]: static_mapper.raycast_subsampling_factor: 4
+[component_container_mt-6] [INFO] [1773177977.566764425] [nvblox_node]: static_mapper.workspace_bounds_type: kUnbounded
+[component_container_mt-6] [WARN] [1773177977.566781450] [nvblox_node]: Requested workspace bounds type: "kUnbounded" not recognized. Defaulting to: kUnbounded
+[component_container_mt-6] [INFO] [1773177977.566795179] [nvblox_node]: static_mapper.workspace_bounds_min_height_m: 0
+[component_container_mt-6] [INFO] [1773177977.566808171] [nvblox_node]: static_mapper.workspace_bounds_max_height_m: 1
+[component_container_mt-6] [INFO] [1773177977.566907793] [nvblox_node]: static_mapper.workspace_bounds_min_corner_x_m: 0
+[component_container_mt-6] [INFO] [1773177977.566932466] [nvblox_node]: static_mapper.workspace_bounds_max_corner_x_m: 0
+[component_container_mt-6] [INFO] [1773177977.566950163] [nvblox_node]: static_mapper.workspace_bounds_min_corner_y_m: 2
+[component_container_mt-6] [INFO] [1773177977.566963412] [nvblox_node]: static_mapper.workspace_bounds_max_corner_y_m: 2
+[component_container_mt-6] [INFO] [1773177977.566977045] [nvblox_node]: static_mapper.esdf_integrator_min_weight: 0.0001
+[component_container_mt-6] [INFO] [1773177977.566989621] [nvblox_node]: static_mapper.esdf_integrator_max_site_distance_vox: 1
+[component_container_mt-6] [INFO] [1773177977.567001686] [nvblox_node]: static_mapper.esdf_integrator_max_distance_m: 2
+[component_container_mt-6] [INFO] [1773177977.567014103] [nvblox_node]: static_mapper.mesh_integrator_min_weight: 0.0001
+[component_container_mt-6] [INFO] [1773177977.567026679] [nvblox_node]: static_mapper.mesh_integrator_weld_vertices: 1
+[component_container_mt-6] [INFO] [1773177977.567038040] [nvblox_node]: static_mapper.decay_integrator_deallocate_decayed_blocks: 1
+[component_container_mt-6] [INFO] [1773177977.567050041] [nvblox_node]: static_mapper.tsdf_decay_factor: 0.95
+[component_container_mt-6] [INFO] [1773177977.567062713] [nvblox_node]: static_mapper.tsdf_decayed_weight_threshold: 0.001
+[component_container_mt-6] [INFO] [1773177977.567073946] [nvblox_node]: static_mapper.tsdf_set_free_distance_on_decayed: 0
+[component_container_mt-6] [INFO] [1773177977.567084795] [nvblox_node]: static_mapper.tsdf_decayed_free_distance_vox: 4
+[component_container_mt-6] [INFO] [1773177977.567096507] [nvblox_node]: static_mapper.free_region_decay_probability: 0.55
+[component_container_mt-6] [INFO] [1773177977.567108092] [nvblox_node]: static_mapper.occupied_region_decay_probability: 0.4
+[component_container_mt-6] [INFO] [1773177977.567119549] [nvblox_node]: static_mapper.occupancy_decay_to_free: 0
+[component_container_mt-6] [INFO] [1773177977.567130749] [nvblox_node]: static_mapper.max_tsdf_distance_for_occupancy_m: 0.15
+[component_container_mt-6] [INFO] [1773177977.567144926] [nvblox_node]: static_mapper.max_unobserved_to_keep_consecutive_occupancy_ms: 200
+[component_container_mt-6] [INFO] [1773177977.567156415] [nvblox_node]: static_mapper.min_duration_since_occupied_for_freespace_ms: 1000
+[component_container_mt-6] [INFO] [1773177977.567166623] [nvblox_node]: static_mapper.min_consecutive_occupancy_duration_for_reset_ms: 2000
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/nvblox_node' in container '/isaac_ros_container'
+[component_container_mt-6] [INFO] [1773177977.567176864] [nvblox_node]: static_mapper.check_neighborhood: 1
+[component_container_mt-6] [INFO] [1773177977.567186816] [nvblox_node]: Initialize Mapper:
+[component_container_mt-6] [INFO] [1773177977.567197985] [nvblox_node]: dynamic_mapper.do_depth_preprocessing: 0
+[component_container_mt-6] [INFO] [1773177977.567209602] [nvblox_node]: dynamic_mapper.depth_preprocessing_num_dilations: 4
+[component_container_mt-6] [INFO] [1773177977.567221058] [nvblox_node]: dynamic_mapper.esdf_slice_min_height: 0
+[component_container_mt-6] [INFO] [1773177977.567232547] [nvblox_node]: dynamic_mapper.esdf_slice_max_height: 1
+[component_container_mt-6] [INFO] [1773177977.567243715] [nvblox_node]: dynamic_mapper.esdf_slice_height: 1
+[component_container_mt-6] [INFO] [1773177977.567254244] [nvblox_node]: dynamic_mapper.exclude_last_view_from_decay: 0
+[component_container_mt-6] [INFO] [1773177977.567265157] [nvblox_node]: dynamic_mapper.projective_integrator_max_integration_distance_m: 7
+[component_container_mt-6] [INFO] [1773177977.567277861] [nvblox_node]: dynamic_mapper.lidar_projective_integrator_max_integration_distance_m: 10
+[component_container_mt-6] [INFO] [1773177977.567290438] [nvblox_node]: dynamic_mapper.projective_integrator_truncation_distance_vox: 4
+[component_container_mt-6] [INFO] [1773177977.567301895] [nvblox_node]: dynamic_mapper.projective_integrator_weighting_mode: kInverseSquareWeight
+[component_container_mt-6] [WARN] [1773177977.567315911] [nvblox_node]: Requested weighting function: "kInverseSquareWeight" not recognized. Defaulting to: kInverseSquareWeight
+[component_container_mt-6] [INFO] [1773177977.567328904] [nvblox_node]: dynamic_mapper.projective_integrator_max_weight: 5
+[component_container_mt-6] [INFO] [1773177977.567340905] [nvblox_node]: dynamic_mapper.projective_tsdf_integrator_invalid_depth_decay_factor: -1
+[component_container_mt-6] [INFO] [1773177977.567352361] [nvblox_node]: dynamic_mapper.free_region_occupancy_probability: 0.3
+[component_container_mt-6] [INFO] [1773177977.567363498] [nvblox_node]: dynamic_mapper.occupied_region_occupancy_probability: 0.7
+[component_container_mt-6] [INFO] [1773177977.567374731] [nvblox_node]: dynamic_mapper.unobserved_region_occupancy_probability: 0.5
+[component_container_mt-6] [INFO] [1773177977.567385675] [nvblox_node]: dynamic_mapper.occupied_region_half_width_m: 0.1
+[component_container_mt-6] [INFO] [1773177977.567396524] [nvblox_node]: dynamic_mapper.raycast_subsampling_factor: 4
+[component_container_mt-6] [INFO] [1773177977.567406892] [nvblox_node]: dynamic_mapper.workspace_bounds_type: kUnbounded
+[component_container_mt-6] [WARN] [1773177977.567444847] [nvblox_node]: Requested workspace bounds type: "kUnbounded" not recognized. Defaulting to: kUnbounded
+[component_container_mt-6] [INFO] [1773177977.567466928] [nvblox_node]: dynamic_mapper.workspace_bounds_min_height_m: 0
+[component_container_mt-6] [INFO] [1773177977.567480208] [nvblox_node]: dynamic_mapper.workspace_bounds_max_height_m: 1
+[component_container_mt-6] [INFO] [1773177977.567491505] [nvblox_node]: dynamic_mapper.workspace_bounds_min_corner_x_m: 0
+[component_container_mt-6] [INFO] [1773177977.567502770] [nvblox_node]: dynamic_mapper.workspace_bounds_max_corner_x_m: 0
+[component_container_mt-6] [INFO] [1773177977.567513650] [nvblox_node]: dynamic_mapper.workspace_bounds_min_corner_y_m: 2
+[component_container_mt-6] [INFO] [1773177977.567525299] [nvblox_node]: dynamic_mapper.workspace_bounds_max_corner_y_m: 2
+[component_container_mt-6] [INFO] [1773177977.567537300] [nvblox_node]: dynamic_mapper.esdf_integrator_min_weight: 0.0001
+[component_container_mt-6] [INFO] [1773177977.567548916] [nvblox_node]: dynamic_mapper.esdf_integrator_max_site_distance_vox: 1
+[component_container_mt-6] [INFO] [1773177977.567560373] [nvblox_node]: dynamic_mapper.esdf_integrator_max_distance_m: 2
+[component_container_mt-6] [INFO] [1773177977.567571542] [nvblox_node]: dynamic_mapper.mesh_integrator_min_weight: 0.0001
+[component_container_mt-6] [INFO] [1773177977.567582198] [nvblox_node]: dynamic_mapper.mesh_integrator_weld_vertices: 1
+[component_container_mt-6] [INFO] [1773177977.567592535] [nvblox_node]: dynamic_mapper.decay_integrator_deallocate_decayed_blocks: 1
+[component_container_mt-6] [INFO] [1773177977.567603895] [nvblox_node]: dynamic_mapper.tsdf_decay_factor: 0.95
+[component_container_mt-6] [INFO] [1773177977.567616440] [nvblox_node]: dynamic_mapper.tsdf_decayed_weight_threshold: 0.001
+[component_container_mt-6] [INFO] [1773177977.567627129] [nvblox_node]: dynamic_mapper.tsdf_set_free_distance_on_decayed: 0
+[component_container_mt-6] [INFO] [1773177977.567638009] [nvblox_node]: dynamic_mapper.tsdf_decayed_free_distance_vox: 4
+[component_container_mt-6] [INFO] [1773177977.567648890] [nvblox_node]: dynamic_mapper.free_region_decay_probability: 0.55
+[component_container_mt-6] [INFO] [1773177977.567660154] [nvblox_node]: dynamic_mapper.occupied_region_decay_probability: 0.4
+[component_container_mt-6] [INFO] [1773177977.567670235] [nvblox_node]: dynamic_mapper.occupancy_decay_to_free: 0
+[component_container_mt-6] [INFO] [1773177977.567681244] [nvblox_node]: dynamic_mapper.max_tsdf_distance_for_occupancy_m: 0.15
+[component_container_mt-6] [INFO] [1773177977.567691836] [nvblox_node]: dynamic_mapper.max_unobserved_to_keep_consecutive_occupancy_ms: 200
+[component_container_mt-6] [INFO] [1773177977.567702173] [nvblox_node]: dynamic_mapper.min_duration_since_occupied_for_freespace_ms: 1000
+[component_container_mt-6] [INFO] [1773177977.567712221] [nvblox_node]: dynamic_mapper.min_consecutive_occupancy_duration_for_reset_ms: 2000
+[component_container_mt-6] [INFO] [1773177977.567722814] [nvblox_node]: dynamic_mapper.check_neighborhood: 1
+[component_container_mt-6] [INFO] [1773177977.567737471] [nvblox_node]: Initialize MultiMapper:
+[component_container_mt-6] [INFO] [1773177977.567751839] [nvblox_node]: multi_mapper.connected_mask_component_size_threshold: 2000
+[component_container_mt-6] [INFO] [1773177977.567764032] [nvblox_node]: multi_mapper.remove_small_connected_components: 1
+[component_container_mt-6] [INFO] [1773177977.567930025] [nvblox_node]: NvbloxNode::subscribeToTopics()
+[component_container_mt-6] [INFO] [1773177977.568197624] [nvblox_node]: Subscribing input topics with QoS: SENSOR_DATA
+[component_container_mt-6] [INFO] [1773177977.571972904] [nvblox_node.ManagedNitrosSubscriber]: Starting Managed Nitros Subscriber
+[component_container_mt-6] [INFO] [1773177977.573470267] [nvblox_node]: NvbloxNode::setupTimers()
+[component_container_mt-6] [INFO] [1773177977.573565056] [nvblox_node]: NvbloxNode::advertiseTopics()
+[component_container_mt-6] [INFO] [1773177977.582505869] [nvblox_node]: NvbloxNode::advertiseServices()
+[component_container_mt-6] [INFO] [1773177977.588040030] [nvblox_node]: Started up nvblox node in frame odom and voxel size 0.1
+[component_container_mt-6] [INFO] [1773177977.588108258] [nvblox_node]: Mapping type: kStaticTsdf
+[component_container_mt-6] [INFO] [1773177977.589273122] [nvblox_node]: nvblox parameters:
+[component_container_mt-6] nvblox_node
+[component_container_mt-6]     cuda_stream_type: kBlocking
+[component_container_mt-6]     global_frame: odom
+[component_container_mt-6]     voxel_size: 0.100000
+[component_container_mt-6]     max_back_projection_distance: 5.000000
+[component_container_mt-6]     layer_visualization_min_tsdf_weight: 0.100000
+[component_container_mt-6]     layer_visualization_exclusion_height_m: 2.000000
+[component_container_mt-6]     layer_visualization_exclusion_radius_m: 5.000000
+[component_container_mt-6]     layer_streamer_bandwidth_limit_mbps: 30.000000
+[component_container_mt-6]     distance_map_unknown_value_optimistic: 1000.000000
+[component_container_mt-6]     distance_map_unknown_value_pessimistic: -1000.000000
+[component_container_mt-6]     esdf_mode: 2d
+[component_container_mt-6]     mapping_type: static_tsdf
+[component_container_mt-6]     pose_frame: base_link
+[component_container_mt-6]     map_clearing_frame_id: base_link
+[component_container_mt-6]     after_shutdown_map_save_path: 
+[component_container_mt-6]     esdf_slice_bounds_visualization_attachment_frame_id: base_link
+[component_container_mt-6]     workspace_height_bounds_visualization_attachment_frame_id: base_link
+[component_container_mt-6]     publish_esdf_distance_slice: 1
+[component_container_mt-6]     use_color: 0
+[component_container_mt-6]     use_depth: 1
+[component_container_mt-6]     use_segmentation: 0
+[component_container_mt-6]     use_lidar: 0
+[component_container_mt-6]     use_non_equal_vertical_fov_lidar_params: 0
+[component_container_mt-6]     print_timings_to_console: 0
+[component_container_mt-6]     print_rates_to_console: 0
+[component_container_mt-6]     print_queue_drops_to_console: 0
+[component_container_mt-6]     print_delays_to_console: 0
+[component_container_mt-6]     layer_visualization_undo_gamma_correction: 0
+[component_container_mt-6]     output_pessimistic_distance_map: 1
+[component_container_mt-6]     num_cameras: 1
+[component_container_mt-6]     lidar_width: 1800
+[component_container_mt-6]     lidar_height: 16
+[component_container_mt-6]     tick_period_ms: 10
+[component_container_mt-6]     print_statistics_on_console_period_ms: 10000
+[component_container_mt-6]     maximum_input_queue_length: 10
+[component_container_mt-6]     back_projection_subsampling: 1
+[component_container_mt-6]     lidar_vertical_fov_rad: 0.523599
+[component_container_mt-6]     lidar_min_valid_range_m: 0.100000
+[component_container_mt-6]     lidar_max_valid_range_m: 50.000000
+[component_container_mt-6]     min_angle_below_zero_elevation_rad: 0.349066
+[component_container_mt-6]     max_angle_above_zero_elevation_rad: 0.261799
+[component_container_mt-6]     esdf_slice_bounds_visualization_side_length: 10.000000
+[component_container_mt-6]     workspace_height_bounds_visualization_side_length: 10.000000
+[component_container_mt-6]     integrate_depth_rate_hz: 10.000000
+[component_container_mt-6]     integrate_color_rate_hz: 5.000000
+[component_container_mt-6]     integrate_lidar_rate_hz: 40.000000
+[component_container_mt-6]     update_mesh_rate_hz: 2.000000
+[component_container_mt-6]     update_esdf_rate_hz: 5.000000
+[component_container_mt-6]     publish_layer_rate_hz: 10.000000
+[component_container_mt-6]     publish_debug_vis_rate_hz: 2.000000
+[component_container_mt-6]     decay_tsdf_rate_hz: 5.000000
+[component_container_mt-6]     decay_dynamic_occupancy_rate_hz: 10.000000
+[component_container_mt-6]     clear_map_outside_radius_rate_hz: 1.000000
+[component_container_mt-6]     map_clearing_radius_m: 5.000000
+[component_container_mt-6]     esdf_and_gradients_unobserved_value: -1000.000000
+[component_container_mt-6]     multi_mapper
+[component_container_mt-6]         connected_mask_component_size_threshold: 2000
+[component_container_mt-6]         background_mapper
+[component_container_mt-6]             voxel_size_m: 0.100000
+[component_container_mt-6]             memory_type: kDevice
+[component_container_mt-6]             projective_layer_type: kTsdf
+[component_container_mt-6]             esdf_mode: kUnset
+[component_container_mt-6]             do_depth_preprocessing: 0
+[component_container_mt-6]             depth_preprocessing_num_dilations: 4
+[component_container_mt-6]             exclude_last_view_from_decay: 0
+[component_container_mt-6]             camera_tsdf_integrator
+[component_container_mt-6]                 max_weight:: 5.000000
+[component_container_mt-6]                 marked_unobserved_voxels_distance_m:: -1.000000
+[component_container_mt-6]                 marked_unobserved_voxels_weight:: 0.100000
+[component_container_mt-6]                 weighting_function_type:: kInverseSquareWeight
+[component_container_mt-6]                 invalid_depth_decay_factor:: -1.000000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 5.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             lidar_tsdf_integrator
+[component_container_mt-6]                 max_weight:: 5.000000
+[component_container_mt-6]                 marked_unobserved_voxels_distance_m:: -1.000000
+[component_container_mt-6]                 marked_unobserved_voxels_weight:: 0.100000
+[component_container_mt-6]                 weighting_function_type:: kInverseSquareWeight
+[component_container_mt-6]                 invalid_depth_decay_factor:: -1.000000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 10.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             projective_color_integrator
+[component_container_mt-6]                 sphere_tracing_ray_subsampling_factor:: 4
+[component_container_mt-6]                 max_weight:: 5.000000
+[component_container_mt-6]                 weighting_function_type:: kInverseSquareWeight
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 5.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]                 view_calculator
+[component_container_mt-6]                     raycast_subsampling_factor: 4
+[component_container_mt-6]                     workspace_bounds_type: kUnbounded
+[component_container_mt-6]                     workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                     workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                     workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                     workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                     workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                     workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             camera_occupancy_integrator
+[component_container_mt-6]                 free_region_log_odds:: -0.847298
+[component_container_mt-6]                 occupied_region_log_odds:: 0.847298
+[component_container_mt-6]                 unobserved_region_log_odds:: 0.000000
+[component_container_mt-6]                 occupied_region_half_width_m:: 0.100000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 5.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             lidar_occupancy_integrator
+[component_container_mt-6]                 free_region_log_odds:: -0.847298
+[component_container_mt-6]                 occupied_region_log_odds:: 0.847298
+[component_container_mt-6]                 unobserved_region_log_odds:: 0.000000
+[component_container_mt-6]                 occupied_region_half_width_m:: 0.100000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 10.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             esdf_integrator
+[component_container_mt-6]                 max_esdf_distance_m:: 2.000000
+[component_container_mt-6]                 max_tsdf_site_distance_vox:: 1.000000
+[component_container_mt-6]                 tsdf_min_weight:: 0.000100
+[component_container_mt-6]                 occupied_threshold_log_odds:: 0.000000
+[component_container_mt-6]                 esdf_slice_min_height:: 0.000000
+[component_container_mt-6]                 esdf_slice_max_height:: 1.000000
+[component_container_mt-6]                 esdf_slice_height:: 0.100000
+[component_container_mt-6]                 slice_height_above_plane_m:: 0.000000
+[component_container_mt-6]                 slice_height_thickness_m:: 0.100000
+[component_container_mt-6]             mesh_integrator
+[component_container_mt-6]                 min_weight:: 0.000100
+[component_container_mt-6]                 cutoff_distance_vox:: 5.000000
+[component_container_mt-6]                 weld_vertices:: 1
+[component_container_mt-6]             occupancy_decay_integrator
+[component_container_mt-6]                 free_space_decay_log_odds:: 0.200671
+[component_container_mt-6]                 occupied_space_decay_log_odds:: -0.405465
+[component_container_mt-6]                 decay_to_log_odds_:: 0.000000
+[component_container_mt-6]                 decay_integrator
+[component_container_mt-6]                     deallocate_decayed_blocks:: 1
+[component_container_mt-6]             tsdf_decay_integrator
+[component_container_mt-6]                 decay_factor:: 0.950000
+[component_container_mt-6]                 decayed_weight_theshold:: 0.001000
+[component_container_mt-6]                 set_free_distance_on_decayed:: 0
+[component_container_mt-6]                 free_distance_vox:: 4.000000
+[component_container_mt-6]                 decay_integrator
+[component_container_mt-6]                     deallocate_decayed_blocks:: 1
+[component_container_mt-6]             freespace_integrator
+[component_container_mt-6]                 max_tsdf_distance_for_occupancy_m:: 0.150000
+[component_container_mt-6]                 max_unobserved_to_keep_consecutive_occupancy_ms:: 200
+[component_container_mt-6]                 min_duration_since_occupied_for_freespace_ms:: 1000
+[component_container_mt-6]                 min_consecutive_occupancy_duration_for_reset_ms:: 2000
+[component_container_mt-6]                 check_neighborhood:: 1
+[component_container_mt-6]         foreground_mapper
+[component_container_mt-6]             voxel_size_m: 0.100000
+[component_container_mt-6]             memory_type: kDevice
+[component_container_mt-6]             projective_layer_type: kNone
+[component_container_mt-6]             esdf_mode: kUnset
+[component_container_mt-6]             do_depth_preprocessing: 0
+[component_container_mt-6]             depth_preprocessing_num_dilations: 4
+[component_container_mt-6]             exclude_last_view_from_decay: 0
+[component_container_mt-6]             camera_tsdf_integrator
+[component_container_mt-6]                 max_weight:: 5.000000
+[component_container_mt-6]                 marked_unobserved_voxels_distance_m:: -1.000000
+[component_container_mt-6]                 marked_unobserved_voxels_weight:: 0.100000
+[component_container_mt-6]                 weighting_function_type:: kInverseSquareWeight
+[component_container_mt-6]                 invalid_depth_decay_factor:: -1.000000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 7.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             lidar_tsdf_integrator
+[component_container_mt-6]                 max_weight:: 5.000000
+[component_container_mt-6]                 marked_unobserved_voxels_distance_m:: -1.000000
+[component_container_mt-6]                 marked_unobserved_voxels_weight:: 0.100000
+[component_container_mt-6]                 weighting_function_type:: kInverseSquareWeight
+[component_container_mt-6]                 invalid_depth_decay_factor:: -1.000000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 10.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             projective_color_integrator
+[component_container_mt-6]                 sphere_tracing_ray_subsampling_factor:: 4
+[component_container_mt-6]                 max_weight:: 5.000000
+[component_container_mt-6]                 weighting_function_type:: kInverseSquareWeight
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 7.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]                 view_calculator
+[component_container_mt-6]                     raycast_subsampling_factor: 4
+[component_container_mt-6]                     workspace_bounds_type: kUnbounded
+[component_container_mt-6]                     workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                     workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                     workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                     workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                     workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                     workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             camera_occupancy_integrator
+[component_container_mt-6]                 free_region_log_odds:: -0.847298
+[component_container_mt-6]                 occupied_region_log_odds:: 0.847298
+[component_container_mt-6]                 unobserved_region_log_odds:: 0.000000
+[component_container_mt-6]                 occupied_region_half_width_m:: 0.100000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 7.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             lidar_occupancy_integrator
+[component_container_mt-6]                 free_region_log_odds:: -0.847298
+[component_container_mt-6]                 occupied_region_log_odds:: 0.847298
+[component_container_mt-6]                 unobserved_region_log_odds:: 0.000000
+[component_container_mt-6]                 occupied_region_half_width_m:: 0.100000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 10.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             esdf_integrator
+[component_container_mt-6]                 max_esdf_distance_m:: 2.000000
+[component_container_mt-6]                 max_tsdf_site_distance_vox:: 1.000000
+[component_container_mt-6]                 tsdf_min_weight:: 0.000100
+[component_container_mt-6]                 occupied_threshold_log_odds:: 0.000000
+[component_container_mt-6]                 esdf_slice_min_height:: 0.000000
+[component_container_mt-6]                 esdf_slice_max_height:: 1.000000
+[component_container_mt-6]                 esdf_slice_height:: 1.000000
+[component_container_mt-6]                 slice_height_above_plane_m:: 0.000000
+[component_container_mt-6]                 slice_height_thickness_m:: 0.100000
+[component_container_mt-6]             mesh_integrator
+[component_container_mt-6]                 min_weight:: 0.000100
+[component_container_mt-6]                 cutoff_distance_vox:: 5.000000
+[component_container_mt-6]                 weld_vertices:: 1
+[component_container_mt-6]             occupancy_decay_integrator
+[component_container_mt-6]                 free_space_decay_log_odds:: 0.200671
+[component_container_mt-6]                 occupied_space_decay_log_odds:: -0.405465
+[component_container_mt-6]                 decay_to_log_odds_:: 0.000000
+[component_container_mt-6]                 decay_integrator
+[component_container_mt-6]                     deallocate_decayed_blocks:: 1
+[component_container_mt-6]             tsdf_decay_integrator
+[component_container_mt-6]                 decay_factor:: 0.950000
+[component_container_mt-6]                 decayed_weight_theshold:: 0.001000
+[component_container_mt-6]                 set_free_distance_on_decayed:: 0
+[component_container_mt-6]                 free_distance_vox:: 4.000000
+[component_container_mt-6]                 decay_integrator
+[component_container_mt-6]                     deallocate_decayed_blocks:: 1
+[component_container_mt-6]             freespace_integrator
+[component_container_mt-6]                 max_tsdf_distance_for_occupancy_m:: 0.150000
+[component_container_mt-6]                 max_unobserved_to_keep_consecutive_occupancy_ms:: 200
+[component_container_mt-6]                 min_duration_since_occupied_for_freespace_ms:: 1000
+[component_container_mt-6]                 min_consecutive_occupancy_duration_for_reset_ms:: 2000
+[component_container_mt-6]                 check_neighborhood:: 1
+[component_container_mt-6]         image_masker
+[component_container_mt-6]             occlusion_threshold_m:: 0.250000
+[component_container_mt-6]         ground_plane_estimator
+[component_container_mt-6]             ground_points_candidates_min_z_m:: -0.100000
+[component_container_mt-6]             ground_points_candidates_max_z_m:: 0.150000
+[component_container_mt-6]             ransac_plane_fitter
+[component_container_mt-6]                 num_ransac_iterations:: 1000
+[component_container_mt-6]                 ransac_distance_threshold_m:: 0.200000
+[component_container_mt-6]             tsdf_zero_crossings_extractor
+[component_container_mt-6]                 min_tsdf_weight:: 0.100000
+[component_container_mt-6]                 max_crossings:: 360000
+[component_container_mt-6] 
+[component_container_mt-6] [INFO] [1773177977.590657358] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177977.590868218] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177978.593799731] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177978.623789352] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177979.593885909] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177979.673916978] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177980.593906266] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177980.713916724] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177981.593974824] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177981.743972920] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177982.594054717] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177982.794029618] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177983.594087029] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177983.844102676] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177984.594233817] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177984.884279002] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177985.594265885] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177985.924212473] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177986.594471440] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177986.974271341] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177987.604632623] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177988.024623449] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177988.614399423] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177989.084502168] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177989.614652647] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177990.154450122] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177990.624470437] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177991.204501369] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177991.624506733] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177992.244632682] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177992.624639136] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177993.294709895] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177993.634649082] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177994.324665363] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177994.634707669] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177995.364950335] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177995.634748916] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177996.414830212] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177996.634781817] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177997.464839446] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177997.634855654] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177998.524896954] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177998.634916504] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773177999.584964804] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773177999.634939277] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178000.624982209] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178000.635126578] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178001.635142322] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178001.695085827] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178002.645109662] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178002.735269237] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178003.645196525] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178003.775203488] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178004.645246945] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178004.825250496] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178005.645433345] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178005.898715956] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178006.645468158] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178006.905500872] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178007.645542467] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178007.975499338] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178008.645815129] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178009.015590907] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178009.655529598] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178010.075709702] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178010.656459555] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178011.167903590] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178011.665636949] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178011.873015878] [isaac_ros_container]: Load Library: /workspaces/isaac_ros-dev/install/realsense2_camera/lib/librealsense2_camera.so
+[component_container_mt-6] [ERROR] [1773178011.873829459] [isaac_ros_container]: Failed to load library: Could not load library dlopen error: librealsense2.so.2.55: cannot open shared object file: No such file or directory, at ./src/shared_library.c:99
+[component_container_mt-6] [INFO] [1773178011.878110784] [isaac_ros_container]: Found class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::visual_slam::VisualSlamNode>
+[component_container_mt-6] [INFO] [1773178011.878171875] [isaac_ros_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::visual_slam::VisualSlamNode>
+[component_container_mt-6] [WARN] [1773178011.878746147] [rcl.logging_rosout]: Publisher already registered for provided node name. If this is due to multiple nodes with the same name then all logs for that logger name will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.
+[component_container_mt-6] [INFO] [1773178011.936833680] [visual_slam_node.ManagedNitrosSubscriber]: Starting Managed Nitros Subscriber
+[component_container_mt-6] [INFO] [1773178011.948444722] [visual_slam_node.ManagedNitrosSubscriber]: Starting Managed Nitros Subscriber
+[component_container_mt-6] [INFO] [1773178012.111421803] [visual_slam_node]: cuVSLAM version: 12.6
+[component_container_mt-6] [INFO] [1773178012.131347001] [visual_slam_node]: Time taken by CUVSLAM_WarmUpGPU(): 0.019845
+[component_container_mt-6] [INFO] [1773178012.145067633] [isaac_ros_container]: Found class: rclcpp_components::NodeFactoryTemplate<nvblox::NvbloxNode>
+[component_container_mt-6] [INFO] [1773178012.145151413] [isaac_ros_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nvblox::NvbloxNode>
+[component_container_mt-6] [WARN] [1773178012.145709588] [rcl.logging_rosout]: Publisher already registered for provided node name. If this is due to multiple nodes with the same name then all logs for that logger name will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.
+[component_container_mt-6] [INFO] [1773178012.201020616] [nvblox_node]: Create nvblox cuda stream with type: kBlocking
+[component_container_mt-6] [INFO] [1773178012.206273771] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] I0310 17:26:52.216802 48861 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:52.217537 48861 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:52.217664 48861 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_9TsdfVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:52.235190 48861 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:52.236781 48861 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:52.236900 48861 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_10ColorVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:52.258725 48861 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:52.260109 48861 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:52.260242 48861 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_14FreespaceVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:52.270574 48861 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:52.271464 48861 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:52.271597 48861 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_14OccupancyVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:52.290314 48861 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:52.291129 48861 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:52.291245 48861 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_9EsdfVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:52.291630 48861 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:52.292397 48861 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:52.292498 48861 layer_cake_impl.h:32] Adding Layer with type: N6nvblox10BlockLayerINS_9MeshBlockEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:52.292522 48861 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_9TsdfVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:52.292528 48861 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_10ColorVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:52.292532 48861 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_14FreespaceVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:52.292536 48861 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_14OccupancyVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:52.292541 48861 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_9EsdfVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:52.292544 48861 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_10BlockLayerINS_9MeshBlockEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:52.303506 48861 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:52.304152 48861 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:52.304266 48861 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_9TsdfVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:52.322014 48861 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:52.322582 48861 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:52.322692 48861 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_10ColorVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:52.346964 48861 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:52.347657 48861 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:52.347767 48861 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_14FreespaceVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:52.358115 48861 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:52.359066 48861 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:52.359184 48861 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_14OccupancyVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:52.380314 48861 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:52.382184 48861 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:52.382325 48861 layer_cake_impl.h:32] Adding Layer with type: N6nvblox15VoxelBlockLayerINS_9EsdfVoxelEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:52.382737 48861 block_memory_pool_impl.h:65] Expanding the memory pool with 2048 blocks. Number of allocated blocks: 2048
+[component_container_mt-6] I0310 17:26:52.383447 48861 gpu_hash_interface_impl.cuh:83] Creating a GPUHashImpl with requested capacity of 4096 blocks. Real capacity: 4096
+[component_container_mt-6] I0310 17:26:52.383548 48861 layer_cake_impl.h:32] Adding Layer with type: N6nvblox10BlockLayerINS_9MeshBlockEEE, voxel_size: 0.1, and memory_type: kDevice to LayerCake.
+[component_container_mt-6] I0310 17:26:52.383571 48861 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_9TsdfVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:52.383577 48861 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_10ColorVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:52.383581 48861 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_14FreespaceVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:52.383584 48861 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_14OccupancyVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:52.383589 48861 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_15VoxelBlockLayerINS_9EsdfVoxelEEEEE to LayerCake.
+[component_container_mt-6] I0310 17:26:52.383599 48861 layer_cake_streamer_impl.h:79] Adding Streamer with type: N6nvblox25LayerStreamerOldestBlocksINS_10BlockLayerINS_9MeshBlockEEEEE to LayerCake.
+[component_container_mt-6] [INFO] [1773178012.412771404] [nvblox_node]: Initialize Mapper:
+[component_container_mt-6] [INFO] [1773178012.414533389] [nvblox_node]: static_mapper.do_depth_preprocessing: 0
+[component_container_mt-6] [INFO] [1773178012.415442815] [nvblox_node]: static_mapper.depth_preprocessing_num_dilations: 4
+[component_container_mt-6] [INFO] [1773178012.415488610] [nvblox_node]: static_mapper.esdf_slice_min_height: 0
+[component_container_mt-6] [INFO] [1773178012.415510787] [nvblox_node]: static_mapper.esdf_slice_max_height: 1
+[component_container_mt-6] [INFO] [1773178012.415528324] [nvblox_node]: static_mapper.esdf_slice_height: 0.1
+[component_container_mt-6] [INFO] [1773178012.415542373] [nvblox_node]: static_mapper.exclude_last_view_from_decay: 0
+[component_container_mt-6] [INFO] [1773178012.415556582] [nvblox_node]: static_mapper.projective_integrator_max_integration_distance_m: 5
+[component_container_mt-6] [INFO] [1773178012.415571142] [nvblox_node]: static_mapper.lidar_projective_integrator_max_integration_distance_m: 10
+[component_container_mt-6] [INFO] [1773178012.415583879] [nvblox_node]: static_mapper.projective_integrator_truncation_distance_vox: 4
+[component_container_mt-6] [INFO] [1773178012.415597096] [nvblox_node]: static_mapper.projective_integrator_weighting_mode: kInverseSquareWeight
+[component_container_mt-6] [WARN] [1773178012.415607912] [nvblox_node]: Requested weighting function: "kInverseSquareWeight" not recognized. Defaulting to: kInverseSquareWeight
+[component_container_mt-6] [INFO] [1773178012.415621161] [nvblox_node]: static_mapper.projective_integrator_max_weight: 5
+[component_container_mt-6] [INFO] [1773178012.415633034] [nvblox_node]: static_mapper.projective_tsdf_integrator_invalid_depth_decay_factor: -1
+[component_container_mt-6] [INFO] [1773178012.415644939] [nvblox_node]: static_mapper.free_region_occupancy_probability: 0.3
+[component_container_mt-6] [INFO] [1773178012.415656683] [nvblox_node]: static_mapper.occupied_region_occupancy_probability: 0.7
+[component_container_mt-6] [INFO] [1773178012.415668844] [nvblox_node]: static_mapper.unobserved_region_occupancy_probability: 0.5
+[component_container_mt-6] [INFO] [1773178012.415680845] [nvblox_node]: static_mapper.occupied_region_half_width_m: 0.1
+[component_container_mt-6] [INFO] [1773178012.415692365] [nvblox_node]: static_mapper.raycast_subsampling_factor: 4
+[component_container_mt-6] [INFO] [1773178012.415703406] [nvblox_node]: static_mapper.workspace_bounds_type: kUnbounded
+[component_container_mt-6] [WARN] [1773178012.415715534] [nvblox_node]: Requested workspace bounds type: "kUnbounded" not recognized. Defaulting to: kUnbounded
+[component_container_mt-6] [INFO] [1773178012.415728719] [nvblox_node]: static_mapper.workspace_bounds_min_height_m: 0
+[component_container_mt-6] [INFO] [1773178012.415803123] [nvblox_node]: static_mapper.workspace_bounds_max_height_m: 1
+[component_container_mt-6] [INFO] [1773178012.415819060] [nvblox_node]: static_mapper.workspace_bounds_min_corner_x_m: 0
+[component_container_mt-6] [INFO] [1773178012.415831093] [nvblox_node]: static_mapper.workspace_bounds_max_corner_x_m: 0
+[component_container_mt-6] [INFO] [1773178012.415842677] [nvblox_node]: static_mapper.workspace_bounds_min_corner_y_m: 2
+[component_container_mt-6] [INFO] [1773178012.415853686] [nvblox_node]: static_mapper.workspace_bounds_max_corner_y_m: 2
+[component_container_mt-6] [INFO] [1773178012.415866359] [nvblox_node]: static_mapper.esdf_integrator_min_weight: 0.0001
+[component_container_mt-6] [INFO] [1773178012.415877687] [nvblox_node]: static_mapper.esdf_integrator_max_site_distance_vox: 1
+[component_container_mt-6] [INFO] [1773178012.415888664] [nvblox_node]: static_mapper.esdf_integrator_max_distance_m: 2
+[component_container_mt-6] [INFO] [1773178012.415900857] [nvblox_node]: static_mapper.mesh_integrator_min_weight: 0.0001
+[component_container_mt-6] [INFO] [1773178012.415911961] [nvblox_node]: static_mapper.mesh_integrator_weld_vertices: 1
+[component_container_mt-6] [INFO] [1773178012.415922842] [nvblox_node]: static_mapper.decay_integrator_deallocate_decayed_blocks: 1
+[component_container_mt-6] [INFO] [1773178012.415934587] [nvblox_node]: static_mapper.tsdf_decay_factor: 0.95
+[component_container_mt-6] [INFO] [1773178012.415947035] [nvblox_node]: static_mapper.tsdf_decayed_weight_threshold: 0.001
+[component_container_mt-6] [INFO] [1773178012.415957948] [nvblox_node]: static_mapper.tsdf_set_free_distance_on_decayed: 0
+[component_container_mt-6] [INFO] [1773178012.415969244] [nvblox_node]: static_mapper.tsdf_decayed_free_distance_vox: 4
+[component_container_mt-6] [INFO] [1773178012.415981981] [nvblox_node]: static_mapper.free_region_decay_probability: 0.55
+[component_container_mt-6] [INFO] [1773178012.415994238] [nvblox_node]: static_mapper.occupied_region_decay_probability: 0.4
+[component_container_mt-6] [INFO] [1773178012.416005566] [nvblox_node]: static_mapper.occupancy_decay_to_free: 0
+[component_container_mt-6] [INFO] [1773178012.416016991] [nvblox_node]: static_mapper.max_tsdf_distance_for_occupancy_m: 0.15
+[component_container_mt-6] [INFO] [1773178012.416028704] [nvblox_node]: static_mapper.max_unobserved_to_keep_consecutive_occupancy_ms: 200
+[component_container_mt-6] [INFO] [1773178012.416039104] [nvblox_node]: static_mapper.min_duration_since_occupied_for_freespace_ms: 1000
+[component_container_mt-6] [INFO] [1773178012.416048769] [nvblox_node]: static_mapper.min_consecutive_occupancy_duration_for_reset_ms: 2000
+[component_container_mt-6] [INFO] [1773178012.416062850] [nvblox_node]: static_mapper.check_neighborhood: 1
+[component_container_mt-6] [INFO] [1773178012.416074018] [nvblox_node]: Initialize Mapper:
+[component_container_mt-6] [INFO] [1773178012.416085667] [nvblox_node]: dynamic_mapper.do_depth_preprocessing: 0
+[component_container_mt-6] [INFO] [1773178012.416096612] [nvblox_node]: dynamic_mapper.depth_preprocessing_num_dilations: 4
+[component_container_mt-6] [INFO] [1773178012.416108548] [nvblox_node]: dynamic_mapper.esdf_slice_min_height: 0
+[component_container_mt-6] [INFO] [1773178012.416119909] [nvblox_node]: dynamic_mapper.esdf_slice_max_height: 1
+[component_container_mt-6] [INFO] [1773178012.416131013] [nvblox_node]: dynamic_mapper.esdf_slice_height: 1
+[component_container_mt-6] [INFO] [1773178012.416141734] [nvblox_node]: dynamic_mapper.exclude_last_view_from_decay: 0
+[component_container_mt-6] [INFO] [1773178012.416153031] [nvblox_node]: dynamic_mapper.projective_integrator_max_integration_distance_m: 7
+[component_container_mt-6] [INFO] [1773178012.416165703] [nvblox_node]: dynamic_mapper.lidar_projective_integrator_max_integration_distance_m: 10
+[component_container_mt-6] [INFO] [1773178012.416177960] [nvblox_node]: dynamic_mapper.projective_integrator_truncation_distance_vox: 4
+[component_container_mt-6] [INFO] [1773178012.416189225] [nvblox_node]: dynamic_mapper.projective_integrator_weighting_mode: kInverseSquareWeight
+[component_container_mt-6] [WARN] [1773178012.416198953] [nvblox_node]: Requested weighting function: "kInverseSquareWeight" not recognized. Defaulting to: kInverseSquareWeight
+[component_container_mt-6] [INFO] [1773178012.416210698] [nvblox_node]: dynamic_mapper.projective_integrator_max_weight: 5
+[component_container_mt-6] [INFO] [1773178012.416222474] [nvblox_node]: dynamic_mapper.projective_tsdf_integrator_invalid_depth_decay_factor: -1
+[component_container_mt-6] [INFO] [1773178012.416233451] [nvblox_node]: dynamic_mapper.free_region_occupancy_probability: 0.3
+[component_container_mt-6] [INFO] [1773178012.416244428] [nvblox_node]: dynamic_mapper.occupied_region_occupancy_probability: 0.7
+[component_container_mt-6] [INFO] [1773178012.416255820] [nvblox_node]: dynamic_mapper.unobserved_region_occupancy_probability: 0.5
+[component_container_mt-6] [INFO] [1773178012.416266861] [nvblox_node]: dynamic_mapper.occupied_region_half_width_m: 0.1
+[component_container_mt-6] [INFO] [1773178012.416306639] [nvblox_node]: dynamic_mapper.raycast_subsampling_factor: 4
+[component_container_mt-6] [INFO] [1773178012.416324848] [nvblox_node]: dynamic_mapper.workspace_bounds_type: kUnbounded
+[component_container_mt-6] [WARN] [1773178012.416337105] [nvblox_node]: Requested workspace bounds type: "kUnbounded" not recognized. Defaulting to: kUnbounded
+[component_container_mt-6] [INFO] [1773178012.416349938] [nvblox_node]: dynamic_mapper.workspace_bounds_min_height_m: 0
+[component_container_mt-6] [INFO] [1773178012.416361426] [nvblox_node]: dynamic_mapper.workspace_bounds_max_height_m: 1
+[component_container_mt-6] [INFO] [1773178012.416372371] [nvblox_node]: dynamic_mapper.workspace_bounds_min_corner_x_m: 0
+[component_container_mt-6] [INFO] [1773178012.416383859] [nvblox_node]: dynamic_mapper.workspace_bounds_max_corner_x_m: 0
+[component_container_mt-6] [INFO] [1773178012.416394196] [nvblox_node]: dynamic_mapper.workspace_bounds_min_corner_y_m: 2
+[component_container_mt-6] [INFO] [1773178012.416404693] [nvblox_node]: dynamic_mapper.workspace_bounds_max_corner_y_m: 2
+[component_container_mt-6] [INFO] [1773178012.416416949] [nvblox_node]: dynamic_mapper.esdf_integrator_min_weight: 0.0001
+[component_container_mt-6] [INFO] [1773178012.416428406] [nvblox_node]: dynamic_mapper.esdf_integrator_max_site_distance_vox: 1
+[component_container_mt-6] [INFO] [1773178012.416439190] [nvblox_node]: dynamic_mapper.esdf_integrator_max_distance_m: 2
+[component_container_mt-6] [INFO] [1773178012.416450295] [nvblox_node]: dynamic_mapper.mesh_integrator_min_weight: 0.0001
+[component_container_mt-6] [INFO] [1773178012.416460856] [nvblox_node]: dynamic_mapper.mesh_integrator_weld_vertices: 1
+[component_container_mt-6] [INFO] [1773178012.416471416] [nvblox_node]: dynamic_mapper.decay_integrator_deallocate_decayed_blocks: 1
+[component_container_mt-6] [INFO] [1773178012.416482777] [nvblox_node]: dynamic_mapper.tsdf_decay_factor: 0.95
+[component_container_mt-6] [INFO] [1773178012.416494234] [nvblox_node]: dynamic_mapper.tsdf_decayed_weight_threshold: 0.001
+[component_container_mt-6] [INFO] [1773178012.416504570] [nvblox_node]: dynamic_mapper.tsdf_set_free_distance_on_decayed: 0
+[component_container_mt-6] [INFO] [1773178012.416515067] [nvblox_node]: dynamic_mapper.tsdf_decayed_free_distance_vox: 4
+[component_container_mt-6] [INFO] [1773178012.416526043] [nvblox_node]: dynamic_mapper.free_region_decay_probability: 0.55
+[component_container_mt-6] [INFO] [1773178012.416537020] [nvblox_node]: dynamic_mapper.occupied_region_decay_probability: 0.4
+[component_container_mt-6] [INFO] [1773178012.416547484] [nvblox_node]: dynamic_mapper.occupancy_decay_to_free: 0
+[component_container_mt-6] [INFO] [1773178012.416561373] [nvblox_node]: dynamic_mapper.max_tsdf_distance_for_occupancy_m: 0.15
+[component_container_mt-6] [INFO] [1773178012.416572638] [nvblox_node]: dynamic_mapper.max_unobserved_to_keep_consecutive_occupancy_ms: 200
+[component_container_mt-6] [INFO] [1773178012.416582334] [nvblox_node]: dynamic_mapper.min_duration_since_occupied_for_freespace_ms: 1000
+[component_container_mt-6] [INFO] [1773178012.416591967] [nvblox_node]: dynamic_mapper.min_consecutive_occupancy_duration_for_reset_ms: 2000
+[component_container_mt-6] [INFO] [1773178012.416601791] [nvblox_node]: dynamic_mapper.check_neighborhood: 1
+[component_container_mt-6] [INFO] [1773178012.416611392] [nvblox_node]: Initialize MultiMapper:
+[component_container_mt-6] [INFO] [1773178012.416622497] [nvblox_node]: multi_mapper.connected_mask_component_size_threshold: 2000
+[component_container_mt-6] [INFO] [1773178012.416633153] [nvblox_node]: multi_mapper.remove_small_connected_components: 1
+[component_container_mt-6] [INFO] [1773178012.416661059] [nvblox_node]: NvbloxNode::subscribeToTopics()
+[component_container_mt-6] [INFO] [1773178012.418817018] [nvblox_node]: Subscribing input topics with QoS: SENSOR_DATA
+[component_container_mt-6] [INFO] [1773178012.435780293] [nvblox_node.ManagedNitrosSubscriber]: Starting Managed Nitros Subscriber
+[component_container_mt-6] [INFO] [1773178012.440460519] [nvblox_node]: NvbloxNode::setupTimers()
+[component_container_mt-6] [INFO] [1773178012.440551309] [nvblox_node]: NvbloxNode::advertiseTopics()
+[component_container_mt-6] [INFO] [1773178012.466166102] [nvblox_node]: NvbloxNode::advertiseServices()
+[component_container_mt-6] [INFO] [1773178012.486051010] [nvblox_node]: Started up nvblox node in frame odom and voxel size 0.1
+[component_container_mt-6] [INFO] [1773178012.486135302] [nvblox_node]: Mapping type: kStaticTsdf
+[component_container_mt-6] [INFO] [1773178012.487365867] [nvblox_node]: nvblox parameters:
+[component_container_mt-6] nvblox_node
+[component_container_mt-6]     cuda_stream_type: kBlocking
+[component_container_mt-6]     global_frame: odom
+[component_container_mt-6]     voxel_size: 0.100000
+[component_container_mt-6]     max_back_projection_distance: 5.000000
+[component_container_mt-6]     layer_visualization_min_tsdf_weight: 0.100000
+[component_container_mt-6]     layer_visualization_exclusion_height_m: 2.000000
+[component_container_mt-6]     layer_visualization_exclusion_radius_m: 5.000000
+[component_container_mt-6]     layer_streamer_bandwidth_limit_mbps: 30.000000
+[component_container_mt-6]     distance_map_unknown_value_optimistic: 1000.000000
+[component_container_mt-6]     distance_map_unknown_value_pessimistic: -1000.000000
+[component_container_mt-6]     esdf_mode: 2d
+[component_container_mt-6]     mapping_type: static_tsdf
+[component_container_mt-6]     pose_frame: base_link
+[component_container_mt-6]     map_clearing_frame_id: base_link
+[component_container_mt-6]     after_shutdown_map_save_path: 
+[component_container_mt-6]     esdf_slice_bounds_visualization_attachment_frame_id: base_link
+[component_container_mt-6]     workspace_height_bounds_visualization_attachment_frame_id: base_link
+[component_container_mt-6]     publish_esdf_distance_slice: 1
+[component_container_mt-6]     use_color: 0
+[component_container_mt-6]     use_depth: 1
+[component_container_mt-6]     use_segmentation: 0
+[component_container_mt-6]     use_lidar: 0
+[component_container_mt-6]     use_non_equal_vertical_fov_lidar_params: 0
+[component_container_mt-6]     print_timings_to_console: 0
+[component_container_mt-6]     print_rates_to_console: 0
+[component_container_mt-6]     print_queue_drops_to_console: 0
+[component_container_mt-6]     print_delays_to_console: 0
+[component_container_mt-6]     layer_visualization_undo_gamma_correction: 0
+[component_container_mt-6]     output_pessimistic_distance_map: 1
+[component_container_mt-6]     num_cameras: 1
+[component_container_mt-6]     lidar_width: 1800
+[component_container_mt-6]     lidar_height: 16
+[component_container_mt-6]     tick_period_ms: 10
+[component_container_mt-6]     print_statistics_on_console_period_ms: 10000
+[component_container_mt-6]     maximum_input_queue_length: 10
+[component_container_mt-6]     back_projection_subsampling: 1
+[component_container_mt-6]     lidar_vertical_fov_rad: 0.523599
+[component_container_mt-6]     lidar_min_valid_range_m: 0.100000
+[component_container_mt-6]     lidar_max_valid_range_m: 50.000000
+[component_container_mt-6]     min_angle_below_zero_elevation_rad: 0.349066
+[component_container_mt-6]     max_angle_above_zero_elevation_rad: 0.261799
+[component_container_mt-6]     esdf_slice_bounds_visualization_side_length: 10.000000
+[component_container_mt-6]     workspace_height_bounds_visualization_side_length: 10.000000
+[component_container_mt-6]     integrate_depth_rate_hz: 10.000000
+[component_container_mt-6]     integrate_color_rate_hz: 5.000000
+[component_container_mt-6]     integrate_lidar_rate_hz: 40.000000
+[component_container_mt-6]     update_mesh_rate_hz: 2.000000
+[component_container_mt-6]     update_esdf_rate_hz: 5.000000
+[component_container_mt-6]     publish_layer_rate_hz: 10.000000
+[component_container_mt-6]     publish_debug_vis_rate_hz: 2.000000
+[component_container_mt-6]     decay_tsdf_rate_hz: 5.000000
+[component_container_mt-6]     decay_dynamic_occupancy_rate_hz: 10.000000
+[component_container_mt-6]     clear_map_outside_radius_rate_hz: 1.000000
+[component_container_mt-6]     map_clearing_radius_m: 5.000000
+[component_container_mt-6]     esdf_and_gradients_unobserved_value: -1000.000000
+[component_container_mt-6]     multi_mapper
+[component_container_mt-6]         connected_mask_component_size_threshold: 2000
+[component_container_mt-6]         background_mapper
+[component_container_mt-6]             voxel_size_m: 0.100000
+[component_container_mt-6]             memory_type: kDevice
+[component_container_mt-6]             projective_layer_type: kTsdf
+[component_container_mt-6]             esdf_mode: kUnset
+[component_container_mt-6]             do_depth_preprocessing: 0
+[component_container_mt-6]             depth_preprocessing_num_dilations: 4
+[component_container_mt-6]             exclude_last_view_from_decay: 0
+[component_container_mt-6]             camera_tsdf_integrator
+[component_container_mt-6]                 max_weight:: 5.000000
+[component_container_mt-6]                 marked_unobserved_voxels_distance_m:: -1.000000
+[component_container_mt-6]                 marked_unobserved_voxels_weight:: 0.100000
+[component_container_mt-6]                 weighting_function_type:: kInverseSquareWeight
+[component_container_mt-6]                 invalid_depth_decay_factor:: -1.000000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 5.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             lidar_tsdf_integrator
+[component_container_mt-6]                 max_weight:: 5.000000
+[component_container_mt-6]                 marked_unobserved_voxels_distance_m:: -1.000000
+[component_container_mt-6]                 marked_unobserved_voxels_weight:: 0.100000
+[component_container_mt-6]                 weighting_function_type:: kInverseSquareWeight
+[component_container_mt-6]                 invalid_depth_decay_factor:: -1.000000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 10.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             projective_color_integrator
+[component_container_mt-6]                 sphere_tracing_ray_subsampling_factor:: 4
+[component_container_mt-6]                 max_weight:: 5.000000
+[component_container_mt-6]                 weighting_function_type:: kInverseSquareWeight
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 5.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]                 view_calculator
+[component_container_mt-6]                     raycast_subsampling_factor: 4
+[component_container_mt-6]                     workspace_bounds_type: kUnbounded
+[component_container_mt-6]                     workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                     workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                     workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                     workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                     workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                     workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             camera_occupancy_integrator
+[component_container_mt-6]                 free_region_log_odds:: -0.847298
+[component_container_mt-6]                 occupied_region_log_odds:: 0.847298
+[component_container_mt-6]                 unobserved_region_log_odds:: 0.000000
+[component_container_mt-6]                 occupied_region_half_width_m:: 0.100000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 5.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             lidar_occupancy_integrator
+[component_container_mt-6]                 free_region_log_odds:: -0.847298
+[component_container_mt-6]                 occupied_region_log_odds:: 0.847298
+[component_container_mt-6]                 unobserved_region_log_odds:: 0.000000
+[component_container_mt-6]                 occupied_region_half_width_m:: 0.100000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 10.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             esdf_integrator
+[component_container_mt-6]                 max_esdf_distance_m:: 2.000000
+[component_container_mt-6]                 max_tsdf_site_distance_vox:: 1.000000
+[component_container_mt-6]                 tsdf_min_weight:: 0.000100
+[component_container_mt-6]                 occupied_threshold_log_odds:: 0.000000
+[component_container_mt-6]                 esdf_slice_min_height:: 0.000000
+[component_container_mt-6]                 esdf_slice_max_height:: 1.000000
+[component_container_mt-6]                 esdf_slice_height:: 0.100000
+[component_container_mt-6]                 slice_height_above_plane_m:: 0.000000
+[component_container_mt-6]                 slice_height_thickness_m:: 0.100000
+[component_container_mt-6]             mesh_integrator
+[component_container_mt-6]                 min_weight:: 0.000100
+[component_container_mt-6]                 cutoff_distance_vox:: 5.000000
+[component_container_mt-6]                 weld_vertices:: 1
+[component_container_mt-6]             occupancy_decay_integrator
+[component_container_mt-6]                 free_space_decay_log_odds:: 0.200671
+[component_container_mt-6]                 occupied_space_decay_log_odds:: -0.405465
+[component_container_mt-6]                 decay_to_log_odds_:: 0.000000
+[component_container_mt-6]                 decay_integrator
+[component_container_mt-6]                     deallocate_decayed_blocks:: 1
+[component_container_mt-6]             tsdf_decay_integrator
+[component_container_mt-6]                 decay_factor:: 0.950000
+[component_container_mt-6]                 decayed_weight_theshold:: 0.001000
+[component_container_mt-6]                 set_free_distance_on_decayed:: 0
+[component_container_mt-6]                 free_distance_vox:: 4.000000
+[component_container_mt-6]                 decay_integrator
+[component_container_mt-6]                     deallocate_decayed_blocks:: 1
+[component_container_mt-6]             freespace_integrator
+[component_container_mt-6]                 max_tsdf_distance_for_occupancy_m:: 0.150000
+[component_container_mt-6]                 max_unobserved_to_keep_consecutive_occupancy_ms:: 200
+[component_container_mt-6]                 min_duration_since_occupied_for_freespace_ms:: 1000
+[component_container_mt-6]                 min_consecutive_occupancy_duration_for_reset_ms:: 2000
+[component_container_mt-6]                 check_neighborhood:: 1
+[component_container_mt-6]         foreground_mapper
+[component_container_mt-6]             voxel_size_m: 0.100000
+[component_container_mt-6]             memory_type: kDevice
+[component_container_mt-6]             projective_layer_type: kNone
+[component_container_mt-6]             esdf_mode: kUnset
+[component_container_mt-6]             do_depth_preprocessing: 0
+[component_container_mt-6]             depth_preprocessing_num_dilations: 4
+[component_container_mt-6]             exclude_last_view_from_decay: 0
+[component_container_mt-6]             camera_tsdf_integrator
+[component_container_mt-6]                 max_weight:: 5.000000
+[component_container_mt-6]                 marked_unobserved_voxels_distance_m:: -1.000000
+[component_container_mt-6]                 marked_unobserved_voxels_weight:: 0.100000
+[component_container_mt-6]                 weighting_function_type:: kInverseSquareWeight
+[component_container_mt-6]                 invalid_depth_decay_factor:: -1.000000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 7.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             lidar_tsdf_integrator
+[component_container_mt-6]                 max_weight:: 5.000000
+[component_container_mt-6]                 marked_unobserved_voxels_distance_m:: -1.000000
+[component_container_mt-6]                 marked_unobserved_voxels_weight:: 0.100000
+[component_container_mt-6]                 weighting_function_type:: kInverseSquareWeight
+[component_container_mt-6]                 invalid_depth_decay_factor:: -1.000000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 10.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             projective_color_integrator
+[component_container_mt-6]                 sphere_tracing_ray_subsampling_factor:: 4
+[component_container_mt-6]                 max_weight:: 5.000000
+[component_container_mt-6]                 weighting_function_type:: kInverseSquareWeight
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 7.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]                 view_calculator
+[component_container_mt-6]                     raycast_subsampling_factor: 4
+[component_container_mt-6]                     workspace_bounds_type: kUnbounded
+[component_container_mt-6]                     workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                     workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                     workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                     workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                     workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                     workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             camera_occupancy_integrator
+[component_container_mt-6]                 free_region_log_odds:: -0.847298
+[component_container_mt-6]                 occupied_region_log_odds:: 0.847298
+[component_container_mt-6]                 unobserved_region_log_odds:: 0.000000
+[component_container_mt-6]                 occupied_region_half_width_m:: 0.100000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 7.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             lidar_occupancy_integrator
+[component_container_mt-6]                 free_region_log_odds:: -0.847298
+[component_container_mt-6]                 occupied_region_log_odds:: 0.847298
+[component_container_mt-6]                 unobserved_region_log_odds:: 0.000000
+[component_container_mt-6]                 occupied_region_half_width_m:: 0.100000
+[component_container_mt-6]                 projective_integrator
+[component_container_mt-6]                     lidar_linear_interpolation_max_allowable_difference_vox:: 2.000000
+[component_container_mt-6]                     lidar_nearest_interpolation_max_allowable_dist_to_ray_vox:: 0.500000
+[component_container_mt-6]                     truncation_distance_vox:: 4.000000
+[component_container_mt-6]                     max_integration_distance_m:: 10.000000
+[component_container_mt-6]                     view_calculator
+[component_container_mt-6]                         raycast_subsampling_factor: 4
+[component_container_mt-6]                         workspace_bounds_type: kUnbounded
+[component_container_mt-6]                         workspace_bounds_min_height_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_height_m: 1.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_x_m: 0.000000
+[component_container_mt-6]                         workspace_bounds_min_corner_y_m: 2.000000
+[component_container_mt-6]                         workspace_bounds_max_corner_y_m: 2.000000
+[component_container_mt-6]             esdf_integrator
+[component_container_mt-6]                 max_esdf_distance_m:: 2.000000
+[component_container_mt-6]                 max_tsdf_site_distance_vox:: 1.000000
+[component_container_mt-6]                 tsdf_min_weight:: 0.000100
+[component_container_mt-6]                 occupied_threshold_log_odds:: 0.000000
+[component_container_mt-6]                 esdf_slice_min_height:: 0.000000
+[component_container_mt-6]                 esdf_slice_max_height:: 1.000000
+[component_container_mt-6]                 esdf_slice_height:: 1.000000
+[component_container_mt-6]                 slice_height_above_plane_m:: 0.000000
+[component_container_mt-6]                 slice_height_thickness_m:: 0.100000
+[component_container_mt-6]             mesh_integrator
+[component_container_mt-6]                 min_weight:: 0.000100
+[component_container_mt-6]                 cutoff_distance_vox:: 5.000000
+[component_container_mt-6]                 weld_vertices:: 1
+[component_container_mt-6]             occupancy_decay_integrator
+[component_container_mt-6]                 free_space_decay_log_odds:: 0.200671
+[component_container_mt-6]                 occupied_space_decay_log_odds:: -0.405465
+[component_container_mt-6]                 decay_to_log_odds_:: 0.000000
+[component_container_mt-6]                 decay_integrator
+[component_container_mt-6]                     deallocate_decayed_blocks:: 1
+[component_container_mt-6]             tsdf_decay_integrator
+[component_container_mt-6]                 decay_factor:: 0.950000
+[component_container_mt-6]                 decayed_weight_theshold:: 0.001000
+[component_container_mt-6]                 set_free_distance_on_decayed:: 0
+[component_container_mt-6]                 free_distance_vox:: 4.000000
+[component_container_mt-6]                 decay_integrator
+[component_container_mt-6]                     deallocate_decayed_blocks:: 1
+[component_container_mt-6]             freespace_integrator
+[component_container_mt-6]                 max_tsdf_distance_for_occupancy_m:: 0.150000
+[component_container_mt-6]                 max_unobserved_to_keep_consecutive_occupancy_ms:: 200
+[component_container_mt-6]                 min_duration_since_occupied_for_freespace_ms:: 1000
+[component_container_mt-6]                 min_consecutive_occupancy_duration_for_reset_ms:: 2000
+[component_container_mt-6]                 check_neighborhood:: 1
+[component_container_mt-6]         image_masker
+[component_container_mt-6]             occlusion_threshold_m:: 0.250000
+[component_container_mt-6]         ground_plane_estimator
+[component_container_mt-6]             ground_points_candidates_min_z_m:: -0.100000
+[component_container_mt-6]             ground_points_candidates_max_z_m:: 0.150000
+[component_container_mt-6]             ransac_plane_fitter
+[component_container_mt-6]                 num_ransac_iterations:: 1000
+[component_container_mt-6]                 ransac_distance_threshold_m:: 0.200000
+[component_container_mt-6]             tsdf_zero_crossings_extractor
+[component_container_mt-6]                 min_tsdf_weight:: 0.100000
+[component_container_mt-6]                 max_crossings:: 360000
+[component_container_mt-6] 
+[component_container_mt-6] [INFO] [1773178012.665822524] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178013.220855601] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178013.666006664] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178014.236003644] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178014.676030938] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178015.295929498] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178015.685922953] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178016.336040054] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178016.686003104] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178017.376031889] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178017.686256997] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178018.426091423] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178018.686267618] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178019.476335677] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178019.696158727] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178020.526189483] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178020.696185296] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178021.546279023] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178021.696251263] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178022.586306632] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178022.696298387] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178023.626414443] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178023.696358349] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178024.676414008] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178024.696422541] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178025.696479697] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178025.746483586] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178026.696753542] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178026.786554133] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178027.706668662] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178027.816589248] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178028.706758411] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178028.876635504] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178029.706782530] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178029.916731092] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178030.706804637] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178030.946748431] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178031.706920547] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178031.996812998] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178032.706964330] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178033.026892912] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178033.707017910] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178034.097067245] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178034.707036613] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178035.147045872] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178035.707188993] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178036.207185356] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178036.707456360] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178037.247146095] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178037.717145726] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178038.287283328] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178038.717206628] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178039.322288315] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178039.717257005] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178040.372352574] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178040.717282490] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178041.402454674] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178041.717335214] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178042.422514143] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178042.717422728] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178043.462541765] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178043.717738932] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178044.502604497] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178044.727517873] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178045.507925787] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178045.727589529] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178046.512862644] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178046.727656101] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178047.572913798] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178047.727686996] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178048.602896599] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178048.727747081] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178049.643003999] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178049.727840069] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178050.692954607] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178050.727853409] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178051.727947942] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178051.733097155] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178052.727986668] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178052.773045618] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178053.728048409] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178053.813187376] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178054.728411002] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178054.883321461] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178055.738156650] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178055.933212027] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178056.738217252] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178056.953292270] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178057.738288419] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178058.003327078] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178058.738331813] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178059.033395469] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178059.738417647] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178060.073460453] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178060.738512189] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178061.113512449] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178061.738513098] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178062.133568330] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178062.738588224] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178063.163763788] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178063.738656826] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178064.233682066] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178064.738659796] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178065.253812814] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178065.738695509] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178066.303786921] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178066.738779037] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178067.343884228] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178067.738821287] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178068.363904071] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178068.738953499] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178069.403958441] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178069.748961752] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178070.434015843] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178071.464081251] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178071.544118022] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178072.504180149] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178072.544147684] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178073.509213998] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178073.544272747] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178074.554285661] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178074.579303533] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178075.554307976] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178075.619260005] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178076.554380601] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178076.639473303] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178077.554459375] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178077.669353799] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178078.554489158] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178078.689443387] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178079.554540003] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178079.729492106] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178080.554563587] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178080.734580740] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178081.554663242] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178081.774655101] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178082.554704947] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178082.779627481] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178083.554763104] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178083.809828789] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178084.554809457] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178084.889962546] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178085.554880104] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178085.924915743] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178086.554928417] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178086.944993557] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178087.554970558] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178088.024983831] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178088.555026400] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178089.065076016] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178089.555101575] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178090.105179662] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178090.555146256] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178091.145448921] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178091.555224991] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178092.195293726] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178092.555312594] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178093.255294750] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178093.555401386] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178094.315437833] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178094.565350762] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178095.355425942] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178095.565453418] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178096.405541116] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178096.565457801] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178097.445534449] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178097.565564849] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178098.475779948] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178098.565633627] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178099.500574875] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178099.565690568] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178100.550725715] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178100.565717367] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178101.565776332] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178101.590739579] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178102.565870310] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178102.630934033] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178103.565946532] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178103.680869161] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178104.576072309] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178104.721084296] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178105.576096503] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178105.726040542] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178106.586194414] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178106.787266648] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178107.586588524] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178107.836103076] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178108.596380314] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178108.856221938] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178109.596614391] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178109.916474627] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178110.606376011] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178110.966288401] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178111.606445189] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178111.996349686] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178112.606466401] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178113.021328579] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178113.606585958] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178114.061772659] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178114.606586536] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178115.101458046] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178115.606605322] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178116.136593174] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178116.606686301] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178117.186599616] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178117.616788166] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178118.236897172] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178118.626580496] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178119.286667663] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178119.636637595] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178120.291502798] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178120.636734672] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178121.306666148] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178121.646683611] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178122.366609960] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178122.656584358] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178123.396591403] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178123.656591673] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178124.401522511] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178124.656789961] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178125.461541288] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178125.666644594] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178126.521638793] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178126.676621498] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178127.586620481] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178127.676693830] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178128.626589913] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178128.686689132] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178129.687238036] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178129.687355412] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178130.726622388] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178130.871536607] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178131.776891163] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178131.871559856] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178132.856688076] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178132.881519711] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178133.881537898] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178133.896586846] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178134.881571921] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178134.966631102] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178135.891630360] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178136.041702717] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178136.901568573] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178137.106963587] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178137.911543167] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178138.151713057] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178138.911587000] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178139.196742915] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178139.921615092] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178140.251873234] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178140.931559404] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178141.291686950] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178141.931564311] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178142.361598077] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178142.931663422] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178143.411560771] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178143.941598602] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178144.466709733] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178144.941673766] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178145.506873222] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178145.941728445] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178146.511610277] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178146.951722523] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178147.561626453] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178147.961618132] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178148.641625143] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178148.971574570] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178149.691628526] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178149.971616682] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178150.731617142] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178150.981645173] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178151.791737283] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178151.991664154] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178152.841647744] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178153.796673260] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178153.846711219] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178154.796716441] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178154.906786758] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178155.936846040] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178156.011658863] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178156.986937878] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178157.011673280] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178158.001677872] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178158.011703785] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178159.021666947] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178159.051889842] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178160.031690103] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178160.101650578] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178161.031701193] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178161.141667064] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178162.031823442] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178162.191729145] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178163.041705615] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178163.241705626] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178164.041735975] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178164.246759554] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178165.041817655] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178165.297150721] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178166.051690460] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178166.366764602] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178167.051719993] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178167.416773782] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178168.051748716] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178168.471703506] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178169.061700696] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178169.501725383] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178170.061704089] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178170.507105361] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178171.061721103] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178171.566840165] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178172.061788155] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178172.626837787] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178173.676838731] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178173.876847073] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178174.691781504] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178174.886846308] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178175.741789735] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178175.886975224] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178176.801787285] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178176.897059176] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178177.852211323] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178177.907266767] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178178.901773496] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178178.916840488] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178179.916881616] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178179.941835467] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178180.916901707] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178181.001889520] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178181.926885511] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178182.071934726] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178182.926904172] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178183.136915892] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178183.936917394] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178184.171806001] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178184.937020447] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178185.226925163] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178185.946928110] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178186.271842670] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178186.956966035] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178187.311871556] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178187.966908268] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178188.361872837] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178188.967221450] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178189.411901026] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178189.976940585] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178190.416966208] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178190.976982891] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178191.422037297] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178191.986944980] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178192.471898005] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178192.986957755] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178193.476960656] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178193.986970868] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178194.501905867] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178194.986979295] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178195.551930266] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178195.986981500] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178196.601930211] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178196.987094219] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178197.652240584] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178197.997017412] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178198.711937019] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178199.007330932] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178199.761990289] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178200.017234387] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178200.827057867] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178201.027035492] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178201.857252156] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178202.027124684] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178202.922003558] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178203.037046882] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178203.971985216] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178204.037103404] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178205.037123046] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178205.037228647] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178206.037137904] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178206.077116244] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178207.037148521] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178207.132142540] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178208.037159123] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178208.177137402] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178209.237361142] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178209.242056997] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178210.252056738] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178210.297133639] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178211.252131116] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178211.347146445] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178212.262106218] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178212.402116286] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178213.272084121] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178213.447152864] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178214.272088433] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178214.452098937] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178215.272090744] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link
+[component_container_mt-6] [INFO] [1773178215.467215308] [nvblox_node]: Lookup transform failed for frame base_link. Layer pointclouds not published
+[component_container_mt-6] [INFO] [1773178216.272212591] [nvblox_node]: Tried to clear map outside of radius but couldn't look up frame: base_link

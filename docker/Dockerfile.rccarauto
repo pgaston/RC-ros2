@@ -3,6 +3,9 @@ FROM ${BASE_IMAGE}
 
 ARG TARGET_ROS_DISTRO=humble
 
+# as of 260311 - CONFIG_IMAGE_KEY=ros2_humble.realsense.rccarauto
+# this means we ARE using the realsense docker image - so no need for custom librealsense2 build
+
 # Install RealSense udev rules and setup USB permissions
 # Build context is the docker/ directory when using run_dev.sh
 # btw, the chmod won't work as we're not in that environment, yet
@@ -38,7 +41,7 @@ RUN groupadd -r realsense || true && \
 
 # Perhaps should also do for the USB initialization?
 
-    
+
 # Build a docker that extends the Jetson docker image and Realsense docker image:
 # 1. Installs things needed for WebRTC and aiortc
 # 2. Installs things for gscam extension
@@ -53,7 +56,7 @@ RUN pip install pyopenssl --upgrade
 RUN pip install google-crc32c pyee pylibsrtp natsort 
 RUN pip install aiohttp[speedups] aiortc 
 
- # Seems strange to need to do this, but it is
+# Seems strange to need to do this, but it is
 RUN apt update --allow-releaseinfo-change && apt upgrade -y
 
 # May not be needed
@@ -65,7 +68,7 @@ RUN apt update --allow-releaseinfo-change && apt upgrade -y
 #     libgstreamer-plugins-bad1.0-dev \
 #     libgstrtspserver-1.0-dev \
 #     gstreamer1.0-plugins-bad
-    
+
 # Needed - for ROS2 stuff?
 RUN apt install -y libjson-glib-dev libsoup2.4-dev libpsl-dev usbutils v4l-utils ufw  
 
@@ -88,18 +91,18 @@ RUN apt update && apt install -y \
     ros-humble-image-transport-plugins \
     ros-humble-tf2-ros
 
-    #     ros-humble-jetson-stats \
+#     ros-humble-jetson-stats \
 
-    
-    # fails if these are used - building from source
-    # ros-humble-realsense2-camera \
-    # ros-humble-realsense2-camera-msgs \
-    # ros-humble-librealsense2 \ (commented out - building manually on host instead)
-    # librealsense2-utils librealsense2-dev librealsense2-dkms
 
-    # ESS is a pain - never got to work
-    # ros-humble-isaac-ros-ess \
-    # ros-humble-isaac-ros-ess-models-install
+# fails if these are used - building from source
+# ros-humble-realsense2-camera \
+# ros-humble-realsense2-camera-msgs \
+# ros-humble-librealsense2 \ (commented out - building manually on host instead)
+# librealsense2-utils librealsense2-dev librealsense2-dkms
+
+# ESS is a pain - never got to work
+# ros-humble-isaac-ros-ess \
+# ros-humble-isaac-ros-ess-models-install
 
 # Install librealsense2 build dependencies (manual build on host)
 # not sure all are really needed
@@ -108,7 +111,7 @@ RUN apt install -y git cmake build-essential \
     libusb-1.0-0-dev pkg-config libgtk-3-dev \
     libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev
 
-  
+
 ##########################
 # for Jetson only - though doesn't kill x86
 #

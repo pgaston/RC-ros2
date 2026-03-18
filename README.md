@@ -1,3 +1,15 @@
+# to do's
+- get color image to foxglove - compressed
+- validate more, if possible
+
+- power supply for wifi GL iNet
+- 2nd tier
+- test off battery
+
+- test simple driving
+- ...
+
+
 
 # RC car autonomous control
 
@@ -15,26 +27,26 @@ sudo jetson_clocks
 1. Pre-Docker, ON HOST  - after every reboot
 ./configure_system.sh
 
-
-2. Launch Docker - then 2 more after first is loaded
+2. Launch Docker - then create 2 more windows or so with this - after - first is loaded
 cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 ./run_dev.sh -d ${ISAAC_ROS_WS}
 
+Note: key files at:
+- ~/.isaac_ros_dev-dockerargs and ~/.isaac_ros_common-config
+- ${ISAAC_ROS_WS}/docker 
+
 3. Inside Docker
 ./source_dev.sh
-
-# NOT NEEDED NOW inside of the above
-source /opt/ros/humble/setup.bash
 source install/setup.bash
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/ros/humble/share/isaac_ros_gxf/gxf/lib/serialization
-# Part of above, says Gemini
-sudo chmod 666 /dev/bus/usb/002/003
-sudo chgrp plugdev /dev/bus/usb/002/003
-sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/
-sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
 
 4. Launch
-ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py  run_foxglove:=True
+
+# camera only
+ros2 launch isaac_ros_realsense_control realsense_d435i.launch.py
+
+# everything
+ros2 launch isaac_ros_realsense_control rccarauto.launch.py
+
 
 5. Test
 ros2 topic echo (camera/vslam/nvblox...)
@@ -505,3 +517,17 @@ sudo reboot
 
 
 # t.b.d.
+
+
+
+
+
+# NOT NEEDED NOW inside of the above
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/ros/humble/share/isaac_ros_gxf/gxf/lib/serialization
+# Part of above, says Gemini
+sudo chmod 666 /dev/bus/usb/002/003
+sudo chgrp plugdev /dev/bus/usb/002/003
+sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/
+sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules

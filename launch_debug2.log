@@ -1,0 +1,35 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-03-10-17-26-44-719392-ubuntu-50997
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [51086]
+[INFO] [joint_state_publisher-2]: process started with pid [51088]
+[INFO] [jtop-3]: process started with pid [51090]
+[INFO] [foxglove_bridge-4]: process started with pid [51092]
+[robot_state_publisher-1] [INFO] [1773178005.182821304] [robot_state_publisher]: got segment base_footprint
+[robot_state_publisher-1] [INFO] [1773178005.183168971] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-1] [INFO] [1773178005.183199309] [robot_state_publisher]: got segment camera_accel_optical_frame
+[robot_state_publisher-1] [INFO] [1773178005.183212462] [robot_state_publisher]: got segment camera_depth_optical_frame
+[robot_state_publisher-1] [INFO] [1773178005.183220590] [robot_state_publisher]: got segment camera_gyro_optical_frame
+[robot_state_publisher-1] [INFO] [1773178005.183228174] [robot_state_publisher]: got segment camera_imu_optical_frame
+[robot_state_publisher-1] [INFO] [1773178005.183235439] [robot_state_publisher]: got segment camera_infra1_optical_frame
+[robot_state_publisher-1] [INFO] [1773178005.183242511] [robot_state_publisher]: got segment camera_infra2_optical_frame
+[robot_state_publisher-1] [INFO] [1773178005.183249680] [robot_state_publisher]: got segment camera_link
+[robot_state_publisher-1] [INFO] [1773178005.183257104] [robot_state_publisher]: got segment front_left_wheel
+[robot_state_publisher-1] [INFO] [1773178005.183264720] [robot_state_publisher]: got segment front_right_wheel
+[robot_state_publisher-1] [INFO] [1773178005.183271921] [robot_state_publisher]: got segment rear_left_wheel
+[robot_state_publisher-1] [INFO] [1773178005.183278833] [robot_state_publisher]: got segment rear_right_wheel
+[robot_state_publisher-1] [INFO] [1773178005.183285522] [robot_state_publisher]: got segment steering_link
+[robot_state_publisher-1] [INFO] [1773178005.183292530] [robot_state_publisher]: got segment traction_link
+[foxglove_bridge-4] [INFO] [1773178006.062505780] [foxglove_bridge]: Starting foxglove_bridge (humble, 3.2.4@)
+[foxglove_bridge-4] terminate called after throwing an instance of 'std::runtime_error'
+[foxglove_bridge-4]   what():  Couldn't initialize websocket server: Bind Error
+[ERROR] [foxglove_bridge-4]: process has died [pid 51092, exit code -6, cmd '/opt/ros/humble/lib/foxglove_bridge/foxglove_bridge --ros-args -r __node:=foxglove_bridge --params-file /tmp/launch_params_o1u_6w_3'].
+[joint_state_publisher-2] [INFO] [1773178006.723451702] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+[INFO] [frame_rename.py-5]: process started with pid [51306]
+[jtop-3] [INFO] [1773178007.137624460] [jetson_stats_node]: Fan controller detected
+[jtop-3] [INFO] [1773178007.144934240] [jetson_stats_node]: Jetson Clocks detected
+[jtop-3] [INFO] [1773178007.150691199] [jetson_stats_node]: NVPModel control detected
+[jtop-3] [INFO] [1773178007.156420699] [jetson_stats_node]: jtop started at interval 0.5
+[INFO] [component_container_mt-6]: process started with pid [51572]
+[ERROR] [launch_ros.actions.load_composable_nodes]: Failed to load node 'camera' of type 'realsense2_camera::RealSenseNodeFactory' in container '/isaac_ros_container': Failed to load library: Could not load library dlopen error: librealsense2.so.2.55: cannot open shared object file: No such file or directory, at ./src/shared_library.c:99
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/visual_slam_node' in container '/isaac_ros_container'
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/nvblox_node' in container '/isaac_ros_container'
