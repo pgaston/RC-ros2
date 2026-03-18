@@ -55,7 +55,7 @@ bicycle_steering_controller:
     open_loop: true
     base_frame_id: "base_footprint"
     odom_frame_id: "odom"
-    enable_odom_tf: true
+    enable_odom_tf: false
     
     # Enable cmd_vel subscription (required for Humble)
     subscribe_to_joint_state: false
