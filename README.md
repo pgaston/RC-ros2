@@ -47,8 +47,14 @@ ros2 launch isaac_ros_realsense_control realsense_d435i.launch.py
 # everything
 ros2 launch isaac_ros_realsense_control rccarauto.launch.py
 
+# manual move
+- uncomment line from rccarauto.launch.py - in control_node remappings
+- this will use /cmd_vel
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
 
 5. Test
+
+
 ros2 topic echo (camera/vslam/nvblox...)
 ros2 topic topic echo /visual_slam/status --once
 /nvblox_node/mesh  -- camera needs to move

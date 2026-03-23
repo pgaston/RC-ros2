@@ -134,36 +134,34 @@ void PwmMotorController::update()
 
     case MotorState::FORWARD:
       if (is_command_reverse()) {
-        // Transition to Reverse needed
         state_ = MotorState::TO_REVERSE_NEUTRAL_1;
         state_entry_time_ = now;
-        current_duty_cycle_ = config_.neutral_pwm_duty;
+        current_duty_cycle_ = compute_duty_cycle(target_command_);
       } else {
-        // Normal operation (Positive or Neutral)
         current_duty_cycle_ = compute_duty_cycle(target_command_);
       }
       break;
 
     case MotorState::TO_REVERSE_NEUTRAL_1:
-      // Step 1: Send a reverse pulse to trigger the ESC's brakes
-      current_duty_cycle_ = config_.neutral_pwm_duty + config_.reverse_offset - (0.1 * (config_.neutral_pwm_duty - config_.min_pwm_duty)); // Small reverse/brake pulse
-      if (dt_state >= 0.1) {
+      // Send the requested reverse signal to trigger the ESC's brakes.
+      // With the patched symmetric reverse_offset, this will cleanly clear the deadband!
+      current_duty_cycle_ = compute_duty_cycle(target_command_);
+      if (dt_state >= 0.20) {
         state_ = MotorState::TO_REVERSE_PULSE;
         state_entry_time_ = now;
       }
       break;
 
     case MotorState::TO_REVERSE_PULSE:
-      // Step 2: Return to neutral before we can engage reverse
+      // Return to neutral slightly longer to ensure the ESC resets its brake lock
       current_duty_cycle_ = config_.neutral_pwm_duty;
-      if (dt_state >= 0.1) {
+      if (dt_state >= 0.20) {
         state_ = MotorState::TO_REVERSE_NEUTRAL_2;
         state_entry_time_ = now;
       }
       break;
       
     case MotorState::TO_REVERSE_NEUTRAL_2:
-      // Optional step 3: Keep neutral for a brief moment to ensure ESC registers it
       current_duty_cycle_ = config_.neutral_pwm_duty;
       if (dt_state >= 0.05) {
         state_ = MotorState::REVERSE;
@@ -173,19 +171,17 @@ void PwmMotorController::update()
 
     case MotorState::REVERSE:
       if (is_command_forward()) {
-        // Transition to Forward needed
         state_ = MotorState::TO_FORWARD_NEUTRAL;
         state_entry_time_ = now;
         current_duty_cycle_ = config_.neutral_pwm_duty;
       } else {
-        // Normal operation (Reverse or Neutral)
         current_duty_cycle_ = compute_duty_cycle(target_command_);
       }
       break;
 
     case MotorState::TO_FORWARD_NEUTRAL:
       current_duty_cycle_ = config_.neutral_pwm_duty;
-      if (dt_state >= 0.5) {
+      if (dt_state >= 0.20) {
         state_ = MotorState::FORWARD;
         state_entry_time_ = now;
       }
