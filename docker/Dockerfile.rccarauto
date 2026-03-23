@@ -89,6 +89,7 @@ RUN apt update && apt install -y \
     ros-humble-foxglove-msgs \
     ros-humble-isaac-ros-jetson-stats \
     ros-humble-image-transport-plugins \
+    ros-humble-teleop-twist-keyboard \
     ros-humble-tf2-ros
 
 #     ros-humble-jetson-stats \
