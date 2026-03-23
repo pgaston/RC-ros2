@@ -70,7 +70,9 @@ RUN apt update --allow-releaseinfo-change && apt upgrade -y
 #     gstreamer1.0-plugins-bad
 
 # Needed - for ROS2 stuff?
-RUN apt install -y libjson-glib-dev libsoup2.4-dev libpsl-dev usbutils v4l-utils ufw  
+RUN apt install -y libjson-glib-dev libsoup2.4-dev libpsl-dev usbutils v4l-utils ufw 
+# git-lfs
+# RUN git lfs install
 
 # Install basic packages for i2c and 9685 control
 RUN apt install -y dialog libi2c-dev i2c-tools 

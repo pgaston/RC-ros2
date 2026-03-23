@@ -145,25 +145,27 @@ void PwmMotorController::update()
       break;
 
     case MotorState::TO_REVERSE_NEUTRAL_1:
-      current_duty_cycle_ = config_.neutral_pwm_duty;
-      if (dt_state >= 0.5) {
+      // Step 1: Send a reverse pulse to trigger the ESC's brakes
+      current_duty_cycle_ = config_.neutral_pwm_duty + config_.reverse_offset - (0.1 * (config_.neutral_pwm_duty - config_.min_pwm_duty)); // Small reverse/brake pulse
+      if (dt_state >= 0.1) {
         state_ = MotorState::TO_REVERSE_PULSE;
         state_entry_time_ = now;
       }
       break;
 
     case MotorState::TO_REVERSE_PULSE:
-      // Output raw 0.1 positive (sub-deadband pulse for ESC detection only)
-      current_duty_cycle_ = config_.neutral_pwm_duty + 0.1 * (config_.max_pwm_duty - config_.neutral_pwm_duty);
-      if (dt_state >= 0.5) {
+      // Step 2: Return to neutral before we can engage reverse
+      current_duty_cycle_ = config_.neutral_pwm_duty;
+      if (dt_state >= 0.1) {
         state_ = MotorState::TO_REVERSE_NEUTRAL_2;
         state_entry_time_ = now;
       }
       break;
       
     case MotorState::TO_REVERSE_NEUTRAL_2:
+      // Optional step 3: Keep neutral for a brief moment to ensure ESC registers it
       current_duty_cycle_ = config_.neutral_pwm_duty;
-      if (dt_state >= 0.5) {
+      if (dt_state >= 0.05) {
         state_ = MotorState::REVERSE;
         state_entry_time_ = now;
       }
