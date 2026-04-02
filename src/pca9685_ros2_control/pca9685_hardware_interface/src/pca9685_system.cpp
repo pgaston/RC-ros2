@@ -279,10 +279,8 @@ double Pca9685SystemHardware::command_to_duty_cycle_effort(double command)
 
 double Pca9685SystemHardware::angle_to_pulse_width(double angle, const JointConfig& config)
 {
-  // Linear interpolation between min and max pulse widths, all in radians
-  // for some reason this must be reversed  
-  double normalized_angle = (config.max_angle - angle) / (config.max_angle - config.min_angle);
-  // double normalized_angle = (angle - config.min_angle) / (config.max_angle - config.min_angle);
+  // Normal forward interpolation (fixing the reverse bug):
+  double normalized_angle = (angle - config.min_angle) / (config.max_angle - config.min_angle);
   return config.min_pulse_us + normalized_angle * (config.max_pulse_us - config.min_pulse_us);
 }
 
@@ -316,15 +314,15 @@ hardware_interface::return_type Pca9685SystemHardware::write(
       duty_cycle = motor_controllers_[i].get_duty_cycle();
 
       // DEBUG: Print command and resulting duty cycle occasionally
-      static int debug_counter = 0;
-      if (debug_counter++ % 50 == 0) {
-          RCLCPP_INFO(rclcpp::get_logger("Pca9685SystemHardware"), 
-              "VEL DEBUG: Cmd=%.4f, Offset=%.3f, Scale=%.3f, Duty=%.4f", 
-              hw_commands_[i], 
-              config.interface_type == hardware_interface::HW_IF_VELOCITY ? 0.271 : 0.0,
-              config.interface_type == hardware_interface::HW_IF_VELOCITY ? 0.01 : 0.0,
-              duty_cycle);
-      }
+      // static int debug_counter = 0;
+      // if (debug_counter++ % 50 == 0) {
+      //     RCLCPP_INFO(rclcpp::get_logger("Pca9685SystemHardware"), 
+      //         "VEL DEBUG: Cmd=%.4f, Offset=%.3f, Scale=%.3f, Duty=%.4f", 
+      //         hw_commands_[i], 
+      //         config.interface_type == hardware_interface::HW_IF_VELOCITY ? 0.271 : 0.0,
+      //         config.interface_type == hardware_interface::HW_IF_VELOCITY ? 0.01 : 0.0,
+      //         duty_cycle);
+      // }
       
       // Legacy deadband/arming check removed as controller handles state machine
     }

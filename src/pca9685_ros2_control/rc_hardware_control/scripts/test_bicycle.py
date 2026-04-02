@@ -24,7 +24,8 @@ class BicycleTestNode(Node):
         # Publisher for Bicycle steering commands (using reference_unstamped - only available topic)
         self.cmd_vel_pub = self.create_publisher(
             Twist, 
-            '/bicycle_steering_controller/reference_unstamped', 
+            '/cmd_vel',
+            # '/bicycle_steering_controller/reference_unstamped', 
             10
         )
         
@@ -125,15 +126,15 @@ def main(args=None):
         node.get_logger().info('Bicycle test interrupted by user')
     finally:
         # Send stop commands
-        stop_cmd = Twist()
-        stop_cmd.linear.x = 0.0
-        stop_cmd.angular.z = 0.0
-        node.cmd_vel_pub.publish(stop_cmd)
+        try:
+            node.send_cmd_vel(0.0, 0.0)
+        except Exception as e:
+            print(f"Failed to send stop command: {e}")
         
         # Turn off LED
-        led_msg = Float64MultiArray()
-        led_msg.data = [0.0]
-        node.led_pub.publish(led_msg)
+        # led_msg = Float64MultiArray()
+        # led_msg.data = [0.0]
+        # node.led_pub.publish(led_msg)
         
         node.destroy_node()
         rclpy.shutdown()

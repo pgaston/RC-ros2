@@ -47,6 +47,9 @@ bicycle_steering_controller:
     front_wheel_radius: 0.035
     rear_wheel_radius: 0.035
 
+    # Enable velocity commands with timestamps (required for Humble)
+    # use_stamped_vel: true
+
     # Optional control parameters
     update_rate: 50
     reference_timeout: 1.0

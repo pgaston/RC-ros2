@@ -53,11 +53,8 @@ double PwmMotorController::compute_duty_cycle(double command)
   if (command > 0) {
     final_speed = config_.forward_offset + (command * config_.max_speed_scale);
   } else {
-    // command is negative, so this subtracts from offset (or adds if offset is negative)
-    // Wait, let's match the python logic:
-    // final_speed = self.deadbandReverse + (input_speed * self.max_speed)
-    // deadbandReverse is -0.0405
-    final_speed = config_.reverse_offset + (command * config_.max_speed_scale);
+    // Reverse deadband from Python is -0.0405
+    final_speed = -0.0405 + (command * config_.max_speed_scale);
   }
 
   // 3. Clamp final speed to [-max_output, max_output]
@@ -145,7 +142,9 @@ void PwmMotorController::update()
     case MotorState::TO_REVERSE_NEUTRAL_1:
       // Send the requested reverse signal to trigger the ESC's brakes.
       // With the patched symmetric reverse_offset, this will cleanly clear the deadband!
-      current_duty_cycle_ = compute_duty_cycle(target_command_);
+      // The Python script does a forward pulse for reverse detection: "tap forward 0.1"
+      // "tap" ->  self.set_MotorSpeed(self.drive_channel, 0.1)  (which is positive 0.1)
+      current_duty_cycle_ = config_.neutral_pwm_duty + 0.1 * (config_.max_pwm_duty - config_.neutral_pwm_duty);
       if (dt_state >= 0.20) {
         state_ = MotorState::TO_REVERSE_PULSE;
         state_entry_time_ = now;
