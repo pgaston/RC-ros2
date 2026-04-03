@@ -1,13 +1,23 @@
 # to do's
-- get color image to foxglove - compressed
-- validate more, if possible
-
-- power supply for wifi GL iNet
-- 2nd tier
-- test off battery
-
 - test simple driving
+- mesh
+- go to target
 - ...
+
+
+
+# Updated
+1. ./start_workspace.sh
+   (finishes in docker)
+2. ros2 launch isaac_ros_realsense_control rccarauto.launch.py
+
+# In other terminals, to get into docker
+cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
+./run_dev.sh -d ${ISAAC_ROS_WS}
+
+
+
+
 
 
 

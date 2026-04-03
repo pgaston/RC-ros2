@@ -53,8 +53,7 @@ double PwmMotorController::compute_duty_cycle(double command)
   if (command > 0) {
     final_speed = config_.forward_offset + (command * config_.max_speed_scale);
   } else {
-    // Reverse deadband from Python is -0.0405
-    final_speed = -0.0405 + (command * config_.max_speed_scale);
+    final_speed = config_.reverse_offset + (command * config_.max_speed_scale);
   }
 
   // 3. Clamp final speed to [-max_output, max_output]
@@ -104,16 +103,16 @@ void PwmMotorController::update()
 
     case MotorState::ARMING_NEUTRAL_1:
       current_duty_cycle_ = config_.neutral_pwm_duty;
-      if (dt_state >= 0.5) {
+      if (dt_state >= 2.5) {
         state_ = MotorState::ARMING_PULSE;
         state_entry_time_ = now;
       }
       break;
 
     case MotorState::ARMING_PULSE:
-      // Output raw 0.1 positive (sub-deadband pulse for ESC detection only)
-      // Do NOT use compute_duty_cycle as it adds the motion offset
-      current_duty_cycle_ = config_.neutral_pwm_duty + 0.1 * (config_.max_pwm_duty - config_.neutral_pwm_duty);
+      // Removed the 0.1 pulse as it can interfere with some ESC arming safety checks.
+      // Keeping it at neutral but maintaining the state for legacy compatibility.
+      current_duty_cycle_ = config_.neutral_pwm_duty;
       if (dt_state >= 0.5) {
         state_ = MotorState::ARMING_NEUTRAL_2;
         state_entry_time_ = now;

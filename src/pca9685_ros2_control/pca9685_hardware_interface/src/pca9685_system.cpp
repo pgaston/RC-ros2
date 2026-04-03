@@ -112,10 +112,10 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_init(
     {
       PwmMotorController::Config motor_config;
       motor_config.input_deadband = 0.01;
-      motor_config.max_speed_scale = 0.01;
+      motor_config.max_speed_scale = 0.1;
       motor_config.max_output = 0.4; // Safety limit: never exceed 40% full throttle
-      motor_config.forward_offset = 0.271;
-      motor_config.reverse_offset = -0.271; // Fixed asymmetric deadband!
+      motor_config.forward_offset = 0.28;
+      motor_config.reverse_offset = -0.28; // Fixed asymmetric deadband!
       motor_config.watchdog_timeout = TEST_WATCHDOG_TIMEOUT;
       motor_controllers_[i].configure(motor_config);
     }
@@ -186,10 +186,10 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_activate(
       // Re-configure resets the state machine to INITIALIZING -> Arming sequence
       PwmMotorController::Config motor_config;
       motor_config.input_deadband = 0.01;
-      motor_config.max_speed_scale = 0.01;
+      motor_config.max_speed_scale = 0.1;
       motor_config.max_output = 0.4; // Safety limit: never exceed 40% full throttle
-      motor_config.forward_offset = 0.271;
-      motor_config.reverse_offset = -0.271;
+      motor_config.forward_offset = 0.28;
+      motor_config.reverse_offset = -0.28;
       motor_config.watchdog_timeout = TEST_WATCHDOG_TIMEOUT;
       motor_controllers_[i].configure(motor_config);
       
