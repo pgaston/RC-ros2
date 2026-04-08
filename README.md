@@ -1,8 +1,51 @@
 # to do's
-- test simple driving
+X test simple driving
 - mesh
+- occupancy grid
+
+Click the "Add Panel" button (or press Shift + A / or right-click).
+Select the Map panel.
+In the settings editor for the new Map panel, select the topic from the dropdown: /nvblox_node/map_slice (or whichever similar nav_msgs/OccupancyGrid topic your system is publishing).
+Alternatively, if you are using the 3D Panel, you can simply turn off the Mesh topic in the left-hand sidebar, click the + Add Topic button, and add /nvblox_node/map_slice. It will overlay the clear 2D blueprint right onto the floor grid!
+
 - go to target
 - ...
+
+# playing w/ VLM
+memory fixes
+sudo systemctl restart nvargus-daemon
+
+
+# to run/test
+sudo ufw allow 8050/tcp
+sudo ufw allow 49000/tcp
+
+cd /mnt/nova_ssd
+jetson-containers run $(autotag nano_llm)
+python3 -m nano_llm.agents.web_chat --api=mlc \
+  --model Efficient-Large-Model/VILA1.5-3b \
+  --quantization q4f16_ft \
+  --max-context-len 1024
+
+
+
+
+cd /mnt/nova_ssd/workspaces/isaac_ros-dev
+jetson-containers run -v $PWD:/ros_workspace $(autotag nano_llm)
+python3 /ros_workspace/scripts/vlm_brain.py
+
+
+# to integrate
+- from that docker, run
+python3 scripts/vlm_brain.py
+
+- ros2 throttle of message to every 2 second
+ros2 run topic_tools throttle messages /camera/color/image_raw 2.0 /camera/color/image_raw_slow
+- python code to get image from camera, and shrink
+- python code to run model
+?? add in prompt from user?    send where??
+chat interface
+https://192.168.8.100:8050
 
 
 
@@ -14,6 +57,15 @@
 # In other terminals, to get into docker
 cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 ./run_dev.sh -d ${ISAAC_ROS_WS}
+
+
+
+# useful
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+
+colcon build --packages-select pca9685_hardware_interface
+source install/setup.bash
+
 
 
 

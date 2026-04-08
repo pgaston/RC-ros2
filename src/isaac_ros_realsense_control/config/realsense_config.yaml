@@ -1,0 +1,57 @@
+# RealSense D435i Camera Configuration for Isaac ROS
+
+# Color stream settings
+color:
+  width: 1280
+  height: 720
+  fps: 30
+  format: "RGB8"
+
+# Depth stream settings  
+depth:
+  width: 1280
+  height: 720
+  fps: 30
+  format: "Z16"
+
+# Infrared stream settings
+infrared:
+  width: 1280
+  height: 720
+  fps: 30
+  format: "Y8"
+
+# IMU settings
+imu:
+  accel_fps: 250
+  gyro_fps: 400
+  unite_imu_method: 2  # 0-none, 1-copy, 2-linear_interpolation
+
+# Processing settings
+processing:
+  align_depth: true
+  pointcloud_enable: true
+  colorizer_enable: true
+  decimation_filter: false
+  spatial_filter: false
+  temporal_filter: false
+  hole_filling_filter: false
+
+# Advanced settings
+advanced:
+  enable_auto_exposure: true
+  auto_exposure_limit: 8500
+  enable_auto_white_balance: true
+  backlight_compensation: 0
+  brightness: 0
+  contrast: 50
+  gamma: 300
+  hue: 0
+  saturation: 64
+  sharpness: 50
+
+# Visual SLAM specific settings
+visual_slam:
+  stereo_baseline: 0.05  # meters, baseline between infrared cameras
+  enable_fisheye_correction: false
+  enable_hardware_sync: true

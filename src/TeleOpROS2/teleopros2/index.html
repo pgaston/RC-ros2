@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta name="description" content="">
+    <meta name="author" content="Peter Gaston, other sources too numerous to mention">
+    <title>TeleOp ROS2 via WebRTC</title>
+
+    <!-- bootstrap:   https://getbootstrap.com/
+    example: https://getbootstrap.com/docs/5.3/examples/dashboard/# -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- just for that extra touch... -->
+    <link rel="apple-touch-icon" href="favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" href="favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="favicons/site.webmanifest">
+    <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#7952b3">
+    <link rel="icon" href="favicons/favicon.ico">
+
+    <style>
+      .slider.slider-horizontal{
+        width:150px; /* sample value - set it as you like*/
+      }
+      #sldVert .slider-selection {
+        background: #BABABA;
+      }
+      #sldHor .slider-selection {
+        background: #BABABA;
+      }
+
+      /* this was tweaked extensively for mobile - have at it! */
+      video{
+        /* width: 640px;
+        height: 480px; */
+        /* width:100vh;       */
+        height:96vh;
+        max-width:640px;
+        max-height: 480px;
+      }
+    </style>
+
+</head>
+<body>
+  <!-- no navbar-->
+
+  <!-- only shown when connected -->
+  <div id="stateConnected" class="container-fluid pt-0 mt-0">
+    <!--  style="display:none;  -->
+    <div class="row mt-2 flex-nowrap pt-0 mt-0">
+      <!-- left side of page  col-md-3 col-lg-2 -->
+      <div class="col-sm col-md-3 col-lg-2 px-0 mx-0 pl-1">
+
+        <!-- horiz and vert sliders -->
+        <div class="row">
+          <!-- <div class="col-1"></div> -->
+          <div class="col">
+            Power:
+            <span id="linX">0</span>
+          </div>
+        </div>  
+        <div class="row">
+          <div class="col mx-auto text-center">
+            <input id="sldVert" data-slider-id='vertSlider' type="text" data-slider-min="-100" data-slider-max="100" data-slider-step="1" data-slider-value="0"/>
+          </div>  
+        </div>  
+        <div class="row">
+          <div class="col">
+            Turn:
+            <span id="angY">0</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mx-auto text-center">
+            <input id="sldHor" data-slider-id='horSlider' type="text" data-slider-min="-100" data-slider-max="100" data-slider-step="1" data-slider-value="0"/>
+          </div>  
+        </div>  
+
+        <!-- STOP ROBOT, Tilt buttons -->
+        <div class="row mt-2">
+          <div class="col mx-auto text-center ">
+            <button id="btnStopRobot" onclick="stopRobot()" type="button" class="btn btn-primary" data-bs-toggle="button">Stop Robot</button>
+            <br />
+            <hr />
+          </div>  
+        </div>  
+
+        <div id="tiltAvailable"  class="row my-3">
+          <div class="col mx-auto text-center ">
+            <button id="btnDoTilt" onclick="doTilt()" type="button" class="btn btn-info" data-bs-toggle="button" >Use Tilt</button>
+          </div>  
+        </div>  
+
+        <div class="row my-4">
+          <div class="col mx-auto text-center ">
+            <br />
+            <button id="btnStop" onclick="fBtnStop();" class="btn btn-outline-info"  type="button"  data-bs-toggle="button" >
+              Disconnect
+            </button>
+          </div>  
+        </div>  
+      </div>  
+
+      <!-- right side of page - video  class="px-0 mx-0" -->
+      <div class="col">
+        <!-- 640:480 - 4:3 aspect ratio -->
+        <div id="media" class="embed-responsive embed-responsive-4by3">
+          <video id="video" autoplay="true" playsinline="true" class="embed-responsive-item"></video>
+        </div>
+
+        <!-- <div id="media">
+          <video id="video" autoplay="true" playsinline="true"></video>
+        </div> -->
+      </div> 
+    </div>
+    
+    <!-- debug Tilting - normally not shown  d-none  -->
+    <div id="tiltAvailable2" class="container d-none">
+      <div class="row">
+        <div class="col justify-content-center">
+          <br />
+          <h5>Tilt debug values</h5>
+          <br />
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-1"></div>
+        <div class="col-1">
+          beta:
+        </div>
+        <div class="col-1">
+          <span id="txtTiltBeta">0.0</span>
+        </div>
+
+        <div class="col-1">
+          center:
+        </div>
+        <div class="col-1">
+          <span id="txtCenterBeta">0.0</span>
+        </div>
+
+        <div class="col-1">
+          output:
+        </div>
+        <div class="col-1">
+          <span id="txtOutputBeta">0.0</span>
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-1"></div>
+        <div class="col-1">
+          gamma:
+        </div>
+        <div class="col-1">
+          <span id="txtTiltGamma">0.0</span>
+        </div>
+
+        <div class="col-1">
+          center:
+        </div>
+        <div class="col-1">
+          <span id="txtCenterGamma">0.0</span>
+        </div>
+
+        <div class="col-1">
+          output:
+        </div>
+        <div class="col-1">
+          <span id="txtOutputGamma">0.0</span>
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-1"></div>
+        <div class="col-1">
+          cnt:
+        </div>
+        <div class="col">
+          <span id="txtCnt">xxx</span>
+        </div>
+      </div>
+    </div>
+  </div>  
+      
+  <div id="stateDisconnected" class="container-fluid">
+    <!-- Always show - connected or not state...  -->
+    <div class="row">
+      <div class="col my-1 mx-auto text-center">
+        <!-- one or the other -->
+        <button id="btnStart" onclick="fBtnStart();" class="btn btn-outline-success" type="button"  data-bs-toggle="button">
+          Connect
+        </button>
+      </div>
+    </div>
+
+    <div id="tiltNotAvailable" class="row" style="display: none;">
+      <div class="col">
+        <hr />
+        Control via tilt is not available as this is not a supported mobile device
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <!-- displayed in accordians -->
+        <div class="accordion accordion-flush my-2" id="accordionFlushExample">
+          <div id="accSettings" class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseZero" aria-expanded="false" aria-controls="flush-collapseOne">
+                Settings
+              </button>
+            </h2>
+            <div id="flush-collapseZero" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+                  <div class="option">
+                    <!-- Session Traversal Utilities for NAT (STUN) is a protocol to discover 
+                    your public address and determine any restrictions in your router 
+                    that would prevent a direct connection with a peer. 
+                  
+                    For a (slow) localnet, STUN can take 30+ seconds.   i.e., not needed locally.
+
+                    This does seem to be required over the internet. 
+                    -->
+                    <input id="use-stun" type="checkbox" />
+                    <label for="use-stun">Use STUN server</label>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="accICELog" class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                ICE Log
+              </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+                  <p>
+                      ICE gathering state: <span id="ice-gathering-state"></span>
+                  </p>
+                  <p>
+                      ICE connection state: <span id="ice-connection-state"></span>
+                  </p>
+                  <p>
+                      Signaling state: <span id="signaling-state"></span>
+                  </p>
+                  <p>
+                      Data channel state: <span id="data-channel"></span>
+                  </p>
+                  <p>SDP Offer</p>
+                  <pre id="offer-sdp"></pre>
+                  <p>SDP Answer</p>
+                  <pre id="answer-sdp"></pre>
+              </div>  
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- viewport resolution - normally not shown d-none -->
+    <div id="resolutions" class="container d-none">
+      <div class="row mt-2">
+        <div class="col-2">
+          screen height:
+        </div>
+        <div class="col-2">
+          <span id="txtScreenHeight">0.0</span>
+        </div>
+      </div>  
+
+      <div class="row mt-2">
+        <div class="col-2">
+          screen width:
+        </div>
+        <div class="col-2">
+          <span id="txtScreenWidth">0.0</span>
+        </div>
+      </div>  
+
+      <div class="row mt-2">
+        <div class="col-2">
+          window height:
+        </div>
+        <div class="col-2">
+          <span id="txtWindowHeight">0.0</span>
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-2">
+          window width:
+        </div>
+        <div class="col-2">
+          <span id="txtWindowWidth">0.0</span>
+        </div>
+      </div> 
+
+      <div class="row mt-2">
+        <div class="col-2">
+          user agent:
+        </div>
+        <div class="col">
+          <span id="txtUserAgent"></span>
+        </div>
+      </div> 
+
+      <div class="row mt-2">
+        <div class="col-2">
+          platform:
+        </div>
+        <div class="col">
+          <span id="txtPlatform"></span>
+        </div>
+      </div> 
+
+      <div class="row mt-2">
+        <div class="col-2">
+          user agent data:
+        </div>
+        <div class="col">
+          <span id="txtUserAgentData"></span>
+        </div>
+      </div> 
+
+      <div class="row mt-2">
+        <div class="col-2">
+          Mobile:
+        </div>
+        <div class="col">
+          <span id="txtMobile"></span>
+        </div>
+      </div> 
+
+      <div class="row mt-2">
+        <div class="col-2">
+          iOS:
+        </div>
+        <div class="col">
+          <span id="txtiOS"></span>
+        </div>
+      </div> 
+
+      <div class="row mt-2">
+        <div class="col-2">
+          gyroPresent:
+        </div>
+        <div class="col">
+          <span id="txtGyro"></span>
+        </div>
+      </div> 
+      
+    </div> 
+  
+  </div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="client.js"></script>   <!--  from example with some cleanup  -->
+
+<script>
+  // User code now
+  var 
+    btnStart = document.getElementById('btnStart'),
+    btnStop = document.getElementById('btnStop'),
+    stateConnected = document.getElementById('stateConnected'),
+    stateDisconnected = document.getElementById('stateDisconnected'),
+
+    tiltNotAvailable = document.getElementById('tiltNotAvailable'),
+    tiltAvailable = document.getElementById('tiltAvailable'),
+    btnDoTilt = document.getElementById('btnDoTilt'),
+
+    // debug values for tilt
+    tiltAvailable2 = document.getElementById('tiltAvailable2'),
+    txtTiltBeta = document.getElementById('txtTiltBeta'),
+    txtTiltGamma = document.getElementById('txtTiltGamma'),
+    txtOutputBeta = document.getElementById('txtOutputBeta'),
+    txtOutputGamma = document.getElementById('txtOutputGamma'),
+    txtCenterBeta = document.getElementById('txtCenterBeta'),
+    txtCenterGamma = document.getElementById('txtCenterGamma'),
+    txtCnt = document.getElementById('txtCnt'),
+
+    txtScreenHeight = document.getElementById('txtScreenHeight'),
+    txtScreenWidth = document.getElementById('txtScreenWidth'),
+    txtWindowHeight = document.getElementById('txtWindowHeight'),
+    txtWindowWidth = document.getElementById('txtWindowWidth'),
+    txtUserAgent = document.getElementById('txtUserAgent'),
+    txtPlatform = document.getElementById('txtPlatform'),
+    txtUserAgentData = document.getElementById('txtUserAgentData'),
+    txtMobile = document.getElementById('txtMobile'),
+    txtiOS = document.getElementById('txtiOS'),
+    txtGyro = document.getElementById('txtGyro');
+
+  /*******************
+   * Tilt - Mobile only
+  ********************/
+
+  var gyroPresent = (window.DeviceOrientationEvent && 'ontouchstart' in window),    // device supports tilt?
+      gyroActive = false,                              // if we're using it for tilt control
+      // all in degrees
+      gyroAlpha = 0,        // compass - 0 is north - not used
+      gyroBeta = 0,         // left/right - centered at 0
+      gyroGamma = 0,        // front/back - up is -90, flat is 0
+      deviceBetaCenter = 0,    // centering values
+      deviceGammaCenter = 0;
+
+  // show screen dimensions and more
+  txtScreenHeight.innerHTML = screen.height;
+  txtScreenWidth.innerHTML = screen.width;
+  txtWindowHeight.innerHTML = window.innerHeight;
+  txtWindowWidth.innerHTML = window.innerWidth;
+  txtUserAgent.innerHTML = navigator.userAgent;
+  txtPlatform.innerHTML = navigator.platform;
+  txtUserAgentData.innerHTML = JSON.stringify(navigator.userAgentData);
+  txtMobile.innerHTML = isMobileDevice();
+  txtiOS.innerHTML = iOS();
+  txtGyro.innerHTML = gyroPresent;
+
+  // gyroPresent = true;   // debug - test appearance on non-mobile device
+  // console.log("gyroPresent: " + gyroPresent);
+
+  // gyroPresent = true;   // debug - test appearance on non-mobile device
+  tiltAvailable.style.display = gyroPresent? "block" : "none";
+  tiltNotAvailable.style.display = gyroPresent? "none" : "block";
+
+  if (!gyroPresent) 
+    btnDoTilt.style.display = "none";   // inform user 
+
+  // debug - show that we're getting events
+  cnt = 0;
+  function showCount() {
+    cnt++;
+    document.getElementById('txtCnt').innerHTML = cnt;
+  }
+
+  function requestDeviceOrientation () {
+    if (!iOS()) return; 
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      DeviceOrientationEvent.requestPermission()
+        .then(permissionState => {
+          if (permissionState === 'granted') {
+            window.addEventListener('deviceorientation', handleOrientation);
+          }
+      })
+      .catch(console.error);
+    } else {
+      // handle regular non iOS 13+ devices
+      console.log ("not iOS");
+    }
+  }
+
+  function doTilt() {
+
+    showCount();      // debug
+
+    requestDeviceOrientation();
+
+    gyroActive = !gyroActive;   // toggle
+    btnDoTilt.innerHTML = gyroActive ? "Stop Tilt" : "Use Tilt";
+
+    linX = 0;
+    angY = 0;
+    vertSlider.setValue(linX);
+    horSlider.setValue(angY);
+    showValues();           // will also send stop values to robot
+
+    deviceBetaCenter = gyroBeta;      // obtain centering values
+    deviceGammaCenter = gyroGamma;
+
+    // debug - start out with reasonable values
+    txtTiltBeta.innerHTML = gyroBeta.toFixed(1);
+    txtTiltGamma.innerHTML = gyroGamma.toFixed(1);
+    txtCenterBeta.innerHTML = deviceBetaCenter.toFixed(1);
+    txtCenterGamma.innerHTML = deviceGammaCenter.toFixed(1);
+    txtOutputBeta.innerHTML = 0;
+    txtOutputGamma.innerHTML = 0;
+  }
+
+  // tilt sensitivity/adjustment
+  const betaSensitvity = 0.5,   // ability to adjust sensitivity
+        gammaSensitivity = 0.5,
+        maxBeta = 30,           // degrees (after sensitivity adjustment) before we clip
+        maxGamma = 20,          // ditto
+        multBeta = 1.0,         // ability to adjust sensitivity
+        multGamma = 1.0;
+
+  // tilt event handler
+  // event may return on a desktop - we need to trap for this...
+  // it doesn't seem to get called more than once on a desktop anyways...
+  var bTiltShowing = false;
+  function handleOrientation(event) {
+    showCount();
+
+    if (event.beta === null) {
+      // console.log("no orientation info")
+      btnDoTilt.style.display = "none";
+      return;    // not all devices support tilt (e.g. desktops)
+    }
+
+    // these angles are in degrees
+    // var alpha = event.alpha;   // compass - 0 is north
+    gyroBeta = event.beta; 
+    gyroGamma = event.gamma;
+
+    // now get the adjusted values...
+    outBeta = gyroBeta - deviceBetaCenter;
+    outGamma = gyroGamma - deviceGammaCenter;
+
+    outBeta = outBeta * betaSensitvity;     // use to adjust sensitivity
+    outGamma = outGamma * gammaSensitivity;
+
+    outBeta = Math.min(maxBeta, Math.max(-maxBeta, outBeta));
+    outGamma = Math.min(maxGamma, Math.max(-maxGamma, outGamma));
+
+    outBeta = outBeta / maxBeta;
+    outGamma = outGamma / maxGamma;
+
+    outBeta = outBeta * multBeta;     // use to adjust sensitivity
+    outGamma = outGamma * multGamma;
+
+    angY = Math.round(outBeta * 100.0)
+    linX = Math.round(outGamma * 100.0)
+    
+    // debug - show current values
+    txtTiltBeta.innerHTML = gyroBeta.toFixed(1);
+    txtTiltGamma.innerHTML = gyroGamma.toFixed(1);
+    txtCenterBeta.innerHTML = deviceBetaCenter.toFixed(1);
+    txtCenterGamma.innerHTML = deviceGammaCenter.toFixed(1);
+    txtOutputBeta.innerHTML = outBeta.toFixed(1);
+    txtOutputGamma.innerHTML = outGamma.toFixed(1);
+
+    if (!gyroActive) return;    // will at least capture current values to use in centering
+
+    showValues();     // and send to robot
+    vertSlider.setValue(linX);
+    horSlider.setValue(angY);
+  }
+
+  // Add here - desktop chrome will send an event w/ null - we can catch that
+  // Also works for Android
+  // iOS requires a user interaction with specific user permission to start the event - this does nothing there
+  window.addEventListener('deviceorientation', handleOrientation);    // and wire it in
+
+  /*******************
+   * Sliders
+  ********************/
+
+  var vertSlider = new Slider('#sldVert', {
+    // reversed : true,   // only for vertical slider
+    min: -100,
+    max: 100,
+	});
+  var horSlider = new Slider('#sldHor', {
+    min: -100,
+    max: 100,
+  });
+
+  // slide or slideStop
+  vertSlider.on("slideStop", function(sliderValue) {
+    showValues();
+  });
+
+  horSlider.on("slideStop", function(sliderValue) {
+    showValues();
+  });
+
+  var lastLinX = 0, lastAngY = 0;
+
+  function showValues() {
+    var x = vertSlider.getValue();
+    var y = horSlider.getValue();
+
+    document.getElementById('linX').innerHTML = x;
+    document.getElementById('angY').innerHTML = y;
+
+    sendTwist();      // and, send to robot
+  }
+
+  var maxSlider = 100;
+  function sendTwist() {
+    var x = vertSlider.getValue();
+    var y = horSlider.getValue();
+
+    // hah - y needs to be inverted!
+    y = -y
+
+    var linX = x / maxSlider;   // convert to -1 to 1
+    var angY = y / maxSlider;
+
+    // don't send if no change
+    if (linX === lastLinX && angY === lastAngY) 
+      return; 
+
+    lastLinX = linX;
+    lastAngY = angY;
+
+    // actually send
+    jTwist = { "twist": { "linear": { "x": linX, "y": 0, "z": 0 }, "angular": { "x": 0, "y": 0, "z": angY } } }
+    dataChannelSend(jTwist);
+    // console.log("twist: "+linX+", ",angY)   // more succinct
+    // console.log("jTwist: " + JSON.stringify(jTwist));
+  }
+
+  function stopRobot() {
+    gyroActive = false;     // stop using tilt    
+    btnDoTilt.innerHTML = "Use Tilt";
+
+    vertSlider.setValue(0);
+    horSlider.setValue(0);
+    showValues();           // will also send stop values to robot
+  }
+ 
+
+  /*******************
+   * Helper functions
+  ********************/
+  // pixel 7 screen size...   376 x 835
+  // used to see when we want to go to full-screen
+  function isPhone() {
+    return window
+        .matchMedia("only screen and (max-height: 450px)").matches;
+  }
+
+  function iOS() {
+    return [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ].includes(navigator.platform)
+    // iPad on iOS 13 detection
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document);
+  }
+
+  function isMobileDevice() {
+    if (/Android/.test(navigator.userAgent))    // throw in Android for good measure
+        return true;
+    if (iOS()) 
+      return true;
+    return navigator.maxTouchPoints &&
+        navigator.maxTouchPoints > 2 &&
+        /MacIntel/.test(navigator.platform);
+  }
+
+  // this is worthless as it's hard to see the console on a mobile device, eh?
+  // console.log("isMobileDevice: " + isMobileDevice());
+
+  // must be called by a user initiated event
+  document.requestFullscreen = function() {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if (document.documentElement.webkitRequestFullscreen) { /* Safari */
+      document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) { /* IE11 */
+      document.documentElement.msRequestFullscreen();
+    }
+  }
+
+  function showConnected(bConnected) {
+    stateConnected.style.display = bConnected? "inline-block" : "none";
+    stateDisconnected.style.display = bConnected? "none" : "inline-block";
+    // console.log("showConnected: " + bConnected);
+  }
+
+  function fBtnStart() {
+    showConnected(true);
+    if (isPhone()) {
+      document.requestFullscreen();
+    }
+    start();    // in client.js
+  }
+
+  function fBtnStop() {
+    stop();     // in client.js
+    showConnected(false);
+    if (isPhone()) {
+      document.exitFullscreen();
+    }
+  }
+
+  showConnected(false);     // initially
+  console.log("loaded...")
+  
+</script>
+
+
+</body>
+</html>

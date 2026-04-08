@@ -1,12 +1,12 @@
 build/
 install/
 log/
-src/*
-!src/.anchor
+src/isaac_ros_common
+src/realsense-ros
 
 # Do not ignore these directories (track them)
-!src/isaac_ros_realsense_control/launch/
-!src/pca9685_ros2_control/
+# !src/isaac_ros_realsense_control/launch/
+# !src/pca9685_ros2_control/
 
 # Exclude large data and pack files
 *.onnx

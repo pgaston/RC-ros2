@@ -1,0 +1,12 @@
+0000000000000000000000000000000000000000 54e08d6e9b4c6a518f398e16b185e89ebca5d255 pg <pg@ubuntu.(none)> 1750601028 -0400	clone: from github.com:pgaston/TeleOpROS2.git
+54e08d6e9b4c6a518f398e16b185e89ebca5d255 44e5819a3c4f979f8cbc335bebb3825c70c2aeff Peter Gaston <peter.gaston@gmail.com> 1750602832 -0400	commit: more readme updates
+44e5819a3c4f979f8cbc335bebb3825c70c2aeff d899e8f9ab058358db2ace5b8c37eea2d257d502 Peter Gaston <peter.gaston@gmail.com> 1750947462 -0400	commit: Orin - web works, camera works, cmd_vel works
+d899e8f9ab058358db2ace5b8c37eea2d257d502 d1ec0cd2a05b47d61c786a5590e172c64552a4ae Peter Gaston <peter.gaston@gmail.com> 1750960998 -0400	commit: udpate
+d1ec0cd2a05b47d61c786a5590e172c64552a4ae abce39a433dfca1cf7d04c9aab1c3c005b106f72 Peter Gaston <peter.gaston@gmail.com> 1751048383 -0400	commit: capture jetson side of docker
+abce39a433dfca1cf7d04c9aab1c3c005b106f72 a4958ad533f36d65e1655df08d0c8bfd1a549c6b Peter Gaston <peter.gaston@gmail.com> 1751137139 -0400	pull --tags origin main: Fast-forward
+a4958ad533f36d65e1655df08d0c8bfd1a549c6b da65fac8c7ee638c72bd117aca86fd7555401c2f Peter Gaston <peter.gaston@gmail.com> 1751140002 -0400	commit: interim to get new launch going
+da65fac8c7ee638c72bd117aca86fd7555401c2f 61b4366cdad9f26945b661d9eab7e9c026a02f83 Peter Gaston <peter.gaston@gmail.com> 1751141497 -0400	commit: next - jetson motors
+61b4366cdad9f26945b661d9eab7e9c026a02f83 125896868c60c0a4e50a0dd607df6c840cfb0c49 Peter Gaston <peter.gaston@gmail.com> 1751146297 -0400	commit: hardware debugging
+125896868c60c0a4e50a0dd607df6c840cfb0c49 d7224ada2a5e0cf0fe15b30f7ca8ec02b763bb51 Peter Gaston <peter.gaston@gmail.com> 1751382236 -0400	commit: steering/drive motors working
+d7224ada2a5e0cf0fe15b30f7ca8ec02b763bb51 f7ed90e6146f045033156ec09f773d2aaf3a13c7 Peter Gaston <peter.gaston@gmail.com> 1752069925 -0400	commit: jetson noodling
+f7ed90e6146f045033156ec09f773d2aaf3a13c7 201b7ed7131c05f946cb41af5decd013eacabbb1 Peter Gaston <peter.gaston@gmail.com> 1766508301 -0500	commit: before switch to vcs
