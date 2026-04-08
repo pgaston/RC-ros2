@@ -1,8 +1,9 @@
 import rclpy
+from rclpy.action import ActionClient
 from rclpy.node import Node
-from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import Image
 from nav_msgs.msg import OccupancyGrid
+from nav2_msgs.action import NavigateToPose
 from cv_bridge import CvBridge
 import numpy as np
 
@@ -17,14 +18,17 @@ class EventGatedBrain(Node):
         self.bridge = CvBridge()
         self.latest_image = None
         self.latest_nvblox_map_image = None
+        self.declare_parameter('nvblox_map_topic', '/nvblox_node/static_occupancy_grid')
+        self.declare_parameter('nav_goal_frame', 'odom')
+        nvblox_map_topic = self.get_parameter('nvblox_map_topic').value
+        self.nav_goal_frame = self.get_parameter('nav_goal_frame').value
         
         # 1. Image Subscribers (Camera & Nvblox Map)
         self.create_subscription(Image, '/camera/color/image_raw', self.image_cb, 1)
-        # Note: adjust the nvblox topic name if your robot publishes the OccupancyGrid elsewhere!
-        self.create_subscription(OccupancyGrid, '/nvblox_node/map_slice', self.map_cb, 1)
+        self.create_subscription(OccupancyGrid, nvblox_map_topic, self.map_cb, 1)
         
-        # 2. Navigation Publisher (Talks to Nav2)
-        self.nav_pub = self.create_publisher(PoseStamped, '/goal_pose', 10)
+        # 2. Navigation Action Client (Talks to Nav2)
+        self.nav_action_client = ActionClient(self, NavigateToPose, 'navigate_to_pose')
         
         # 3. Load the VLM Desktop
         self.model = NanoLLM.from_pretrained(
@@ -35,6 +39,9 @@ class EventGatedBrain(Node):
         )
         
         # 4. Start the Web UI (Hosted on port 8050)
+        # might need to open ports
+        # sudo ufw allow 8050/tcp
+        # sudo ufw allow 49000/tcp
         self.web_ui = WebServer(self.model)
         
         # Override the Web UI's chat hook to intercept user requests
@@ -81,17 +88,42 @@ class EventGatedBrain(Node):
         if match:
             x, y = float(match.group(1)), float(match.group(2))
             
-            # 3. Publish to ROS 2 Nav2
-            goal = PoseStamped()
-            goal.header.frame_id = "map"
-            goal.pose.position.x = x
-            goal.pose.position.y = y
-            self.nav_pub.publish(goal)
+            # 3. Send the destination to Nav2 so it plans and executes a route.
+            self.send_nav_goal(x, y)
             
             # Clean the tag out of the response so the user doesn't see it in chat
             vlm_response = re.sub(r'\[NAV:.*?\]', '', vlm_response)
             
         return vlm_response
+
+    def send_nav_goal(self, x, y):
+        if not self.nav_action_client.wait_for_server(timeout_sec=2.0):
+            self.get_logger().error('navigate_to_pose action server is not available')
+            return
+
+        goal = NavigateToPose.Goal()
+        goal.pose.header.frame_id = self.nav_goal_frame
+        goal.pose.header.stamp = self.get_clock().now().to_msg()
+        goal.pose.pose.position.x = x
+        goal.pose.pose.position.y = y
+        goal.pose.pose.orientation.w = 1.0
+
+        future = self.nav_action_client.send_goal_async(goal)
+        future.add_done_callback(self._goal_response_callback)
+
+    def _goal_response_callback(self, future):
+        goal_handle = future.result()
+        if not goal_handle.accepted:
+            self.get_logger().error('Nav2 rejected the goal')
+            return
+
+        self.get_logger().info('Nav2 accepted the goal')
+        result_future = goal_handle.get_result_async()
+        result_future.add_done_callback(self._goal_result_callback)
+
+    def _goal_result_callback(self, future):
+        status = future.result().status
+        self.get_logger().info(f'Nav2 goal finished with status {status}')
 
 def main(args=None):
     rclpy.init(args=args)

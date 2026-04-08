@@ -23,7 +23,9 @@ install(DIRECTORY
 )
 
 # Install Python scripts as executables
-install(PROGRAMS scripts/frame_rename.py
+install(PROGRAMS
+  scripts/frame_rename.py
+  scripts/goal_pose_relay.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -5,8 +5,8 @@ X test simple driving
 
 Click the "Add Panel" button (or press Shift + A / or right-click).
 Select the Map panel.
-In the settings editor for the new Map panel, select the topic from the dropdown: /nvblox_node/map_slice (or whichever similar nav_msgs/OccupancyGrid topic your system is publishing).
-Alternatively, if you are using the 3D Panel, you can simply turn off the Mesh topic in the left-hand sidebar, click the + Add Topic button, and add /nvblox_node/map_slice. It will overlay the clear 2D blueprint right onto the floor grid!
+In the settings editor for the new Map panel, select the topic from the dropdown: /nvblox_node/static_occupancy_grid (or whichever similar nav_msgs/OccupancyGrid topic your system is publishing).
+Alternatively, if you are using the 3D Panel, you can simply turn off the Mesh topic in the left-hand sidebar, click the + Add Topic button, and add /nvblox_node/static_occupancy_grid. It will overlay the clear 2D blueprint right onto the floor grid!
 
 - go to target
 - ...
@@ -120,6 +120,7 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ros2 topic echo (camera/vslam/nvblox...)
 ros2 topic topic echo /visual_slam/status --once
 /nvblox_node/mesh  -- camera needs to move
+/nvblox_node/static_occupancy_grid  -- 2D occupancy output for Nav2 / map panels
 
 foxglove - 3D nvblox_node/mesh, image - camera/infra1/rect_raw_whatever
 

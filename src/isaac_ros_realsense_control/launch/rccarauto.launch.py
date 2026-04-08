@@ -318,6 +318,13 @@ def generate_launch_description():
                             '/tf_static',
                             '/diagnostics.*',
                             '/color/image_raw/compressed',
+                            '/plan',
+                            '/local_plan',
+                            '/cmd_vel',
+                            '/goal_pose',
+                            '/clicked_point',
+                            '^/local_costmap/.*',
+                            '^/global_costmap/.*',
                             '^/visual_slam/.*',
                             '^/nvblox_node/.*',
                             '/nvblox_node/mesh',
@@ -348,6 +355,17 @@ def generate_launch_description():
         }.items()
     )
 
+    goal_pose_relay_node = Node(
+        package='isaac_ros_realsense_control',
+        executable='goal_pose_relay.py',
+        name='goal_pose_relay',
+        output='screen',
+        parameters=[{
+            'default_goal_frame': 'odom',
+            'action_name': 'navigate_to_pose',
+        }],
+    )
+
 
     return LaunchDescription([
         robot_state_publisher_node,
@@ -367,6 +385,6 @@ def generate_launch_description():
         # Start Nav2 slightly after VSLAM to ensure TFs are ready
         TimerAction(
             period=8.0,
-            actions=[nav2_launch]
+            actions=[nav2_launch, goal_pose_relay_node]
         ),
     ])
