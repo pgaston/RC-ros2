@@ -3,6 +3,23 @@ X test simple driving
 - mesh
 - occupancy grid
 
+Ideas:
+- Set min_obstacle_height to roughly $0.05$ or $0.1$ (meters) to ignore the surface the car is driving on
+- Try increasing the resolution (e.g., from $0.1$ to $0.05$) or increasing the obstacle_max_range so it doesn't try to map every blade of grass near the bumper.
+- tf tree
+  - camera horizontal
+  - camera z height
+- Ray-trace clearing: Ensure your raytrace_range is slightly larger than your obstacle_range
+
+
+- In Foxglove: Add a TF viewer and a PointCloud2 viewer. If the point cloud for the grass is appearing above the grid floor in 3D space, your camera pitch transform is definitely off.
+- CLI Check: Run ros2 run tf2_tools view_frames and verify that the camera_link -> base_link transform matches the physical mounting on your Amoril chassis.
+
+- Does the occupancy grid clear up if you point the car at a flat, solid wall instead of the lawn?
+
+
+
+
 Click the "Add Panel" button (or press Shift + A / or right-click).
 Select the Map panel.
 In the settings editor for the new Map panel, select the topic from the dropdown: /nvblox_node/static_occupancy_grid (or whichever similar nav_msgs/OccupancyGrid topic your system is publishing).
@@ -23,9 +40,14 @@ sudo ufw allow 49000/tcp
 cd /mnt/nova_ssd
 jetson-containers run $(autotag nano_llm)
 python3 -m nano_llm.agents.web_chat --api=mlc \
-  --model Efficient-Large-Model/VILA1.5-3b \
+  --model Efficient-Large-Model/VILA-2.7b \
   --quantization q4f16_ft \
-  --max-context-len 1024
+  --vision-api hf \
+  --max-context-len 256 \
+  --max-new-tokens 32
+
+If this still runs out of memory on Orin Nano, close other GPU-heavy processes first.
+If you want to retry the larger VILA 1.5 model on a roomier Jetson, switch `--model` back to `Efficient-Large-Model/VILA1.5-3b`.
 
 
 
@@ -34,10 +56,25 @@ cd /mnt/nova_ssd/workspaces/isaac_ros-dev
 jetson-containers run -v $PWD:/ros_workspace $(autotag nano_llm)
 python3 /ros_workspace/scripts/vlm_brain.py
 
+# override VLM memory settings at runtime
+python3 /ros_workspace/scripts/vlm_brain.py --ros-args \
+  -p vlm_model:=Efficient-Large-Model/VILA-2.7b \
+  -p vlm_vision_api:=hf \
+  -p vlm_max_context_len:=256
+
+# larger fallback only if you have more headroom
+python3 /ros_workspace/scripts/vlm_brain.py --ros-args \
+  -p vlm_model:=Efficient-Large-Model/VILA1.5-3b \
+  -p vlm_vision_api:=hf \
+  -p vlm_max_context_len:=256
+
 
 # to integrate
 - from that docker, run
 python3 scripts/vlm_brain.py
+
+- runtime override example
+python3 scripts/vlm_brain.py --ros-args -p vlm_model:=Efficient-Large-Model/VILA-2.7b -p vlm_max_context_len:=256 -p vlm_vision_api:=hf
 
 - ros2 throttle of message to every 2 second
 ros2 run topic_tools throttle messages /camera/color/image_raw 2.0 /camera/color/image_raw_slow

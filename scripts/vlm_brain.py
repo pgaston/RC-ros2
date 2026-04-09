@@ -20,8 +20,21 @@ class EventGatedBrain(Node):
         self.latest_nvblox_map_image = None
         self.declare_parameter('nvblox_map_topic', '/nvblox_node/static_occupancy_grid')
         self.declare_parameter('nav_goal_frame', 'odom')
+        self.declare_parameter('vlm_model', 'Efficient-Large-Model/VILA-2.7b')
+        self.declare_parameter('vlm_api', 'mlc')
+        self.declare_parameter('vlm_vision_api', 'hf')
+        self.declare_parameter('vlm_max_context_len', 256)
+        self.declare_parameter(
+            'vlm_system_prompt',
+            'You are a robot assistant. If you receive two visual inputs, the first is a camera image and the second is a top-down obstacle map from nvblox. If asked to move to a destination, output your reasoning based on the map, and then end the message with [NAV: x.x, y.y].'
+        )
         nvblox_map_topic = self.get_parameter('nvblox_map_topic').value
         self.nav_goal_frame = self.get_parameter('nav_goal_frame').value
+        vlm_model = self.get_parameter('vlm_model').value
+        vlm_api = self.get_parameter('vlm_api').value
+        vlm_vision_api = self.get_parameter('vlm_vision_api').value
+        vlm_max_context_len = self.get_parameter('vlm_max_context_len').value
+        vlm_system_prompt = self.get_parameter('vlm_system_prompt').value
         
         # 1. Image Subscribers (Camera & Nvblox Map)
         self.create_subscription(Image, '/camera/color/image_raw', self.image_cb, 1)
@@ -32,10 +45,11 @@ class EventGatedBrain(Node):
         
         # 3. Load the VLM Desktop
         self.model = NanoLLM.from_pretrained(
-            "Efficient-Large-Model/VILA1.5-3b", 
-            api='mlc',
-            max_context_len=1024,
-            system_prompt="You are a robot assistant. If you receive two visual inputs, the first is a camera image and the second is a top-down obstacle map from nvblox. If asked to move to a destination, output your reasoning based on the map, and then end the message with [NAV: x.x, y.y]."
+            vlm_model,
+            api=vlm_api,
+            vision_api=vlm_vision_api,
+            max_context_len=vlm_max_context_len,
+            system_prompt=vlm_system_prompt
         )
         
         # 4. Start the Web UI (Hosted on port 8050)
