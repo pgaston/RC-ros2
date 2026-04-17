@@ -132,7 +132,7 @@ def generate_launch_description():
     # realsense_launch = IncludeLaunchDescription(
     #     PythonLaunchDescriptionSource([
     #         PathJoinSubstitution([
-    #             FindPackageShare('isaac_ros_realsense_control'),
+    #             FindPackageShare('rc_hardware_control'),
     #             # 'launch', 'realsense_basic.launch.py'
     #             'launch', 'realsense_d435i.launch.py'
     #         ])
@@ -319,7 +319,7 @@ def generate_launch_description():
 
     # Stereo Sync Republisher - Ensures perfect stereo synchronization for VSLAM
     # stereo_sync_node = Node(
-    #     package='isaac_ros_realsense_control',
+    #     package='rc_hardware_control',
     #     executable='stereo_sync_republisher.py',
     #     name='stereo_sync_republisher',
     #     output='screen',
@@ -327,7 +327,7 @@ def generate_launch_description():
 
     # The realsense frame_id fixer node
     frame_rename_node = Node(
-        package='isaac_ros_realsense_control',
+        package='rc_hardware_control',
         executable='frame_rename.py',
         name='frame_rename',
         output='screen',

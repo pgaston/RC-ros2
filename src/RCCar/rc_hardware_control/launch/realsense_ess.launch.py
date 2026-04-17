@@ -97,7 +97,7 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         arguments=['-d', PathJoinSubstitution([
-            FindPackageShare('isaac_ros_realsense_control'),
+            FindPackageShare('rc_hardware_control'),
             'config',
             'realsense_ess.rviz'
         ])],

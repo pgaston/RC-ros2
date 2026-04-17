@@ -20,7 +20,18 @@ install(
 
 # Install Python scripts
 install(
-  PROGRAMS scripts/test_steering_tracking.py
+  PROGRAMS 
+    scripts/checksync.py
+    scripts/depth_check.py
+    scripts/frame_rename.py
+    scripts/goal_pose_relay.py
+    scripts/led_off.py
+    scripts/rs-imu-calibration.py
+    scripts/stereo_sync_republisher.py
+    scripts/test_ackermann.py
+    scripts/test_bicycle.py
+    scripts/test_steering_tracking.py
+    scripts/vlm_brain.py
   DESTINATION lib/rc_hardware_control
 )
 

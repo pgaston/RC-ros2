@@ -86,7 +86,7 @@ def generate_launch_description():
 
     # RViz node for visualization
     rviz_config_path = PathJoinSubstitution([
-        FindPackageShare('isaac_ros_realsense_control'),
+        FindPackageShare('rc_hardware_control'),
         'config',
         'realsense_basic.rviz'
     ])

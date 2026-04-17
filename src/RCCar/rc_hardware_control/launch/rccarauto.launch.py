@@ -168,7 +168,7 @@ def generate_launch_description():
 
     # The realsense frame_id fixer node
     frame_rename_node = Node(
-        package='isaac_ros_realsense_control',
+        package='rc_hardware_control',
         executable='frame_rename.py',
         name='frame_rename',
         output='screen',
@@ -356,7 +356,7 @@ def generate_launch_description():
     )
 
     goal_pose_relay_node = Node(
-        package='isaac_ros_realsense_control',
+        package='rc_hardware_control',
         executable='goal_pose_relay.py',
         name='goal_pose_relay',
         output='screen',
