@@ -1,0 +1,13 @@
+
+# docker image is based on the standard NVidia ros2 humble, then we add our needs
+CONFIG_IMAGE_KEY=ros2_humble.realsense.rccarauto
+CONFIG_DOCKER_SEARCH_DIRS=( ${ISAAC_ROS_WS}/docker )
+
+function setup_workspace_permissions() {
+    echo "Fixing workspace permissions for admin user..."
+    sudo chown -R admin:admin /workspaces/isaac_ros-dev/build 2>/dev/null || true
+    sudo chown -R admin:admin /workspaces/isaac_ros-dev/install 2>/dev/null || true
+    sudo chown -R admin:admin /workspaces/isaac_ros-dev/log 2>/dev/null || true
+}
+# Run it on startup
+setup_workspace_permissions
