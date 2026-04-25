@@ -91,7 +91,7 @@ def generate_launch_description():
     # various resolutions:   848x480x30, 640x480x30, 424x240x30, 320x240x30
     # depth not used
     color_profile = '640x480x15'    # slower
-    default_profile = '640x480x30'
+    default_profile = '848x480x30'
 
     # Composable node will have zero copy of images
     realsense_node = ComposableNode(
@@ -120,10 +120,9 @@ def generate_launch_description():
             # 3. Enable Streams for VSLAM & NVBLOX
             'enable_infra1': True,
             'enable_infra2': True,
-            'enable_depth': True, # Disable depth to ensure VSLAM gets stable stereo frames
-            'enable_color': True, # Save USB bandwidth (VSLAM/Nvblox don't use it in this config)
-            # Now False - was True - Watch this - as color goes at 15, and infra at 30 - infra may get held up...
-            'enable_sync': False,  # Disable strict sync to prevent frame drops causing "sleep"
+            'enable_depth': True, 
+            'enable_color': True, # Enabled for Foxglove visualization
+            'enable_sync': True,  # MUST be true for stereo VSLAM to match frames properly
             
             # 4. IMU Configuration (Crucial for cuVSLAM)
             'gyro_fps': 200,
@@ -133,7 +132,7 @@ def generate_launch_description():
             'unite_imu_method': 1, # 1 = Copy (Standard for VIO)
             
             # 5. Performance & Stability
-            'initial_reset': False,        # Enable reset to clear IMU calibration errors
+            'initial_reset': True,        # Enable reset to clear IMU/MIPI calibration errors
             'reconnect_timeout': 6.0,      # Wait seconds before trying to reconnect
             'wait_for_device_timeout': 30.0, # Wait for device to become available
             'depth_module.emitter_enabled': 0, # Set to 0 if outdoors
@@ -193,8 +192,8 @@ def generate_launch_description():
                 'camera_infra2_optical_frame',
             ],
 
-            'enable_image_denoising': True,    # from default isaac ros launch
-            'enable_imu_fusion': True,   # Disabled - IMU has "Motion Module force pause" errors
+            'enable_image_denoising': True,    
+            'enable_imu_fusion': False,   # Disabled so VSLAM doesn't get stuck waiting for IMU
             'gyro_noise_density': 0.000244,
             'gyro_random_walk': 0.000019393,
             'accel_noise_density': 0.001862,
@@ -247,9 +246,9 @@ def generate_launch_description():
 
             # ESDF Slicing (Crucial for an RC Truck)
             'voxel_size': 0.10,
-            'static_mapper.esdf_slice_height': 0.10,    # The height Nav2 "looks" at
-            'static_mapper.esdf_slice_min_height': 0.0, # Objects from ground up...
-            'static_mapper.esdf_slice_max_height': 1.0, # ...to 0.5m high are obstacles
+            'static_mapper.esdf_slice_height': 0.20,    # The height Nav2 "looks" at
+            'static_mapper.esdf_slice_min_height': 0.15, # Start slicing ABOVE the floor (15cm)
+            'static_mapper.esdf_slice_max_height': 1.0, # ...to 1.0m high are obstacles
             'max_mapping_distance_m': 5.0,
             'map_clearing_radius_m': 5.0,  # Ensure this is a positive, non-zero number
             'map_clearing_frame_id': 'base_link',
@@ -351,7 +350,8 @@ def generate_launch_description():
         ),
         launch_arguments={
             'use_sim_time': 'False',
-            'params_file': nav2_params_file
+            'params_file': nav2_params_file,
+            'use_bond': 'False'
         }.items()
     )
 

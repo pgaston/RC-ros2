@@ -112,7 +112,7 @@ void PwmMotorController::update()
     case MotorState::ARMING_PULSE:
       // Removed the 0.1 pulse as it can interfere with some ESC arming safety checks.
       // Keeping it at neutral but maintaining the state for legacy compatibility.
-      current_duty_cycle_ = config_.neutral_pwm_duty;
+      current_duty_cycle_ = config_.neutral_pwm_duty + 0.05 * (config_.max_pwm_duty - config_.neutral_pwm_duty);
       if (dt_state >= 0.5) {
         state_ = MotorState::ARMING_NEUTRAL_2;
         state_entry_time_ = now;
@@ -143,7 +143,7 @@ void PwmMotorController::update()
       // With the patched symmetric reverse_offset, this will cleanly clear the deadband!
       // The Python script does a forward pulse for reverse detection: "tap forward 0.1"
       // "tap" ->  self.set_MotorSpeed(self.drive_channel, 0.1)  (which is positive 0.1)
-      current_duty_cycle_ = config_.neutral_pwm_duty + 0.1 * (config_.max_pwm_duty - config_.neutral_pwm_duty);
+      current_duty_cycle_ = config_.neutral_pwm_duty;
       if (dt_state >= 0.20) {
         state_ = MotorState::TO_REVERSE_PULSE;
         state_entry_time_ = now;

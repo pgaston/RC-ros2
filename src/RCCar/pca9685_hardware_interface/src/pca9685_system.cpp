@@ -112,10 +112,10 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_init(
     {
       PwmMotorController::Config motor_config;
       motor_config.input_deadband = 0.01;
-      motor_config.max_speed_scale = 0.02; // Reduced from 0.1: make 0.1 m/s much slower
-      motor_config.max_output = 0.4; // Safety limit: never exceed 40% full throttle
-      motor_config.forward_offset = 0.28;
-      motor_config.reverse_offset = -0.28; // Fixed asymmetric deadband!
+      motor_config.max_speed_scale = 0.05; // Slightly more than last time
+      motor_config.max_output = 0.35; // 35% safety limit
+      motor_config.forward_offset = 0.22; // Split the difference
+      motor_config.reverse_offset = -0.22;
       motor_config.watchdog_timeout = TEST_WATCHDOG_TIMEOUT;
       motor_controllers_[i].configure(motor_config);
     }
@@ -186,10 +186,10 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_activate(
       // Re-configure resets the state machine to INITIALIZING -> Arming sequence
       PwmMotorController::Config motor_config;
       motor_config.input_deadband = 0.01;
-      motor_config.max_speed_scale = 0.02; // Reduced from 0.1: make 0.1 m/s much slower
-      motor_config.max_output = 0.4; // Safety limit: never exceed 40% full throttle
-      motor_config.forward_offset = 0.28;
-      motor_config.reverse_offset = -0.28;
+      motor_config.max_speed_scale = 0.05;
+      motor_config.max_output = 0.35;
+      motor_config.forward_offset = 0.22;
+      motor_config.reverse_offset = -0.22;
       motor_config.watchdog_timeout = TEST_WATCHDOG_TIMEOUT;
       motor_controllers_[i].configure(motor_config);
       
@@ -314,15 +314,14 @@ hardware_interface::return_type Pca9685SystemHardware::write(
       duty_cycle = motor_controllers_[i].get_duty_cycle();
 
       // DEBUG: Print command and resulting duty cycle occasionally
-      // static int debug_counter = 0;
-      // if (debug_counter++ % 50 == 0) {
-      //     RCLCPP_INFO(rclcpp::get_logger("Pca9685SystemHardware"), 
-      //         "VEL DEBUG: Cmd=%.4f, Offset=%.3f, Scale=%.3f, Duty=%.4f", 
-      //         hw_commands_[i], 
-      //         config.interface_type == hardware_interface::HW_IF_VELOCITY ? 0.271 : 0.0,
-      //         config.interface_type == hardware_interface::HW_IF_VELOCITY ? 0.01 : 0.0,
-      //         duty_cycle);
-      // }
+      static int debug_counter = 0;
+      if (debug_counter++ % 20 == 0) {
+          RCLCPP_INFO(rclcpp::get_logger("Pca9685SystemHardware"), 
+              "VEL DEBUG: Joint=%d, Cmd=%.4f, Duty=%.4f", 
+              config.channel,
+              hw_commands_[i], 
+              duty_cycle);
+      }
       
       // Legacy deadband/arming check removed as controller handles state machine
     }
