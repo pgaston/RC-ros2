@@ -142,6 +142,7 @@
     <origin xyz="0.20 0 0.127" rpy="0 0 0"/>
   </joint>
 
+
   <link name="camera_infra1_optical_frame"/>
   <joint name="camera_infra1_joint" type="fixed">
     <parent link="camera_link"/>
@@ -155,6 +156,7 @@
     <child link="camera_infra2_optical_frame"/>
     <origin xyz="0 -0.050 0" rpy="-1.5708 0 -1.5708"/> 
   </joint>
+
 
   <link name="camera_imu_optical_frame"/>
   <joint name="camera_imu_joint" type="fixed">

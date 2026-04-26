@@ -55,12 +55,14 @@ def generate_launch_description():
         executable="ros2_control_node",
         parameters=[
             {'robot_description': ParameterValue(launch.substitutions.Command(['xacro ', urdf_path]), value_type=str)},
+            {'use_sim_time': False},
             robot_controllers
         ],
         output="both",
+        emulate_tty=True,
         remappings=[
             ("~/robot_description", "/robot_description"),
-            # UNCOMMENT THIS LINE FOR MANUAL TELEOP TESTING:
+            ("/bicycle_steering_controller/reference", "/cmd_vel"),
             ("/bicycle_steering_controller/reference_unstamped", "/cmd_vel"),
         ],
     )
@@ -68,13 +70,13 @@ def generate_launch_description():
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+        arguments=["joint_state_broadcaster"],
     )
 
     bicycle_steering_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["bicycle_steering_controller", "--controller-manager", "/controller_manager"],
+        arguments=["bicycle_steering_controller"],
     )
 
     delayed_bicycle_steering_controller_spawner = RegisterEventHandler(
@@ -183,7 +185,7 @@ def generate_launch_description():
             
             'publish_odom_to_base_tf': True,
             'publish_map_to_odom_tf': True,
-            'base_frame': 'base_link',      # not camera_link ???
+            'base_frame': 'base_link',      # Use base_link as the reference frame
 
             # Frame IDs for RealSense D435i (new API style)
             'imu_frame': 'camera_gyro_optical_frame',

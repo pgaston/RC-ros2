@@ -30,7 +30,7 @@ amcl:
     save_pose_rate: 0.5
     sigma_hit: 0.2
     tf_broadcast: true
-    transform_tolerance: 1.0
+    transform_tolerance: 0.3
     update_min_a: 0.2
     update_min_d: 0.25
     z_hit: 0.5
@@ -124,8 +124,8 @@ controller_server:
     # Progress checker parameters
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
-      required_movement_radius: 0.5
-      movement_time_allowance: 10.0
+      required_movement_radius: 0.1
+      movement_time_allowance: 15.0
     # Goal checker parameters
     #precise_goal_checker:
     #  plugin: "nav2_controller::SimpleGoalChecker"
@@ -142,13 +142,13 @@ controller_server:
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
-      min_vel_x: 0.1
+      min_vel_x: -0.10
       min_vel_y: 0.0
-      max_vel_x: 0.35
+      max_vel_x: 0.10
       max_vel_y: 0.0
-      max_vel_theta: 0.4
-      min_speed_xy: 0.1
-      max_speed_xy: 0.35
+      max_vel_theta: 0.2
+      min_speed_xy: 0.0                # Allow slow starts
+      max_speed_xy: 0.10               # Safe max speed
       min_speed_theta: 0.0
       
       # Ackermann Kinematics
@@ -156,34 +156,34 @@ controller_server:
         plugin: "dwb_plugins::StandardTrajectoryGenerator"
         forward_acceleration_limit: 1.0
         forward_deceleration_limit: 1.0
-        vx_samples: 20
-        vtheta_samples: 20
+        vx_samples: 40                 # More samples for better planning
+        vtheta_samples: 40
         # No Y velocity for car
         vy_samples: 1
         
       acc_lim_x: 1.0
       acc_lim_y: 0.0
-      acc_lim_theta: 1.5
-      decel_lim_x: -1.0
+      acc_lim_theta: 1.0
+      decel_lim_x: 1.0
       decel_lim_y: 0.0
-      decel_lim_theta: -1.5
+      decel_lim_theta: 1.0
+
+      # Goal and Path Follow Critics (Balanced for bi-directional car)
+      critics: ["Oscillation", "BaseObstacle", "PathDist", "GoalDist", "PathAlign", "GoalAlign"]
+      BaseObstacle.scale: 0.02
+      PathDist.scale: 32.0
+      GoalDist.scale: 24.0
+      PathAlign.scale: 1.0            # Very low hint
+      GoalAlign.scale: 1.0            # Very low hint
+      Oscillation.scale: 1.0
       sim_time: 1.7
       linear_granularity: 0.05
       angular_granularity: 0.025
-      transform_tolerance: 0.2
-      xy_goal_tolerance: 0.4
+      transform_tolerance: 0.3
+      xy_goal_tolerance: 0.30
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
-      # Removed RotateToGoal since car cannot rotate in place
-      critics: ["Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      BaseObstacle.scale: 0.02
-      PathAlign.scale: 32.0
-      PathAlign.forward_point_distance: 0.3
-      GoalAlign.scale: 24.0
-      GoalAlign.forward_point_distance: 0.3
-      PathDist.scale: 32.0
-      GoalDist.scale: 24.0
 
 local_costmap:
   local_costmap:
@@ -285,14 +285,24 @@ map_saver:
 
 planner_server:
   ros__parameters:
-    expected_planner_frequency: 20.0
+    expected_planner_frequency: 5.0
     use_sim_time: False
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_smac_planner/SmacPlannerHybrid"
       minimum_turning_radius: 0.80
-      tolerance: 1.0
+      tolerance: 0.20
       allow_unknown: true
+      downsample_costmap: false
+      max_iterations: 1000000
+      max_on_lane_iterations: 2500
+      max_planning_time: 2.0
+      analytic_expansion_ratio: 3.5
+      reverse_penalty: 0.1            # Strongly encourage reversing
+      change_penalty: 0.0             # No penalty for switching directions
+      non_straight_penalty: 1.05
+      cost_penalty: 1.0
+      retravel_cost: 1.0
 
 smoother_server:
   ros__parameters:
@@ -322,7 +332,7 @@ behavior_server:
       plugin: "nav2_behaviors/AssistedTeleop"
     global_frame: odom
     robot_base_frame: base_link
-    transform_tolerance: 0.1
+    transform_tolerance: 0.3
     use_sim_time: False
     simulate_ahead_time: 2.0
     max_rotational_vel: 1.0

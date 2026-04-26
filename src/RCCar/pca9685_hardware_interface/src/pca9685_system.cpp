@@ -22,13 +22,38 @@ namespace pca9685_hardware_interface
 hardware_interface::CallbackReturn Pca9685SystemHardware::on_init(
   const hardware_interface::HardwareInfo & info)
 {
-
-  pca.set_pwm_freq(50.0);
+  RCLCPP_INFO(rclcpp::get_logger("Pca9685SystemHardware"), "Initializing PCA9685 Hardware Interface...");
 
   if (
     hardware_interface::SystemInterface::on_init(info) !=
     hardware_interface::CallbackReturn::SUCCESS)
   {
+    return hardware_interface::CallbackReturn::ERROR;
+  }
+
+  // Parse hardware parameters for I2C configuration
+  std::string device = "/dev/i2c-7";
+  int address = 0x40;
+
+  auto device_param = info_.hardware_parameters.find("device");
+  if (device_param != info_.hardware_parameters.end()) {
+    device = device_param->second;
+  }
+
+  auto address_param = info_.hardware_parameters.find("address");
+  if (address_param != info_.hardware_parameters.end()) {
+    address = std::stoi(address_param->second);
+  }
+
+  RCLCPP_INFO(rclcpp::get_logger("Pca9685SystemHardware"), 
+    "Opening PCA9685 on %s, address 0x%02X", device.c_str(), address);
+
+  try {
+    pca = std::make_unique<PiPCA9685::PCA9685>(device, address);
+    pca->set_pwm_freq(50.0);
+  } catch (const std::exception& e) {
+    RCLCPP_FATAL(rclcpp::get_logger("Pca9685SystemHardware"), 
+      "Failed to initialize PCA9685: %s", e.what());
     return hardware_interface::CallbackReturn::ERROR;
   }
 
@@ -112,9 +137,9 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_init(
     {
       PwmMotorController::Config motor_config;
       motor_config.input_deadband = 0.01;
-      motor_config.max_speed_scale = 0.05; // Slightly more than last time
-      motor_config.max_output = 0.35; // 35% safety limit
-      motor_config.forward_offset = 0.22; // Split the difference
+      motor_config.max_speed_scale = 0.15;
+      motor_config.max_output = 0.50; 
+      motor_config.forward_offset = 0.22; 
       motor_config.reverse_offset = -0.22;
       motor_config.watchdog_timeout = TEST_WATCHDOG_TIMEOUT;
       motor_controllers_[i].configure(motor_config);
@@ -186,10 +211,10 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_activate(
       // Re-configure resets the state machine to INITIALIZING -> Arming sequence
       PwmMotorController::Config motor_config;
       motor_config.input_deadband = 0.01;
-      motor_config.max_speed_scale = 0.05;
+      motor_config.max_speed_scale = 0.07;
       motor_config.max_output = 0.35;
-      motor_config.forward_offset = 0.22;
-      motor_config.reverse_offset = -0.22;
+      motor_config.forward_offset = 0.14;
+      motor_config.reverse_offset = -0.14;
       motor_config.watchdog_timeout = TEST_WATCHDOG_TIMEOUT;
       motor_controllers_[i].configure(motor_config);
       
@@ -313,20 +338,18 @@ hardware_interface::return_type Pca9685SystemHardware::write(
       motor_controllers_[i].update();
       duty_cycle = motor_controllers_[i].get_duty_cycle();
 
-      // DEBUG: Print command and resulting duty cycle occasionally
-      static int debug_counter = 0;
-      if (debug_counter++ % 20 == 0) {
+
+      // Diagnostic: Log non-zero commands to verify signal path
+      if (std::abs(hw_commands_[i]) > 0.001) {
           RCLCPP_INFO(rclcpp::get_logger("Pca9685SystemHardware"), 
-              "VEL DEBUG: Joint=%d, Cmd=%.4f, Duty=%.4f", 
-              config.channel,
-              hw_commands_[i], 
-              duty_cycle);
+              "COMMAND RECEIVED: Joint=%d, Cmd=%.4f, Duty=%.4f", 
+              config.channel, hw_commands_[i], duty_cycle);
       }
       
       // Legacy deadband/arming check removed as controller handles state machine
     }
 
-    pca.set_pwm_ms(config.channel, duty_cycle);
+    pca->set_pwm_ms(config.channel, duty_cycle);
 
     RCLCPP_DEBUG(
       rclcpp::get_logger("Pca9685SystemHardware"),

@@ -72,7 +72,7 @@ private:
   std::vector<double> hw_positions_;
   std::vector<double> hw_velocities_;
   std::vector<JointConfig> joint_configs_;
-  PiPCA9685::PCA9685 pca;
+  std::unique_ptr<PiPCA9685::PCA9685> pca;
 
   // Motor controllers for velocity interfaces
   std::vector<PwmMotorController> motor_controllers_;
