@@ -21,7 +21,7 @@ Alternatively, if you are using the 3D Panel, you can simply turn off the Mesh t
 cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 ./run_dev.sh -d ${ISAAC_ROS_WS}
 
-
+colcon build --packages-select rc_hardware_control --symlink-install
 
 # useful
 ros2 run teleop_twist_keyboard teleop_twist_keyboard

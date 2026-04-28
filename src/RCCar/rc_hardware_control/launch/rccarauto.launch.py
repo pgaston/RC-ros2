@@ -139,6 +139,8 @@ def generate_launch_description():
             'unite_imu_method': 1, # 1 = Copy (Standard for VIO)
             
             # 5. Performance & Stability
+            # temporarily use True, if camera gets wedged
+            # 'initial_reset': True,        # Disabled - causes USB disconnect on Jetson
             'initial_reset': False,        # Disabled - causes USB disconnect on Jetson
             'reconnect_timeout': 6.0,      # Wait seconds before trying to reconnect
             'wait_for_device_timeout': 30.0, # Wait for device to become available

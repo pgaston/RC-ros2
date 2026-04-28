@@ -25,6 +25,8 @@ install(
     scripts/depth_check.py
     scripts/frame_rename.py
     scripts/goal_pose_relay.py
+    scripts/cmd_vel_logger.py
+
     scripts/led_off.py
     scripts/rs-imu-calibration.py
     scripts/stereo_sync_republisher.py
