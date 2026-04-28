@@ -104,7 +104,12 @@ def generate_launch_description():
         
         parameters=[{
             'camera_name': 'camera',
-            'global_time_enabled': False, 
+            # FORCE SYSTEM TIME (Disable hardware timestamps)
+            'global_time_enabled': False,   # force to use ros::Time::now()
+            'depth_module.global_time_enabled': False,
+            'stereo_module.global_time_enabled': False, # Explicit module override
+            'motion_module.global_time_enabled': False, # Explicit module override
+            'rgb_camera.global_time_enabled': False,    # Explicit module override
             'host_performance_step': 'true',
 
             # 1. TF Management - Set to False because we use our own URDF
@@ -123,7 +128,7 @@ def generate_launch_description():
             'enable_infra1': True,
             'enable_infra2': True,
             'enable_depth': True, 
-            'enable_color': True, # Enabled for Foxglove visualization
+            'enable_color': False, # Disabled to reduce USB bandwidth and fix hardware crash
             'enable_sync': True,  # MUST be true for stereo VSLAM to match frames properly
             
             # 4. IMU Configuration (Crucial for cuVSLAM)
@@ -134,7 +139,7 @@ def generate_launch_description():
             'unite_imu_method': 1, # 1 = Copy (Standard for VIO)
             
             # 5. Performance & Stability
-            'initial_reset': True,        # Enable reset to clear IMU/MIPI calibration errors
+            'initial_reset': False,        # Disabled - causes USB disconnect on Jetson
             'reconnect_timeout': 6.0,      # Wait seconds before trying to reconnect
             'wait_for_device_timeout': 30.0, # Wait for device to become available
             'depth_module.emitter_enabled': 0, # Set to 0 if outdoors
@@ -164,6 +169,15 @@ def generate_launch_description():
         }],
         remappings=[
             ('imu', '/imu'), 
+            ('infra1/image_rect_raw', '/infra1/image_rect_raw'),
+            ('infra2/image_rect_raw', '/infra2/image_rect_raw'),
+            ('infra1/camera_info', '/infra1/camera_info'),
+            ('infra2/camera_info', '/infra2/camera_info'),
+            ('depth/image_rect_raw', '/depth/image_rect_raw'),
+            ('depth/camera_info', '/depth/camera_info'),
+            ('color/image_raw', '/color/image_raw'),
+            ('color/image_raw/compressed', '/color/image_raw/compressed'),
+            ('color/camera_info', '/color/camera_info'),
         ],
     )
 

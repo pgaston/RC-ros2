@@ -1,0 +1,2 @@
+CONTAINER ID   IMAGE                   COMMAND                  CREATED         STATUS         PORTS     NAMES
+1076d3d4aa55   isaac_ros_dev-aarch64   "/usr/local/bin/scri…"   2 minutes ago   Up 2 minutes             isaac_ros_dev-aarch64-container

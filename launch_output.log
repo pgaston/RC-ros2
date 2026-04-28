@@ -1,0 +1,290 @@
+[INFO] [launch]: All log files can be found below /home/admin/.ros/log/2026-04-28-09-56-06-776294-ubuntu-39432
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [ros2_control_node-2]: process started with pid [39481]
+[INFO] [robot_state_publisher-1]: process started with pid [39479]
+[INFO] [spawner-3]: process started with pid [39483]
+[INFO] [jtop-4]: process started with pid [39485]
+[INFO] [frame_rename.py-5]: process started with pid [39487]
+[INFO] [foxglove_bridge-6]: process started with pid [39489]
+[robot_state_publisher-1] [37;1m2026-04-28 09:56:07.357 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[robot_state_publisher-1] [37;1m2026-04-28 09:56:07.371 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19191: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[ros2_control_node-2] [37;1m2026-04-28 09:56:07.372 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[ros2_control_node-2] [37;1m2026-04-28 09:56:07.375 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19191: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[robot_state_publisher-1] [INFO] [1777384569.397169275] [robot_state_publisher]: got segment base_footprint
+[robot_state_publisher-1] [INFO] [1777384569.397947642] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-1] [INFO] [1777384569.397977468] [robot_state_publisher]: got segment camera_accel_optical_frame
+[robot_state_publisher-1] [INFO] [1777384569.408531020] [robot_state_publisher]: got segment camera_depth_optical_frame
+[robot_state_publisher-1] [INFO] [1777384569.408695954] [robot_state_publisher]: got segment camera_gyro_optical_frame
+[robot_state_publisher-1] [INFO] [1777384569.408716659] [robot_state_publisher]: got segment camera_imu_optical_frame
+[robot_state_publisher-1] [INFO] [1777384569.408728244] [robot_state_publisher]: got segment camera_infra1_optical_frame
+[robot_state_publisher-1] [INFO] [1777384569.408736884] [robot_state_publisher]: got segment camera_infra2_optical_frame
+[robot_state_publisher-1] [INFO] [1777384569.408744628] [robot_state_publisher]: got segment camera_link
+[robot_state_publisher-1] [INFO] [1777384569.408753173] [robot_state_publisher]: got segment front_left_wheel
+[robot_state_publisher-1] [INFO] [1777384569.408761109] [robot_state_publisher]: got segment front_right_wheel
+[robot_state_publisher-1] [INFO] [1777384569.408769173] [robot_state_publisher]: got segment rear_left_wheel
+[robot_state_publisher-1] [INFO] [1777384569.408776694] [robot_state_publisher]: got segment rear_right_wheel
+[robot_state_publisher-1] [INFO] [1777384569.408784342] [robot_state_publisher]: got segment steering_link
+[robot_state_publisher-1] [INFO] [1777384569.408791670] [robot_state_publisher]: got segment traction_link
+[ros2_control_node-2] [33m[WARN] [1777384570.400491238] [controller_manager]: [Deprecated] Passing the robot description parameter directly to the control_manager node is deprecated. Use '~/robot_description' topic from 'robot_state_publisher' instead.[0m
+[ros2_control_node-2] [0m[INFO] [1777384570.400958010] [resource_manager]: Loading hardware 'JetsonOrinPCA9685' [0m
+[ros2_control_node-2] [0m[INFO] [1777384570.405517780] [resource_manager]: Initialize hardware 'JetsonOrinPCA9685' [0m
+[ros2_control_node-2] [0m[INFO] [1777384570.405600856] [Pca9685SystemHardware]: Initializing PCA9685 Hardware Interface...[0m
+[ros2_control_node-2] [0m[INFO] [1777384570.405950502] [Pca9685SystemHardware]: Opening PCA9685 on /dev/i2c-7, address 0x40[0m
+[ros2_control_node-2] [0m[INFO] [1777384570.495514199] [Pca9685SystemHardware]: Joint 'steering_joint' configured: channel=0, type=position[0m
+[ros2_control_node-2] [0m[INFO] [1777384570.495597403] [Pca9685SystemHardware]: Joint 'traction_joint' configured: channel=1, type=velocity[0m
+[ros2_control_node-2] [0m[INFO] [1777384570.495632828] [resource_manager]: Successful initialization of hardware 'JetsonOrinPCA9685'[0m
+[ros2_control_node-2] [0m[INFO] [1777384570.495935337] [resource_manager]: 'configure' hardware 'JetsonOrinPCA9685' [0m
+[ros2_control_node-2] [0m[INFO] [1777384570.495965130] [resource_manager]: Successful 'configure' of hardware 'JetsonOrinPCA9685'[0m
+[ros2_control_node-2] [0m[INFO] [1777384570.495980235] [resource_manager]: 'activate' hardware 'JetsonOrinPCA9685' [0m
+[ros2_control_node-2] [0m[INFO] [1777384570.495996491] [Pca9685SystemHardware]: ESC on channel 1 controller reset. Starting arming sequence.[0m
+[ros2_control_node-2] [0m[INFO] [1777384570.496008524] [Pca9685SystemHardware]: Successfully activated![0m
+[ros2_control_node-2] [0m[INFO] [1777384570.496018668] [resource_manager]: Successful 'activate' of hardware 'JetsonOrinPCA9685'[0m
+[37;1m2026-04-28 09:56:12.411 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[37;1m2026-04-28 09:56:12.414 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19191: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[foxglove_bridge-6] [INFO] [1777384572.129404932] [foxglove_bridge]: Starting foxglove_bridge (humble, 3.2.4@)
+[foxglove_bridge-6] terminate called after throwing an instance of 'std::runtime_error'
+[foxglove_bridge-6]   what():  Couldn't initialize websocket server: Bind Error
+[ERROR] [foxglove_bridge-6]: process has died [pid 39489, exit code -6, cmd '/opt/ros/humble/lib/foxglove_bridge/foxglove_bridge --ros-args -r __node:=foxglove_bridge --params-file /tmp/launch_params_bjf2wl1k'].
+[ros2_control_node-2] [0m[INFO] [1777384574.403880753] [controller_manager]: update rate is 50 Hz[0m
+[ros2_control_node-2] [0m[INFO] [1777384574.403979541] [controller_manager]: Spawning controller_manager RT thread with scheduler priority: 50[0m
+[INFO] [component_container_mt-7]: process started with pid [39725]
+[ros2_control_node-2] [33m[WARN] [1777384574.545960099] [controller_manager]: Could not enable FIFO RT scheduling policy: with error number <1>(Operation not permitted). See [https://control.ros.org/master/doc/ros2_control/controller_manager/doc/userdoc.html] for details on how to enable realtime scheduling.[0m
+[component_container_mt-7] [37;1m2026-04-28 09:56:15.805 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[component_container_mt-7] [37;1m2026-04-28 09:56:15.847 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19191: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[jtop-4] [37;1m2026-04-28 09:56:16.851 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[jtop-4] [37;1m2026-04-28 09:56:16.929 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19191: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[INFO] [controller_server-8]: process started with pid [40011]
+[INFO] [smoother_server-9]: process started with pid [40013]
+[INFO] [planner_server-10]: process started with pid [40023]
+[INFO] [behavior_server-11]: process started with pid [40032]
+[INFO] [bt_navigator-12]: process started with pid [40040]
+[INFO] [waypoint_follower-13]: process started with pid [40048]
+[INFO] [velocity_smoother-14]: process started with pid [40059]
+[INFO] [lifecycle_manager-15]: process started with pid [40062]
+[INFO] [goal_pose_relay.py-16]: process started with pid [40070]
+[frame_rename.py-5] [37;1m2026-04-28 09:56:19.579 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[lifecycle_manager-15] [37;1m2026-04-28 09:56:25.716 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[velocity_smoother-14] [37;1m2026-04-28 09:56:25.800 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[velocity_smoother-14] [37;1m2026-04-28 09:56:25.800 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19191: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[jtop-4] [INFO] [1777384585.951603593] [jetson_stats_node]: Fan controller detected
+[bt_navigator-12] [37;1m2026-04-28 09:56:26.029 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[planner_server-10] [37;1m2026-04-28 09:56:26.014 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[smoother_server-9] [37;1m2026-04-28 09:56:26.505 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[smoother_server-9] [37;1m2026-04-28 09:56:26.508 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19191: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[jtop-4] [INFO] [1777384586.855231055] [jetson_stats_node]: Jetson Clocks detected
+[behavior_server-11] [37;1m2026-04-28 09:56:26.756 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[behavior_server-11] [37;1m2026-04-28 09:56:26.847 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19191: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[controller_server-8] [37;1m2026-04-28 09:56:26.738 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[waypoint_follower-13] [37;1m2026-04-28 09:56:26.965 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[jtop-4] [INFO] [1777384587.480093251] [jetson_stats_node]: NVPModel control detected
+[lifecycle_manager-15] [INFO] [1777384587.532737158] [lifecycle_manager_navigation]: Creating
+[velocity_smoother-14] [INFO] [1777384587.654023098] [velocity_smoother]: 
+[velocity_smoother-14] 	velocity_smoother lifecycle node launched. 
+[velocity_smoother-14] 	Waiting on external lifecycle transitions to activate
+[velocity_smoother-14] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[lifecycle_manager-15] [INFO] [1777384587.831597382] [lifecycle_manager_navigation]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[behavior_server-11] [INFO] [1777384588.471639648] [behavior_server]: 
+[behavior_server-11] 	behavior_server lifecycle node launched. 
+[behavior_server-11] 	Waiting on external lifecycle transitions to activate
+[behavior_server-11] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-10] [INFO] [1777384588.542720563] [planner_server]: 
+[planner_server-10] 	planner_server lifecycle node launched. 
+[planner_server-10] 	Waiting on external lifecycle transitions to activate
+[planner_server-10] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[bt_navigator-12] [INFO] [1777384588.592030543] [bt_navigator]: 
+[bt_navigator-12] 	bt_navigator lifecycle node launched. 
+[bt_navigator-12] 	Waiting on external lifecycle transitions to activate
+[bt_navigator-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[bt_navigator-12] [INFO] [1777384588.592307546] [bt_navigator]: Creating
+[planner_server-10] [INFO] [1777384588.752984147] [planner_server]: Creating
+[controller_server-8] [INFO] [1777384589.534331500] [controller_server]: 
+[controller_server-8] 	controller_server lifecycle node launched. 
+[controller_server-8] 	Waiting on external lifecycle transitions to activate
+[controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-7] [INFO] [1777384589.593483160] [isaac_ros_container]: Load Library: /workspaces/isaac_ros-dev/install/realsense2_camera/lib/librealsense2_camera.so
+[controller_server-8] [INFO] [1777384589.967545517] [controller_server]: Creating controller server
+[lifecycle_manager-15] [INFO] [1777384590.369902626] [lifecycle_manager_navigation]: Waiting for service controller_server/get_state...
+[smoother_server-9] [INFO] [1777384590.532358402] [smoother_server]: 
+[smoother_server-9] 	smoother_server lifecycle node launched. 
+[smoother_server-9] 	Waiting on external lifecycle transitions to activate
+[smoother_server-9] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[smoother_server-9] [INFO] [1777384590.992240512] [smoother_server]: Creating smoother server
+[spawner-3] [INFO] [1777384591.505007686] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[lifecycle_manager-15] [INFO] [1777384592.372379232] [lifecycle_manager_navigation]: Waiting for service controller_server/get_state...
+[lifecycle_manager-15] [INFO] [1777384594.376719275] [lifecycle_manager_navigation]: Waiting for service controller_server/get_state...
+[spawner-3] [INFO] [1777384598.806198321] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/load_controller to become available...
+[lifecycle_manager-15] [INFO] [1777384599.852313798] [lifecycle_manager_navigation]: Waiting for service smoother_server/get_state...
+[waypoint_follower-13] [INFO] [1777384600.195549847] [waypoint_follower]: 
+[waypoint_follower-13] 	waypoint_follower lifecycle node launched. 
+[waypoint_follower-13] 	Waiting on external lifecycle transitions to activate
+[waypoint_follower-13] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-7] [INFO] [1777384600.254400658] [isaac_ros_container]: Found class: rclcpp_components::NodeFactoryTemplate<realsense2_camera::RealSenseNodeFactory>
+[component_container_mt-7] [INFO] [1777384600.256139001] [isaac_ros_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<realsense2_camera::RealSenseNodeFactory>
+[waypoint_follower-13] [INFO] [1777384600.627044527] [waypoint_follower]: Creating
+[jtop-4] [INFO] [1777384600.831690551] [jetson_stats_node]: jtop started at interval 0.5
+[lifecycle_manager-15] [INFO] [1777384601.852975818] [lifecycle_manager_navigation]: Waiting for service smoother_server/get_state...
+[lifecycle_manager-15] [INFO] [1777384603.870609347] [lifecycle_manager_navigation]: Waiting for service smoother_server/get_state...
+[goal_pose_relay.py-16] [37;1m2026-04-28 09:56:45.420 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port19177: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[lifecycle_manager-15] [INFO] [1777384605.871277003] [lifecycle_manager_navigation]: Waiting for service smoother_server/get_state...
+[planner_server-10] [INFO] [1777384607.031101848] [global_costmap.global_costmap]: 
+[planner_server-10] 	global_costmap lifecycle node launched. 
+[planner_server-10] 	Waiting on external lifecycle transitions to activate
+[planner_server-10] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-10] [INFO] [1777384607.193381659] [global_costmap.global_costmap]: Creating Costmap
+[ros2_control_node-2] [0m[INFO] [1777384607.240957513] [controller_manager]: Loading controller 'joint_state_broadcaster'[0m
+[lifecycle_manager-15] [INFO] [1777384609.804106500] [lifecycle_manager_navigation]: Waiting for service planner_server/get_state...
+[spawner-3] [WARN] [1777384609.860040229] [spawner_joint_state_broadcaster]: Failed getting a result from calling /controller_manager/load_controller in 10.0. (Attempt 1 of 3.)
+[component_container_mt-7] [INFO] [1777384610.746323527] [camera]: RealSense ROS v4.51.1
+[component_container_mt-7] [INFO] [1777384610.746433388] [camera]: Built with LibRealSense v2.56.4
+[component_container_mt-7] [INFO] [1777384610.746461133] [camera]: Running with LibRealSense v2.56.4
+[controller_server-8] [INFO] [1777384611.582776349] [local_costmap.local_costmap]: 
+[controller_server-8] 	local_costmap lifecycle node launched. 
+[controller_server-8] 	Waiting on external lifecycle transitions to activate
+[controller_server-8] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-8] [INFO] [1777384611.605199915] [local_costmap.local_costmap]: Creating Costmap
+[lifecycle_manager-15] [INFO] [1777384611.804945020] [lifecycle_manager_navigation]: Waiting for service planner_server/get_state...
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/camera' in container '/isaac_ros_container'
+[component_container_mt-7] [INFO] [1777384612.667547024] [isaac_ros_container]: Load Library: /opt/ros/humble/lib/libvisual_slam_node.so
+[component_container_mt-7]  28/04 09:56:52,673 ERROR [281472022685920] (librealsense-exception.h:52) Cannot identify '/dev/video6 Last Error: No such file or directory
+[component_container_mt-7]  28/04 09:56:52,674 ERROR [281472022685920] (librealsense-exception.h:52) Cannot identify '/dev/video7 Last Error: No such file or directory
+[lifecycle_manager-15] [INFO] [1777384613.805850617] [lifecycle_manager_navigation]: Waiting for service planner_server/get_state...
+[component_container_mt-7]  28/04 09:56:54,513 ERROR [281472022685920] (rs.cpp:256) [rs2_create_device( info_list:0xffff380199d0, index:0 ) Invalid Value] RS4XX: RGB modules inconsistency - 2 found
+[component_container_mt-7]  28/04 09:56:54,513 ERROR [281472022685920] (rs.cpp:256) [rs2_delete_device( device:nullptr ) UNKNOWN] null pointer passed for argument "device"
+[component_container_mt-7]  28/04 09:56:54,513 WARNING [281472022685920] (rs.cpp:392) null pointer passed for argument "device"
+[component_container_mt-7] [WARN] [1777384614.513700951] [camera]: Device 1/1 failed with exception: RS4XX: RGB modules inconsistency - 2 found
+[component_container_mt-7] [ERROR] [1777384614.513806459] [camera]: The requested device with  is NOT found. Will Try again.
+[component_container_mt-7] [INFO] [1777384616.416071726] [isaac_ros_container]: Found class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::visual_slam::VisualSlamNode>
+[component_container_mt-7] [INFO] [1777384616.416346745] [isaac_ros_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::visual_slam::VisualSlamNode>
+[ros2_control_node-2] [0m[INFO] [1777384618.783073417] [controller_manager]: Loading controller 'joint_state_broadcaster'[0m
+[ros2_control_node-2] [31m[ERROR] [1777384618.785964383] [controller_manager]: A controller named 'joint_state_broadcaster' was already loaded inside the controller manager[0m
+[spawner-3] [FATAL] [1777384618.888018122] [spawner_joint_state_broadcaster]: [91mFailed loading controller [1mjoint_state_broadcaster[0m
+[component_container_mt-7]  28/04 09:57:00,520 ERROR [281472022685920] (librealsense-exception.h:52) Cannot identify '/dev/video6 Last Error: No such file or directory
+[component_container_mt-7]  28/04 09:57:00,520 ERROR [281472022685920] (librealsense-exception.h:52) Cannot identify '/dev/video7 Last Error: No such file or directory
+[lifecycle_manager-15] [INFO] [1777384620.523753129] [lifecycle_manager_navigation]: [34m[1mStarting managed nodes bringup...[0m[0m
+[lifecycle_manager-15] [INFO] [1777384620.524150969] [lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+[component_container_mt-7]  28/04 09:57:00,845 ERROR [281472022685920] (rs.cpp:256) [rs2_create_device( info_list:0xffff3800cbc0, index:0 ) Invalid Value] RS4XX: RGB modules inconsistency - 2 found
+[component_container_mt-7]  28/04 09:57:00,845 ERROR [281472022685920] (rs.cpp:256) [rs2_delete_device( device:nullptr ) UNKNOWN] null pointer passed for argument "device"
+[component_container_mt-7]  28/04 09:57:00,845 WARNING [281472022685920] (rs.cpp:392) null pointer passed for argument "device"
+[component_container_mt-7] [WARN] [1777384620.845500831] [camera]: Device 1/1 failed with exception: RS4XX: RGB modules inconsistency - 2 found
+[component_container_mt-7] [ERROR] [1777384620.845595587] [camera]: The requested device with  is NOT found. Will Try again.
+[controller_server-8] [INFO] [1777384621.202936283] [controller_server]: Configuring controller interface
+[controller_server-8] [INFO] [1777384621.533909605] [controller_server]: getting goal checker plugins..
+[controller_server-8] [INFO] [1777384621.720224327] [controller_server]: Controller frequency set to 20.0000Hz
+[controller_server-8] [INFO] [1777384621.727009562] [local_costmap.local_costmap]: Configuring
+[ERROR] [spawner-3]: process has died [pid 39483, exit code 1, cmd '/opt/ros/humble/lib/controller_manager/spawner joint_state_broadcaster --ros-args'].
+[INFO] [spawner-17]: process started with pid [41038]
+[controller_server-8] [INFO] [1777384625.780784112] [local_costmap.local_costmap]: Using plugin "voxel_layer"
+[controller_server-8] [INFO] [1777384626.728680332] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[component_container_mt-7]  28/04 09:57:06,849 ERROR [281472022685920] (librealsense-exception.h:52) Cannot identify '/dev/video6 Last Error: No such file or directory
+[component_container_mt-7]  28/04 09:57:06,850 ERROR [281472022685920] (librealsense-exception.h:52) Cannot identify '/dev/video7 Last Error: No such file or directory
+[component_container_mt-7]  28/04 09:57:06,904 ERROR [281472022685920] (rs.cpp:256) [rs2_create_device( info_list:0xffff38011220, index:0 ) Invalid Value] RS4XX: RGB modules inconsistency - 2 found
+[component_container_mt-7]  28/04 09:57:06,905 ERROR [281472022685920] (rs.cpp:256) [rs2_delete_device( device:nullptr ) UNKNOWN] null pointer passed for argument "device"
+[component_container_mt-7]  28/04 09:57:06,905 WARNING [281472022685920] (rs.cpp:392) null pointer passed for argument "device"
+[component_container_mt-7] [WARN] [1777384626.905063988] [camera]: Device 1/1 failed with exception: RS4XX: RGB modules inconsistency - 2 found
+[component_container_mt-7] [ERROR] [1777384626.905155576] [camera]: The requested device with  is NOT found. Will Try again.
+[component_container_mt-7] [INFO] [1777384632.080025651] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/std/libgxf_std.so
+[component_container_mt-7] [INFO] [1777384632.245347156] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_gxf_helpers.so
+[component_container_mt-7] [INFO] [1777384632.389448763] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_sight.so
+[component_container_mt-7] [INFO] [1777384632.872744830] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/libgxf_isaac_atlas.so
+[component_container_mt-7]  28/04 09:57:12,909 ERROR [281472022685920] (librealsense-exception.h:52) Cannot identify '/dev/video6 Last Error: No such file or directory
+[component_container_mt-7]  28/04 09:57:12,912 ERROR [281472022685920] (librealsense-exception.h:52) Cannot identify '/dev/video7 Last Error: No such file or directory
+[component_container_mt-7] [33m2026-04-28 09:57:13.723 WARN  external/com_nvidia_gxf/gxf/std/program.cpp@538: No GXF scheduler specified.[0m
+[component_container_mt-7] [INFO] [1777384633.724441623] [NitrosContext]: [NitrosContext] Loading extension: gxf/lib/multimedia/libgxf_multimedia.so
+[component_container_mt-7]  28/04 09:57:13,932 ERROR [281472022685920] (rs.cpp:256) [rs2_create_device( info_list:0xffff3800e850, index:0 ) Invalid Value] RS4XX: RGB modules inconsistency - 2 found
+[component_container_mt-7]  28/04 09:57:13,932 ERROR [281472022685920] (rs.cpp:256) [rs2_delete_device( device:nullptr ) UNKNOWN] null pointer passed for argument "device"
+[component_container_mt-7]  28/04 09:57:13,932 WARNING [281472022685920] (rs.cpp:392) null pointer passed for argument "device"
+[component_container_mt-7] [WARN] [1777384633.932187211] [camera]: Device 1/1 failed with exception: RS4XX: RGB modules inconsistency - 2 found
+[component_container_mt-7] [ERROR] [1777384633.932267950] [camera]: The requested device with  is NOT found. Will Try again.
+[controller_server-8] [INFO] [1777384634.135375846] [local_costmap.local_costmap]: Initialized plugin "voxel_layer"
+[controller_server-8] [INFO] [1777384634.135460618] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[controller_server-8] [INFO] [1777384634.626238613] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[component_container_mt-7]  28/04 09:57:19,935 ERROR [281472022685920] (librealsense-exception.h:52) Cannot identify '/dev/video6 Last Error: No such file or directory
+[component_container_mt-7]  28/04 09:57:19,935 ERROR [281472022685920] (librealsense-exception.h:52) Cannot identify '/dev/video7 Last Error: No such file or directory
+[component_container_mt-7]  28/04 09:57:20,206 ERROR [281472022685920] (rs.cpp:256) [rs2_create_device( info_list:0xffff380138c0, index:0 ) Invalid Value] RS4XX: RGB modules inconsistency - 2 found
+[component_container_mt-7]  28/04 09:57:20,206 ERROR [281472022685920] (rs.cpp:256) [rs2_delete_device( device:nullptr ) UNKNOWN] null pointer passed for argument "device"
+[component_container_mt-7]  28/04 09:57:20,206 WARNING [281472022685920] (rs.cpp:392) null pointer passed for argument "device"
+[component_container_mt-7] [WARN] [1777384640.206761983] [camera]: Device 1/1 failed with exception: RS4XX: RGB modules inconsistency - 2 found
+[component_container_mt-7] [ERROR] [1777384640.206858595] [camera]: The requested device with  is NOT found. Will Try again.
+[controller_server-8] [INFO] [1777384641.525877456] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[component_container_mt-7] [INFO] [1777384641.877147392] [visual_slam_node.ManagedNitrosSubscriber]: Starting Managed Nitros Subscriber
+[controller_server-8] [INFO] [1777384641.945738643] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[controller_server-8] [INFO] [1777384642.324749088] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[component_container_mt-7]  28/04 09:57:22,530 ERROR [281472022685920] (librealsense-exception.h:52) Cannot identify '/dev/video6 Last Error: No such file or directory
+[component_container_mt-7]  28/04 09:57:22,531 ERROR [281472022685920] (librealsense-exception.h:52) Cannot identify '/dev/video7 Last Error: No such file or directory
+[component_container_mt-7]  28/04 09:57:22,689 ERROR [281472022685920] (rs.cpp:256) [rs2_create_device( info_list:0xffff38004910, index:0 ) Invalid Value] RS4XX: RGB modules inconsistency - 2 found
+[component_container_mt-7]  28/04 09:57:22,699 ERROR [281472022685920] (rs.cpp:256) [rs2_delete_device( device:nullptr ) UNKNOWN] null pointer passed for argument "device"
+[component_container_mt-7]  28/04 09:57:22,701 WARNING [281472022685920] (rs.cpp:392) null pointer passed for argument "device"
+[component_container_mt-7] [WARN] [1777384642.701726651] [camera]: Device 1/1 failed with exception: RS4XX: RGB modules inconsistency - 2 found
+[component_container_mt-7] [ERROR] [1777384642.701819647] [camera]: The requested device with  is NOT found. Will Try again.
+[component_container_mt-7] [ERROR] [1777384642.701909955] [camera]: wait for device timeout of 30 secs expired
+[controller_server-8] [INFO] [1777384642.732997419] [controller_server]: Created controller : FollowPath of type dwb_core::DWBLocalPlanner
+[ros2_control_node-2] [0m[INFO] [1777384643.175687203] [controller_manager]: Loading controller 'bicycle_steering_controller'[0m
+[component_container_mt-7] [INFO] [1777384643.593353223] [visual_slam_node.ManagedNitrosSubscriber]: Starting Managed Nitros Subscriber
+[component_container_mt-7] 
+[component_container_mt-7] >>> [rcutils|error_handling.c:108] rcutils_set_error_state()
+[component_container_mt-7] This error state is being overwritten:
+[component_container_mt-7] 
+[component_container_mt-7]   'cannot publish data, at ./src/rmw_publish.cpp:62, at ./src/rcl/subscription.c:109'
+[component_container_mt-7] 
+[component_container_mt-7] with this new error message:
+[component_container_mt-7] 
+[component_container_mt-7]   'invalid allocator, at ./src/rcl/subscription.c:219'
+[component_container_mt-7] 
+[component_container_mt-7] rcutils_reset_error() should be called after error handling to avoid this.
+[component_container_mt-7] <<<
+[component_container_mt-7] invalid allocator, at ./src/rcl/subscription.c:219
+[component_container_mt-7] [ERROR] [1777384645.104776622] [visual_slam_node.rclcpp]: Error in destruction of rcl subscription handle: cannot publish data, at ./src/rmw_publish.cpp:62, at ./src/rcl/subscription.c:184
+[component_container_mt-7] component_container_mt: tpp.c:83: __pthread_tpp_change_priority: Assertion `new_prio == -1 || (new_prio >= fifo_min_prio && new_prio <= fifo_max_prio)' failed.
+[controller_server-8] [INFO] [1777384647.102933412] [controller_server]: Setting transform_tolerance to 0.300000
+[spawner-17] [INFO] [1777384652.082132661] [spawner_bicycle_steering_controller]: [94mLoaded [1mbicycle_steering_controller[0m
+[ros2_control_node-2] [0m[INFO] [1777384652.155805616] [controller_manager]: Configuring controller 'bicycle_steering_controller'[0m
+[ros2_control_node-2] [0m[INFO] [1777384652.156047514] [bicycle_steering_controller]: bicycle odometry configure successful[0m
+[controller_server-8] [INFO] [1777384652.386611499] [controller_server]: Using critic "Oscillation" (dwb_critics::OscillationCritic)
+[controller_server-8] [INFO] [1777384652.531323766] [controller_server]: Critic plugin initialized
+[controller_server-8] [INFO] [1777384652.551222201] [controller_server]: Using critic "BaseObstacle" (dwb_critics::BaseObstacleCritic)
+[controller_server-8] [INFO] [1777384652.712080143] [controller_server]: Critic plugin initialized
+[controller_server-8] [INFO] [1777384652.738474071] [controller_server]: Using critic "PathDist" (dwb_critics::PathDistCritic)
+[ros2_control_node-2] [0m[INFO] [1777384652.769364533] [bicycle_steering_controller]: configure successful[0m
+[controller_server-8] [INFO] [1777384652.829640340] [controller_server]: Critic plugin initialized
+[controller_server-8] [INFO] [1777384652.859184475] [controller_server]: Using critic "GoalDist" (dwb_critics::GoalDistCritic)
+[spawner-17] [INFO] [1777384652.906841469] [spawner_bicycle_steering_controller]: [92mConfigured and activated [1mbicycle_steering_controller[0m
+[controller_server-8] [INFO] [1777384652.937416654] [controller_server]: Critic plugin initialized
+[controller_server-8] [INFO] [1777384652.946018377] [controller_server]: Using critic "PathAlign" (dwb_critics::PathAlignCritic)
+[controller_server-8] [INFO] [1777384653.175748215] [controller_server]: Critic plugin initialized
+[controller_server-8] [INFO] [1777384653.205729456] [controller_server]: Using critic "GoalAlign" (dwb_critics::GoalAlignCritic)
+[controller_server-8] [INFO] [1777384653.295188871] [controller_server]: Critic plugin initialized
+[controller_server-8] [INFO] [1777384653.295288779] [controller_server]: Controller Server has FollowPath  controllers available.
+[lifecycle_manager-15] [INFO] [1777384654.034480277] [lifecycle_manager_navigation]: [34m[1mConfiguring smoother_server[0m[0m
+[smoother_server-9] [INFO] [1777384654.035851852] [smoother_server]: Configuring smoother server
+[smoother_server-9] [INFO] [1777384654.432200821] [smoother_server]: Created smoother : simple_smoother of type nav2_smoother::SimpleSmoother
+[smoother_server-9] [INFO] [1777384654.463028816] [smoother_server]: Smoother Server has simple_smoother  smoothers available.
+[INFO] [spawner-17]: process has finished cleanly [pid 41038]
+[lifecycle_manager-15] [INFO] [1777384654.616273777] [lifecycle_manager_navigation]: [34m[1mConfiguring planner_server[0m[0m
+[planner_server-10] [INFO] [1777384654.617329020] [planner_server]: Configuring
+[planner_server-10] [INFO] [1777384654.617415999] [global_costmap.global_costmap]: Configuring
+[planner_server-10] [INFO] [1777384654.819446703] [global_costmap.global_costmap]: Using plugin "static_layer"
+[planner_server-10] [INFO] [1777384654.906001329] [global_costmap.global_costmap]: Subscribing to the map topic (/nvblox_node/static_occupancy_grid) with volatile durability
+[planner_server-10] [INFO] [1777384654.982915277] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+[planner_server-10] [INFO] [1777384654.984371208] [global_costmap.global_costmap]: Using plugin "obstacle_layer"
+[planner_server-10] [INFO] [1777384655.020976971] [global_costmap.global_costmap]: Subscribed to Topics: scan
+[planner_server-10] [INFO] [1777384655.160936340] [global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+[planner_server-10] [INFO] [1777384655.162818112] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+[planner_server-10] [INFO] [1777384655.185598326] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[planner_server-10] [INFO] [1777384655.430279420] [planner_server]: Created global planner plugin GridBased of type nav2_smac_planner/SmacPlannerHybrid
+[planner_server-10] [INFO] [1777384655.430389984] [planner_server]: Configuring GridBased of type SmacPlannerHybrid
+[planner_server-10] [INFO] [1777384655.551768988] [planner_server]: Even sized heuristic lookup table size set 400.000000, increasing size by 1 to make odd
+[planner_server-10] [INFO] [1777384658.811859162] [planner_server]: Configured plugin GridBased of type SmacPlannerHybrid with maximum iterations 1000000, max on approach iterations 1000, and allowing unknown traversal. Tolerance 0.20.Using motion model: Dubin.
+[planner_server-10] [INFO] [1777384658.811962559] [planner_server]: Planner Server has GridBased  planners available.
+[lifecycle_manager-15] [INFO] [1777384659.164626620] [lifecycle_manager_navigation]: [34m[1mConfiguring behavior_server[0m[0m
+[behavior_server-11] [INFO] [1777384659.166077047] [behavior_server]: Configuring
+[behavior_server-11] [INFO] [1777384659.359505509] [behavior_server]: Creating behavior plugin spin of type nav2_behaviors/Spin
+[behavior_server-11] [INFO] [1777384659.362547872] [behavior_server]: Configuring spin
+[behavior_server-11] [INFO] [1777384659.567438108] [behavior_server]: Creating behavior plugin backup of type nav2_behaviors/BackUp
+[behavior_server-11] [INFO] [1777384659.575088944] [behavior_server]: Configuring backup
+[behavior_server-11] [INFO] [1777384659.813049441] [behavior_server]: Creating behavior plugin drive_on_heading of type nav2_behaviors/DriveOnHeading
+[behavior_server-11] [INFO] [1777384659.818487484] [behavior_server]: Configuring drive_on_heading
+[behavior_server-11] [INFO] [1777384660.096708129] [behavior_server]: Creating behavior plugin assisted_teleop of type nav2_behaviors/AssistedTeleop
+[behavior_server-11] [INFO] [1777384660.102909883] [behavior_server]: Configuring assisted_teleop
+[behavior_server-11] [INFO] [1777384660.389005308] [behavior_server]: Creating behavior plugin wait of type nav2_behaviors/Wait
+[behavior_server-11] [INFO] [1777384660.392959163] [behavior_server]: Configuring wait
+[lifecycle_manager-15] [INFO] [1777384660.551106108] [lifecycle_manager_navigation]: [34m[1mConfiguring bt_navigator[0m[0m

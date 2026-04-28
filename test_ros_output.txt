@@ -1,0 +1,300 @@
+Starting launch file...
+Nodes:
+/behavior_server
+/bicycle_steering_controller
+/bt_navigator
+/bt_navigator_navigate_through_poses_rclcpp_node
+/bt_navigator_navigate_to_pose_rclcpp_node
+/camera
+/controller_manager
+/controller_server
+/foxglove_bridge
+/frame_rename
+/global_costmap/global_costmap
+/goal_pose_relay
+/isaac_ros_container
+/jetson_stats_node
+/joint_state_broadcaster
+/launch_ros_6902
+/lifecycle_manager_navigation
+/local_costmap/local_costmap
+/nvblox_node
+/planner_server
+/robot_state_publisher
+/smoother_server
+/transform_listener_impl_aaaaced01e70
+/transform_listener_impl_aaaae0219ae0
+/transform_listener_impl_aaab06a6d360
+/transform_listener_impl_aaab0a040fa0
+/transform_listener_impl_ffff3cabb940
+/transform_listener_impl_ffff3cb02ae0
+/velocity_smoother
+/visual_slam_node
+/waypoint_follower
+Topics:
+/accel/imu_info
+/accel/metadata
+/accel/sample
+/behavior_server/transition_event
+/bicycle_steering_controller/controller_state
+/bicycle_steering_controller/odometry
+/bicycle_steering_controller/tf_odometry
+/bicycle_steering_controller/transition_event
+/bt_navigator/transition_event
+/clicked_point
+/cmd_vel
+/cmd_vel_nav
+/cmd_vel_teleop
+/color/camera_info
+/color/image_raw
+/color/image_raw/compressed
+/color/image_raw/compressedDepth
+/color/image_raw/theora
+/color/metadata
+/controller_server/transition_event
+/cost_cloud
+/depth/camera_info
+/depth/image_rect_raw
+/depth/image_rect_raw/compressed
+/depth/image_rect_raw/compressedDepth
+/depth/image_rect_raw/nitros
+/depth/image_rect_raw/theora
+/depth/metadata
+/diagnostics
+/dynamic_joint_states
+/evaluation
+/extrinsics/depth_to_accel
+/extrinsics/depth_to_color
+/extrinsics/depth_to_gyro
+/extrinsics/depth_to_infra1
+/extrinsics/depth_to_infra2
+/global_costmap/costmap
+/global_costmap/costmap_raw
+/global_costmap/costmap_updates
+/global_costmap/footprint
+/global_costmap/global_costmap/transition_event
+/global_costmap/published_footprint
+/goal_pose
+/gyro/imu_info
+/gyro/metadata
+/gyro/sample
+/imu
+/infra1/camera_info
+/infra1/image_rect_raw
+/infra1/image_rect_raw/compressed
+/infra1/image_rect_raw/compressedDepth
+/infra1/image_rect_raw/nitros
+/infra1/image_rect_raw/theora
+/infra1/metadata
+/infra2/camera_info
+/infra2/camera_info_fixed
+/infra2/image_rect_raw
+/infra2/image_rect_raw/compressed
+/infra2/image_rect_raw/compressedDepth
+/infra2/image_rect_raw/nitros
+/infra2/image_rect_raw/theora
+/infra2/metadata
+/joint_state_broadcaster/transition_event
+/joint_states
+/local_costmap/clearing_endpoints
+/local_costmap/costmap
+/local_costmap/costmap_raw
+/local_costmap/costmap_updates
+/local_costmap/footprint
+/local_costmap/local_costmap/transition_event
+/local_costmap/published_footprint
+/local_costmap/voxel_grid
+/local_plan
+/marker
+/nvblox_node/color_layer
+/nvblox_node/color_layer_marker
+/nvblox_node/combined_occupancy_grid
+/nvblox_node/dynamic_occupancy_grid
+/nvblox_node/esdf_slice_bounds
+/nvblox_node/mesh
+/nvblox_node/pessimistic_static_esdf_pointcloud
+/nvblox_node/pessimistic_static_map_slice
+/nvblox_node/shapes_to_clear
+/nvblox_node/static_esdf_pointcloud
+/nvblox_node/static_map_slice
+/nvblox_node/static_occupancy_grid
+/nvblox_node/tsdf_layer
+/nvblox_node/tsdf_layer_marker
+/nvblox_node/workspace_bounds
+/odom
+/parameter_events
+/plan
+/plan_smoothed
+/planner_server/transition_event
+/preempt_teleop
+/received_global_plan
+/robot_description
+/rosout
+/smoother_server/transition_event
+/speed_limit
+/tf
+/tf_static
+/transform
+/transformed_global_plan
+/unsmoothed_plan
+/velocity_smoother/transition_event
+/visual_slam/initial_pose
+/visual_slam/status
+/visual_slam/tracking/odometry
+/visual_slam/tracking/slam_path
+/visual_slam/tracking/vo_path
+/visual_slam/tracking/vo_pose
+/visual_slam/tracking/vo_pose_covariance
+/visual_slam/trigger_hint
+/visual_slam/vis/gravity
+/visual_slam/vis/landmarks_cloud
+/visual_slam/vis/localizer
+/visual_slam/vis/localizer_loop_closure_cloud
+/visual_slam/vis/localizer_map_cloud
+/visual_slam/vis/localizer_observations_cloud
+/visual_slam/vis/loop_closure_cloud
+/visual_slam/vis/observations_cloud
+/visual_slam/vis/pose_graph_edges
+/visual_slam/vis/pose_graph_edges2
+/visual_slam/vis/pose_graph_nodes
+/visual_slam/vis/slam_odometry
+/visual_slam/vis/velocity
+/waypoint_follower/transition_event
+Bicycle Controller Params:
+/bicycle_steering_controller:
+  ros__parameters:
+    base_frame_id: base_footprint
+    enable_odom_tf: false
+    front_steering: true
+    front_wheel_radius: 0.035
+    front_wheels_names:
+    - steering_joint
+    front_wheels_state_names: []
+    odom_frame_id: odom
+    open_loop: false
+    pose_covariance_diagonal:
+    - 0.0
+    - 7.0
+    - 14.0
+    - 21.0
+    - 28.0
+    - 35.0
+    position_feedback: false
+    rear_wheel_radius: 0.035
+    rear_wheels_names:
+    - traction_joint
+    rear_wheels_state_names: []
+    reduce_wheel_speed_until_steering_reached: false
+    reference_timeout: 1.0
+    robot_description: "<?xml version=\"1.0\" ?>\n<!-- ===================================================================================\
+      \ -->\n<!-- |    This document was autogenerated by xacro from /workspaces/isaac_ros-dev/install/rc_hardware_control/share/rc_hardware_control/description/description.urdf.xacro\
+      \ | -->\n<!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED            \
+      \                     | -->\n<!-- ===================================================================================\
+      \ -->\n<robot name=\"rc_car\">\n  <!-- Dummy root link to handle KDL inertia\
+      \ requirement -->\n  <link name=\"base_footprint\"/>\n  <joint name=\"base_footprint_joint\"\
+      \ type=\"fixed\">\n    <parent link=\"base_footprint\"/>\n    <child link=\"\
+      base_link\"/>\n    <origin rpy=\"0 0 0\" xyz=\"0 0 0\"/>\n  </joint>\n  <!--\
+      \ Chassis: AMORIL 1/10 RC Car -->\n  <link name=\"base_link\">\n    <inertial>\n\
+      \      <origin xyz=\"0 0 0.075\"/>\n      <mass value=\"3.0\"/>\n      <inertia\
+      \ ixx=\"0.08\" ixy=\"0.0\" ixz=\"0.0\" iyy=\"0.25\" iyz=\"0.0\" izz=\"0.28\"\
+      />\n    </inertial>\n    <visual>\n      <geometry>\n        <box size=\"0.44\
+      \ 0.27 0.15\"/>\n      </geometry>\n      <material name=\"gray\">\n       \
+      \ <color rgba=\"0.5 0.5 0.5 1\"/>\n      </material>\n    </visual>\n    <collision>\n\
+      \      <geometry>\n        <box size=\"0.44 0.27 0.15\"/>\n      </geometry>\n\
+      \    </collision>\n  </link>\n  <!-- Wheel links -->\n  <link name=\"front_left_wheel\"\
+      >\n    <visual>\n      <geometry>\n        <cylinder length=\"0.04\" radius=\"\
+      0.045\"/>\n      </geometry>\n      <material name=\"black\">\n        <color\
+      \ rgba=\"0.1 0.1 0.1 1\"/>\n      </material>\n    </visual>\n    <collision>\n\
+      \      <geometry>\n        <cylinder length=\"0.04\" radius=\"0.045\"/>\n  \
+      \    </geometry>\n    </collision>\n  </link>\n  <link name=\"front_right_wheel\"\
+      >\n    <visual>\n      <geometry>\n        <cylinder length=\"0.04\" radius=\"\
+      0.045\"/>\n      </geometry>\n      <material name=\"black\"/>\n    </visual>\n\
+      \    <collision>\n      <geometry>\n        <cylinder length=\"0.04\" radius=\"\
+      0.045\"/>\n      </geometry>\n    </collision>\n  </link>\n  <link name=\"rear_left_wheel\"\
+      >\n    <visual>\n      <geometry>\n        <cylinder length=\"0.04\" radius=\"\
+      0.045\"/>\n      </geometry>\n      <material name=\"black\"/>\n    </visual>\n\
+      \    <collision>\n      <geometry>\n        <cylinder length=\"0.04\" radius=\"\
+      0.045\"/>\n      </geometry>\n    </collision>\n  </link>\n  <link name=\"rear_right_wheel\"\
+      >\n    <visual>\n      <geometry>\n        <cylinder length=\"0.04\" radius=\"\
+      0.045\"/>\n      </geometry>\n      <material name=\"black\"/>\n    </visual>\n\
+      \    <collision>\n      <geometry>\n        <cylinder length=\"0.04\" radius=\"\
+      0.045\"/>\n      </geometry>\n    </collision>\n  </link>\n  <!-- Wheel joints\
+      \ (front: steerable, rear: fixed) -->\n  <!-- Wheelbase: 0.29m, track width:\
+      \ 0.22m -->\n  <joint name=\"front_left_wheel_joint\" type=\"continuous\">\n\
+      \    <parent link=\"steering_link\"/>\n    <child link=\"front_left_wheel\"\
+      />\n    <origin rpy=\"0 0 0\" xyz=\"0.145 0.11 0.045\"/>\n    <axis xyz=\"0\
+      \ 1 0\"/>\n  </joint>\n  <joint name=\"front_right_wheel_joint\" type=\"continuous\"\
+      >\n    <parent link=\"steering_link\"/>\n    <child link=\"front_right_wheel\"\
+      />\n    <origin rpy=\"0 0 0\" xyz=\"0.145 -0.11 0.045\"/>\n    <axis xyz=\"\
+      0 1 0\"/>\n  </joint>\n  <joint name=\"rear_left_wheel_joint\" type=\"continuous\"\
+      >\n    <parent link=\"traction_link\"/>\n    <child link=\"rear_left_wheel\"\
+      />\n    <origin rpy=\"0 0 0\" xyz=\"-0.145 0.11 0.045\"/>\n    <axis xyz=\"\
+      0 1 0\"/>\n  </joint>\n  <joint name=\"rear_right_wheel_joint\" type=\"continuous\"\
+      >\n    <parent link=\"traction_link\"/>\n    <child link=\"rear_right_wheel\"\
+      />\n    <origin rpy=\"0 0 0\" xyz=\"-0.145 -0.11 0.045\"/>\n    <axis xyz=\"\
+      0 1 0\"/>\n  </joint>\n  <link name=\"steering_link\"/>\n  <link name=\"traction_link\"\
+      />\n  <link name=\"camera_link\">\n    <visual>\n      <geometry>\n        <box\
+      \ size=\"0.025 0.09 0.025\"/>\n      </geometry>\n      <material name=\"blue\"\
+      >\n        <color rgba=\"0.2 0.2 0.8 1\"/>\n      </material>\n    </visual>\n\
+      \  </link>\n  <joint name=\"steering_joint\" type=\"revolute\">\n    <parent\
+      \ link=\"base_link\"/>\n    <child link=\"steering_link\"/>\n    <origin rpy=\"\
+      0 0 0\" xyz=\"0 0 0\"/>\n    <axis xyz=\"0 0 1\"/>\n    <limit effort=\"1\"\
+      \ lower=\"-1.57\" upper=\"1.57\" velocity=\"1\"/>\n  </joint>\n  <joint name=\"\
+      traction_joint\" type=\"continuous\">\n    <parent link=\"base_link\"/>\n  \
+      \  <child link=\"traction_link\"/>\n    <origin rpy=\"0 0 0\" xyz=\"0 0 0\"\
+      />\n    <axis xyz=\"0 0 1\"/>\n  </joint>\n  <joint name=\"camera_joint\" type=\"\
+      fixed\">\n    <parent link=\"base_link\"/>\n    <child link=\"camera_link\"\
+      />\n    <origin rpy=\"0 0 0\" xyz=\"0.20 0 0.127\"/>\n  </joint>\n  <link name=\"\
+      camera_infra1_optical_frame\"/>\n  <joint name=\"camera_infra1_joint\" type=\"\
+      fixed\">\n    <parent link=\"camera_link\"/>\n    <child link=\"camera_infra1_optical_frame\"\
+      />\n    <origin rpy=\"-1.5708 0 -1.5708\" xyz=\"0 0 0\"/>\n  </joint>\n  <link\
+      \ name=\"camera_infra2_optical_frame\"/>\n  <joint name=\"camera_infra2_joint\"\
+      \ type=\"fixed\">\n    <parent link=\"camera_link\"/>\n    <child link=\"camera_infra2_optical_frame\"\
+      />\n    <origin rpy=\"-1.5708 0 -1.5708\" xyz=\"0 -0.050 0\"/>\n  </joint>\n\
+      \  <link name=\"camera_imu_optical_frame\"/>\n  <joint name=\"camera_imu_joint\"\
+      \ type=\"fixed\">\n    <parent link=\"camera_infra1_optical_frame\"/>\n    <child\
+      \ link=\"camera_imu_optical_frame\"/>\n    <origin rpy=\"0 0 0\" xyz=\"-0.005\
+      \ 0 0.005\"/>\n  </joint>\n  <link name=\"camera_gyro_optical_frame\"/>\n  <joint\
+      \ name=\"camera_gyro_joint\" type=\"fixed\">\n    <parent link=\"camera_infra1_optical_frame\"\
+      />\n    <child link=\"camera_gyro_optical_frame\"/>\n    <origin rpy=\"0 0 0\"\
+      \ xyz=\"0 0 0\"/>\n  </joint>\n  <link name=\"camera_accel_optical_frame\"/>\n\
+      \  <joint name=\"camera_accel_joint\" type=\"fixed\">\n    <parent link=\"camera_infra1_optical_frame\"\
+      />\n    <child link=\"camera_accel_optical_frame\"/>\n    <origin rpy=\"0 0\
+      \ 0\" xyz=\"0 0 0\"/>\n  </joint>\n  <!-- Add camera_depth_optical_frame -->\n\
+      \  <link name=\"camera_depth_optical_frame\"/>\n  <joint name=\"camera_depth_joint\"\
+      \ type=\"fixed\">\n    <parent link=\"camera_link\"/>\n    <child link=\"camera_depth_optical_frame\"\
+      />\n    <!-- Standard RealSense orientation: optical frame (Z forward, X right,\
+      \ Y down) -->\n    <origin rpy=\"-1.5708 0 -1.5708\" xyz=\"0 0 0\"/>\n  </joint>\n\
+      \  <ros2_control name=\"JetsonOrinPCA9685\" type=\"system\">\n    <hardware>\n\
+      \      <plugin>pca9685_hardware_interface/Pca9685SystemHardware</plugin>\n \
+      \     <param name=\"device\">/dev/i2c-7</param>\n      <param name=\"address\"\
+      >64</param>\n      <param name=\"frequency\">50</param>\n    </hardware>\n \
+      \   <joint name=\"steering_joint\">\n      <command_interface name=\"position\"\
+      />\n      <state_interface name=\"position\"/>\n      <param name=\"channel\"\
+      >0</param>\n      <param name=\"offset\">0.0</param>\n      <param name=\"min_angle\"\
+      >-0.785</param>\n      <param name=\"max_angle\">0.785</param>\n      <param\
+      \ name=\"min_pulse_us\">1000</param>\n      <param name=\"neutral_pulse_us\"\
+      >1500</param>\n      <param name=\"max_pulse_us\">2000</param>\n    </joint>\n\
+      \    <joint name=\"traction_joint\">\n      <command_interface name=\"velocity\"\
+      />\n      <state_interface name=\"velocity\"/>\n      <state_interface name=\"\
+      position\"/>\n      <param name=\"channel\">1</param>\n      <param name=\"\
+      min_pulse_us\">1000</param>\n      <param name=\"neutral_pulse_us\">1500</param>\n\
+      \      <param name=\"max_pulse_us\">2000</param>\n    </joint>\n  </ros2_control>\n\
+      </robot>\n"
+    steering_interface_name: position
+    subscribe_to_joint_state: false
+    traction_interface_name: velocity
+    twist_covariance_diagonal:
+    - 0.0
+    - 7.0
+    - 14.0
+    - 21.0
+    - 28.0
+    - 35.0
+    update_rate: 50
+    use_sim_time: false
+    use_stamped_vel: false
+    velocity_rolling_window_size: 10
+    wheelbase: 0.27
+
+Killing launch...

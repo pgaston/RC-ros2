@@ -84,7 +84,16 @@ def generate_launch_description():
             'infra2_frame_id': 'camera_infra2_optical_frame',
         }],
         remappings=[
-            # ('imu', '/camera/imu'), 
+            ('imu', '/imu'), 
+            ('infra1/image_rect_raw', '/infra1/image_rect_raw'),
+            ('infra2/image_rect_raw', '/infra2/image_rect_raw'),
+            ('infra1/camera_info', '/infra1/camera_info'),
+            ('infra2/camera_info', '/infra2/camera_info'),
+            ('depth/image_rect_raw', '/depth/image_rect_raw'),
+            ('depth/camera_info', '/depth/camera_info'),
+            ('color/image_raw', '/color/image_raw'),
+            ('color/image_raw/compressed', '/color/image_raw/compressed'),
+            ('color/camera_info', '/color/camera_info'),
         ],
     )
 
