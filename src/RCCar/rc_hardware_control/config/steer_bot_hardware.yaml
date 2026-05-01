@@ -41,7 +41,7 @@ bicycle_steering_controller:
     steering_interface_name: position
     
     # Physical parameters (all required > 0.0)
-    wheelbase: 0.27
+    wheelbase: 0.29
     front_wheel_radius: 0.035
     rear_wheel_radius: 0.035
 
@@ -57,5 +57,4 @@ bicycle_steering_controller:
     
     # Enable cmd_vel subscription (required for Humble)
     subscribe_to_joint_state: false
-    use_stamped_vel: true
-
+    use_stamped_vel: false

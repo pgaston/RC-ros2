@@ -211,10 +211,10 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_activate(
       // Re-configure resets the state machine to INITIALIZING -> Arming sequence
       PwmMotorController::Config motor_config;
       motor_config.input_deadband = 0.01;
-      motor_config.max_speed_scale = 0.07;
-      motor_config.max_output = 0.35;
-      motor_config.forward_offset = 0.14;
-      motor_config.reverse_offset = -0.14;
+      motor_config.max_speed_scale = 0.10;
+      motor_config.max_output = 0.40;
+      motor_config.forward_offset = 0.18;
+      motor_config.reverse_offset = -0.18;
       motor_config.watchdog_timeout = TEST_WATCHDOG_TIMEOUT;
       motor_controllers_[i].configure(motor_config);
       

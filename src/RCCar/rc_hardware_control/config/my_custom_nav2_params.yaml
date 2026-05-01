@@ -112,7 +112,8 @@ bt_navigator_navigate_to_pose_rclcpp_node:
 controller_server:
   ros__parameters:
     use_sim_time: False
-    enable_stamped_cmd_vel: true
+    transform_tolerance: 1.0
+    enable_stamped_cmd_vel: false
     controller_frequency: 20.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
@@ -161,6 +162,7 @@ controller_server:
       cost_scaling_gain: 1.0
       inflation_cost_scaling_factor: 3.0
       use_rotate_to_heading: false
+      allow_reversing: false
 
       short_circuit_trajectory_evaluation: True
       stateful: True
@@ -173,6 +175,7 @@ local_costmap:
       global_frame: odom
       robot_base_frame: base_link
       use_sim_time: False
+      transform_tolerance: 1.0
       rolling_window: true
       width: 3
       height: 3
@@ -217,6 +220,7 @@ global_costmap:
       global_frame: odom
       robot_base_frame: base_link
       use_sim_time: False
+      transform_tolerance: 1.0
       rolling_window: true
       width: 10
       height: 10
@@ -267,6 +271,7 @@ planner_server:
   ros__parameters:
     expected_planner_frequency: 5.0
     use_sim_time: False
+    transform_tolerance: 1.0
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_smac_planner/SmacPlannerHybrid"
@@ -278,7 +283,7 @@ planner_server:
       max_on_lane_iterations: 2500
       max_planning_time: 2.0
       analytic_expansion_ratio: 3.5
-      reverse_penalty: 5.0            # Discourage reversing
+      reverse_penalty: 500.0            # Discourage reversing
       change_penalty: 5.0             # Discourage changing directions
 
       non_straight_penalty: 1.05
@@ -338,7 +343,7 @@ waypoint_follower:
 velocity_smoother:
   ros__parameters:
     use_sim_time: False
-    use_stamped_vel: true
+    use_stamped_vel: false
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"

@@ -89,25 +89,25 @@
   <joint name="front_left_wheel_joint" type="continuous">
     <parent link="steering_link"/>
     <child link="front_left_wheel"/>
-    <origin xyz="0.145 0.11 0.045" rpy="0 0 0"/>
+    <origin xyz="0 0.11 0.045" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
   <joint name="front_right_wheel_joint" type="continuous">
     <parent link="steering_link"/>
     <child link="front_right_wheel"/>
-    <origin xyz="0.145 -0.11 0.045" rpy="0 0 0"/>
+    <origin xyz="0 -0.11 0.045" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
   <joint name="rear_left_wheel_joint" type="continuous">
     <parent link="traction_link"/>
     <child link="rear_left_wheel"/>
-    <origin xyz="-0.145 0.11 0.045" rpy="0 0 0"/>
+    <origin xyz="0 0.11 0.045" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
   <joint name="rear_right_wheel_joint" type="continuous">
     <parent link="traction_link"/>
     <child link="rear_right_wheel"/>
-    <origin xyz="-0.145 -0.11 0.045" rpy="0 0 0"/>
+    <origin xyz="0 -0.11 0.045" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
 
@@ -124,7 +124,7 @@
   <joint name="steering_joint" type="revolute">
     <parent link="base_link"/>
     <child link="steering_link"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0.145 0 0" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1.57" upper="1.57" effort="1" velocity="1"/>
   </joint>
@@ -132,8 +132,8 @@
   <joint name="traction_joint" type="continuous">
     <parent link="base_link"/>
     <child link="traction_link"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <axis xyz="0 0 1"/>
+    <origin xyz="-0.145 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
   </joint>
 
   <joint name="camera_joint" type="fixed">

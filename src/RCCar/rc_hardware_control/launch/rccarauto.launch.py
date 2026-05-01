@@ -134,8 +134,10 @@ def generate_launch_description():
             # 4. IMU Configuration (Crucial for cuVSLAM)
             'gyro_fps': 200,
             'accel_fps': 250,  # D435i supports 63 or 250Hz - use 250 for VIO
-            'enable_gyro': True,
-            'enable_accel': True,
+            'enable_gyro': False,
+            'enable_accel': False,
+            # 'enable_gyro': True,
+            # 'enable_accel': True,
             'unite_imu_method': 1, # 1 = Copy (Standard for VIO)
             
             # 5. Performance & Stability
@@ -335,6 +337,7 @@ def generate_launch_description():
                             '/tf_static',
                             '/diagnostics.*',
                             '/color/image_raw/compressed',
+                            '/infra1/image_rect_raw/compressed',
                             '/plan',
                             '/local_plan',
                             '/cmd_vel',
@@ -369,7 +372,8 @@ def generate_launch_description():
         launch_arguments={
             'use_sim_time': 'False',
             'params_file': nav2_params_file,
-            'use_bond': 'False'
+            'use_bond': 'False',
+            'log_level': 'WARN'
         }.items()
     )
 
