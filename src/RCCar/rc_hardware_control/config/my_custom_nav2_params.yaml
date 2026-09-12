@@ -275,13 +275,17 @@ planner_server:
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_smac_planner/SmacPlannerHybrid"
-      # Derivation: R_min = wheelbase / tan(steering lock), wheelbase 0.29 m from
-      # description/description.urdf.xacro. With the configured servo range of
-      # 0.785 rad that gives 0.29 m, but that range is the PWM calibration, not a
-      # measured mechanical lock. A 1/10 chassis typically locks at 25 to 30 deg,
-      # giving 0.50 to 0.62 m. Until the lock is measured, 0.62 m is the floor.
-      # 0.80 keeps a margin above it and the Path follower tracks gentle arcs
-      # far better. Lowering it is a tuning decision for the Path follower ticket.
+      # Derivation: R_min = wheelbase / tan(steering lock), wheelbase 0.29 m and
+      # lock 0.575 rad from description/description.urdf.xacro. The lock comes
+      # from a measured turning circle (2026-09-12): inside diameter 25 in at
+      # the inner rear tyre, so the rear-axle midpoint turns at 0.45 m. This
+      # parameter is the radius of base_footprint, which sits midway between
+      # the axles, so the physical floor is sqrt(0.45^2 + 0.145^2) = 0.47 m.
+      # The outer front corner sweeps about 0.65 m (51 in diameter) at full
+      # lock, which matters for the footprint and inflation, not for this value.
+      # 0.80 keeps a margin above the 0.47 m floor and the Path follower tracks
+      # gentle arcs far better. Lowering it is a tuning decision for the Path
+      # follower ticket.
       minimum_turning_radius: 0.80
       tolerance: 0.20
       allow_unknown: true

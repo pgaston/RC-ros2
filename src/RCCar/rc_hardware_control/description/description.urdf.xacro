@@ -10,9 +10,18 @@
        It only affects where the chassis box is drawn, not any frame,
        but the obstacle height band in the nvblox config must not start
        above it or a rock that clears the band will hit the chassis.
-       steer_max_angle: the PCA9685 calibration range, not a measured
-       mechanical lock. See the turning-radius note in
-       config/my_custom_nav2_params.yaml.
+       steer_max_angle: mechanical lock derived from the measured turning
+       circle (2026-09-12): inside diameter 25 in = 0.635 m, taken as the
+       path of the inner rear tyre's inner edge, so the rear-axle midpoint
+       turns at 0.3175 + track_width/2 + wheel_width/2 = 0.4475 m and
+       lock = atan(wheelbase / 0.4475) = 0.575 rad (33 deg). The PCA9685
+       interface maps [-max_angle, max_angle] linearly onto
+       [min_pulse_us, max_pulse_us], so this value is what makes a commanded
+       angle in radians equal the real wheel angle; it assumes a symmetric,
+       linear linkage between the pulse endpoints. If the circle was
+       measured at the tyre centre instead, lock is 0.596 rad; the
+       difference is within measurement error. See the turning-radius note
+       in config/my_custom_nav2_params.yaml.
        ============================================================ -->
   <xacro:property name="wheel_radius"      value="0.0508"/>
   <xacro:property name="wheel_width"       value="0.04"/>
@@ -24,7 +33,7 @@
   <xacro:property name="ground_clearance"  value="0.038"/>
   <xacro:property name="camera_height"     value="0.127"/>  <!-- lens centre above ground -->
   <xacro:property name="camera_forward"    value="0.20"/>   <!-- lens ahead of the axle midpoint -->
-  <xacro:property name="steer_max_angle"   value="0.785"/>  <!-- servo hardware limit, rad -->
+  <xacro:property name="steer_max_angle"   value="0.575"/>  <!-- measured mechanical lock, rad; see header -->
 
   <!-- Frames:
        base_footprint  ground-contact frame, z = 0 on the floor, midway between the axles.
