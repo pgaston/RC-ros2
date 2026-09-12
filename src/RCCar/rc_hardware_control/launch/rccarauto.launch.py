@@ -203,7 +203,7 @@ def generate_launch_description():
             
             'publish_odom_to_base_tf': True,
             'publish_map_to_odom_tf': True,
-            'base_frame': 'base_link',      # Use base_link as the reference frame
+            'base_frame': 'base_footprint',      # Use base_footprint as the reference frame
 
             # Frame IDs for RealSense D435i (new API style)
             'imu_frame': 'camera_gyro_optical_frame',
@@ -260,7 +260,7 @@ def generate_launch_description():
         plugin='nvblox::NvbloxNode',
         parameters=[{
             'global_frame': 'odom',
-            'pose_frame': 'base_link',
+            'pose_frame': 'base_footprint',
             'use_tf_transforms': True,     
             'use_topic_transforms': False, 
 
