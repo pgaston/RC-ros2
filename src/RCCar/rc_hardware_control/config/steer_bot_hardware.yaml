@@ -49,8 +49,11 @@ bicycle_steering_controller:
     update_rate: 50
     reference_timeout: 1.0
     
-    # Odometry configuration
-    open_loop: false
+    # Odometry configuration. open_loop: the hardware has no encoders; its
+    # state interfaces echo the command (see pca9685_system.cpp read()), so
+    # integrate the command rather than pretend the echo is a measurement.
+    # Pose for Nav2 comes from visual SLAM either way (enable_odom_tf false).
+    open_loop: true
     base_frame_id: "base_footprint"
     odom_frame_id: "odom"
     enable_odom_tf: false

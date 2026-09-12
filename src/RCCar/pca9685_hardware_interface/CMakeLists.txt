@@ -66,6 +66,20 @@ install(TARGETS pca9685_hardware_interface
 )
 
 
+## TESTS
+# The mapping and the ESC state machine are pure C++ (no ROS, no I2C), so the
+# tests build and run without a PCA9685 attached.
+if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_pca9685_pure
+    test/test_servo_mapping.cpp
+    test/test_pwm_motor_controller.cpp
+    src/pwm_motor_controller.cpp
+  )
+  target_include_directories(test_pca9685_pure PRIVATE ${PROJECT_SOURCE_DIR}/include)
+  target_compile_features(test_pca9685_pure PRIVATE cxx_std_17)
+endif()
+
 ## EXPORTS
 ament_export_targets(export_pca9685_hardware_interface HAS_LIBRARY_TARGET)
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})

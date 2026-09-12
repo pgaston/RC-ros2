@@ -22,6 +22,7 @@
 #include "pca9685_hardware_interface/visibility_control.h"
 #include <pca9685_hardware_interface/pca9685_comm.h>
 #include "pca9685_hardware_interface/pwm_motor_controller.hpp"
+#include "pca9685_hardware_interface/servo_mapping.hpp"
 
 namespace pca9685_hardware_interface
 {
@@ -57,15 +58,13 @@ public:
     const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
 private:
-  // Joint data structures
+  // One entry per joint. Everything here is parsed from the joint's
+  // <param> entries in the URDF <ros2_control> block; see on_init.
   struct JointConfig {
-    int channel;
-    std::string interface_type;  // "position" or "velocity"
-    double min_angle = 0.0; // radians
-    double max_angle = M_PI; // radians
-    double offset = 0.0; // radians (steering offset)
-    int min_pulse_us = 1000;
-    int max_pulse_us = 2000;
+    int channel = 0;
+    std::string interface_type;   // "position" (servo), "velocity" (ESC) or "effort" (LED)
+    ServoConfig servo;            // position joints
+    PwmMotorController::Config motor;  // velocity joints
   };
 
   std::vector<double> hw_commands_;
@@ -73,15 +72,9 @@ private:
   std::vector<double> hw_velocities_;
   std::vector<JointConfig> joint_configs_;
   std::unique_ptr<PiPCA9685::PCA9685> pca;
-
-  // Motor controllers for velocity interfaces
   std::vector<PwmMotorController> motor_controllers_;
-  
-  // Conversion methods
-  // double command_to_duty_cycle_velocity(double command); // Replaced by PwmMotorController
-  double command_to_duty_cycle_position(double command, const JointConfig& config);
-  double command_to_duty_cycle_effort(double command);
-  double angle_to_pulse_width(double angle, const JointConfig& config);
+
+  static double command_to_duty_cycle_effort(double command);
 };
 
 }  // namespace pca9685_hardware_interface

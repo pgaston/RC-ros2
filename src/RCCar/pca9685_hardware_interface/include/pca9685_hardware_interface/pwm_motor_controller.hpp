@@ -1,10 +1,8 @@
 #ifndef PCA9685_HARDWARE_INTERFACE__PWM_MOTOR_CONTROLLER_HPP_
 #define PCA9685_HARDWARE_INTERFACE__PWM_MOTOR_CONTROLLER_HPP_
 
-#include <chrono>
-#include <cmath>
-#include <algorithm>
-#include <rclcpp/rclcpp.hpp>
+// Pure module: no ROS, no I2C, no clock. The hardware interface feeds it the
+// commanded wheel speed and the loop period; it answers with a pulse width.
 
 namespace pca9685_hardware_interface
 {
@@ -25,51 +23,71 @@ public:
     TO_FORWARD_NEUTRAL
   };
 
+  // ESC calibration. Every field is read from the traction joint's <param>
+  // entries in the URDF <ros2_control> block; the defaults here are the
+  // fallbacks when a param is absent, and match the car as last driven.
   struct Config {
-    // Input deadband (ignore small commands from stick/nav)
-    double input_deadband = 0.01; 
-    
-    // Output scaling/offset parameters
-    double max_speed_scale = 0.4;        // Scale factor for input
-    double forward_offset = 0.271;       // Added to output if forward
-    double reverse_offset = -0.0405;     // Added to output if reverse
-    double max_output = 1.0;             // Absolute limit for output (0.0 to 1.0)
+    // Unit contract at the seam: the command is rear-wheel angular velocity
+    // in rad/s, as emitted by the bicycle steering controller (v / wheel_radius).
+    double max_wheel_speed_rad_s = 10.0;   // command that reaches max_output. PLACEHOLDER until measured.
+    double input_deadband_rad_s = 0.01;    // |command| below this is neutral
 
-    double min_pwm_duty = 1.0;     // 1.0 ms
-    double neutral_pwm_duty = 1.5; // 1.5 ms
-    double max_pwm_duty = 2.0;     // 2.0 ms
-    double watchdog_timeout = 0.2; // seconds
+    // Throttle fractions in [-1, 1] of the pulse range either side of neutral.
+    double forward_offset = 0.18;   // first fraction that makes the ESC move forward
+    double reverse_offset = -0.18;  // first fraction that makes the ESC move backward
+    double max_output = 0.40;       // absolute cap; reached at max_wheel_speed_rad_s
+
+    double min_pulse_ms = 1.0;
+    double neutral_pulse_ms = 1.5;
+    double max_pulse_ms = 2.0;
+
+    double watchdog_timeout_s = 0.0;  // <= 0 disables; command decays to 0 after this silence
+
+    // ESC arming sequence on activation.
+    double arming_neutral_s = 2.5;
+    double arming_pulse_s = 0.5;
+    double arming_pulse_output = 0.05;  // fraction sent during arming_pulse_s
+    double arming_settle_s = 0.5;
+
+    // Direction-change dwell: the ESC brakes on the first reverse pulse and
+    // only reverses after returning to neutral.
+    double reverse_brake_s = 0.20;
+    double reverse_release_s = 0.20;
+    double reverse_settle_s = 0.05;
+    double forward_settle_s = 0.20;
   };
 
-  PwmMotorController();
-  
-  void configure(const Config& config);
-  void set_command(double command);
-  void update();
-  double get_duty_cycle() const;
+  PwmMotorController() = default;
+
+  // Resets the state machine to INITIALIZING; the next update() starts arming.
+  void configure(const Config & config);
+  void set_command(double wheel_speed_rad_s);
+  // Advance by dt seconds. Call once per control cycle, after set_command.
+  void update(double dt);
+
+  double get_duty_cycle() const { return current_duty_cycle_; }  // pulse width, ms
+  // Wheel speed the module believes it is producing: the command, or 0 while
+  // neutral, arming, or changing direction. There is no encoder; this is an
+  // echo, and the steering controller is configured open_loop accordingly.
   double get_velocity() const;
   MotorState get_state() const { return state_; }
+  const Config & config() const { return config_; }
 
 private:
   Config config_;
-  
   MotorState state_ = MotorState::INITIALIZING;
-  std::chrono::steady_clock::time_point last_command_time_;
-  std::chrono::steady_clock::time_point state_entry_time_;
-  
+  double time_in_state_s_ = 0.0;
+  double time_since_command_s_ = 0.0;
   double target_command_ = 0.0;
   double current_duty_cycle_ = 1.5;
-  
-  // Helper to check if command is basically zero
-  bool is_command_neutral() const;
+
   bool is_command_forward() const;
   bool is_command_reverse() const;
-
-  // Process specific sequences
-  void process_state_machine(double dt);
-  double compute_duty_cycle(double command);
+  void enter(MotorState next);
+  double output_to_duty_cycle(double output) const;
+  double compute_duty_cycle(double command) const;
 };
 
-} // namespace pca9685_hardware_interface
+}  // namespace pca9685_hardware_interface
 
-#endif // PCA9685_HARDWARE_INTERFACE__PWM_MOTOR_CONTROLLER_HPP_
+#endif  // PCA9685_HARDWARE_INTERFACE__PWM_MOTOR_CONTROLLER_HPP_

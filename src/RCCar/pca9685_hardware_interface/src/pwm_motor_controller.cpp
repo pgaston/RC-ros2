@@ -1,215 +1,159 @@
 #include "pca9685_hardware_interface/pwm_motor_controller.hpp"
 
+#include <algorithm>
+#include <cmath>
+
 namespace pca9685_hardware_interface
 {
 
-PwmMotorController::PwmMotorController()
-{
-  last_command_time_ = std::chrono::steady_clock::now();
-  state_entry_time_ = std::chrono::steady_clock::now();
-}
-
-void PwmMotorController::configure(const Config& config)
+void PwmMotorController::configure(const Config & config)
 {
   config_ = config;
-  // Reset state to initializing
+  if (config_.max_wheel_speed_rad_s <= 0.0) {
+    config_.max_wheel_speed_rad_s = Config{}.max_wheel_speed_rad_s;
+  }
+  config_.max_output = std::clamp(std::abs(config_.max_output), 0.0, 1.0);
+  config_.forward_offset = std::clamp(config_.forward_offset, 0.0, config_.max_output);
+  config_.reverse_offset = std::clamp(config_.reverse_offset, -config_.max_output, 0.0);
   state_ = MotorState::INITIALIZING;
-  state_entry_time_ = std::chrono::steady_clock::now();
-  current_duty_cycle_ = config_.neutral_pwm_duty;
+  time_in_state_s_ = 0.0;
+  time_since_command_s_ = 0.0;
+  target_command_ = 0.0;
+  current_duty_cycle_ = config_.neutral_pulse_ms;
 }
 
-void PwmMotorController::set_command(double command)
+void PwmMotorController::set_command(double wheel_speed_rad_s)
 {
-  target_command_ = command;
-  last_command_time_ = std::chrono::steady_clock::now();
-}
-
-bool PwmMotorController::is_command_neutral() const
-{
-  return std::abs(target_command_) < config_.input_deadband;
+  target_command_ = wheel_speed_rad_s;
+  time_since_command_s_ = 0.0;
 }
 
 bool PwmMotorController::is_command_forward() const
 {
-  return target_command_ >= config_.input_deadband;
+  return target_command_ >= config_.input_deadband_rad_s;
 }
 
 bool PwmMotorController::is_command_reverse() const
 {
-  return target_command_ <= -config_.input_deadband;
+  return target_command_ <= -config_.input_deadband_rad_s;
 }
 
-double PwmMotorController::compute_duty_cycle(double command)
+void PwmMotorController::enter(MotorState next)
 {
-  // 1. Input Deadband filtering
-  if (std::abs(command) < config_.input_deadband) {
-    return config_.neutral_pwm_duty;
-  }
-
-  // 2. Calculate Final Speed (Output) with Asymmetric Deadbands
-  // Formula: output = deadband_offset + (input * max_speed_scale)
-  double final_speed = 0.0;
-  
-  if (command > 0) {
-    final_speed = config_.forward_offset + (command * config_.max_speed_scale);
-  } else {
-    final_speed = config_.reverse_offset + (command * config_.max_speed_scale);
-  }
-
-  // 3. Clamp final speed to [-max_output, max_output]
-  double limit = std::abs(config_.max_output);
-  final_speed = std::max(-limit, std::min(limit, final_speed));
-
-  // 4. Map [-1, 1] to PWM Duty Cycle (min_pwm_duty to max_pwm_duty)
-  // neutral_pwm_duty is center (0.0)
-  
-  if (std::abs(final_speed) < 0.01) {
-      // Should not happen given offsets, but safety check
-      return config_.neutral_pwm_duty;
-  } else if (final_speed > 0) {
-    // Forward direction: interpolate [0, 1] -> [neutral, max]
-    // Ratio is final_speed directly since it's 0..1
-    return config_.neutral_pwm_duty + final_speed * (config_.max_pwm_duty - config_.neutral_pwm_duty);
-  } else {
-    // Reverse direction: interpolate [0, -1] -> [neutral, min]
-    // Ratio is -final_speed (positive 0..1)
-    return config_.neutral_pwm_duty + final_speed * (config_.neutral_pwm_duty - config_.min_pwm_duty);
-  }
+  state_ = next;
+  time_in_state_s_ = 0.0;
 }
 
-void PwmMotorController::update()
+double PwmMotorController::output_to_duty_cycle(double output) const
 {
-  auto now = std::chrono::steady_clock::now();
-  
-  // 1. Watchdog check (only if timeout is positive)
-  if (config_.watchdog_timeout > 0.0) {
-    double time_since_command = std::chrono::duration<double>(now - last_command_time_).count();
-    if (time_since_command > config_.watchdog_timeout) {
-      target_command_ = 0.0;
-    }
+  if (output > 0.0) {
+    return config_.neutral_pulse_ms + output * (config_.max_pulse_ms - config_.neutral_pulse_ms);
   }
-  
-  double dt_state = std::chrono::duration<double>(now - state_entry_time_).count();
-  
-  // 2. State Machine
-  switch (state_)
-  {
+  if (output < 0.0) {
+    return config_.neutral_pulse_ms + output * (config_.neutral_pulse_ms - config_.min_pulse_ms);
+  }
+  return config_.neutral_pulse_ms;
+}
+
+double PwmMotorController::compute_duty_cycle(double command) const
+{
+  if (std::abs(command) < config_.input_deadband_rad_s) {
+    return config_.neutral_pulse_ms;
+  }
+  // rad/s -> fraction of full speed, then onto the usable throttle band
+  // [offset, max_output] so the smallest moving command just clears the
+  // ESC dead-band and max_wheel_speed_rad_s lands exactly on max_output.
+  const double fraction = std::clamp(command / config_.max_wheel_speed_rad_s, -1.0, 1.0);
+  double output;
+  if (fraction > 0.0) {
+    output = config_.forward_offset + fraction * (config_.max_output - config_.forward_offset);
+  } else {
+    output = config_.reverse_offset + fraction * (config_.max_output + config_.reverse_offset);
+  }
+  output = std::clamp(output, -config_.max_output, config_.max_output);
+  return output_to_duty_cycle(output);
+}
+
+void PwmMotorController::update(double dt)
+{
+  if (dt < 0.0) { dt = 0.0; }
+  time_since_command_s_ += dt;
+  time_in_state_s_ += dt;
+
+  if (config_.watchdog_timeout_s > 0.0 && time_since_command_s_ > config_.watchdog_timeout_s) {
+    target_command_ = 0.0;
+  }
+
+  switch (state_) {
     case MotorState::INITIALIZING:
-      // Start Arming sequence immediately
-      state_ = MotorState::ARMING_NEUTRAL_1;
-      state_entry_time_ = now;
-      current_duty_cycle_ = config_.neutral_pwm_duty;
+      current_duty_cycle_ = config_.neutral_pulse_ms;
+      enter(MotorState::ARMING_NEUTRAL_1);
       break;
 
     case MotorState::ARMING_NEUTRAL_1:
-      current_duty_cycle_ = config_.neutral_pwm_duty;
-      if (dt_state >= 2.5) {
-        state_ = MotorState::ARMING_PULSE;
-        state_entry_time_ = now;
-      }
+      current_duty_cycle_ = config_.neutral_pulse_ms;
+      if (time_in_state_s_ >= config_.arming_neutral_s) { enter(MotorState::ARMING_PULSE); }
       break;
 
     case MotorState::ARMING_PULSE:
-      // Removed the 0.1 pulse as it can interfere with some ESC arming safety checks.
-      // Keeping it at neutral but maintaining the state for legacy compatibility.
-      current_duty_cycle_ = config_.neutral_pwm_duty + 0.05 * (config_.max_pwm_duty - config_.neutral_pwm_duty);
-      if (dt_state >= 0.5) {
-        state_ = MotorState::ARMING_NEUTRAL_2;
-        state_entry_time_ = now;
-      }
+      current_duty_cycle_ = output_to_duty_cycle(config_.arming_pulse_output);
+      if (time_in_state_s_ >= config_.arming_pulse_s) { enter(MotorState::ARMING_NEUTRAL_2); }
       break;
 
     case MotorState::ARMING_NEUTRAL_2:
-      current_duty_cycle_ = config_.neutral_pwm_duty;
-      if (dt_state >= 0.5) {
-        // Arming done. Default to FORWARD state (idle)
-        state_ = MotorState::FORWARD;
-        state_entry_time_ = now;
-      }
+      current_duty_cycle_ = config_.neutral_pulse_ms;
+      if (time_in_state_s_ >= config_.arming_settle_s) { enter(MotorState::FORWARD); }
       break;
 
     case MotorState::FORWARD:
       if (is_command_reverse()) {
-        state_ = MotorState::TO_REVERSE_NEUTRAL_1;
-        state_entry_time_ = now;
-        current_duty_cycle_ = compute_duty_cycle(target_command_);
+        enter(MotorState::TO_REVERSE_NEUTRAL_1);
+        current_duty_cycle_ = config_.neutral_pulse_ms;
       } else {
         current_duty_cycle_ = compute_duty_cycle(target_command_);
       }
       break;
 
     case MotorState::TO_REVERSE_NEUTRAL_1:
-      // Send the requested reverse signal to trigger the ESC's brakes.
-      // With the patched symmetric reverse_offset, this will cleanly clear the deadband!
-      // The Python script does a forward pulse for reverse detection: "tap forward 0.1"
-      // "tap" ->  self.set_MotorSpeed(self.drive_channel, 0.1)  (which is positive 0.1)
-      current_duty_cycle_ = config_.neutral_pwm_duty;
-      if (dt_state >= 0.20) {
-        state_ = MotorState::TO_REVERSE_PULSE;
-        state_entry_time_ = now;
-      }
+      current_duty_cycle_ = config_.neutral_pulse_ms;
+      if (time_in_state_s_ >= config_.reverse_brake_s) { enter(MotorState::TO_REVERSE_PULSE); }
       break;
 
     case MotorState::TO_REVERSE_PULSE:
-      // Return to neutral slightly longer to ensure the ESC resets its brake lock
-      current_duty_cycle_ = config_.neutral_pwm_duty;
-      if (dt_state >= 0.20) {
-        state_ = MotorState::TO_REVERSE_NEUTRAL_2;
-        state_entry_time_ = now;
-      }
+      current_duty_cycle_ = config_.neutral_pulse_ms;
+      if (time_in_state_s_ >= config_.reverse_release_s) { enter(MotorState::TO_REVERSE_NEUTRAL_2); }
       break;
-      
+
     case MotorState::TO_REVERSE_NEUTRAL_2:
-      current_duty_cycle_ = config_.neutral_pwm_duty;
-      if (dt_state >= 0.05) {
-        state_ = MotorState::REVERSE;
-        state_entry_time_ = now;
-      }
+      current_duty_cycle_ = config_.neutral_pulse_ms;
+      if (time_in_state_s_ >= config_.reverse_settle_s) { enter(MotorState::REVERSE); }
       break;
 
     case MotorState::REVERSE:
       if (is_command_forward()) {
-        state_ = MotorState::TO_FORWARD_NEUTRAL;
-        state_entry_time_ = now;
-        current_duty_cycle_ = config_.neutral_pwm_duty;
+        enter(MotorState::TO_FORWARD_NEUTRAL);
+        current_duty_cycle_ = config_.neutral_pulse_ms;
       } else {
         current_duty_cycle_ = compute_duty_cycle(target_command_);
       }
       break;
 
     case MotorState::TO_FORWARD_NEUTRAL:
-      current_duty_cycle_ = config_.neutral_pwm_duty;
-      if (dt_state >= 0.20) {
-        state_ = MotorState::FORWARD;
-        state_entry_time_ = now;
-      }
+      current_duty_cycle_ = config_.neutral_pulse_ms;
+      if (time_in_state_s_ >= config_.forward_settle_s) { enter(MotorState::FORWARD); }
       break;
   }
 }
 
-double PwmMotorController::get_duty_cycle() const
-{
-  return current_duty_cycle_;
-}
-
 double PwmMotorController::get_velocity() const
 {
-  // If output is essentially neutral (stopped), report 0 velocity
-  // This handles deadband, watchdog, and neutral states
-  if (std::abs(current_duty_cycle_ - config_.neutral_pwm_duty) < 0.001) {
+  if (std::abs(current_duty_cycle_ - config_.neutral_pulse_ms) < 0.001) {
     return 0.0;
   }
-  
-  // If we are in initialization/arming/transition sequences (pulsing),
-  // we do not report this as effective velocity for odometry.
   if (state_ != MotorState::FORWARD && state_ != MotorState::REVERSE) {
     return 0.0;
   }
-
-  // Otherwise, return the command that resulted in this motion
-  // (We return the requested command, not the scaled/offset internal value,
-  // as the controller loop expects units matching the command)
   return target_command_;
 }
 
-} // namespace pca9685_hardware_interface
+}  // namespace pca9685_hardware_interface
