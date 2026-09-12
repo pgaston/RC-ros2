@@ -169,7 +169,7 @@ def generate_launch_description():
             
             'publish_odom_to_base_tf': True,
             'publish_map_to_odom_tf': True,
-            'base_frame': 'base_link',      # not camera_link ???
+            'base_frame': 'base_footprint',
 
             # Frame IDs for RealSense D435i (new API style)
             'imu_frame': 'camera_gyro_optical_frame',
@@ -226,7 +226,7 @@ def generate_launch_description():
         plugin='nvblox::NvbloxNode',
         parameters=[{
             'global_frame': 'odom',
-            'pose_frame': 'base_link',
+            'pose_frame': 'base_footprint',
             'use_tf_transforms': True,     
             'use_topic_transforms': False, 
 
@@ -237,7 +237,7 @@ def generate_launch_description():
             'static_mapper.esdf_slice_max_height': 1.0, # ...to 0.5m high are obstacles
             'max_mapping_distance_m': 5.0,
             'map_clearing_radius_m': 5.0,  # Ensure this is a positive, non-zero number
-            'map_clearing_frame_id': 'base_link',
+            'map_clearing_frame_id': 'base_footprint',
 
             'use_depth': True,
             'use_color': False,

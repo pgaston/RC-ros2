@@ -271,7 +271,7 @@ def generate_launch_description():
             'static_mapper.esdf_slice_max_height': 1.0, # ...to 1.0m high are obstacles
             'max_mapping_distance_m': 5.0,
             'map_clearing_radius_m': 5.0,  # Ensure this is a positive, non-zero number
-            'map_clearing_frame_id': 'base_link',
+            'map_clearing_frame_id': 'base_footprint',
 
             'use_depth': True,
             'use_color': False,

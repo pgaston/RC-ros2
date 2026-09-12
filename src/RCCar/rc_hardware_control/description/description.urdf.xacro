@@ -1,33 +1,65 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rc_car">
 
-  <!-- Dummy root link to handle KDL inertia requirement -->
+  <!-- ============================================================
+       Physical dimensions. Every frame below is derived from these.
+       wheel_radius: owner reported the wheel diameter as "just under
+       4 inches" (2026-09-12), taken as 0.098 m. Replace with a caliper
+       measurement when one is made. The same value must be written in
+       config/steer_bot_hardware.yaml (front/rear_wheel_radius).
+       ground_clearance: ESTIMATE, not yet measured. It only affects
+       where the chassis box is drawn, not any frame, but the obstacle
+       height band in the nvblox config was chosen relative to it.
+       steer_max_angle: the PCA9685 calibration range, not a measured
+       mechanical lock. See the turning-radius note in
+       config/my_custom_nav2_params.yaml.
+       ============================================================ -->
+  <xacro:property name="wheel_radius"      value="0.049"/>
+  <xacro:property name="wheel_width"       value="0.04"/>
+  <xacro:property name="wheelbase"         value="0.29"/>
+  <xacro:property name="track_width"       value="0.22"/>
+  <xacro:property name="chassis_length"    value="0.44"/>
+  <xacro:property name="chassis_width"     value="0.27"/>
+  <xacro:property name="chassis_height"    value="0.15"/>
+  <xacro:property name="ground_clearance"  value="0.04"/>   <!-- ESTIMATE: measure -->
+  <xacro:property name="camera_height"     value="0.127"/>  <!-- lens centre above ground -->
+  <xacro:property name="camera_forward"    value="0.20"/>   <!-- lens ahead of the axle midpoint -->
+  <xacro:property name="steer_max_angle"   value="0.785"/>  <!-- servo hardware limit, rad -->
+
+  <!-- Frames:
+       base_footprint  ground-contact frame, z = 0 on the floor, midway between the axles.
+       base_link       chassis frame at axle height, wheel_radius above base_footprint.
+       Nav2, visual SLAM and nvblox all use base_footprint as the robot frame. -->
   <link name="base_footprint"/>
 
   <joint name="base_footprint_joint" type="fixed">
     <parent link="base_footprint"/>
     <child link="base_link"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
   </joint>
 
-  <!-- Chassis: AMORIL 1/10 RC Car -->
+  <!-- Chassis: AMORIL 1/10 RC Car. Box centre sits ground_clearance + chassis_height/2
+       above the floor, expressed relative to base_link at axle height. -->
+  <xacro:property name="chassis_centre_z" value="${ground_clearance + chassis_height/2 - wheel_radius}"/>
   <link name="base_link">
     <inertial>
-      <origin xyz="0 0 0.075"/>
+      <origin xyz="0 0 ${chassis_centre_z}"/>
       <mass value="3.0"/>
       <inertia ixx="0.08" ixy="0.0" ixz="0.0" iyy="0.25" iyz="0.0" izz="0.28"/>
     </inertial>
     <visual>
+      <origin xyz="0 0 ${chassis_centre_z}"/>
       <geometry>
-        <box size="0.44 0.27 0.15"/>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
       </geometry>
       <material name="gray">
         <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </visual>
     <collision>
+      <origin xyz="0 0 ${chassis_centre_z}"/>
       <geometry>
-        <box size="0.44 0.27 0.15"/>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
       </geometry>
     </collision>
   </link>
@@ -35,79 +67,79 @@
   <link name="front_left_wheel">
     <visual>
       <geometry>
-        <cylinder length="0.04" radius="0.045"/>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
       </geometry>
       <material name="black"><color rgba="0.1 0.1 0.1 1"/></material>
     </visual>
     <collision>
       <geometry>
-        <cylinder length="0.04" radius="0.045"/>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
       </geometry>
     </collision>
   </link>
   <link name="front_right_wheel">
     <visual>
       <geometry>
-        <cylinder length="0.04" radius="0.045"/>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <geometry>
-        <cylinder length="0.04" radius="0.045"/>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
       </geometry>
     </collision>
   </link>
   <link name="rear_left_wheel">
     <visual>
       <geometry>
-        <cylinder length="0.04" radius="0.045"/>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <geometry>
-        <cylinder length="0.04" radius="0.045"/>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
       </geometry>
     </collision>
   </link>
   <link name="rear_right_wheel">
     <visual>
       <geometry>
-        <cylinder length="0.04" radius="0.045"/>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <geometry>
-        <cylinder length="0.04" radius="0.045"/>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
       </geometry>
     </collision>
   </link>
   <!-- Wheel joints (front: steerable, rear: fixed) -->
-  <!-- Wheelbase: 0.29m, track width: 0.22m -->
+  <!-- Axles lie in the base_link plane; wheels sit half a track width to each side. -->
   <joint name="front_left_wheel_joint" type="continuous">
     <parent link="steering_link"/>
     <child link="front_left_wheel"/>
-    <origin xyz="0 0.11 0.045" rpy="0 0 0"/>
+    <origin xyz="0 ${track_width/2} 0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
   <joint name="front_right_wheel_joint" type="continuous">
     <parent link="steering_link"/>
     <child link="front_right_wheel"/>
-    <origin xyz="0 -0.11 0.045" rpy="0 0 0"/>
+    <origin xyz="0 ${-track_width/2} 0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
   <joint name="rear_left_wheel_joint" type="continuous">
     <parent link="traction_link"/>
     <child link="rear_left_wheel"/>
-    <origin xyz="0 0.11 0.045" rpy="0 0 0"/>
+    <origin xyz="0 ${track_width/2} 0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
   <joint name="rear_right_wheel_joint" type="continuous">
     <parent link="traction_link"/>
     <child link="rear_right_wheel"/>
-    <origin xyz="0 -0.11 0.045" rpy="0 0 0"/>
+    <origin xyz="0 ${-track_width/2} 0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
 
@@ -124,22 +156,22 @@
   <joint name="steering_joint" type="revolute">
     <parent link="base_link"/>
     <child link="steering_link"/>
-    <origin xyz="0.145 0 0" rpy="0 0 0"/>
+    <origin xyz="${wheelbase/2} 0 0" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-1.57" upper="1.57" effort="1" velocity="1"/>
+    <limit lower="${-steer_max_angle}" upper="${steer_max_angle}" effort="1" velocity="1"/>
   </joint>
 
   <joint name="traction_joint" type="continuous">
     <parent link="base_link"/>
     <child link="traction_link"/>
-    <origin xyz="-0.145 0 0" rpy="0 0 0"/>
+    <origin xyz="${-wheelbase/2} 0 0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
 
   <joint name="camera_joint" type="fixed">
     <parent link="base_link"/>
     <child link="camera_link"/>
-    <origin xyz="0.20 0 0.127" rpy="0 0 0"/>
+    <origin xyz="${camera_forward} 0 ${camera_height - wheel_radius}" rpy="0 0 0"/>
   </joint>
 
 
@@ -200,8 +232,8 @@
       <state_interface name="position" />
       <param name="channel">0</param>
       <param name="offset">0.0</param>
-      <param name="min_angle">-0.785</param>
-      <param name="max_angle">0.785</param>
+      <param name="min_angle">${-steer_max_angle}</param>
+      <param name="max_angle">${steer_max_angle}</param>
       <param name="min_pulse_us">1000</param>
       <param name="neutral_pulse_us">1500</param> 
       <param name="max_pulse_us">2000</param>

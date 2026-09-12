@@ -15,7 +15,7 @@ def generate_launch_description():
             'use_color': False,
             'global_frame': 'map',
             'odom_frame': 'odom',
-            'base_frame': 'base_link',
+            'base_frame': 'base_footprint',
             'depth_topic': '/camera/aligned_depth_to_color/image_raw',
             'camera_info_topic': '/camera/aligned_depth_to_color/camera_info',
             'pose_topic': '/visual_slam/odom',
