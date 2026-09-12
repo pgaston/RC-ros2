@@ -42,8 +42,8 @@ bicycle_steering_controller:
     
     # Physical parameters (all required > 0.0)
     wheelbase: 0.29
-    front_wheel_radius: 0.049   # from description/description.urdf.xacro wheel_radius; keep the two identical
-    rear_wheel_radius: 0.049    # same wheels front and rear
+    front_wheel_radius: 0.0508  # from description/description.urdf.xacro wheel_radius; keep the two identical
+    rear_wheel_radius: 0.0508   # same wheels front and rear
 
     # Optional control parameters
     update_rate: 50

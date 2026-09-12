@@ -3,25 +3,25 @@
 
   <!-- ============================================================
        Physical dimensions. Every frame below is derived from these.
-       wheel_radius: owner reported the wheel diameter as "just under
-       4 inches" (2026-09-12), taken as 0.098 m. Replace with a caliper
-       measurement when one is made. The same value must be written in
+       wheel_radius: wheel diameter measured at 4 in = 0.1016 m
+       (2026-09-12). The same value must be written in
        config/steer_bot_hardware.yaml (front/rear_wheel_radius).
-       ground_clearance: ESTIMATE, not yet measured. It only affects
-       where the chassis box is drawn, not any frame, but the obstacle
-       height band in the nvblox config was chosen relative to it.
+       ground_clearance: measured at 1.5 in = 0.038 m (2026-09-12).
+       It only affects where the chassis box is drawn, not any frame,
+       but the obstacle height band in the nvblox config must not start
+       above it or a rock that clears the band will hit the chassis.
        steer_max_angle: the PCA9685 calibration range, not a measured
        mechanical lock. See the turning-radius note in
        config/my_custom_nav2_params.yaml.
        ============================================================ -->
-  <xacro:property name="wheel_radius"      value="0.049"/>
+  <xacro:property name="wheel_radius"      value="0.0508"/>
   <xacro:property name="wheel_width"       value="0.04"/>
   <xacro:property name="wheelbase"         value="0.29"/>
   <xacro:property name="track_width"       value="0.22"/>
   <xacro:property name="chassis_length"    value="0.44"/>
   <xacro:property name="chassis_width"     value="0.27"/>
   <xacro:property name="chassis_height"    value="0.15"/>
-  <xacro:property name="ground_clearance"  value="0.04"/>   <!-- ESTIMATE: measure -->
+  <xacro:property name="ground_clearance"  value="0.038"/>
   <xacro:property name="camera_height"     value="0.127"/>  <!-- lens centre above ground -->
   <xacro:property name="camera_forward"    value="0.20"/>   <!-- lens ahead of the axle midpoint -->
   <xacro:property name="steer_max_angle"   value="0.785"/>  <!-- servo hardware limit, rad -->
