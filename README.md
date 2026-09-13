@@ -97,7 +97,8 @@ cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 ./run_dev.sh -d ${ISAAC_ROS_WS}
 
 Note: key files at:
-- ~/.isaac_ros_dev-dockerargs and ~/.isaac_ros_common-config
+- ${ISAAC_ROS_WS}/docker/.isaac_ros_dev-dockerargs (run_dev.sh reads only ~/.isaac_ros_dev-dockerargs or a copy beside itself; start_workspace.sh keeps the home file a symlink to the repo copy)
+- ~/.isaac_ros_common-config
 - ${ISAAC_ROS_WS}/docker 
 
 3. Inside Docker
@@ -159,16 +160,20 @@ sudo nmcli radio wifi on
 # Check Wi-Fi status (look for "enabled" or "disabled")
 nmcli radio wifi
 
-# kill dead usb ownership?
-pkill -f "ros2 launch" 2>/dev/null; pkill -f realsense 2>/dev/null; pkill -f visual_slam 2>/dev/null; sleep 2; echo "Killed all"
-
-# kill dead/restart realsense from host
--- unplug D435i
-sudo udevadm control --reload-rules && sudo udevadm trigger
--- plug back in, check date
-sudo usbreset 8086:0b3a
-
-# test w/ lsusb
+# RealSense recovery (camera "NOT found", "Cannot identify /dev/videoN", "RGB modules inconsistency")
+# The container bind-mounts /dev live (docker/.isaac_ros_dev-dockerargs), so a camera that
+# re-enumerates gets picked up by the camera node on its next retry. No unplug, no udev
+# reload, no container restart. The whole recovery, from the host, no sudo needed:
+usbreset 8086:0b3a
+# A container started before that mount was added (before 2026-09-13) must be restarted once.
+# A dead launch still holding the old video nodes no longer matters; the new nodes get new
+# numbers and the live mount shows them. Kill it anyway to free the camera cleanly:
+pkill -f "ros2 launch" 2>/dev/null; pkill -f realsense 2>/dev/null; pkill -f visual_slam 2>/dev/null
+# Prove the container's view is live (host and container video node lists must match),
+# from the workspace root:
+scripts/check_container_devices.sh isaac_ros_dev-aarch64-container
+# See issue #9 for why: the camera node uses librealsense's V4L2 backend, which opens
+# /dev/videoN, and without the live mount the container only had the nodes from start-up.
 
 ### first time only - top level
 # Disable USB power saving

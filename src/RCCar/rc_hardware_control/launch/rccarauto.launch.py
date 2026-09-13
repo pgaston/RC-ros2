@@ -141,9 +141,10 @@ def generate_launch_description():
             'unite_imu_method': 1, # 1 = Copy (Standard for VIO)
             
             # 5. Performance & Stability
-            # temporarily use True, if camera gets wedged
-            # 'initial_reset': True,        # Disabled - causes USB disconnect on Jetson
-            'initial_reset': False,        # Disabled - causes USB disconnect on Jetson
+            # A hardware reset re-enumerates the camera. The container could not
+            # follow that until /dev was bind-mounted live (issue #9). Kept off;
+            # re-enabling it is a separate decision.
+            'initial_reset': False,
             'reconnect_timeout': 6.0,      # Wait seconds before trying to reconnect
             'wait_for_device_timeout': 30.0, # Wait for device to become available
             'depth_module.emitter_enabled': 0, # Set to 0 if outdoors

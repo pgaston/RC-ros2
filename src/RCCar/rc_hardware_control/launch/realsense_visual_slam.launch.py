@@ -96,7 +96,7 @@ def generate_launch_description():
             'unite_imu_method': 2,          # 2 = Linear Interpolation (Standard for VIO)
 
             # 5. Performance & Stability
-            'initial_reset': False,        # Enable reset to clear IMU calibration errors
+            'initial_reset': False,        # A hardware reset re-enumerates the camera; the container follows it only because /dev is bind-mounted live (issue #9)
             'reconnect_timeout': 6.0,      # Wait seconds before trying to reconnect
             'wait_for_device_timeout': 30.0, # Wait for device to become available
             # 'depth_module.emitter_enabled': 0, # Set to 0 if outdoors
@@ -155,7 +155,7 @@ def generate_launch_description():
     #         'enable_accel': 'true',      
     #         'enable_gyro': 'true',       
     #         'unite_imu_method': '2',
-    #         'initial_reset': 'false',   # Disabled - causes USB disconnect on Jetson
+    #         'initial_reset': 'false',
     #     }.items()   
     # )
 

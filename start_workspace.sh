@@ -53,6 +53,21 @@ fi
 EOF
 chmod +x "$SCRIPT_NAME"
 
+# run_dev.sh reads ~/.isaac_ros_dev-dockerargs (falling back to a copy next to
+# itself, never to docker/), so keep the home file a symlink to the repo copy.
+ARGS_FILE="$HOME/.isaac_ros_dev-dockerargs"
+REPO_ARGS_FILE="$(readlink -f "$WORKSPACE_DIR/docker/.isaac_ros_dev-dockerargs")"
+if [ "$(readlink -f "$ARGS_FILE" 2>/dev/null)" != "$REPO_ARGS_FILE" ]; then
+    if [ -e "$ARGS_FILE" ] || [ -L "$ARGS_FILE" ]; then
+        mv --backup=numbered "$ARGS_FILE" "$ARGS_FILE.bak"
+    fi
+    if ln -s "$REPO_ARGS_FILE" "$ARGS_FILE"; then
+        echo "Linked $ARGS_FILE -> $REPO_ARGS_FILE"
+    else
+        echo "Warning: could not link $ARGS_FILE to $REPO_ARGS_FILE; run_dev.sh may use stale docker args"
+    fi
+fi
+
 echo "=========================================="
 echo "    Launching Isaac ROS Docker..."
 echo "=========================================="
