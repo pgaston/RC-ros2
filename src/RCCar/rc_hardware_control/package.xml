@@ -27,6 +27,10 @@
   <exec_depend>realsense2_description</exec_depend>
   <exec_depend>python3</exec_depend>
 
+  <test_depend>ament_cmake_pytest</test_depend>
+  <test_depend>launch</test_depend>
+  <test_depend>launch_ros</test_depend>
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>

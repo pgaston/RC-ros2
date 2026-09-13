@@ -105,8 +105,8 @@ source install/setup.bash
 
 4. Launch
 
-# camera only
-ros2 launch rc_hardware_control realsense_d435i.launch.py
+# camera only (RealSense, visual SLAM, nvblox; no ros2_control, no Nav2)
+ros2 launch rc_hardware_control perception_only.launch.py
 
 # everything
 ros2 launch rc_hardware_control rccarauto.launch.py
@@ -214,13 +214,7 @@ usbreset
 colcon build --packages-select rc_hardware_control  --symlink-install
 source install/setup.bash
 
-ros2 launch rc_hardware_control realsense_visual_slam.launch.py  run_foxglove:=True
-
-ros2 launch rc_hardware_control realsense_d435i.launch.py
-
-
-
-ros2 launch rc_hardware_control realsense_basic.launch.py 
+ros2 launch rc_hardware_control perception_only.launch.py
 ## time sync check
 ros2 run tf2_ros tf2_monitor base_link camera_infra1_optical_frame
 
@@ -332,7 +326,7 @@ source install/setup.bash
 # Testing - basic realsense
 colcon build --packages-select rc_hardware_control
 source install/setup.bash
-ros2 launch rc_hardware_control realsense_basic.launch.py
+ros2 launch rc_hardware_control perception_only.launch.py
 
 ros2 launch foxglove_bridge foxglove_bridge_launch.xml
 
@@ -345,11 +339,8 @@ ros2 run foxglove_bridge foxglove_bridge --ros-args \
 
 
 
-# WORKS - I think - ros2 launch isaac_ros_visual_slam isaac_ros_visual_slam_realsense.launch.py
-ros2 launch rc_hardware_control realsense_basic.launch.py
-
-# working on...
-ros2 launch rc_hardware_control realsense_visual_slam.launch.py run_foxglove:=True
+# camera, visual SLAM and nvblox alone; add foxglove_bridge as above
+ros2 launch rc_hardware_control perception_only.launch.py
 
 
 ## ????
@@ -417,11 +408,8 @@ colcon build --packages-select realsense2_camera --cmake-clean-cache --allow-ove
 # Build your control package
 colcon build --packages-select rc_hardware_control
 
-# Test basic camera first, then add visual SLAM later
-# ros2 launch rc_hardware_control realsense_basic.launch.py
-ros2 launch rc_hardware_control realsense_d435i.launch.py
-# not sure this is needed
-ros2 launch rc_hardware_control realsense_d435i.launch.py enable_accel:=true enable_gyro:=true unite_imu_method:=2
+# camera, visual SLAM and nvblox (IMU stays off; fusion is pinned off in perception.launch.py)
+ros2 launch rc_hardware_control perception_only.launch.py
 
 
 # ✅ WORKING: RealSense D435i successfully initializing with all sensors:
@@ -440,16 +428,13 @@ colcon build --packages-select isaac_ros_visual_slam --parallel-workers 4
 source install/setup.bash
 
 # Launch VSLAM with RealSense D435i
-ros2 launch rc_hardware_control realsense_visual_slam.launch.py run_foxglove:=True
+ros2 launch rc_hardware_control perception_only.launch.py
 
 # ✅ VERIFIED: VSLAM topics are publishing:
 # /visual_slam/tracking/odometry (main output for navigation)
 # /visual_slam/tracking/slam_path (trajectory)
 # /visual_slam/status (system status)
 # + 20 visualization topics for debugging
-
-# Optional: Launch with RViz visualization  
-ros2 launch rc_hardware_control realsense_visual_slam.launch.py enable_rviz:=true
 
 # Test odometry output:
 ros2 topic echo /visual_slam/tracking/odometry
@@ -472,7 +457,7 @@ source install/setup.bash
 #########################
 ###########################
 # Test ESS with RealSense D435i
-ros2 launch rc_hardware_control realsense_ess.launch.py
+# (the ESS experiment launches were deleted in #12; the stack uses the D435i's own depth)
 
 ros2 launch foxglove_bridge foxglove_bridge_launch.xml
 #########################
@@ -493,9 +478,6 @@ ros2 launch foxglove_bridge foxglove_bridge_launch.xml
 colcon build --packages-select isaac_ros_stereo_image_proc --parallel-workers 4
 source install/setup.bash
 
-# Optional: Launch with stereo + ESS + VSLAM together
-# (Advanced: combines hardware depth, ESS depth, and VSLAM)
-ros2 launch rc_hardware_control realsense_ess_vslam.launch.py
 
 ```
 

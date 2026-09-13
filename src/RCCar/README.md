@@ -21,6 +21,9 @@ rc_hardware_control/
   config/my_custom_nav2_params.yaml    Nav2
   config/disable_shm.xml               FastDDS profile used inside the container
   launch/rccarauto.launch.py           the full stack
+  launch/perception.launch.py          Perception bring-up: camera, visual SLAM, nvblox
+  launch/perception_only.launch.py     Perception bring-up alone, for the camera bench
+  test/test_perception_launch.py       the Perception bring-up interface, under colcon test
   scripts/                             see below
 ```
 
@@ -43,6 +46,8 @@ source install/setup.bash
 ros2 launch rc_hardware_control rccarauto.launch.py
 ```
 
+For camera work with the car still, `perception_only.launch.py` starts only the URDF and the Perception bring-up. Its arguments are `camera_profile` (848x480x30), `obstacle_band_lower_edge` in metres above the robot frame, and `robot_frame` (base_footprint); they can be given on either launch's command line.
+
 The launch remaps the Steering controller's (`bicycle_steering_controller`) reference topics onto `/cmd_vel`, so anything that publishes `geometry_msgs/Twist` there drives the car:
 
 ```bash
@@ -50,10 +55,10 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ros2 run rc_hardware_control test_bicycle.py     # scripted forward, turns, reverse, stop
 ```
 
-Unit tests for the mapping code run without hardware:
+Tests run without hardware: gtests for the mapping code, pytest for the perception launch interface.
 
 ```bash
-colcon test --packages-select pca9685_hardware_interface
+colcon test --packages-select pca9685_hardware_interface rc_hardware_control
 ```
 
 ## Scripts

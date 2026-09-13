@@ -29,6 +29,12 @@ install(
 )
 
 
+if(BUILD_TESTING)
+  # Perception launch interface; needs launch and launch_ros, no hardware.
+  find_package(ament_cmake_pytest REQUIRED)
+  ament_add_pytest_test(test_perception_launch test/test_perception_launch.py)
+endif()
+
 ## EXPORTS
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
 ament_package()
