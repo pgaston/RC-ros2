@@ -8,7 +8,6 @@ Demonstrates cmd_vel control using the Bicycle steering controller
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
-from std_msgs.msg import Float64MultiArray
 import time
 import math
 
@@ -17,29 +16,11 @@ class BicycleTestNode(Node):
     def __init__(self):
         super().__init__('bicycle_test')
         
-        # Initialize instance variables
-        self.last_linear = 0.0
-        self.last_angular = 0.0
-        
-        # Publisher for Bicycle steering commands (using reference_unstamped - only available topic)
-        self.cmd_vel_pub = self.create_publisher(
-            Twist, 
-            '/cmd_vel',
-            # '/bicycle_steering_controller/reference_unstamped', 
-            10
-        )
-        
-        # Publishers for LED control
-        self.led_pub = self.create_publisher(
-            Float64MultiArray, 
-            '/led_controller/commands', 
-            10
-        )
+        # rccarauto.launch.py remaps the bicycle steering controller's reference
+        # topics onto /cmd_vel, so this is the one topic that drives the car.
+        self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
         
         self.get_logger().info('Bicycle Steering Test Node started')
-        
-        # Turn off LED immediately at startup
-        self.turn_off_led()
         
         # Timer for testing
         self.timer = self.create_timer(0.1, self.test_callback)
@@ -48,7 +29,7 @@ class BicycleTestNode(Node):
     def test_callback(self):
         current_time = time.time() - self.start_time
         
-        max_speed = 0.15  # Slightly higher for bicycle model
+        max_speed = 0.15  # m/s, well under the Nav2 debugging cap
         max_angular = 0.8  # Maximum angular velocity
         
         # Test sequence phases
@@ -68,7 +49,8 @@ class BicycleTestNode(Node):
             self.get_logger().info('Phase 3: Turning left', throttle_duration_sec=1.0)
             
         elif current_time < 12.0:
-            # Phase 4: Reverse with gentle steering
+            # Phase 4: Reverse with gentle steering. A bench exercise of the ESC's
+            # reverse path; on the road the car reverses only during a Recovery.
             self.send_cmd_vel(-max_speed * 0.4, max_angular * 0.3)
             self.get_logger().info('Phase 4: Moving backward with steering', throttle_duration_sec=1.0)
             
@@ -89,30 +71,12 @@ class BicycleTestNode(Node):
             if current_time < 18.0:
                 self.get_logger().info('Phase 7: Stopped', throttle_duration_sec=1.0)
         
-        # Control LED brightness based on total movement
-        speed = abs(self.last_linear) + abs(self.last_angular) * 0.5
-        led_brightness = min(1.0, speed / max_speed)  # Scale to 0-1
-        led_msg = Float64MultiArray()
-        led_msg.data = [led_brightness]
-        self.led_pub.publish(led_msg)
-        
     def send_cmd_vel(self, linear_x, angular_z):
-        """Send velocity command to Bicycle steering controller using reference_unstamped"""
+        """Send a velocity command to the bicycle steering controller via /cmd_vel"""
         cmd = Twist()
         cmd.linear.x = linear_x
         cmd.angular.z = angular_z
         self.cmd_vel_pub.publish(cmd)
-        
-        # Store last command for other controls
-        self.last_linear = linear_x
-        self.last_angular = angular_z
-        
-    def turn_off_led(self):
-        """Turn off LED immediately"""
-        led_msg = Float64MultiArray()
-        led_msg.data = [0.0]
-        self.led_pub.publish(led_msg)
-        self.get_logger().info('LED turned off')
 
 
 def main(args=None):
@@ -130,11 +94,6 @@ def main(args=None):
             node.send_cmd_vel(0.0, 0.0)
         except Exception as e:
             print(f"Failed to send stop command: {e}")
-        
-        # Turn off LED
-        # led_msg = Float64MultiArray()
-        # led_msg.data = [0.0]
-        # node.led_pub.publish(led_msg)
         
         node.destroy_node()
         rclpy.shutdown()

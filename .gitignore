@@ -3,11 +3,8 @@ install/
 log/
 src/isaac_ros_common
 src/realsense-ros
-src/ros2_shared
 
-# Do not ignore these directories (track them)
-# !src/isaac_ros_realsense_control/launch/
-# !src/pca9685_ros2_control/
+__pycache__/
 
 # Exclude large data and pack files
 *.onnx

@@ -59,12 +59,10 @@ python3 -m nano_llm.agents.web_chat --api=mlc \
 
 cd /mnt/nova_ssd/workspaces/isaac_ros-dev
 jetson-containers run -v $PWD:/ros_workspace $(autotag nano_llm)
-python3 /ros_workspace/scripts/vlm_brain.py
-
 
 # to integrate
-- from that docker, run
-python3 scripts/vlm_brain.py
+- the old vlm_brain.py was deleted (#13); it will be rewritten as a caller of the
+  goal relay's status topic once #4 lands
 
 - ros2 throttle of message to every 2 second
 ros2 run topic_tools throttle messages /camera/color/image_raw 2.0 /camera/color/image_raw_slow
@@ -108,10 +106,10 @@ source install/setup.bash
 4. Launch
 
 # camera only
-ros2 launch isaac_ros_realsense_control realsense_d435i.launch.py
+ros2 launch rc_hardware_control realsense_d435i.launch.py
 
 # everything
-ros2 launch isaac_ros_realsense_control rccarauto.launch.py
+ros2 launch rc_hardware_control rccarauto.launch.py
 
 # manual move
 - uncomment line from rccarauto.launch.py - in control_node remappings
@@ -128,13 +126,13 @@ ros2 topic topic echo /visual_slam/status --once
 foxglove - 3D nvblox_node/mesh, image - camera/infra1/rect_raw_whatever
 
 6. rebuild as needed
-colcon build --packages-select isaac_ros_realsense_control  --symlink-install
+colcon build --packages-select rc_hardware_control  --symlink-install
 source install/setup.bash
 
 
 
 ############## PCA9685 - motor test ##################
-ros2 launch rc_hardware_control basic_steering_traction.launch.py
+# see "Testing the hardware control" below; the full launch is the only launch
 
 
 
@@ -213,16 +211,16 @@ sudo udevadm trigger
 
 usbreset
 # Build Visual SLAM package 
-colcon build --packages-select isaac_ros_realsense_control  --symlink-install
+colcon build --packages-select rc_hardware_control  --symlink-install
 source install/setup.bash
 
-ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py  run_foxglove:=True
+ros2 launch rc_hardware_control realsense_visual_slam.launch.py  run_foxglove:=True
 
-ros2 launch isaac_ros_realsense_control realsense_d435i.launch
+ros2 launch rc_hardware_control realsense_d435i.launch.py
 
 
 
-ros2 launch isaac_ros_realsense_control realsense_basic.launch.py 
+ros2 launch rc_hardware_control realsense_basic.launch.py 
 ## time sync check
 ros2 run tf2_ros tf2_monitor base_link camera_infra1_optical_frame
 
@@ -332,9 +330,9 @@ source install/setup.bash
 
 #########################
 # Testing - basic realsense
-colcon build --packages-select isaac_ros_realsense_control
+colcon build --packages-select rc_hardware_control
 source install/setup.bash
-ros2 launch isaac_ros_realsense_control realsense_basic.launch.py
+ros2 launch rc_hardware_control realsense_basic.launch.py
 
 ros2 launch foxglove_bridge foxglove_bridge_launch.xml
 
@@ -348,10 +346,10 @@ ros2 run foxglove_bridge foxglove_bridge --ros-args \
 
 
 # WORKS - I think - ros2 launch isaac_ros_visual_slam isaac_ros_visual_slam_realsense.launch.py
-ros2 launch isaac_ros_realsense_control realsense_basic.launch.py
+ros2 launch rc_hardware_control realsense_basic.launch.py
 
 # working on...
-ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py run_foxglove:=True
+ros2 launch rc_hardware_control realsense_visual_slam.launch.py run_foxglove:=True
 
 
 ## ????
@@ -370,26 +368,24 @@ sudo rm /etc/udev/rules.d/99-realsense-libusb-custom.rules
 
 
 Testing the hardware control
-colcon build --packages-select rc_hardware_control 
-colcon build --parallel-workers 4 
+colcon build --packages-select pca9685_hardware_interface rc_hardware_control --symlink-install
+source install/setup.bash
 
-ros2 launch rc_hardware_control steering_tracking_example.launch.py
+ros2 launch rc_hardware_control rccarauto.launch.py
 
-test - suggested max, conservative values to start with - twist isn't right message, probably 
-ros2 topic pub /bicycle_steering_controller/reference_unstamped geometry_msgs/msg/Twist "{linear: {x: 0.04}, angular: {z: 0.02}}" 
+# the launch remaps the Steering controller's (bicycle_steering_controller) reference topics onto /cmd_vel
+# suggested max, conservative values to start with
+ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.04}, angular: {z: 0.02}}"
+
+# or the scripted sequence: forward, turns, reverse, stop
+ros2 run rc_hardware_control test_bicycle.py
 
 and third window
 ros2 topic echo /joint_states
 ros2 topic echo /joint_states --field velocity
 
-
--or- only for joint, steer, traction
-ros2 launch rc_hardware_control basic_steering_traction.launch.py
-
-
-Start with everything stopped/centered
-ros2 topic pub /steering_controller/commands std_msgs/msg/Float64MultiArray "data: [0.0]" --once
-ros2 topic pub /traction_controller/commands std_msgs/msg/Float64MultiArray "data: [0.0]" --once
+# unit tests for the servo and traction mapping, no hardware needed
+colcon test --packages-select pca9685_hardware_interface
 
 # clean up one 'error'
 sudo chmod +666 /etc
@@ -419,13 +415,13 @@ cd ../..
 colcon build --packages-select realsense2_camera --cmake-clean-cache --allow-overriding realsense2_camera --parallel-workers 4
 
 # Build your control package
-colcon build --packages-select isaac_ros_realsense_control
+colcon build --packages-select rc_hardware_control
 
 # Test basic camera first, then add visual SLAM later
-# ros2 launch isaac_ros_realsense_control realsense_basic.launch.py
-ros2 launch isaac_ros_realsense_control realsense_d435i.launch.py
+# ros2 launch rc_hardware_control realsense_basic.launch.py
+ros2 launch rc_hardware_control realsense_d435i.launch.py
 # not sure this is needed
-ros2 launch isaac_ros_realsense_control realsense_d435i.launch.py enable_accel:=true enable_gyro:=true unite_imu_method:=2
+ros2 launch rc_hardware_control realsense_d435i.launch.py enable_accel:=true enable_gyro:=true unite_imu_method:=2
 
 
 # ✅ WORKING: RealSense D435i successfully initializing with all sensors:
@@ -444,7 +440,7 @@ colcon build --packages-select isaac_ros_visual_slam --parallel-workers 4
 source install/setup.bash
 
 # Launch VSLAM with RealSense D435i
-ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py run_foxglove:=True
+ros2 launch rc_hardware_control realsense_visual_slam.launch.py run_foxglove:=True
 
 # ✅ VERIFIED: VSLAM topics are publishing:
 # /visual_slam/tracking/odometry (main output for navigation)
@@ -453,7 +449,7 @@ ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py run_foxg
 # + 20 visualization topics for debugging
 
 # Optional: Launch with RViz visualization  
-ros2 launch isaac_ros_realsense_control realsense_visual_slam.launch.py enable_rviz:=true
+ros2 launch rc_hardware_control realsense_visual_slam.launch.py enable_rviz:=true
 
 # Test odometry output:
 ros2 topic echo /visual_slam/tracking/odometry
@@ -476,7 +472,7 @@ source install/setup.bash
 #########################
 ###########################
 # Test ESS with RealSense D435i
-ros2 launch isaac_ros_realsense_control realsense_ess.launch.py
+ros2 launch rc_hardware_control realsense_ess.launch.py
 
 ros2 launch foxglove_bridge foxglove_bridge_launch.xml
 #########################
@@ -499,7 +495,7 @@ source install/setup.bash
 
 # Optional: Launch with stereo + ESS + VSLAM together
 # (Advanced: combines hardware depth, ESS depth, and VSLAM)
-ros2 launch isaac_ros_realsense_control realsense_ess_vslam.launch.py
+ros2 launch rc_hardware_control realsense_ess_vslam.launch.py
 
 ```
 
@@ -550,7 +546,7 @@ rs-fw-update -u  # update firmware
 ```
 
 ## Github sync
-Our repositories so far under this are pca9685_ros2_control and TeleOpROS2 (which will go away/change)
+The car packages live in `src/RCCar` (pca9685_hardware_interface and rc_hardware_control) and are tracked in this repo. `src/isaac_ros_common` and `src/realsense-ros` are vendored with vcs from `workspace.repos` and are gitignored.
 ```
 Push
 

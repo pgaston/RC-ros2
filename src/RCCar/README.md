@@ -1,209 +1,77 @@
-# PCA9685 ROS2 Control with Steering and Tracking Joints
+# RCCar packages
 
-This updated PCA9685 hardware interface supports both **steering** (position control) and **tracking** (velocity control) joints for robotic applications.  
-  
-This is based **specifically** on an [existing repository](https://github.com/rosblox/pca9685_ros2_control) - thanks! - and modified to:
-- add more features so as to fully support what I need for an RC car
-- a custom ros2 node for my car - see rc_hardware_control
+Two ROS 2 Humble packages that make a hobby RC car drivable from ros2_control.
 
-Note that I removed the pan/tilt for now.   AI can add back easily...   :)
+- **pca9685_hardware_interface**: the Hardware interface. A ros2_control system plugin that turns a Steering joint angle and a Traction joint wheel speed into servo and ESC pulses on a PCA9685 over I²C. It is based on rosblox's PCA9685 ros2_control hardware interface on GitHub, reworked for one servo and one ESC with no feedback.
+- **rc_hardware_control**: the car itself. URDF, Steering controller configuration, Nav2 parameters, the full-stack launch, and a few helper scripts.
 
-## Features
+The vocabulary (Traction joint, Steering joint, Steering controller, Hardware interface, Goal relay, Perception bring-up, Vehicle geometry) is defined in `CONTEXT.md` at the repo root.
 
-- **Position Control**: For servos (steering, pan/tilt cameras)
-- **Velocity Control**: For ESCs (traction motors, continuous rotation)
-- **Mixed Joint Types**: Support both position and velocity joints in the same robot
-- **Configurable Parameters**: Channel mapping, pulse width limits, angle ranges
+## Layout
 
-## Hardware Configuration
-
-### Joint Types
-
-1. **Steering Joints** (Position Control)
-   - Used for: Servo steering, camera pan/tilt
-   - Interface: `position`
-   - Control: Angle in radians → PWM pulse width
-   - Parameters: `min_angle`, `max_angle`, `min_pulse_us`, `max_pulse_us`
-
-2. **Tracking Joints** (Velocity Control)  
-   - Used for: ESC motor control, continuous rotation
-   - Interface: `velocity`
-   - Control: Velocity command → PWM duty cycle
-   - Parameters: Only `channel` required
-
-### URDF Configuration
-
-```xml
-<joint name="steering_joint" type="revolute">
-  <command_interface name="position" />
-  <state_interface name="position" />
-  <param name="channel">0</param>
-  <param name="min_angle">-90</param>
-  <param name="max_angle">90</param>
-  <param name="min_pulse_us">1000</param>
-  <param name="max_pulse_us">2000</param>
-</joint>
-
-<joint name="traction_joint" type="continuous">
-  <command_interface name="velocity" />
-  <state_interface name="velocity" />
-  <param name="channel">1</param>
-</joint>
+```
+pca9685_hardware_interface/
+  include/, src/        plugin, I²C adapter, pure mapping code
+  test/                 gtests for the servo and traction mapping (no I²C needed)
+  TestPCA9685ESC.py     Adafruit bench scripts for calibrating the ESC and servo
+  TestPCA9685ServoESC.py  without ROS; the numbers they find go into the URDF
+rc_hardware_control/
+  description/description.urdf.xacro   vehicle geometry and the ros2_control block
+  config/steer_bot_hardware.yaml       controller manager and the Steering controller
+  config/my_custom_nav2_params.yaml    Nav2
+  config/disable_shm.xml               FastDDS profile used inside the container
+  launch/rccarauto.launch.py           the full stack
+  scripts/                             see below
 ```
 
-### Controller Configuration
+## Hardware interface
 
-```yaml
-# Position controller for steering
-steering_controller:
-  ros__parameters:
-    joints:
-      - steering_joint
+The ros2_control block in the URDF is the plugin's whole interface. Every parameter there is read and the plugin warns about any it does not recognise. The ESC calibration (offsets, output cap, dead-band, pulse widths, arming and direction-change dwells) lives only there.
 
-# Velocity controller for tracking
-tracking_controller:
-  ros__parameters:
-    joints:
-      - traction_joint
-```
+- `steering_joint`: position command in radians. 0 maps to `neutral_pulse_us`; `min_angle` and `max_angle` map to `min_pulse_us` and `max_pulse_us`.
+- `traction_joint`: velocity command in rear-wheel rad/s from the Steering controller. `max_wheel_speed_rad_s` maps that linearly onto the ESC output band between `forward_offset` and `max_output`.
 
-## Usage
+There is no feedback. The state interfaces echo the command and `steer_bot_hardware.yaml` sets `open_loop: true`.
 
-### 1. Launch the System
+## Build and run
+
+Inside the Isaac ROS container:
 
 ```bash
-# Launch steering and tracking example
-ros2 launch pca9685_ros2_control_example steering_tracking_example.launch.py
-
-# Or launch joint group velocity example
-ros2 launch pca9685_ros2_control_example joint_group_velocity_example.launch.py
+colcon build --packages-select pca9685_hardware_interface rc_hardware_control --symlink-install
+source install/setup.bash
+ros2 launch rc_hardware_control rccarauto.launch.py
 ```
 
-### 2. Control Commands
+The launch remaps the Steering controller's (`bicycle_steering_controller`) reference topics onto `/cmd_vel`, so anything that publishes `geometry_msgs/Twist` there drives the car:
 
-#### Ackermann Steering Control (Recommended)
 ```bash
-# Forward motion
-ros2 topic pub /ackermann_steering_controller/cmd_vel geometry_msgs/msg/Twist '{linear: {x: 1.0}, angular: {z: 0.0}}' --once
-
-# Turn right while moving forward
-ros2 topic pub /ackermann_steering_controller/cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.5}, angular: {z: -0.5}}' --once
-
-# Turn left while moving forward  
-ros2 topic pub /ackermann_steering_controller/cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.5}, angular: {z: 0.5}}' --once
-
-# Spin in place (point turn)
-ros2 topic pub /ackermann_steering_controller/cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.0}, angular: {z: 1.0}}' --once
-
-# Stop
-ros2 topic pub /ackermann_steering_controller/cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.0}, angular: {z: 0.0}}' --once
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+ros2 run rc_hardware_control test_bicycle.py     # scripted forward, turns, reverse, stop
 ```
 
-#### LED Brightness Control
+Unit tests for the mapping code run without hardware:
+
 ```bash
-# Full brightness
-ros2 topic pub /led_controller/commands std_msgs/msg/Float64MultiArray "data: [1.0]" --once
-
-# Half brightness
-ros2 topic pub /led_controller/commands std_msgs/msg/Float64MultiArray "data: [0.5]" --once
-
-# LED off
-ros2 topic pub /led_controller/commands std_msgs/msg/Float64MultiArray "data: [0.0]" --once
+colcon test --packages-select pca9685_hardware_interface
 ```
 
-### 3. Test Scripts
+## Scripts
 
-Run the automated test scripts:
-```bash
-# Test Ackermann steering (recommended)
-ros2 run pca9685_ros2_control_example test_ackermann.py
-
-# Test individual joint control (legacy)
-ros2 run pca9685_ros2_control_example test_steering_tracking.py
-```
-
-## Channel Mapping
-
-The example configuration uses:
-- **Channel 0**: Steering servo (position)
-- **Channel 1**: Traction ESC (velocity)  
-- **Channel 2**: Pan servo (position)
-- **Channel 3**: Tilt servo (position)
-- **Channel 15**: LED brightness (effort/PWM)
-
-## PWM Signal Details
-
-### Position Control (Servos)
-- **Frequency**: 50Hz (20ms period)
-- **Pulse Width**: 1000-2000µs typically
-- **Angle Mapping**: Linear interpolation between min/max angles and pulse widths
-
-### Velocity Control (ESCs)
-- **Frequency**: 50Hz (20ms period)
-- **Pulse Width**: 
-  - 1000µs = Full reverse
-  - 1500µs = Stop/neutral
-  - 2000µs = Full forward
-
-### LED PWM Control
-- **Frequency**: 50Hz (20ms period)
-- **Duty Cycle**: 0-100% brightness
-- **Command Range**: 0.0 (off) to 1.0 (full brightness)
+| Script | Purpose |
+| --- | --- |
+| `test_bicycle.py` | Publishes a fixed sequence of `/cmd_vel` commands to exercise steering and traction. |
+| `cmd_vel_logger.py` | Prints every `/cmd_vel` message, for watching what Nav2 or teleop sends. |
+| `frame_rename.py` | Republishes the infra2 camera info with the frame id visual SLAM expects. Started by the launch. |
+| `goal_pose_relay.py` | The Goal relay. Forwards `/goal_pose` and `/clicked_point` to Nav2's NavigateToPose action. |
+| `rs-imu-calibration.py` | Intel's RealSense IMU calibration tool, kept for bench use. Not a ROS node. |
 
 ## Troubleshooting
 
-### Build Issues
 ```bash
-# Install dependencies
-sudo apt install libi2c-dev
-
-# Build the package
-cd /workspaces/isaac_ros-dev
-colcon build --packages-select pca9685_hardware_interface pca9685_ros2_control_example
-
-# Source the workspace
-source install/setup.bash
+sudo chmod 666 /dev/i2c-*          # I²C permission inside the container
+ros2 control list_controllers      # bicycle_steering_controller (the Steering controller) should be active
+ros2 topic echo /joint_states      # echoes the commanded angle and speed
 ```
 
-### Hardware Issues
-1. **Check I2C permissions**: `sudo chmod 666 /dev/i2c-*`
-2. **Verify PCA9685 address**: Default is 0x40 (decimal 64)
-3. **Check connections**: SDA, SCL, VCC, GND to PCA9685
-4. **Power supply**: Ensure adequate power for servos/ESCs
-
-### Controller Issues
-```bash
-# List available controllers
-ros2 control list_controllers
-
-# Check joint states
-ros2 topic echo /joint_states
-
-# Monitor controller manager
-ros2 service call /controller_manager/list_controllers controller_manager_msgs/srv/ListControllers
-```
-
-## Advanced Configuration
-
-### Custom Servo Ranges
-For 180-degree servos with 500-2500µs range:
-```xml
-<param name="min_angle">-90</param>
-<param name="max_angle">90</param>
-<param name="min_pulse_us">500</param>
-<param name="max_pulse_us">2500</param>
-```
-
-### Multiple PCA9685 Boards
-Add multiple hardware interfaces with different I2C addresses:
-```xml
-<hardware>
-  <plugin>pca9685_hardware_interface/Pca9685SystemHardware</plugin>
-  <param name="address">64</param>  <!-- 0x40 -->
-</hardware>
-
-<hardware>
-  <plugin>pca9685_hardware_interface/Pca9685SystemHardware</plugin>  
-  <param name="address">65</param>  <!-- 0x41 -->
-</hardware>
-```
+The PCA9685 is expected at address 64 (0x40) on `/dev/i2c-7`; both are parameters in the URDF hardware block.

@@ -18,22 +18,13 @@ install(
   DESTINATION share/rc_hardware_control
 )
 
-# Install Python scripts
+# Install Python scripts as executables so `ros2 run` and the launch find them
 install(
-  PROGRAMS 
-    scripts/checksync.py
-    scripts/depth_check.py
+  PROGRAMS
+    scripts/cmd_vel_logger.py
     scripts/frame_rename.py
     scripts/goal_pose_relay.py
-    scripts/cmd_vel_logger.py
-
-    scripts/led_off.py
-    scripts/rs-imu-calibration.py
-    scripts/stereo_sync_republisher.py
-    scripts/test_ackermann.py
     scripts/test_bicycle.py
-    scripts/test_steering_tracking.py
-    scripts/vlm_brain.py
   DESTINATION lib/rc_hardware_control
 )
 

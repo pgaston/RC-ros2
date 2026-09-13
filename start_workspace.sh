@@ -14,44 +14,10 @@ else
     echo "Warning: ./configure_system.sh not found. Skipping."
 fi
 
-# We create an entrypoint script that appends our launch commands to ~/.bashrc inside Docker
-# This will be automatically executed as the 'admin' user by workspace-entrypoint.sh
-SCRIPT_NAME=".docker_setup_bashrc.user.sh"
-
-cat << 'EOF' > "$SCRIPT_NAME"
-#!/bin/bash
-BASHRC="$HOME/.bashrc"
-
-# Clean up stale FastDDS shared memory files
-rm -f /dev/shm/fastrtps_*
-rm -f /dev/shm/sem.fastrtps_*
-
-if ! grep -q "export ROS_DOMAIN_ID=" "$BASHRC"; then
-    echo "export ROS_DOMAIN_ID=47" >> "$BASHRC"
-fi
-
-if ! grep -q "export FASTRTPS_DEFAULT_PROFILES_FILE=" "$BASHRC"; then
-    echo "export FASTRTPS_DEFAULT_PROFILES_FILE=/workspaces/isaac_ros-dev/src/RCCar/rc_hardware_control/config/disable_shm.xml" >> "$BASHRC"
-fi
-
-if ! grep -q "export ROS_LOCALHOST_ONLY=" "$BASHRC"; then
-    echo "export ROS_LOCALHOST_ONLY=1" >> "$BASHRC"
-fi
-
-if ! grep -q "# Auto-injected ROS Dev Setup" "$BASHRC"; then
-    echo "" >> "$BASHRC"
-    echo "# Auto-injected ROS Dev Setup" >> "$BASHRC"
-    echo "cd /workspaces/isaac_ros-dev" >> "$BASHRC"
-
-    echo "if [ -f /workspaces/isaac_ros-dev/source_dev.sh ]; then" >> "$BASHRC"
-    echo "    source /workspaces/isaac_ros-dev/source_dev.sh" >> "$BASHRC"
-    echo "fi" >> "$BASHRC"
-    echo "if [ -f /workspaces/isaac_ros-dev/install/setup.bash ]; then" >> "$BASHRC"
-    echo "    source /workspaces/isaac_ros-dev/install/setup.bash" >> "$BASHRC"
-    echo "fi" >> "$BASHRC"
-fi
-EOF
-chmod +x "$SCRIPT_NAME"
+# docker/setup_bashrc.user.sh is mounted into the container's entrypoint_additions
+# directory, where workspace-entrypoint.sh runs it as the 'admin' user on every
+# container start. It is tracked once, under docker/, and never regenerated here.
+SETUP_BASHRC="$WORKSPACE_DIR/docker/setup_bashrc.user.sh"
 
 # run_dev.sh reads ~/.isaac_ros_dev-dockerargs (falling back to a copy next to
 # itself, never to docker/), so keep the home file a symlink to the repo copy.
@@ -74,4 +40,4 @@ echo "=========================================="
 
 cd src/isaac_ros_common/scripts
 # We pass docker arguments to mount our custom bashrc injection script so it runs at container startup
-./run_dev.sh -d "$WORKSPACE_DIR" -a "-v ${WORKSPACE_DIR}/${SCRIPT_NAME}:/usr/local/bin/scripts/entrypoint_additions/setup_bashrc.user.sh"
+./run_dev.sh -d "$WORKSPACE_DIR" -a "-v ${SETUP_BASHRC}:/usr/local/bin/scripts/entrypoint_additions/setup_bashrc.user.sh"
