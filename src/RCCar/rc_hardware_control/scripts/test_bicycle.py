@@ -16,9 +16,9 @@ class BicycleTestNode(Node):
     def __init__(self):
         super().__init__('bicycle_test')
         
-        # rccarauto.launch.py remaps the bicycle steering controller's reference
-        # topics onto /cmd_vel, so this is the one topic that drives the car.
-        self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        # The Steering controller listens to the velocity mux; a bench script is
+        # a teleop source, so it publishes where the Foxglove Teleop panel would.
+        self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel_teleop', 10)
         
         self.get_logger().info('Bicycle Steering Test Node started')
         
@@ -72,7 +72,7 @@ class BicycleTestNode(Node):
                 self.get_logger().info('Phase 7: Stopped', throttle_duration_sec=1.0)
         
     def send_cmd_vel(self, linear_x, angular_z):
-        """Send a velocity command to the bicycle steering controller via /cmd_vel"""
+        """Send a velocity command to the mux's teleop source, /cmd_vel_teleop"""
         cmd = Twist()
         cmd.linear.x = linear_x
         cmd.angular.z = angular_z

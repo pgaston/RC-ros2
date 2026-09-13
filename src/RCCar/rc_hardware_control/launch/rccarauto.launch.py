@@ -59,9 +59,22 @@ def generate_launch_description():
         emulate_tty=True,
         remappings=[
             ("~/robot_description", "/robot_description"),
-            ("/bicycle_steering_controller/reference", "/cmd_vel"),
-            ("/bicycle_steering_controller/reference_unstamped", "/cmd_vel"),
+            # The Steering controller listens only to the velocity mux, never
+            # to Nav2 or teleop directly (config/velocity_mux.yaml).
+            ("/bicycle_steering_controller/reference", "/cmd_vel_mux"),
+            ("/bicycle_steering_controller/reference_unstamped", "/cmd_vel_mux"),
         ],
+    )
+
+    # Velocity mux: teleop over Nav2, zero when neither is fresh.
+    velocity_mux_node = Node(
+        package='rc_hardware_control',
+        executable='velocity_mux.py',
+        name='velocity_mux',
+        output='screen',
+        parameters=[PathJoinSubstitution([
+            FindPackageShare('rc_hardware_control'), 'config', 'velocity_mux.yaml'
+        ])],
     )
 
     joint_state_broadcaster_spawner = Node(
@@ -114,7 +127,9 @@ def generate_launch_description():
                             '/infra1/image_rect_raw/compressed',
                             '/plan',
                             '/local_plan',
-                            '/cmd_vel',
+                            '/cmd_vel',          # Nav2's output
+                            '/cmd_vel_teleop',   # the Foxglove Teleop panel publishes here
+                            '/cmd_vel_mux',      # what the Steering controller receives
                             '/goal_pose',
                             '/clicked_point',
                             '^/local_costmap/.*',
@@ -168,6 +183,7 @@ def generate_launch_description():
         control_node,
         joint_state_broadcaster_spawner,
         delayed_bicycle_steering_controller_spawner,
+        velocity_mux_node,
         jetson_stats_node,
         foxglove_bridge_node,
         perception,

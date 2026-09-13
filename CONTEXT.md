@@ -64,6 +64,10 @@ _Avoid_: Sensor stack, camera launch
 The measured dimensions in the URDF xacro properties, the single source for every derived value: controller wheel radius and wheelbase, costmap footprint, minimum turning radius floor, Arrival tolerance, and the obstacle band lower edge. A test asserts the derived values match.
 _Avoid_: Robot params, dimensions config
 
+**Velocity mux**:
+The only publisher the Steering controller listens to. Merges the teleop source and Nav2's command by priority: teleop always wins, a source that goes silent for longer than its timeout drops out, and with nothing fresh it publishes zero so the car stops. Its interface is the source topics, priorities and timeouts in its configuration.
+_Avoid_: Twist mux, cmd_vel mux, arbiter, deadman node
+
 **Hardware interface**:
 The ros2_control plugin that turns a Steering joint angle and a Traction joint wheel speed into servo and ESC pulses. Its interface is the ros2_control block in the URDF; every parameter there is read and nothing else configures it. It has no feedback; the Steering controller runs open loop.
 _Avoid_: Motor driver, PCA9685 node, ESC controller

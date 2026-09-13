@@ -18,6 +18,7 @@ pca9685_hardware_interface/
 rc_hardware_control/
   description/description.urdf.xacro   vehicle geometry and the ros2_control block
   config/steer_bot_hardware.yaml       controller manager and the Steering controller
+  config/velocity_mux.yaml             velocity mux sources, priorities, timeouts
   config/my_custom_nav2_params.yaml    Nav2
   config/disable_shm.xml               FastDDS profile used inside the container
   launch/rccarauto.launch.py           the full stack
@@ -48,10 +49,19 @@ ros2 launch rc_hardware_control rccarauto.launch.py
 
 For camera work with the car still, `perception_only.launch.py` starts only the URDF and the Perception bring-up. Its arguments are `camera_profile` (848x480x30), `obstacle_band_lower_edge` in metres above the robot frame, and `robot_frame` (base_footprint); they can be given on either launch's command line.
 
-The launch remaps the Steering controller's (`bicycle_steering_controller`) reference topics onto `/cmd_vel`, so anything that publishes `geometry_msgs/Twist` there drives the car:
+## Velocity mux and teleop
+
+The Steering controller (`bicycle_steering_controller`) listens only to `/cmd_vel_mux`, the output of the velocity mux. The mux has two sources, teleop on `/cmd_vel_teleop` and Nav2 on `/cmd_vel`, and teleop always wins. A source that goes quiet for longer than its timeout drops out (teleop 1.0 s, Nav2 0.5 s), so releasing teleop hands the car back to Nav2 if a Goal is active, and if nothing is fresh the mux publishes zero and the car stops. The values and the reasoning are in `config/velocity_mux.yaml`.
+
+Teleop is the Foxglove Teleop panel publishing `geometry_msgs/Twist` on `/cmd_vel_teleop`; its 5 Hz default works, 10 Hz tolerates more Wi-Fi loss. Over ssh, the keyboard fallback is:
 
 ```bash
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/cmd_vel_teleop
+```
+
+To drive the car from a script on the bench, publish to the teleop topic so the mux passes it through:
+
+```bash
 ros2 run rc_hardware_control test_bicycle.py     # scripted forward, turns, reverse, stop
 ```
 
@@ -65,8 +75,9 @@ colcon test --packages-select pca9685_hardware_interface rc_hardware_control
 
 | Script | Purpose |
 | --- | --- |
-| `test_bicycle.py` | Publishes a fixed sequence of `/cmd_vel` commands to exercise steering and traction. |
-| `cmd_vel_logger.py` | Prints every `/cmd_vel` message, for watching what Nav2 or teleop sends. |
+| `test_bicycle.py` | Publishes a fixed sequence of Twist commands on `/cmd_vel_teleop` to exercise steering and traction. |
+| `cmd_vel_logger.py` | Prints every `/cmd_vel` message, for watching what Nav2 sends. Remap it to watch another topic. |
+| `velocity_mux.py` | The velocity mux. Started by the launch with `config/velocity_mux.yaml`. |
 | `frame_rename.py` | Republishes the infra2 camera info with the frame id visual SLAM expects. Started by the launch. |
 | `goal_pose_relay.py` | The Goal relay. Forwards `/goal_pose` and `/clicked_point` to Nav2's NavigateToPose action. |
 | `rs-imu-calibration.py` | Intel's RealSense IMU calibration tool, kept for bench use. Not a ROS node. |

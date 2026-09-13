@@ -365,7 +365,10 @@ velocity_smoother:
     odom_topic: "odom"
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
-    velocity_timeout: 1.0
+    # Zero the output this long after the controller server's last command,
+    # so a dead controller server stops the car inside a second even though
+    # this node keeps publishing (see config/velocity_mux.yaml).
+    velocity_timeout: 0.5
  
 lifecycle_manager_navigation:
   ros__parameters:

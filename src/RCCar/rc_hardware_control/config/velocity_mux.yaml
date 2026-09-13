@@ -1,0 +1,41 @@
+# Velocity mux (scripts/velocity_mux.py): the one thing that talks to the
+# Steering controller. Nav2 and teleop both feed it; teleop always wins.
+#
+# Topics
+#   /cmd_vel          Nav2's output (nav2_bringup remaps the velocity smoother
+#                     onto it, so it is not renamed here)
+#   /cmd_vel_teleop   the Foxglove Teleop panel or teleop_twist_keyboard
+#   /cmd_vel_mux      the mux output; rccarauto.launch.py remaps the Steering
+#                     controller's reference topics onto it
+#
+# Timeouts are the deadman. A source that has not published within its
+# timeout_s drops out; with no fresh source the mux publishes zero at
+# publish_rate_hz.
+#
+# teleop 1.0 s: the Foxglove Teleop panel publishes at 5 Hz by default, so a
+# shorter timeout would hand the car to Nav2 for a moment whenever Wi-Fi
+# dropped two messages while the operator was still holding the button. The
+# cost is that after a release the last teleop command runs for up to 1.0 s
+# before Nav2 gets the car back or the mux zeroes it; the Steering
+# controller's reference_timeout (1.0 s in steer_bot_hardware.yaml) stops it
+# on the same clock. Set the panel to 10 Hz to make drop-outs rarer still.
+# teleop_twist_keyboard publishes only on keypress, so hold the key down.
+#
+# nav 0.5 s: Nav2's velocity smoother publishes at 20 Hz, so this is ten
+# missed messages. If the smoother dies the mux zeroes the car within
+# 0.5 s plus one tick. If only the controller server dies the smoother keeps
+# running and zeroes its own output after its velocity_timeout (0.5 s in
+# my_custom_nav2_params.yaml), so either way the car stops inside a second.
+velocity_mux:
+  ros__parameters:
+    output_topic: /cmd_vel_mux
+    publish_rate_hz: 20.0
+    sources: [teleop, nav]
+    teleop:
+      topic: /cmd_vel_teleop
+      priority: 100     # higher wins; a human always outranks Nav2
+      timeout_s: 1.0
+    nav:
+      topic: /cmd_vel
+      priority: 10
+      timeout_s: 0.5    # Nav2's smoother publishes at 20 Hz; ten missed messages

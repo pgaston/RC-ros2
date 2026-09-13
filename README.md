@@ -111,10 +111,10 @@ ros2 launch rc_hardware_control perception_only.launch.py
 # everything
 ros2 launch rc_hardware_control rccarauto.launch.py
 
-# manual move
-- uncomment line from rccarauto.launch.py - in control_node remappings
-- this will use /cmd_vel
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
+# manual move: teleop always wins over Nav2 through the velocity mux
+# preferred: Foxglove Teleop panel publishing Twist on /cmd_vel_teleop (5 Hz default, 10 Hz better)
+# fallback over ssh (hold the key; a single press stops after 1 s):
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/cmd_vel_teleop
 
 5. Test
 
@@ -364,9 +364,9 @@ source install/setup.bash
 
 ros2 launch rc_hardware_control rccarauto.launch.py
 
-# the launch remaps the Steering controller's (bicycle_steering_controller) reference topics onto /cmd_vel
-# suggested max, conservative values to start with
-ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.04}, angular: {z: 0.02}}"
+# the Steering controller listens to the velocity mux; publish on the teleop source
+# suggested max, conservative values to start with (repeat faster than the 1 s deadman)
+ros2 topic pub -r 10 /cmd_vel_teleop geometry_msgs/msg/Twist "{linear: {x: 0.04}, angular: {z: 0.02}}"
 
 # or the scripted sequence: forward, turns, reverse, stop
 ros2 run rc_hardware_control test_bicycle.py
