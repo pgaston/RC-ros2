@@ -40,6 +40,8 @@ if(BUILD_TESTING)
   ament_add_pytest_test(test_perception_launch test/test_perception_launch.py)
   # Velocity mux selection policy; pure Python.
   ament_add_pytest_test(test_velocity_mux_policy test/test_velocity_mux_policy.py)
+  # Every value derived from the xacro's vehicle geometry; pure Python plus PyYAML.
+  ament_add_pytest_test(test_vehicle_geometry test/test_vehicle_geometry.py)
 endif()
 
 ## EXPORTS

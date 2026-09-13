@@ -23,8 +23,18 @@ from launch_ros.parameter_descriptions import ParameterValue
 DEFAULT_CAMERA_PROFILE = '848x480x30'
 # Colour is disabled below; this profile only matters if it is re-enabled.
 COLOR_PROFILE = '640x480x15'
-# Placeholder until #5 sets the band from the measured 3.8 cm ground clearance.
-DEFAULT_OBSTACLE_BAND_LOWER_EDGE = 0.15
+# nvblox slices its 2D map from the voxel rows between the band's lower and
+# upper edges (edges floored to a row, rows inclusive) and marks a voxel as an
+# obstacle when its TSDF distance is within one voxel of a surface. The row
+# touching the floor therefore always registers the floor, so the lower edge
+# must fall in row one or higher. With 5 cm rows, 0.06 selects the row from
+# 0.05 to 0.10 m: its centre is 7.5 cm up, so the floor is 2.5 cm outside the
+# obstacle test and anything with a top above about 2.5 cm registers, which
+# covers everything the 3.8 cm ground clearance cannot pass over. The upper
+# edge is chassis height. test_vehicle_geometry.py asserts the row arithmetic.
+NVBLOX_VOXEL_SIZE = 0.05
+DEFAULT_OBSTACLE_BAND_LOWER_EDGE = 0.06
+OBSTACLE_BAND_UPPER_EDGE = 0.50
 DEFAULT_ROBOT_FRAME = 'base_footprint'
 
 # The camera and its info republisher start first; the container follows once
@@ -175,11 +185,11 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             'use_tf_transforms': True,
             'use_topic_transforms': False,
 
-            # ESDF slice: the 2D band Nav2's costmaps read.
-            'voxel_size': 0.10,
-            'static_mapper.esdf_slice_height': 0.20,
+            # ESDF slice: the 2D band Nav2's costmaps read (see the note at the top).
+            'voxel_size': NVBLOX_VOXEL_SIZE,
+            'static_mapper.esdf_slice_height': 0.20,   # z of the published slice, not a band edge
             'static_mapper.esdf_slice_min_height': ParameterValue(obstacle_band_lower_edge, value_type=float),
-            'static_mapper.esdf_slice_max_height': 1.0,
+            'static_mapper.esdf_slice_max_height': OBSTACLE_BAND_UPPER_EDGE,
             'max_mapping_distance_m': 5.0,
             'map_clearing_radius_m': 5.0,
             'map_clearing_frame_id': robot_frame,

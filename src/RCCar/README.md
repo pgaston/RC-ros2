@@ -25,6 +25,7 @@ rc_hardware_control/
   launch/perception.launch.py          Perception bring-up: camera, visual SLAM, nvblox
   launch/perception_only.launch.py     Perception bring-up alone, for the camera bench
   test/test_perception_launch.py       the Perception bring-up interface, under colcon test
+  test/test_vehicle_geometry.py        every value derived from the xacro's Vehicle geometry
   scripts/                             see below
 ```
 
@@ -36,6 +37,12 @@ The ros2_control block in the URDF is the plugin's whole interface. Every parame
 - `traction_joint`: velocity command in rear-wheel rad/s from the Steering controller. `max_wheel_speed_rad_s` maps that linearly onto the ESC output band between `forward_offset` and `max_output`.
 
 There is no feedback. The state interfaces echo the command and `steer_bot_hardware.yaml` sets `open_loop: true`.
+
+## Vehicle geometry and the costmaps
+
+The measured dimensions live once, as xacro properties at the top of the URDF. The Steering controller's wheelbase and wheel radii, the Nav2 footprint (chassis box plus 2 cm), the planner's minimum turning radius floor, the Arrival tolerance (one car length) and the nvblox obstacle band are all derived from them, and `test_vehicle_geometry.py` fails if any copy drifts.
+
+Both costmaps read one obstacle source, nvblox's 2D occupancy grid on `/nvblox_node/static_occupancy_grid`, plus inflation. nvblox slices that grid from 5 cm voxel rows between the band edges set in `perception.launch.py`: the lower edge of 0.06 m picks the first row clear of the floor, so anything taller than about 2.5 cm registers and the floor does not. Nav2 reads odometry from visual SLAM on `/visual_slam/tracking/odometry`. Everything is in the odom frame (ADR-0001).
 
 ## Build and run
 
