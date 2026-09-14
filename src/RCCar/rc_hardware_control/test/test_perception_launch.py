@@ -7,7 +7,7 @@ import pathlib
 
 import pytest
 from launch import LaunchContext
-from launch.actions import DeclareLaunchArgument, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, OpaqueFunction, RegisterEventHandler
 from launch.event_handlers import OnProcessExit
 from launch_ros.utilities import evaluate_parameters
 
@@ -124,6 +124,44 @@ def test_a_dead_container_ends_the_bring_up():
         if isinstance(e, RegisterEventHandler)
     ]
     assert any(isinstance(h, OnProcessExit) for h in handlers)
+
+
+REGISTERED = {
+    'realsense2_camera': 'realsense2_camera::RealSenseNodeFactory;lib/librealsense2_camera.so',
+    'realsense_splitter': 'nvblox::RealsenseSplitterNode;lib/librealsense_splitter_component.so',
+    'isaac_ros_visual_slam': 'nvidia::isaac_ros::visual_slam::VisualSlamNode;lib/libvisual_slam_node.so',
+    'nvblox_ros': 'nvblox::NvbloxNode;lib/libnvblox_ros_lib.so',
+}
+
+
+def lookup_in(registered):
+    def lookup(resource_type, package):
+        assert resource_type == 'rclcpp_components'
+        if package not in registered:
+            raise LookupError(package)
+        return registered[package], '/fake/prefix'
+    return lookup
+
+
+def test_every_composable_node_found_in_the_ament_index_is_no_problem(nodes):
+    module = load_perception_module()
+    assert module.missing_components(nodes.values(), LaunchContext(), lookup_in(REGISTERED)) == []
+
+
+def test_a_package_or_plugin_missing_from_the_ament_index_is_named(nodes):
+    module = load_perception_module()
+    registered = dict(REGISTERED)
+    del registered['realsense_splitter']
+    registered['nvblox_ros'] = 'nvblox::SomethingElse;lib/libnvblox_ros_lib.so'
+    assert module.missing_components(nodes.values(), LaunchContext(), lookup_in(registered)) == [
+        'realsense_splitter is not in the ament index',
+        'nvblox_ros does not register nvblox::NvbloxNode',
+    ]
+
+
+def test_the_component_check_runs_before_anything_starts():
+    module = load_perception_module()
+    assert isinstance(module.generate_launch_description().entities[0], OpaqueFunction)
 
 
 def test_composable_nodes_are_defined_in_exactly_one_file():

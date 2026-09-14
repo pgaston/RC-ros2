@@ -16,11 +16,13 @@ restarts it when it stalls or exits, and included by perception_only.launch.py
 (camera bench). IMU fusion is pinned off: the D435i IMU is not streamed and
 cuVSLAM runs stereo-only, which is what produced the last working map.
 """
+from ament_index_python import get_resource
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, EmitEvent, RegisterEventHandler, TimerAction
+from launch.actions import DeclareLaunchArgument, EmitEvent, OpaqueFunction, RegisterEventHandler, TimerAction
 from launch.event_handlers import OnProcessExit
 from launch.events import Shutdown
 from launch.substitutions import LaunchConfiguration
+from launch.utilities import perform_substitutions
 from launch_ros.actions import ComposableNodeContainer, Node
 from launch_ros.descriptions import ComposableNode
 from launch_ros.parameter_descriptions import ParameterValue
@@ -299,6 +301,28 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
     return camera, splitter, vslam, nvblox
 
 
+def missing_components(nodes, context, lookup=get_resource):
+    """Why the container could not load each node: package or plugin not in the ament index.
+
+    The container resolves plugins through the ament index of the environment
+    it inherits. A package built after that shell was sourced is missing, and
+    the container only logs "Could not find requested resource in ament index"
+    and runs on without the node.
+    """
+    problems = []
+    for node in nodes:
+        package = perform_substitutions(context, node.package)
+        plugin = perform_substitutions(context, node.node_plugin)
+        try:
+            registered, _ = lookup('rclcpp_components', package)
+        except LookupError:
+            problems.append(f'{package} is not in the ament index')
+            continue
+        if plugin not in (line.split(';')[0] for line in registered.splitlines()):
+            problems.append(f'{package} does not register {plugin}')
+    return problems
+
+
 def generate_launch_description():
     camera_profile = LaunchConfiguration('camera_profile')
     obstacle_band_lower_edge = LaunchConfiguration('obstacle_band_lower_edge')
@@ -325,6 +349,17 @@ def generate_launch_description():
         output='screen',
     )
 
+    # Before anything starts: a node the container cannot load ends the launch
+    # at once with the reason, instead of a container running without it while
+    # the perception watchdog waits out its startup grace.
+    def check_components(context):
+        problems = missing_components([camera, splitter, vslam, nvblox], context)
+        if problems:
+            raise RuntimeError(
+                'perception cannot start: ' + '; '.join(problems) + '. If a package was built '
+                'after this shell was sourced, run `source install/setup.bash` and launch again.')
+        return []
+
     # A container that dies ends the whole bring-up (a camera that never
     # appears ends in a segfault), so the perception watchdog sees an exit and
     # restarts at once instead of waiting for the streams to time out.
@@ -334,6 +369,7 @@ def generate_launch_description():
     ))
 
     return LaunchDescription([
+        OpaqueFunction(function=check_components),
         DeclareLaunchArgument('camera_profile', default_value=DEFAULT_CAMERA_PROFILE,
                               description='Stereo infra and depth profile, WxHxFPS'),
         DeclareLaunchArgument('obstacle_band_lower_edge', default_value=str(DEFAULT_OBSTACLE_BAND_LOWER_EDGE),
