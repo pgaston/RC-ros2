@@ -272,10 +272,13 @@
            wheel_radius, write the number here. -->
       <param name="max_wheel_speed_rad_s">10.0</param>
       <param name="input_deadband_rad_s">0.01</param>     <!-- below this the ESC is held neutral -->
-      <!-- Throttle fractions of the pulse range either side of neutral, as
-           driven on 2026-09-12 (previously hardcoded in on_activate). -->
-      <param name="forward_offset">0.18</param>           <!-- first fraction that moves the car forward -->
-      <param name="reverse_offset">-0.18</param>          <!-- first fraction that moves the car backward -->
+      <!-- Throttle fractions of the pulse range either side of neutral where
+           the ESC first moves, measured with the Adafruit bench script
+           (TestPCA9685ESC.py). Confirmed on blocks 2026-09-14: 0.22 did not
+           turn the wheels, 0.29 did. The 0.18 that came from the old
+           on_activate block put 0.1 m/s below the dead-band. -->
+      <param name="forward_offset">0.271</param>          <!-- first fraction that moves the car forward -->
+      <param name="reverse_offset">-0.0405</param>        <!-- first fraction that moves the car backward -->
       <param name="max_output">0.40</param>               <!-- absolute cap while path following is tuned -->
       <param name="watchdog_timeout_s">0.0</param>        <!-- disabled; the velocity mux (#3) owns stop-on-silence -->
       <!-- ESC arming on activation, then direction-change dwells. -->
