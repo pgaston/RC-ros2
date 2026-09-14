@@ -3,8 +3,12 @@
 
 Interface (launch arguments):
   camera_profile            stereo stream WxHxFPS, e.g. 848x480x30
-  obstacle_band_lower_edge  metres above the robot frame where nvblox's 2D
-                            slice starts; anything above it is an obstacle
+  obstacle_band_lower_edge  metres above the odom origin where nvblox's 2D
+                            slice starts. odom's z is zero where visual SLAM
+                            started, so on level ground this is height above
+                            the floor; on a slope the band tilts with odom,
+                            not with the car. See vehicle_geometry.py for the
+                            voxel-row arithmetic behind the default.
   robot_frame               the frame visual SLAM tracks and nvblox clears around
 
 Included by rccarauto.launch.py (full stack) and perception_only.launch.py
@@ -18,23 +22,19 @@ from launch_ros.actions import ComposableNodeContainer, Node
 from launch_ros.descriptions import ComposableNode
 from launch_ros.parameter_descriptions import ParameterValue
 
+from rc_hardware_control.vehicle_geometry import (
+    NVBLOX_VOXEL_SIZE, OBSTACLE_BAND_LOWER_EDGE, OBSTACLE_BAND_UPPER_EDGE)
+
 # 848x480x30 is the stereo profile that produced the last working map. Other
 # D435i options: 640x480x30, 424x240x30, 320x240x30.
 DEFAULT_CAMERA_PROFILE = '848x480x30'
 # Colour is disabled below; this profile only matters if it is re-enabled.
 COLOR_PROFILE = '640x480x15'
-# nvblox slices its 2D map from the voxel rows between the band's lower and
-# upper edges (edges floored to a row, rows inclusive) and marks a voxel as an
-# obstacle when its TSDF distance is within one voxel of a surface. The row
-# touching the floor therefore always registers the floor, so the lower edge
-# must fall in row one or higher. With 5 cm rows, 0.06 selects the row from
-# 0.05 to 0.10 m: its centre is 7.5 cm up, so the floor is 2.5 cm outside the
-# obstacle test and anything with a top above about 2.5 cm registers, which
-# covers everything the 3.8 cm ground clearance cannot pass over. The upper
-# edge is chassis height. test_vehicle_geometry.py asserts the row arithmetic.
-NVBLOX_VOXEL_SIZE = 0.05
-DEFAULT_OBSTACLE_BAND_LOWER_EDGE = 0.06
-OBSTACLE_BAND_UPPER_EDGE = 0.50
+# Obstacle band defaults come from vehicle_geometry.py, where the voxel-row
+# arithmetic is explained and test_vehicle_geometry.py asserts it: with 5 cm
+# rows, 0.06 selects the row from 0.05 to 0.10 m, the floor stays out, and
+# anything with a top above about 2.5 cm registers.
+DEFAULT_OBSTACLE_BAND_LOWER_EDGE = OBSTACLE_BAND_LOWER_EDGE
 DEFAULT_ROBOT_FRAME = 'base_footprint'
 
 # The camera and its info republisher start first; the container follows once
@@ -186,6 +186,7 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             'use_topic_transforms': False,
 
             # ESDF slice: the 2D band Nav2's costmaps read (see the note at the top).
+            'esdf_mode': '2d',   # nvblox's default; stated because the costmaps depend on it
             'voxel_size': NVBLOX_VOXEL_SIZE,
             'static_mapper.esdf_slice_height': 0.20,   # z of the published slice, not a band edge
             'static_mapper.esdf_slice_min_height': ParameterValue(obstacle_band_lower_edge, value_type=float),
@@ -206,8 +207,6 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             'update_esdf_rate_hz': 5.0,        # feeds the Nav2 costmaps
 
             'static_mapper.projective_integrator_max_integration_distance_m': 5.0,
-
-            'static_occupancy_2d': True,
 
             'transform_lookup_buffer_duration_sec': 0.5,
         }],

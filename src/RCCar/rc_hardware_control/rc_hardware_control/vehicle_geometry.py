@@ -15,8 +15,30 @@ import xml.etree.ElementTree as ET
 from typing import Dict, List, Tuple
 
 XACRO_NS = 'http://www.ros.org/wiki/xacro'
-PACKAGE_ROOT = pathlib.Path(__file__).resolve().parents[1]
-DEFAULT_XACRO = PACKAGE_ROOT / 'description' / 'description.urdf.xacro'
+
+
+def _package_root() -> pathlib.Path:
+    """The source tree when run from it, else the installed share directory."""
+    source = pathlib.Path(__file__).resolve().parents[1]
+    if (source / 'description' / 'description.urdf.xacro').exists():
+        return source
+    from ament_index_python.packages import get_package_share_directory
+    return pathlib.Path(get_package_share_directory('rc_hardware_control'))
+
+
+DEFAULT_XACRO = _package_root() / 'description' / 'description.urdf.xacro'
+
+# nvblox obstacle band, in nvblox's global frame (odom; z is zero where visual
+# SLAM started, which is the floor on level ground). nvblox floors each edge to
+# a voxel row, takes rows inclusively, and marks a voxel as an obstacle when its
+# TSDF distance is within one voxel of a surface. The row touching the floor
+# therefore always registers the floor, so the lower edge must fall in row one
+# or higher; the row's centre minus one voxel is the lowest object top that
+# registers. The upper edge is the spec's 50 cm: above that the camera looks
+# over it and the car drives under it.
+NVBLOX_VOXEL_SIZE = 0.05
+OBSTACLE_BAND_LOWER_EDGE = 0.06
+OBSTACLE_BAND_UPPER_EDGE = 0.50
 
 _EXPR = re.compile(r'^\$\{(.*)\}$')
 _SAFE_NAMES = {name: getattr(math, name) for name in ('sqrt', 'atan', 'tan', 'sin', 'cos', 'pi')}
@@ -57,3 +79,16 @@ def minimum_turning_radius_floor(props: Dict[str, float]) -> float:
 def arrival_tolerance(props: Dict[str, float]) -> float:
     """Arrival is being within about one car length of the Goal."""
     return props['chassis_length']
+
+
+def obstacle_band_first_row(lower_edge: float = OBSTACLE_BAND_LOWER_EDGE,
+                            voxel: float = NVBLOX_VOXEL_SIZE) -> int:
+    """Index of the lowest voxel row nvblox includes; row 0 touches the floor."""
+    return math.floor(lower_edge / voxel)
+
+
+def obstacle_detection_threshold(lower_edge: float = OBSTACLE_BAND_LOWER_EDGE,
+                                 voxel: float = NVBLOX_VOXEL_SIZE) -> float:
+    """Lowest object top, in metres above the floor, that registers as an obstacle."""
+    row_centre = (obstacle_band_first_row(lower_edge, voxel) + 0.5) * voxel
+    return row_centre - voxel

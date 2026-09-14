@@ -1,8 +1,6 @@
 """Vehicle geometry is owned once, by the xacro properties. Every value the
 stack derives from it must match. Pure Python plus PyYAML; runs on the host.
 """
-import ast
-import math
 import pathlib
 
 import pytest
@@ -12,7 +10,6 @@ from rc_hardware_control import vehicle_geometry as vg
 
 PACKAGE_ROOT = pathlib.Path(__file__).resolve().parents[1]
 CONFIG = PACKAGE_ROOT / 'config'
-PERCEPTION_LAUNCH = PACKAGE_ROOT / 'launch' / 'perception.launch.py'
 
 
 @pytest.fixture(scope='module')
@@ -29,16 +26,6 @@ def steering():
 @pytest.fixture(scope='module')
 def nav2():
     return yaml.safe_load((CONFIG / 'my_custom_nav2_params.yaml').read_text())
-
-
-def launch_constant(name):
-    """A module-level literal from perception.launch.py, without importing launch."""
-    tree = ast.parse(PERCEPTION_LAUNCH.read_text())
-    for node in tree.body:
-        if isinstance(node, ast.Assign) and any(
-                isinstance(t, ast.Name) and t.id == name for t in node.targets):
-            return ast.literal_eval(node.value)
-    raise KeyError(name)
 
 
 def footprint_of(costmap_params):
@@ -80,18 +67,16 @@ def test_arrival_tolerance_is_one_car_length(props, nav2):
     assert checker['xy_goal_tolerance'] == pytest.approx(vg.arrival_tolerance(props))
 
 
-def test_obstacle_band_starts_above_the_ground_clearance(props):
-    lower_edge = launch_constant('DEFAULT_OBSTACLE_BAND_LOWER_EDGE')
-    assert lower_edge >= props['ground_clearance']
+def test_obstacle_band_excludes_the_floor_voxel_row():
+    # Row 0 touches the floor and would register it everywhere.
+    assert vg.obstacle_band_first_row() >= 1
 
 
-def test_obstacle_band_excludes_the_floor_voxel_row(props):
-    # nvblox floors the edge to a voxel row (rows inclusive) and marks a voxel as
-    # an obstacle when its TSDF distance is within one voxel of a surface, so the
-    # row touching the floor would register the floor everywhere.
-    lower_edge = launch_constant('DEFAULT_OBSTACLE_BAND_LOWER_EDGE')
-    voxel = launch_constant('NVBLOX_VOXEL_SIZE')
-    assert math.floor(lower_edge / voxel) >= 1
-    # and the row chosen still catches an object the chassis cannot clear
-    row_centre = (math.floor(lower_edge / voxel) + 0.5) * voxel
-    assert row_centre - props['ground_clearance'] <= voxel
+def test_obstacle_band_catches_anything_the_chassis_cannot_clear(props):
+    # An object taller than the ground clearance hits the chassis, so the lowest
+    # object top that registers must be no higher than the clearance.
+    assert vg.obstacle_detection_threshold() <= props['ground_clearance']
+
+
+def test_obstacle_band_upper_edge_is_above_the_lower(props):
+    assert vg.OBSTACLE_BAND_UPPER_EDGE > vg.OBSTACLE_BAND_LOWER_EDGE

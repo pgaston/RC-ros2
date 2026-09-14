@@ -8,8 +8,9 @@
        config/steer_bot_hardware.yaml (front/rear_wheel_radius).
        ground_clearance: measured at 1.5 in = 0.038 m (2026-09-12).
        It only affects where the chassis box is drawn, not any frame,
-       but the obstacle height band in the nvblox config must not start
-       above it or a rock that clears the band will hit the chassis.
+       but anything taller than it hits the chassis, so the nvblox
+       obstacle band (vehicle_geometry.py) must register every object
+       top at or above it; test_vehicle_geometry.py asserts that.
        steer_max_angle: mechanical lock derived from the measured turning
        circle (2026-09-12): inside diameter 25 in = 0.635 m, taken as the
        path of the inner rear tyre's inner edge, so the rear-axle midpoint

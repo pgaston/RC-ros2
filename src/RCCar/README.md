@@ -40,9 +40,9 @@ There is no feedback. The state interfaces echo the command and `steer_bot_hardw
 
 ## Vehicle geometry and the costmaps
 
-The measured dimensions live once, as xacro properties at the top of the URDF. The Steering controller's wheelbase and wheel radii, the Nav2 footprint (chassis box plus 2 cm), the planner's minimum turning radius floor, the Arrival tolerance (one car length) and the nvblox obstacle band are all derived from them, and `test_vehicle_geometry.py` fails if any copy drifts.
+The measured dimensions live once, as xacro properties at the top of the URDF. The Steering controller's wheelbase and wheel radii, the Nav2 footprint (chassis box plus 2 cm), the planner's minimum turning radius floor and the Arrival tolerance (one car length) are derived from them, the nvblox obstacle band is checked against the ground clearance, and `test_vehicle_geometry.py` fails if any copy drifts.
 
-Both costmaps read one obstacle source, nvblox's 2D occupancy grid on `/nvblox_node/static_occupancy_grid`, plus inflation. nvblox slices that grid from 5 cm voxel rows between the band edges set in `perception.launch.py`: the lower edge of 0.06 m picks the first row clear of the floor, so anything taller than about 2.5 cm registers and the floor does not. Nav2 reads odometry from visual SLAM on `/visual_slam/tracking/odometry`. Everything is in the odom frame (ADR-0001).
+Both costmaps read one obstacle source, nvblox's 2D occupancy grid on `/nvblox_node/static_occupancy_grid`, plus inflation. nvblox slices that grid from 5 cm voxel rows between the band edges in `vehicle_geometry.py`: the lower edge of 0.06 m picks the first row clear of the floor, so anything taller than about 2.5 cm registers and the floor does not. The band is fixed in the odom frame, whose z is zero where visual SLAM started, so it is a height above the floor on level ground and tilts with odom on a slope. Nav2 reads odometry from visual SLAM on `/visual_slam/tracking/odometry`. Everything is in the odom frame (ADR-0001).
 
 ## Build and run
 

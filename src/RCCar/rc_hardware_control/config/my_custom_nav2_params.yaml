@@ -148,6 +148,9 @@ local_costmap:
       # Chassis box (0.44 x 0.27 in the xacro) plus 2 cm all round, centred on
       # base_footprint. test_vehicle_geometry.py asserts it.
       footprint: "[ [0.24, 0.155], [0.24, -0.155], [-0.24, -0.155], [-0.24, 0.155] ]"
+      # Unknown is free here: the Path follower's collision check should not
+      # stop the car for cells behind it that the camera has not seen.
+      track_unknown_space: false
       # Obstacle source: nvblox's 2D occupancy grid, sliced from the band set in
       # perception.launch.py, plus inflation. No scan or voxel layer: the car
       # has no lidar, and a layer waiting on one only logs warnings.
