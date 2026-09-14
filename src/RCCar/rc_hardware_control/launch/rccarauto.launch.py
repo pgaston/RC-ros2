@@ -61,9 +61,9 @@ def generate_launch_description():
         remappings=[
             ("~/robot_description", "/robot_description"),
             # The Steering controller listens only to the velocity mux, never
-            # to Nav2 or teleop directly (config/velocity_mux.yaml).
+            # to Nav2 or teleop directly (config/velocity_mux.yaml). Stamped
+            # input; the mux publishes TwistStamped.
             ("/bicycle_steering_controller/reference", "/cmd_vel_mux"),
-            ("/bicycle_steering_controller/reference_unstamped", "/cmd_vel_mux"),
         ],
     )
 

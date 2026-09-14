@@ -7,12 +7,16 @@ Nav2 stops the car. When no source is fresh the mux publishes zero at
 publish_rate_hz. Fresh commands pass straight through, so the Steering
 controller sees the source's own timing.
 
+Sources publish Twist; the output is TwistStamped, stamped on the way
+through, because the Steering controller's stamped input is the one that
+does not log a deprecation warning per message.
+
 Parameters (see config/velocity_mux.yaml for the values and why):
   output_topic, publish_rate_hz, sources (list of names), and per source
   <name>.topic, <name>.priority, <name>.timeout_s.
 """
 import rclpy
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, TwistStamped
 from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 
@@ -43,7 +47,7 @@ class VelocityMux(Node):
         self._policy = MuxPolicy(sources)
 
         output_topic = self.get_parameter('output_topic').value
-        self._publisher = self.create_publisher(Twist, output_topic, 10)
+        self._publisher = self.create_publisher(TwistStamped, output_topic, 10)
         self._source_subscriptions = [
             self.create_subscription(Twist, topics[s.name], self._on_command(s.name), 10)
             for s in self._policy.sources
@@ -67,13 +71,19 @@ class VelocityMux(Node):
             selected = self._policy.select(now)
             if selected is not None and selected.source == source:
                 self._note_active(source)
-                self._publisher.publish(msg)
+                self._publish(msg)
         return callback
 
     def _on_tick(self):
         if self._policy.select(self._now()) is None:
             self._note_active(None)
-            self._publisher.publish(Twist())
+            self._publish(Twist())
+
+    def _publish(self, twist: Twist):
+        stamped = TwistStamped()
+        stamped.header.stamp = self.get_clock().now().to_msg()
+        stamped.twist = twist
+        self._publisher.publish(stamped)
 
     def _note_active(self, source):
         if source != self._active:

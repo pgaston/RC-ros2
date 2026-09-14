@@ -43,6 +43,8 @@ bicycle_steering_controller:
     odom_frame_id: "odom"
     enable_odom_tf: false
     
-    # Enable cmd_vel subscription (required for Humble)
     subscribe_to_joint_state: false
-    use_stamped_vel: false
+    # Read TwistStamped on ~/reference (the velocity mux stamps its output).
+    # The unstamped input logs a deprecation warning on every message, and the
+    # mux publishes at 20 Hz whenever nothing else is fresh.
+    use_stamped_vel: true

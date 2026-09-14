@@ -64,7 +64,7 @@ The planner is Smac Hybrid with the DUBIN motion model, so every plan is forward
 
 ## Velocity mux and teleop
 
-The Steering controller (`bicycle_steering_controller`) listens only to `/cmd_vel_mux`, the output of the velocity mux. The mux has two sources, teleop on `/cmd_vel_teleop` and Nav2 on `/cmd_vel`, and teleop always wins. A source that goes quiet for longer than its timeout drops out (teleop 1.0 s, Nav2 0.5 s), so releasing teleop hands the car back to Nav2 if a Goal is active, and if nothing is fresh the mux publishes zero and the car stops. The values and the reasoning are in `config/velocity_mux.yaml`.
+The Steering controller (`bicycle_steering_controller`) listens only to `/cmd_vel_mux`, the velocity mux's TwistStamped output. The mux has two sources, teleop on `/cmd_vel_teleop` and Nav2 on `/cmd_vel`, and teleop always wins. A source that goes quiet for longer than its timeout drops out (teleop 1.0 s, Nav2 0.5 s), so releasing teleop hands the car back to Nav2 if a Goal is active, and if nothing is fresh the mux publishes zero and the car stops. The values and the reasoning are in `config/velocity_mux.yaml`.
 
 Teleop is the Foxglove Teleop panel publishing `geometry_msgs/Twist` on `/cmd_vel_teleop`; its 5 Hz default works, 10 Hz tolerates more Wi-Fi loss. Over ssh, the keyboard fallback is:
 
@@ -90,7 +90,7 @@ colcon test --packages-select pca9685_hardware_interface rc_hardware_control
 | --- | --- |
 | `test_bicycle.py` | Publishes a fixed sequence of Twist commands on `/cmd_vel_teleop` to exercise steering and traction. |
 | `cmd_vel_logger.py` | Prints every `/cmd_vel` message, for watching what Nav2 sends. Remap it to watch another topic. |
-| `velocity_mux.py` | The velocity mux. Started by the launch with `config/velocity_mux.yaml`. |
+| `velocity_mux.py` | The velocity mux: Twist in from teleop and Nav2, TwistStamped out. Started by the launch with `config/velocity_mux.yaml`. |
 | `frame_rename.py` | Republishes the infra2 camera info with the frame id visual SLAM expects. Started by the launch. |
 | `goal_pose_relay.py` | The Goal relay. Forwards `/goal_pose` and `/clicked_point` to Nav2's NavigateToPose action. |
 | `rs-imu-calibration.py` | Intel's RealSense IMU calibration tool, kept for bench use. Not a ROS node. |

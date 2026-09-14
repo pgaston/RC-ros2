@@ -5,8 +5,8 @@
 #   /cmd_vel          Nav2's output (nav2_bringup remaps the velocity smoother
 #                     onto it, so it is not renamed here)
 #   /cmd_vel_teleop   the Foxglove Teleop panel or teleop_twist_keyboard
-#   /cmd_vel_mux      the mux output; rccarauto.launch.py remaps the Steering
-#                     controller's reference topics onto it
+#   /cmd_vel_mux      the mux output, TwistStamped; rccarauto.launch.py remaps
+#                     the Steering controller's stamped reference topic onto it
 #
 # Timeouts are the deadman. A source that has not published within its
 # timeout_s drops out; with no fresh source the mux publishes zero at
