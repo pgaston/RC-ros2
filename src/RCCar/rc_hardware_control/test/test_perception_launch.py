@@ -40,8 +40,17 @@ def nodes():
 
 def test_camera_profile_reaches_both_stereo_streams(nodes):
     p = params_of(nodes['camera'])
-    assert p['depth_module.profile'] == '640x480x15'
+    assert p['depth_module.depth_profile'] == '640x480x15'
     assert p['depth_module.infra_profile'] == '640x480x15'
+
+
+def test_camera_remappings_name_the_driver_topics(nodes):
+    # realsense2_camera 4.56.4 publishes under its node name; a rule written
+    # for a relative name matches nothing and the stack silently gets no images.
+    sources = [''.join(s.perform(LaunchContext()) for s in src) if not isinstance(src, str) else src
+               for src, _ in nodes['camera'].remappings]
+    assert sources
+    assert all(s.startswith('/camera/') for s in sources), sources
 
 
 def test_obstacle_band_lower_edge_is_the_nvblox_slice_floor(nodes):

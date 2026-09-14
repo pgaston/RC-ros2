@@ -49,26 +49,26 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
         plugin='realsense2_camera::RealSenseNodeFactory',
         namespace='',
         name='camera',
+        # Names are those of the apt realsense2_camera 4.56.4, which matches the
+        # image's librealsense 2.56.4 (issue #14). The driver ignores a name it
+        # does not declare, without a warning: check `ros2 param dump /camera`.
         parameters=[{
             'camera_name': 'camera',
             # Force ROS time instead of hardware timestamps, on every module.
-            'global_time_enabled': False,
+            # Stamps stay in ROS time even though the driver warns that the
+            # frames' time domain is HARDWARE_CLOCK.
             'depth_module.global_time_enabled': False,
-            'stereo_module.global_time_enabled': False,
             'motion_module.global_time_enabled': False,
             'rgb_camera.global_time_enabled': False,
-            'host_performance_step': 'true',
 
             # TF comes from the URDF, not the driver.
             'publish_tf': False,
-            'tf_publish_rate': 30.0,
-            'camera_base_frame': 'camera_link',
 
             # librealsense sets no default for the infra streams, so both the
             # depth profile and the infra profile must be given.
-            'depth_module.profile': camera_profile,
+            'depth_module.depth_profile': camera_profile,
             'depth_module.infra_profile': camera_profile,
-            'rgb_camera.profile': COLOR_PROFILE,
+            'rgb_camera.color_profile': COLOR_PROFILE,
 
             # Streams: stereo infra for visual SLAM, depth for nvblox. Colour is
             # off to save USB bandwidth; it caused a hardware crash when on.
@@ -106,10 +106,8 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             'depth_module.emitter_enabled': 0,
             'temporal_filter.enable': True,
             'spatial_filter.enable': False,
-            'depth_module.depth_qos': 'SENSOR_DATA',
-            'depth_module.exposure_priority': False,   # constant FPS over exposure
-
-            'rgb_camera.color_qos': 'SENSOR_DATA',
+            'depth_qos': 'SENSOR_DATA',
+            'color_qos': 'SENSOR_DATA',
             'gyro_qos': 'SENSOR_DATA',
             'accel_qos': 'SENSOR_DATA',
 
@@ -119,21 +117,25 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             'infra1_info_qos': 'SENSOR_DATA',
             'infra2_info_qos': 'SENSOR_DATA',
 
-            'depth_module.depth_frame_id': 'camera_infra1_optical_frame',
-            # The driver ignores the infra frame_id parameters; frame_rename.py
-            # republishes infra2's camera_info with the frame visual SLAM expects.
+            # Frame ids are fixed by the driver as camera_<stream>_optical_frame,
+            # as in the URDF, except that infra2's camera_info carries infra1's
+            # frame; frame_rename.py republishes it with the frame visual SLAM
+            # expects.
         }],
+        # The driver publishes under its node name (/camera/depth/image_rect_raw),
+        # so each rule names that full topic; a relative name matches nothing.
+        # The compressed variants image_transport adds are not remapped and stay
+        # under /camera (e.g. /camera/infra1/image_rect_raw/compressed).
         remappings=[
-            ('imu', '/imu'),
-            ('infra1/image_rect_raw', '/infra1/image_rect_raw'),
-            ('infra2/image_rect_raw', '/infra2/image_rect_raw'),
-            ('infra1/camera_info', '/infra1/camera_info'),
-            ('infra2/camera_info', '/infra2/camera_info'),
-            ('depth/image_rect_raw', '/depth/image_rect_raw'),
-            ('depth/camera_info', '/depth/camera_info'),
-            ('color/image_raw', '/color/image_raw'),
-            ('color/image_raw/compressed', '/color/image_raw/compressed'),
-            ('color/camera_info', '/color/camera_info'),
+            ('/camera/imu', '/imu'),
+            ('/camera/infra1/image_rect_raw', '/infra1/image_rect_raw'),
+            ('/camera/infra2/image_rect_raw', '/infra2/image_rect_raw'),
+            ('/camera/infra1/camera_info', '/infra1/camera_info'),
+            ('/camera/infra2/camera_info', '/infra2/camera_info'),
+            ('/camera/depth/image_rect_raw', '/depth/image_rect_raw'),
+            ('/camera/depth/camera_info', '/depth/camera_info'),
+            ('/camera/color/image_raw', '/color/image_raw'),
+            ('/camera/color/camera_info', '/color/camera_info'),
         ],
     )
 

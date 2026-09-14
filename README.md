@@ -398,16 +398,11 @@ colcon build --packages-select librealsense2 --parallel-workers 4 \
     -DBUILD_EXAMPLES=true \
     -DBUILD_GRAPHICAL_EXAMPLES=true
 
-## Downgrade realsense-ros to match librealsense 2.55.1
-# The latest ROS wrapper requires librealsense 2.56+, which causes issues on Jetson.
-# Ensure you are in the workspace root
-cd src/realsense-ros
-git checkout 4.55.1
-cd ../..
-
-## Needed - though can probably just use 
-# colcon build --parallel-workers 4
-colcon build --packages-select realsense2_camera --cmake-clean-cache --allow-overriding realsense2_camera --parallel-workers 4
+## Camera driver: the image's apt realsense2_camera 4.56.4 (issue #14)
+# It matches the image's librealsense 2.56.4. The workspace no longer builds
+# src/realsense-ros (4.51.1; COLCON_IGNORE). Do not rebuild realsense2_camera from
+# source: an overlay in install/ hides the apt driver and its parameter names differ.
+# Check which one runs: the launch log prints "RealSense ROS v4.56.4".
 
 # Build your control package
 colcon build --packages-select rc_hardware_control
@@ -532,7 +527,7 @@ rs-fw-update -u  # update firmware
 ```
 
 ## Github sync
-The car packages live in `src/RCCar` (pca9685_hardware_interface and rc_hardware_control) and are tracked in this repo. `src/isaac_ros_common` and `src/realsense-ros` are vendored with vcs from `workspace.repos` and are gitignored.
+The car packages live in `src/RCCar` (pca9685_hardware_interface and rc_hardware_control) and are tracked in this repo. `src/isaac_ros_common` is vendored with vcs from `workspace.repos` and is gitignored. The camera driver is the apt `ros-humble-realsense2-camera` in the image; a leftover `src/realsense-ros` is ignored by colcon.
 ```
 Push
 
