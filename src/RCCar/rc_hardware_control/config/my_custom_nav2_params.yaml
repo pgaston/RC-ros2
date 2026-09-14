@@ -8,7 +8,12 @@ bt_navigator:
     # odometry stays on its private topic and its TF stays disabled.
     odom_topic: /visual_slam/tracking/odometry
     bt_loop_duration: 10
-    default_server_timeout: 20
+    # Milliseconds a tree node waits for an action server to accept a goal.
+    # Nav2's default of 20 was too short on the loaded Orin Nano: the
+    # Recovery's Wait was declared failed 23 ms after it started, before the
+    # behaviour server had answered, and the Goal aborted with no reverse
+    # (bench, 2026-09-14). 500 ms costs nothing when the server is prompt.
+    default_server_timeout: 500
     wait_for_service_timeout: 1000
     # The car-like tree (behavior_trees/navigate_to_pose_car_like.xml): a
     # straight reverse and a pause only, three Recoveries then abort. Needs an
