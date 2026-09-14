@@ -29,7 +29,9 @@ install(
     scripts/frame_rename.py
     scripts/goal_pose_relay.py
     scripts/perception_watchdog.py
+    scripts/soak_recorder.py
     scripts/test_bicycle.py
+    scripts/tracking_recorder.py
     scripts/velocity_mux.py
   DESTINATION lib/rc_hardware_control
 )
@@ -50,6 +52,9 @@ if(BUILD_TESTING)
   ament_add_pytest_test(test_perception_watchdog_node test/test_perception_watchdog_node.py TIMEOUT 120)
   ament_add_pytest_test(test_goal_relay_policy test/test_goal_relay_policy.py)
   ament_add_pytest_test(test_goal_relay_node test/test_goal_relay_node.py TIMEOUT 240)
+  ament_add_pytest_test(test_tracking_error test/test_tracking_error.py)
+  ament_add_pytest_test(test_tracking_recorder_node test/test_tracking_recorder_node.py TIMEOUT 120)
+  ament_add_pytest_test(test_jetson_health test/test_jetson_health.py)
 endif()
 
 ## EXPORTS

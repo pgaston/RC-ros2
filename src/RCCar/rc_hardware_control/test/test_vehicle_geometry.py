@@ -80,3 +80,22 @@ def test_obstacle_band_catches_anything_the_chassis_cannot_clear(props):
 
 def test_obstacle_band_upper_edge_is_above_the_lower(props):
     assert vg.OBSTACLE_BAND_UPPER_EDGE > vg.OBSTACLE_BAND_LOWER_EDGE
+
+
+def test_path_follower_speed_is_the_speed_cap(nav2):
+    # The velocity smoother clamps linear and angular speed separately. A
+    # follower asking for more than the cap gets its speed cut and its turn
+    # rate kept, so the car turns tighter than the follower meant.
+    follower = nav2['controller_server']['ros__parameters']['FollowPath']
+    smoother = nav2['velocity_smoother']['ros__parameters']
+    assert follower['desired_linear_vel'] == pytest.approx(smoother['max_velocity'][0])
+
+
+def test_turn_rate_caps_hold_the_planner_turning_radius_at_the_speed_cap(nav2):
+    radius = nav2['planner_server']['ros__parameters']['GridBased']['minimum_turning_radius']
+    follower = nav2['controller_server']['ros__parameters']['FollowPath']
+    smoother = nav2['velocity_smoother']['ros__parameters']
+    cap = smoother['max_velocity'][0]
+    assert follower['max_angular_vel'] == pytest.approx(follower['desired_linear_vel'] / radius, abs=1e-3)
+    assert smoother['max_velocity'][2] == pytest.approx(cap / radius, abs=1e-3)
+    assert smoother['min_velocity'][2] == pytest.approx(-cap / radius, abs=1e-3)

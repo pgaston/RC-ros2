@@ -118,13 +118,21 @@ controller_server:
       latch_xy_goal_tolerance: True
     FollowPath:
       plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
-      desired_linear_vel: 0.5
+      # Speed and turn-rate caps, all from the 0.26 m/s debugging cap and the
+      # planner's minimum_turning_radius (0.80 m); test_vehicle_geometry.py
+      # asserts them. The velocity smoother clamps linear and angular speed
+      # separately, so a follower asking for 0.5 m/s had its speed cut to 0.26
+      # and its turn rate kept: the car turned on about half the radius the
+      # follower meant, one likely cause of the wandering in #7. Raising the
+      # cap (#8) means this, max_angular_vel and the smoother's max_velocity
+      # and min_velocity together.
+      desired_linear_vel: 0.26
       lookahead_dist: 0.6
       min_lookahead_dist: 0.3
       max_lookahead_dist: 0.9
       lookahead_time: 1.5
       rotate_to_heading_angular_vel: 1.0
-      max_angular_vel: 1.0
+      max_angular_vel: 0.325   # desired_linear_vel / minimum_turning_radius
       max_angular_accel: 2.0
       max_angular_decel: 2.0
       use_velocity_scaled_lookahead_dist: false
@@ -295,8 +303,9 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.26, 0.0, 1.0]
-    min_velocity: [-0.26, 0.0, -1.0]
+    # Angular: 0.26 / 0.80, so at the cap the turn is never tighter than the planner's radius.
+    max_velocity: [0.26, 0.0, 0.325]
+    min_velocity: [-0.26, 0.0, -0.325]
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: /visual_slam/tracking/odometry   # only read in CLOSED_LOOP feedback
