@@ -53,7 +53,7 @@ _Avoid_: Ackermann, bicycle, non-holonomic
 ### Modules
 
 **Goal relay**:
-The only NavigateToPose client. Owns Goal admission, preemption, and outcome, and publishes accepted, rejected, arrived, stuck, and aborted on a status topic. Anything that wants the car to go somewhere, including a future VLM brain, calls it.
+The only NavigateToPose client. Owns Goal admission, preemption, and outcome, and publishes accepted, rejected, arrived, stuck, and aborted on a status topic. Admits a Goal only when the robot pose, an occupancy grid, and a healthy Perception watchdog status are all present. Anything that wants the car to go somewhere, including a future VLM brain, calls it.
 _Avoid_: Goal server, nav client, brain
 
 **Perception bring-up**:

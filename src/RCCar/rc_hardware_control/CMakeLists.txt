@@ -48,6 +48,8 @@ if(BUILD_TESTING)
   ament_add_pytest_test(test_perception_watchdog_policy test/test_perception_watchdog_policy.py)
   ament_add_pytest_test(test_supervised_process test/test_supervised_process.py)
   ament_add_pytest_test(test_perception_watchdog_node test/test_perception_watchdog_node.py TIMEOUT 120)
+  ament_add_pytest_test(test_goal_relay_policy test/test_goal_relay_policy.py)
+  ament_add_pytest_test(test_goal_relay_node test/test_goal_relay_node.py TIMEOUT 240)
 endif()
 
 ## EXPORTS

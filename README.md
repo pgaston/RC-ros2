@@ -61,8 +61,9 @@ cd /mnt/nova_ssd/workspaces/isaac_ros-dev
 jetson-containers run -v $PWD:/ros_workspace $(autotag nano_llm)
 
 # to integrate
-- the old vlm_brain.py was deleted (#13); it will be rewritten as a caller of the
-  goal relay's status topic once #4 lands
+- the old vlm_brain.py was deleted (#13); rewrite it as a caller of the goal relay:
+  publish a PoseStamped on /goal_pose and read the answers on /goal_relay/status
+  (vocabulary and ordering in the docstring of scripts/goal_pose_relay.py)
 
 - ros2 throttle of message to every 2 second
 ros2 run topic_tools throttle messages /camera/color/image_raw 2.0 /camera/color/image_raw_slow
@@ -115,6 +116,12 @@ ros2 launch rc_hardware_control rccarauto.launch.py
 # preferred: Foxglove Teleop panel publishing Twist on /cmd_vel_teleop (5 Hz default, 10 Hz better)
 # fallback over ssh (hold the key; a single press stops after 1 s):
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/cmd_vel_teleop
+
+# send the car somewhere: click a point in Foxglove (it publishes /clicked_point), or
+ros2 topic pub --once /goal_pose geometry_msgs/msg/PoseStamped "{header: {frame_id: odom}, pose: {position: {x: 2.0, y: 0.0}}}"
+# what happened: accepted, then arrived, stuck, aborted or rejected, each with a reason.
+# Goals are rejected until visual SLAM, the occupancy grid and /perception/status are ready.
+ros2 topic echo /goal_relay/status
 
 5. Test
 

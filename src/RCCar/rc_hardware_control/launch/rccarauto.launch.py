@@ -149,6 +149,7 @@ def generate_launch_description():
                             '/cmd_vel_mux',      # what the Steering controller receives
                             '/cmd_vel_hold',     # the perception watchdog's hold
                             '/perception/status',
+                            '/goal_relay/status',
                             '/goal_pose',
                             '/clicked_point',
                             '^/local_costmap/.*',
@@ -204,9 +205,15 @@ def generate_launch_description():
         executable='goal_pose_relay.py',
         name='goal_pose_relay',
         output='screen',
+        # Admission, preemption and the status topic's vocabulary are in the
+        # script's docstring.
         parameters=[{
-            'default_goal_frame': 'odom',
+            'global_frame': 'odom',          # ADR-0001
+            'robot_frame': 'base_footprint',
             'action_name': 'navigate_to_pose',
+            'status_topic': '/goal_relay/status',
+            'occupancy_grid_topic': '/nvblox_node/static_occupancy_grid',   # what both costmaps read
+            'perception_status_topic': '/perception/status',
         }],
     )
 
