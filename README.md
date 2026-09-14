@@ -164,6 +164,10 @@ nmcli radio wifi
 # reload, no container restart. The whole recovery, from the host, no sudo needed:
 usbreset 8086:0b3a
 # A container started before that mount was added (before 2026-09-13) must be restarted once.
+# Side effect of the live mount: the container sees the host's GPU device nodes with the
+# host's permissions, and the admin user is this host user. configure_system.sh grants the
+# host user the GPU scheduler/profiler nodes every start; without that the perception
+# container dies with "cudaErrorNotSupported" from NitrosContext (2026-09-14).
 # A dead launch still holding the old video nodes no longer matters; the new nodes get new
 # numbers and the live mount shows them. Kill it anyway to free the camera cleanly:
 pkill -f "ros2 launch" 2>/dev/null; pkill -f realsense 2>/dev/null; pkill -f visual_slam 2>/dev/null

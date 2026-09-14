@@ -34,6 +34,21 @@ else
     fail=1
 fi
 
+# The live /dev mount shows the host's GPU nodes with the host's permissions.
+# The container user (this host user's uid) needs the ones the nvidia runtime
+# would have created world-writable, or CUDA fails in the perception container.
+gpu_missing=""
+for node in /dev/nvhost-sched-gpu /dev/nvgpu/igpu0/sched /dev/nvhost-dbg-gpu; do
+    [ -e "$node" ] || continue
+    [ -r "$node" ] && [ -w "$node" ] || gpu_missing="$gpu_missing $node"
+done
+if [ -z "$gpu_missing" ]; then
+    echo "ok   $(id -un) can open the GPU scheduler and debug nodes (configure_system.sh grants them)"
+else
+    echo "FAIL $(id -un) cannot open:$gpu_missing; CUDA in the container will fail with cudaErrorNotSupported (run ./configure_system.sh)"
+    fail=1
+fi
+
 if [ $# -ge 1 ]; then
     container="$1"
     if ! cont_list=$(docker exec "$container" ls /dev 2>&1); then

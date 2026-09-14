@@ -36,4 +36,19 @@ if [ ! -f /etc/udev/rules.d/99-realsense-libusb.rules ]; then
     fi
 fi
 
+# 6. GPU device access for the container user (reset on reboot, so every time).
+# The container bind-mounts the host's /dev live so the camera survives a
+# re-enumeration (issue #9). That means the container sees the host's GPU
+# device nodes with the host's permissions, not the world-writable copies the
+# nvidia runtime would otherwise create, and the admin user in the container
+# is the host user's uid. Without read/write on the scheduler and profiler
+# nodes, CUDA reports "operation not supported" when NITROS sets up its memory
+# pool and the perception container segfaults. Grant that user the nodes the
+# runtime would have made 0666.
+CONTAINER_USER="${SUDO_USER:-$(id -un)}"
+echo "Granting $CONTAINER_USER access to the GPU device nodes..."
+for node in /dev/nvhost-*gpu* /dev/nvgpu/igpu0/* /dev/tegra-soc-hwpm /dev/dri/renderD128; do
+    [ -e "$node" ] && sudo setfacl -m "u:${CONTAINER_USER}:rw" "$node"
+done
+
 echo "System configuration complete. Ready for Docker."
