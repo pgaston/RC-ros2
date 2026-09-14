@@ -228,12 +228,14 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             # obstacle whose background is a depth hole stayed an obstacle for
             # ever (bench, 2026-09-14: a box held at 1 m never cleared in 90 s).
             # With this flag a fully decayed voxel's distance is set to free.
-            # Decay 0.9 at 5 Hz clears a max-weight voxel in about 17 s; the
+            # Decay 0.85 at 5 Hz clears a max-weight voxel in about 10 s; the
             # cost is that an obstacle out of view for that long is forgotten
-            # as free, not unknown, until the camera sees it again. Read at
+            # as free, not unknown, until the camera sees it again. Faster
+            # decay means quicker clearing of a vanished obstacle and quicker
+            # forgetting of a real one the car has turned away from. Read at
             # start only; a param set at runtime has no effect.
             'static_mapper.tsdf_set_free_distance_on_decayed': True,
-            'static_mapper.tsdf_decay_factor': 0.9,
+            'static_mapper.tsdf_decay_factor': 0.85,
             # Deallocating fully decayed blocks would make them unknown again
             # and nvblox warns every tick that the two flags conflict.
             'static_mapper.decay_integrator_deallocate_decayed_blocks': False,
