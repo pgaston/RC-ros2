@@ -106,6 +106,8 @@ def generate_launch_description():
     # exits (config/perception_watchdog.yaml, issue #14). Perception arguments
     # (camera_profile, obstacle_band_lower_edge, robot_frame) keep their
     # defaults; to override one, append name:=value to the watchdog's command.
+    # camera_reset is the watchdog's own: it adds it after a start that never
+    # came up.
     # Respawned if it dies; the bring-up it ran is stopped with it.
     perception_watchdog_node = Node(
         package='rc_hardware_control',

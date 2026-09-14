@@ -66,15 +66,19 @@ class SupervisedProcess:
         """True from start() until poll() has reported the exit."""
         return self._popen is not None
 
-    def start(self) -> None:
-        """Start the child. Raises OSError if the command cannot be run."""
+    def start(self, extra_arguments: Sequence[str] = ()) -> None:
+        """Start the child, with extra_arguments appended to the command for this run only.
+
+        Raises OSError if the command cannot be run.
+        """
         if self._popen is not None:
             raise RuntimeError('already running')
         # Checked here because behind setpriv a missing command is only an exit code.
         if shutil.which(self._command[0]) is None:
             raise FileNotFoundError(f'command not found: {self._command[0]}')
         wrapper = [_SETPRIV, '--pdeathsig', 'INT', '--'] if _SETPRIV else []
-        self._popen = subprocess.Popen(wrapper + self._command, start_new_session=True)
+        self._popen = subprocess.Popen(
+            wrapper + self._command + list(extra_arguments), start_new_session=True)
         self._kill_at = None
 
     def request_stop(self, now: float) -> None:

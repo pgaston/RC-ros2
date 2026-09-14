@@ -10,6 +10,9 @@ Interface (launch arguments):
                             not with the car. See vehicle_geometry.py for the
                             voxel-row arithmetic behind the default.
   robot_frame               the frame visual SLAM tracks and nvblox clears around
+  camera_reset              true: hardware-reset the camera before streaming.
+                            The perception watchdog sets it on a start that
+                            follows a start which never came up.
 
 Run by the perception watchdog in rccarauto.launch.py (full stack), which
 restarts it when it stalls or exits, and included by perception_only.launch.py
@@ -52,7 +55,7 @@ EMITTER_OFF_INFRA2 = '/emitter_off/infra2/image_rect_raw'
 EMITTER_ON_DEPTH = '/emitter_on/depth/image_rect_raw'
 
 
-def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
+def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame, camera_reset=False):
     """The four composable nodes: camera, splitter, visual SLAM, nvblox. Arguments may be plain values or substitutions."""
     camera = ComposableNode(
         package='realsense2_camera',
@@ -95,10 +98,12 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             'enable_accel': False,
             'unite_imu_method': 1,
 
-            # A hardware reset re-enumerates the camera. The container could not
-            # follow that until /dev was bind-mounted live (issue #9). Kept off;
-            # re-enabling it is a separate decision.
-            'initial_reset': False,
+            # A hardware reset re-enumerates the camera, which the container
+            # follows through its live /dev mount (issue #9). Off by default:
+            # it costs a few seconds. The perception watchdog turns it on for a
+            # start after a failed start (issue #14): a camera wedged by a USB
+            # reset failed every plain restart on the bench.
+            'initial_reset': ParameterValue(camera_reset, value_type=bool),
             'reconnect_timeout': 6.0,
             'wait_for_device_timeout': 30.0,
             # Depth quality, settled on the bench 2026-09-14 (issue #5 comments):
@@ -327,8 +332,10 @@ def generate_launch_description():
     camera_profile = LaunchConfiguration('camera_profile')
     obstacle_band_lower_edge = LaunchConfiguration('obstacle_band_lower_edge')
     robot_frame = LaunchConfiguration('robot_frame')
+    camera_reset = LaunchConfiguration('camera_reset')
 
-    camera, splitter, vslam, nvblox = perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame)
+    camera, splitter, vslam, nvblox = perception_nodes(
+        camera_profile, obstacle_band_lower_edge, robot_frame, camera_reset)
 
     # Republishes infra2's camera_info with the frame id visual SLAM expects.
     frame_rename_node = Node(
@@ -376,6 +383,8 @@ def generate_launch_description():
                               description='Metres above robot_frame where the nvblox 2D slice starts'),
         DeclareLaunchArgument('robot_frame', default_value=DEFAULT_ROBOT_FRAME,
                               description='Frame visual SLAM tracks and nvblox clears around'),
+        DeclareLaunchArgument('camera_reset', default_value='false',
+                              description='Hardware-reset the camera before streaming'),
         frame_rename_node,
         end_with_container,
         TimerAction(period=CONTAINER_START_DELAY_S, actions=[container]),

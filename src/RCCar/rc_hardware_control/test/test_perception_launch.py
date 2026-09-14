@@ -107,13 +107,29 @@ def test_nvblox_maps_in_odom_per_adr_0001(nodes):
     assert params_of(nodes['nvblox'])['global_frame'] == 'odom'
 
 
-def test_launch_declares_the_three_interface_arguments():
+def test_launch_declares_the_interface_arguments():
     module = load_perception_module()
     declared = {
         e.name for e in module.generate_launch_description().entities
         if isinstance(e, DeclareLaunchArgument)
     }
-    assert declared == {'camera_profile', 'obstacle_band_lower_edge', 'robot_frame'}
+    assert declared == {'camera_profile', 'obstacle_band_lower_edge', 'robot_frame', 'camera_reset'}
+
+
+def test_the_camera_is_not_reset_unless_asked(nodes):
+    assert params_of(nodes['camera'])['initial_reset'] is False
+
+
+def test_camera_reset_reaches_the_driver_as_a_bool():
+    # The watchdog passes camera_reset:=true on the command line, a string.
+    module = load_perception_module()
+    context = LaunchContext()
+    context.launch_configurations['camera_reset'] = 'true'
+    from launch.substitutions import LaunchConfiguration
+    camera = module.perception_nodes('848x480x30', 0.06, 'base_footprint',
+                                     LaunchConfiguration('camera_reset'))[0]
+    (evaluated,) = evaluate_parameters(context, camera.parameters)
+    assert evaluated['initial_reset'] is True
 
 
 def test_a_dead_container_ends_the_bring_up():

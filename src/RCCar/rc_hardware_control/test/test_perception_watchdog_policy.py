@@ -39,7 +39,7 @@ def test_the_car_is_held_until_every_stream_has_published(dog):
 
 def test_all_streams_fresh_releases_the_car(dog):
     healthy_at(dog, 10.0)
-    assert dog.decide(now=10.1) == (False, False, False, False, 'healthy')
+    assert dog.decide(now=10.1) == (False, False, False, False, False, 'healthy')
 
 
 def test_a_stale_stream_holds_the_car_without_restarting(dog):
@@ -121,6 +121,69 @@ def test_streams_heard_while_stopping_do_not_release_the_car(dog):
     dog.heard('grid', now=16.5)
     d = dog.decide(now=16.6)
     assert d.hold and d.status.startswith('restarting')
+
+
+def never_came_up(dog, now):
+    """Start, let the startup grace run out, and let the stop finish."""
+    d = dog.decide(now)
+    assert d.start
+    dog.started(now)
+    assert dog.decide(now + 45.1).stop
+    dog.exited(now + 46.0, returncode=0)
+    return now + 46.0
+
+
+def test_the_first_start_does_not_reset_the_camera(dog):
+    d = dog.decide(now=0.0)
+    assert d.start and not d.reset_camera and d.status == 'starting'
+
+
+def test_a_start_after_a_start_that_never_came_up_resets_the_camera(dog):
+    exited = never_came_up(dog, 0.0)
+    assert not dog.decide(now=exited + 2.9).start
+    d = dog.decide(now=exited + 3.0)
+    assert d.start and d.reset_camera
+    assert d.status == 'starting: resetting the camera, the last start never came up'
+
+
+def test_a_bring_up_that_exits_before_it_came_up_resets_the_camera_next(dog):
+    dog.decide(now=0.0)
+    dog.started(now=0.0)
+    dog.heard('depth', now=5.0)
+    dog.exited(now=6.0, returncode=-11)   # a missing camera ends in a segfault
+    d = dog.decide(now=9.0)
+    assert d.start and d.reset_camera
+
+
+def test_a_restart_after_perception_was_healthy_does_not_reset_the_camera(dog):
+    healthy_at(dog, 10.0)
+    assert not dog.decide(now=10.1).hold
+    assert dog.decide(now=16.0).stop
+    dog.exited(now=17.0, returncode=0)
+    d = dog.decide(now=20.0)
+    assert d.start and not d.reset_camera
+
+
+def test_the_camera_is_reset_on_every_start_until_one_comes_up(dog):
+    exited = never_came_up(dog, 0.0)
+    exited = never_came_up(dog, exited + 3.0)
+    d = dog.decide(now=exited + 3.0)
+    assert d.start and d.reset_camera
+    dog.started(now=exited + 3.0)
+    dog.heard('depth', now=exited + 20.0)
+    dog.heard('grid', now=exited + 20.0)
+    assert dog.decide(now=exited + 20.1).status == 'healthy'
+    dog.exited(now=exited + 30.0, returncode=-11)
+    d = dog.decide(now=exited + 33.0)
+    assert d.start and not d.reset_camera
+
+
+def test_only_the_start_decision_asks_for_a_reset(dog):
+    exited = never_came_up(dog, 0.0)
+    assert not dog.decide(now=exited + 1.0).reset_camera   # still down
+    assert dog.decide(now=exited + 3.0).reset_camera
+    dog.started(now=exited + 3.0)
+    assert not dog.decide(now=exited + 3.1).reset_camera
 
 
 def test_unknown_stream_is_rejected(dog):

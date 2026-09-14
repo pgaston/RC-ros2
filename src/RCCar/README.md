@@ -56,7 +56,7 @@ source install/setup.bash
 ros2 launch rc_hardware_control rccarauto.launch.py
 ```
 
-For camera work with the car still, `perception_only.launch.py` starts only the URDF and the Perception bring-up. Its arguments are `camera_profile` (848x480x30), `obstacle_band_lower_edge` in metres above the robot frame, and `robot_frame` (base_footprint); they can be given on either launch's command line.
+For camera work with the car still, `perception_only.launch.py` starts only the URDF and the Perception bring-up. Its arguments are `camera_profile` (848x480x30), `obstacle_band_lower_edge` in metres above the robot frame, `robot_frame` (base_footprint), and `camera_reset` (false; the Perception watchdog sets it after a start that never came up); they can be given on either launch's command line.
 
 ## Planning, Arrival, Stuck and Recovery
 

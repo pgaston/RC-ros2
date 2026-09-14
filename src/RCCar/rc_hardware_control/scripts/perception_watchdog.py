@@ -16,8 +16,12 @@ exits, gets Nav2's Goals cancelled and the whole bring-up stopped (SIGINT, then
 SIGKILL) and started again. Every state change goes to the status topic as
 '<state>: <reason>', the states being starting, healthy, stale, restarting and down.
 
+A start that follows a start which never came up appends camera_reset_argument
+to the command, so the camera gets a hardware reset: on the bench a camera
+wedged by a USB reset failed every plain restart.
+
 Parameters (see config/perception_watchdog.yaml for the values and why):
-  command, hold_topic, status_topic, tick_rate_hz, stop_timeout_s,
+  command, camera_reset_argument, hold_topic, status_topic, tick_rate_hz, stop_timeout_s,
   restart_after_s, startup_grace_s, restart_delay_s, cancel_actions,
   streams (list of names), and per stream <name>.topic, <name>.type, <name>.timeout_s.
 """
@@ -52,6 +56,7 @@ class PerceptionWatchdog(Node):
         super().__init__('perception_watchdog')
         self.declare_parameter(
             'command', ['ros2', 'launch', 'rc_hardware_control', 'perception.launch.py'])
+        self.declare_parameter('camera_reset_argument', 'camera_reset:=true')
         self.declare_parameter('hold_topic', '/cmd_vel_hold')
         self.declare_parameter('status_topic', '/perception/status')
         self.declare_parameter('tick_rate_hz', 20.0)
@@ -86,6 +91,7 @@ class PerceptionWatchdog(Node):
         ))
         self._process = SupervisedProcess(
             self.get_parameter('command').value, self.get_parameter('stop_timeout_s').value)
+        self._camera_reset_argument = self.get_parameter('camera_reset_argument').value
 
         self._hold_publisher = self.create_publisher(
             Twist, self.get_parameter('hold_topic').value, 10)
@@ -117,15 +123,16 @@ class PerceptionWatchdog(Node):
         if decision.stop:
             self._process.request_stop(now)
         if decision.start:
-            self._start(now)
+            self._start(now, decision.reset_camera)
         if decision.hold:
             self._hold_publisher.publish(Twist())
         self._report(decision.status)
 
-    def _start(self, now: float):
-        command = ' '.join(self._process.command)
+    def _start(self, now: float, reset_camera: bool):
+        extra = [self._camera_reset_argument] if reset_camera and self._camera_reset_argument else []
+        command = ' '.join([*self._process.command, *extra])
         try:
-            self._process.start()
+            self._process.start(extra)
         except OSError as e:
             self.get_logger().error(f'could not start {command}: {e}')
             self._policy.started(now)

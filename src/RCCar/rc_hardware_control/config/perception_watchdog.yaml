@@ -45,12 +45,21 @@
 #   Worst case from a stall to streaming again: 5 s to decide, up to 10 s to
 #   stop, 3 s delay, about 10 s to start: under 30 s.
 #
+# camera_reset_argument: appended to command on a start that follows a start
+#   which never came up (not healthy before its startup grace ran out or its
+#   exit), so the camera gets a hardware reset (realsense2_camera's
+#   initial_reset). Bench, 2026-09-14: after `usbreset 8086:0b3a` on a camera
+#   that had streamed for an hour, every plain restart failed with USB protocol
+#   errors (-71) on the depth interfaces until the camera was replugged.
+#   The first start and a restart after a healthy run do not reset. Empty: never.
+#
 # cancel_actions: Nav2 actions whose Goals are cancelled when perception is
 #   lost (a restart or an unexpected exit): visual SLAM restarts the odom frame
 #   at the origin, so a Goal in odom would then point somewhere else.
 perception_watchdog:
   ros__parameters:
     command: [ros2, launch, rc_hardware_control, perception.launch.py]
+    camera_reset_argument: camera_reset:=true
     hold_topic: /cmd_vel_hold
     status_topic: /perception/status
     tick_rate_hz: 20.0

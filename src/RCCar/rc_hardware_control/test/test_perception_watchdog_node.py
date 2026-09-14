@@ -3,7 +3,9 @@ a bring-up that publishes the watched streams, stalls while ignoring SIGINT,
 and publishes again once restarted. Asserts the status sequence, that the car
 is held exactly while perception is not healthy, that Goals are cancelled once
 on the restart, and that nothing is left running after the watchdog exits.
-Needs rclpy (the Isaac image); about 25 s.
+A second test has a bring-up that never comes up on its first run and asserts
+that the next start carries the camera reset argument.
+Needs rclpy (the Isaac image); about 40 s.
 """
 import os
 import pathlib
@@ -105,5 +107,49 @@ def test_a_stalled_bring_up_is_held_restarted_and_cleaned_up(tmp_path, ros_env):
         node.destroy_node()
         rclpy.try_shutdown()
 
+    leftovers = subprocess.run(['pgrep', '-f', str(runs_file)], capture_output=True, text=True)
+    assert leftovers.stdout == '', leftovers.stdout
+
+    # The restart after a healthy run is a plain one.
+    assert runs_file.read_text().splitlines() == ['run', 'run']
+
+
+def test_a_start_after_one_that_never_came_up_resets_the_camera(tmp_path, ros_env):
+    runs_file = tmp_path / 'runs'
+    command = [sys.executable, str(FAKE), '--runs-file', str(runs_file), '--silent-runs', '1']
+    watchdog = subprocess.Popen([
+        sys.executable, str(WATCHDOG), '--ros-args',
+        '-p', f'command:={ros_list(command)}',
+        '-p', 'restart_after_s:=2.0',
+        '-p', 'startup_grace_s:=3.0',
+        '-p', 'restart_delay_s:=1.0',
+        '-p', 'stop_timeout_s:=1.0',
+    ], env=ros_env)
+
+    rclpy.init()
+    node = rclpy.create_node('watchdog_reset_test')
+    statuses = []
+    node.create_subscription(
+        String, '/perception/status', lambda m: statuses.append(m.data),
+        QoSProfile(depth=10, durability=QoSDurabilityPolicy.TRANSIENT_LOCAL))
+    try:
+        deadline = time.monotonic() + 30.0
+        while time.monotonic() < deadline and 'healthy' not in statuses:
+            rclpy.spin_once(node, timeout_sec=0.05)
+        assert 'healthy' in statuses, statuses
+        assert 'restarting: depth not up 3 s after start' in statuses, statuses
+        reset = statuses.index('starting: resetting the camera, the last start never came up')
+        assert reset < statuses.index('healthy'), statuses
+    finally:
+        watchdog.send_signal(signal.SIGINT)
+        try:
+            watchdog.wait(timeout=15)
+        finally:
+            if watchdog.poll() is None:
+                watchdog.kill()
+        node.destroy_node()
+        rclpy.try_shutdown()
+
+    assert runs_file.read_text().splitlines() == ['run', 'run camera_reset:=true']
     leftovers = subprocess.run(['pgrep', '-f', str(runs_file)], capture_output=True, text=True)
     assert leftovers.stdout == '', leftovers.stdout

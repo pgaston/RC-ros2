@@ -5,7 +5,8 @@ Use it to debug the RealSense, visual SLAM and nvblox without the car moving,
 for example the camera re-enumeration in issue #9. The URDF is still published
 so the transform from the robot frame to the camera optical frames exists.
 perception.launch.py's arguments (camera_profile, obstacle_band_lower_edge,
-robot_frame) can be given on the command line and reach the include unchanged.
+robot_frame, camera_reset) can be given on the command line and reach the
+include unchanged.
 For a viewer, run foxglove_bridge separately:
 `ros2 launch foxglove_bridge foxglove_bridge_launch.xml`.
 """

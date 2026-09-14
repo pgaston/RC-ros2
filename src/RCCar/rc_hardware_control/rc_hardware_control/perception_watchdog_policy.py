@@ -8,6 +8,13 @@ restart_after_s, or one that has not published startup_grace_s after the
 start, gets the bring-up stopped and started again. Losing perception, by that
 stop or by an unexpected exit, cancels the Goal: visual SLAM restarts its odom
 frame at the origin, where the Goal no longer means anything.
+
+A start that follows a start which never became healthy resets the camera. On
+the bench (2026-09-14) a camera left wedged by a USB reset failed every plain
+restart with USB protocol errors on its depth interfaces; a restart alone does
+not clear that, and a hardware reset is the next thing short of a replug. The
+first start, and a restart after perception was healthy, do not reset: a reset
+re-enumerates the camera and costs a few seconds.
 """
 from dataclasses import dataclass
 from typing import Dict, Iterable, NamedTuple, Optional, Tuple
@@ -29,6 +36,7 @@ class Timing:
 class Decision(NamedTuple):
     hold: bool           # keep the car stopped
     start: bool          # start the perception bring-up now
+    reset_camera: bool   # with start: the last start never became healthy, reset the camera
     stop: bool           # stop the running bring-up so it can start again
     cancel_goals: bool   # perception was lost; the Goal is in an odom frame about to reset
     status: str          # '<state>' or '<state>: <reason>'
@@ -58,6 +66,8 @@ class WatchdogPolicy:
         self._down_reason = ''
         self._heard: Dict[str, float] = {}
         self._cancel_pending = False
+        self._came_up = False        # this start has been healthy
+        self._last_start_failed = False
 
     @property
     def streams(self) -> Tuple[Stream, ...]:
@@ -67,6 +77,7 @@ class WatchdogPolicy:
         """The bring-up was just started. Streams heard before this do not count."""
         self._started_at = now
         self._stopping = False
+        self._came_up = False
         self._heard.clear()
 
     def exited(self, now: float, returncode: Optional[int]) -> None:
@@ -77,6 +88,7 @@ class WatchdogPolicy:
             self._cancel_pending = True
             self._down_reason = ('perception could not start' if returncode is None
                                  else f'perception exited with code {returncode}')
+        self._last_start_failed = not self._came_up
         self._started_at = None
         self._exited_at = now
         self._stopping = False
@@ -94,11 +106,14 @@ class WatchdogPolicy:
 
         if self._started_at is None:
             if self._exited_at is None or now - self._exited_at >= self._timing.restart_delay_s:
-                return Decision(True, True, False, cancel, 'starting')
-            return Decision(True, False, False, cancel, f'down: {self._down_reason}')
+                if self._last_start_failed:
+                    return Decision(True, True, True, False, cancel,
+                                    'starting: resetting the camera, the last start never came up')
+                return Decision(True, True, False, False, cancel, 'starting')
+            return Decision(True, False, False, False, cancel, f'down: {self._down_reason}')
 
         if self._stopping:
-            return Decision(True, False, False, cancel, f'restarting: {self._down_reason}')
+            return Decision(True, False, False, False, cancel, f'restarting: {self._down_reason}')
 
         stale, waiting, restart_reason = [], [], None
         for s in self._streams:
@@ -115,9 +130,10 @@ class WatchdogPolicy:
         if restart_reason is not None:
             self._stopping = True
             self._down_reason = restart_reason
-            return Decision(True, False, True, True, f'restarting: {restart_reason}')
+            return Decision(True, False, False, True, True, f'restarting: {restart_reason}')
         if stale:
-            return Decision(True, False, False, cancel, 'stale: ' + ', '.join(stale))
+            return Decision(True, False, False, False, cancel, 'stale: ' + ', '.join(stale))
         if waiting:
-            return Decision(True, False, False, cancel, 'starting: waiting for ' + ', '.join(waiting))
-        return Decision(False, False, False, cancel, 'healthy')
+            return Decision(True, False, False, False, cancel, 'starting: waiting for ' + ', '.join(waiting))
+        self._came_up = True
+        return Decision(False, False, False, False, cancel, 'healthy')

@@ -57,7 +57,7 @@ The only NavigateToPose client. Owns Goal admission, preemption, and outcome, an
 _Avoid_: Goal server, nav client, brain
 
 **Perception bring-up**:
-The launch module that starts the depth camera, the emitter splitter, visual SLAM, and nvblox together. Its interface is the camera profile, the obstacle band lower edge, and the robot frame. Run by the Perception watchdog in the full launch, and included by a camera-only launch.
+The launch module that starts the depth camera, the emitter splitter, visual SLAM, and nvblox together. Its interface is the camera profile, the obstacle band lower edge, the robot frame, and whether to reset the camera first. Run by the Perception watchdog in the full launch, and included by a camera-only launch.
 _Avoid_: Sensor stack, camera launch
 
 **Vehicle geometry**:
@@ -69,7 +69,7 @@ The only publisher the Steering controller listens to. Merges the teleop source,
 _Avoid_: Twist mux, cmd_vel mux, arbiter, deadman node
 
 **Perception watchdog**:
-The owner of the Perception bring-up in the full launch. Runs it as a child process, holds the car through the Velocity mux while depth, visual SLAM odometry or the occupancy grid is stale, and when a stream stalls or the bring-up exits it cancels the Goal and restarts the bring-up. Publishes starting, healthy, stale, restarting, and down on a status topic.
+The owner of the Perception bring-up in the full launch. Runs it as a child process, holds the car through the Velocity mux while depth, visual SLAM odometry or the occupancy grid is stale, and when a stream stalls or the bring-up exits it cancels the Goal and restarts the bring-up, resetting the camera if the last start never came up. Publishes starting, healthy, stale, restarting, and down on a status topic.
 _Avoid_: Camera watchdog, supervisor, heartbeat, perception monitor
 
 **Hardware interface**:

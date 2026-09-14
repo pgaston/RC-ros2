@@ -34,6 +34,16 @@ def test_a_child_that_exits_reports_its_return_code():
     assert not p.running
 
 
+def test_extra_arguments_are_appended_for_that_run_only():
+    exit_with_argument_count = 'import sys\nraise SystemExit(len(sys.argv))'
+    p = SupervisedProcess([PY, '-c', exit_with_argument_count], stop_timeout_s=1.0)
+    p.start(['camera_reset:=true'])
+    assert wait_for_exit(p, 5.0) == 2
+    p.start()
+    assert wait_for_exit(p, 5.0) == 1
+    assert p.command == (PY, '-c', exit_with_argument_count)
+
+
 def test_stop_interrupts_a_child_that_handles_sigint():
     code = 'import time\ntry:\n    time.sleep(30)\nexcept KeyboardInterrupt:\n    raise SystemExit(0)'
     p = SupervisedProcess([PY, '-c', code], stop_timeout_s=5.0)
