@@ -234,6 +234,9 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             # start only; a param set at runtime has no effect.
             'static_mapper.tsdf_set_free_distance_on_decayed': True,
             'static_mapper.tsdf_decay_factor': 0.9,
+            # Deallocating fully decayed blocks would make them unknown again
+            # and nvblox warns every tick that the two flags conflict.
+            'static_mapper.decay_integrator_deallocate_decayed_blocks': False,
 
             'transform_lookup_buffer_duration_sec': 0.5,
         }],
