@@ -28,12 +28,18 @@ Each Goal gets either rejected alone, or accepted followed by one of arrived,
 stuck, aborted or rejected. A caller that publishes a Goal takes the messages
 that follow as that Goal's answers.
 
+The relay idles on a busy graph: /tf arrives at about 85 Hz on the car and is
+kept undecoded, and a transform buffer is built from it only when a Goal
+arrives (TfOnDemand). The occupancy grid and the plan are only noted as
+received, never decoded.
+
 Parameters: global_frame, robot_frame, action_name, status_topic,
 occupancy_grid_topic, perception_status_topic ('' to admit without the
 perception watchdog), plan_topic, pose_topic, point_topic.
 """
 import math
 import time
+from collections import deque
 
 import rclpy
 import tf2_ros
@@ -44,15 +50,60 @@ from rclpy.action import ActionClient
 from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from rclpy.qos import QoSDurabilityPolicy, QoSProfile, qos_profile_sensor_data
+from rclpy.serialization import deserialize_message
 from rclpy.time import Time
 from std_msgs.msg import String
 from tf2_geometry_msgs import do_transform_point
+from tf2_msgs.msg import TFMessage
 
 from rc_hardware_control.goal_relay_policy import (
     Readiness, goal_heading, outcome, quaternion_of_yaw, refusal, yaw_of)
 
 # How long a Goal request waits for Nav2's action server to be discovered.
 SERVER_WAIT_S = 0.5
+
+# How much /tf a Goal request can see. Every dynamic transform on the car is
+# published at 30 Hz; one published less often than this would be missed, and a
+# car pose older than this (visual SLAM stopped) counts as no recent transform.
+TF_KEEP_S = 2.0
+
+
+class TfOnDemand:
+    """/tf and /tf_static kept as received, decoded into a tf2 Buffer only when asked.
+
+    A TransformListener decodes every /tf message in Python, which cost the
+    relay a quarter of a core on the car (about 85 messages a second) although
+    it needs a transform only when a Goal arrives.
+    """
+
+    def __init__(self, node: Node):
+        self._static = []       # every /tf_static message, undecoded
+        self._recent = deque()  # (arrival, undecoded /tf message) for the last TF_KEEP_S
+        node.create_subscription(TFMessage, '/tf', self._on_tf, QoSProfile(depth=100), raw=True)
+        node.create_subscription(
+            TFMessage, '/tf_static', self._static.append,
+            QoSProfile(depth=100, durability=QoSDurabilityPolicy.TRANSIENT_LOCAL), raw=True)
+
+    def _on_tf(self, raw: bytes):
+        now = time.monotonic()
+        self._recent.append((now, raw))
+        self._forget_before(now - TF_KEEP_S)
+
+    def _forget_before(self, cutoff: float):
+        while self._recent and self._recent[0][0] < cutoff:
+            self._recent.popleft()
+
+    def buffer(self) -> tf2_ros.Buffer:
+        # Also here: if /tf stopped altogether, nothing else would drop the old messages.
+        self._forget_before(time.monotonic() - TF_KEEP_S)
+        buffer = tf2_ros.Buffer()
+        for raw in self._static:
+            for transform in deserialize_message(raw, TFMessage).transforms:
+                buffer.set_transform_static(transform, 'goal_relay')
+        for _, raw in self._recent:
+            for transform in deserialize_message(raw, TFMessage).transforms:
+                buffer.set_transform(transform, 'goal_relay')
+        return buffer
 
 
 class SentGoal:
@@ -79,19 +130,19 @@ class GoalRelay(Node):
         point_topic = self._parameter('point_topic', '/clicked_point')
 
         self._client = ActionClient(self, NavigateToPose, self._action)
-        self._tf_buffer = tf2_ros.Buffer()
-        self._tf_listener = tf2_ros.TransformListener(self._tf_buffer, self)
+        self._tf = TfOnDemand(self)
         latched = QoSProfile(depth=1, durability=QoSDurabilityPolicy.TRANSIENT_LOCAL)
         self._status_publisher = self.create_publisher(String, status_topic, latched)
 
         self._grid_received = False
-        self.create_subscription(OccupancyGrid, grid_topic, self._on_grid, qos_profile_sensor_data)
+        self.create_subscription(
+            OccupancyGrid, grid_topic, self._on_grid, qos_profile_sensor_data, raw=True)
         self._perception_watched = bool(perception_topic)
         self._perception_status = None
         if self._perception_watched:
             self.create_subscription(String, perception_topic, self._on_perception_status, latched)
         self._last_plan_at = None
-        self.create_subscription(Path, plan_topic, self._on_plan, 10)
+        self.create_subscription(Path, plan_topic, self._on_plan, 10, raw=True)
 
         self._current = None
         self.create_subscription(
@@ -119,9 +170,10 @@ class GoalRelay(Node):
         frame = frame_id or self._global_frame
         server_available = (self._client.server_is_ready()
                             or self._client.wait_for_server(timeout_sec=SERVER_WAIT_S))
+        tf = self._tf.buffer()
         reason = refusal(Readiness(
             server_available=server_available,
-            robot_pose_known=self._tf_buffer.can_transform(self._global_frame, self._robot_frame, Time()),
+            robot_pose_known=tf.can_transform(self._global_frame, self._robot_frame, Time()),
             grid_received=self._grid_received,
             perception_watched=self._perception_watched,
             perception_status=self._perception_status,
@@ -131,8 +183,8 @@ class GoalRelay(Node):
             return
 
         try:
-            goal_x, goal_y = self._in_global_frame(frame, point)
-            robot = self._tf_buffer.lookup_transform(self._global_frame, self._robot_frame, Time())
+            goal_x, goal_y = self._in_global_frame(tf, frame, point)
+            robot = tf.lookup_transform(self._global_frame, self._robot_frame, Time())
         except tf2_ros.TransformException as e:
             self._report('rejected', f'cannot transform the Goal from {frame} to {self._global_frame}: {e}')
             return
@@ -155,10 +207,10 @@ class GoalRelay(Node):
         future = self._client.send_goal_async(request, feedback_callback=self._on_feedback(sent))
         future.add_done_callback(self._on_response(sent))
 
-    def _in_global_frame(self, frame: str, point):
+    def _in_global_frame(self, tf: tf2_ros.Buffer, frame: str, point):
         if frame == self._global_frame:
             return point.x, point.y
-        transform = self._tf_buffer.lookup_transform(self._global_frame, frame, Time())
+        transform = tf.lookup_transform(self._global_frame, frame, Time())
         stamped = PointStamped()
         stamped.header.frame_id = frame
         stamped.point = point

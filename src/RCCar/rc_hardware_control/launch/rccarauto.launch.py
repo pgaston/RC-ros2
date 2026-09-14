@@ -159,7 +159,11 @@ def generate_launch_description():
                             '/nvblox_node/mesh',
 
                         ],
-            'send_buffer_limit': 100000000,
+            # Per-client queue before the bridge drops messages. At 100 MB a
+            # bridge or link that falls behind queued seconds of data and the
+            # camera view ran 4 s late (2026-09-14); at 10 MB, the bridge's own
+            # default, it drops old messages and stays near real time.
+            'send_buffer_limit': 10000000,
             'min_qos_depth': 1,
             'max_qos_depth': 10
         }],

@@ -24,7 +24,7 @@ def test_a_ready_relay_admits():
 
 @pytest.mark.parametrize('changes, reason', [
     (dict(server_available=False), 'navigate_to_pose is not available'),
-    (dict(robot_pose_known=False), 'no transform from odom to base_footprint yet'),
+    (dict(robot_pose_known=False), 'no recent transform from odom to base_footprint'),
     (dict(grid_received=False), 'no occupancy grid received yet'),
     (dict(perception_status=None), 'no perception status yet'),
     (dict(perception_status='stale: depth'), 'perception stale: depth'),
@@ -35,7 +35,7 @@ def test_each_missing_fact_is_the_reason(changes, reason):
 
 def test_the_first_missing_fact_is_reported():
     assert refuse(robot_pose_known=False, grid_received=False) == \
-        'no transform from odom to base_footprint yet'
+        'no recent transform from odom to base_footprint'
 
 
 def test_perception_is_ignored_when_not_watched():

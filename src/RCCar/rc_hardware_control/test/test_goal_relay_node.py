@@ -23,7 +23,7 @@ from rclpy.callback_groups import ReentrantCallbackGroup  # noqa: E402
 from rclpy.executors import MultiThreadedExecutor  # noqa: E402
 from rclpy.qos import QoSDurabilityPolicy, QoSProfile  # noqa: E402
 from std_msgs.msg import String  # noqa: E402
-from tf2_ros import StaticTransformBroadcaster  # noqa: E402
+from tf2_ros import StaticTransformBroadcaster, TransformBroadcaster  # noqa: E402
 
 from rc_hardware_control.goal_relay_policy import quaternion_of_yaw, yaw_of  # noqa: E402
 
@@ -112,6 +112,8 @@ class Harness:
         self.points = self.node.create_publisher(PointStamped, '/clicked_point', 10)
         self.poses = self.node.create_publisher(PoseStamped, '/goal_pose', 10)
         self._tf = StaticTransformBroadcaster(self.node)
+        self._tf_dynamic = TransformBroadcaster(self.node)
+        self._robot_on_tf = False
         self._transforms = []
         self._timers = []
         self._executor = MultiThreadedExecutor()
@@ -123,6 +125,24 @@ class Harness:
         self.transform('odom', 'base_footprint', x, y, yaw)
 
     def transform(self, parent, child, x, y, yaw=0.0):
+        self._transforms.append(self._transform_msg(parent, child, x, y, yaw))
+        self._tf.sendTransform(self._transforms)
+
+    def robot_on_tf(self, x, y, yaw, rate_hz=30.0):
+        """odom to base_footprint on /tf at rate_hz, as visual SLAM publishes it, until stop_robot_on_tf()."""
+        self._robot_on_tf = True
+
+        def publish():
+            if self._robot_on_tf:
+                self._tf_dynamic.sendTransform(self._transform_msg('odom', 'base_footprint', x, y, yaw))
+        self._timers.append(self.node.create_timer(1.0 / rate_hz, publish))
+
+    def stop_robot_on_tf(self):
+        # The timer keeps running: destroying it from the test thread while the
+        # executor thread waits on it breaks the executor.
+        self._robot_on_tf = False
+
+    def _transform_msg(self, parent, child, x, y, yaw):
         t = TransformStamped()
         t.header.stamp = self.node.get_clock().now().to_msg()
         t.header.frame_id = parent
@@ -131,8 +151,7 @@ class Harness:
         t.transform.translation.y = y
         r = t.transform.rotation
         r.x, r.y, r.z, r.w = quaternion_of_yaw(yaw)
-        self._transforms.append(t)
-        self._tf.sendTransform(self._transforms)
+        return t
 
     def grid(self):
         self._timers.append(self.node.create_timer(0.2, lambda: self._grid.publish(OccupancyGrid())))
@@ -230,7 +249,7 @@ def test_a_goal_before_the_transform_exists_is_rejected_and_not_sent(harness, re
     harness.perception('healthy')
     time.sleep(1.0)
     harness.click(3.0, 0.0)
-    assert harness.wait_for_statuses(1) == ['rejected: no transform from odom to base_footprint yet']
+    assert harness.wait_for_statuses(1) == ['rejected: no recent transform from odom to base_footprint']
     assert_no_goal_sent(harness)
 
 
@@ -261,6 +280,29 @@ def test_a_ready_goal_is_accepted_in_odom_facing_the_bearing_from_the_car(harnes
     assert goal.header.frame_id == 'odom'
     assert (goal.pose.position.x, goal.pose.position.y) == pytest.approx((4.0, 5.0))
     assert yaw_of_pose(goal) == pytest.approx(math.atan2(4.0, 3.0))
+
+
+def test_a_car_pose_on_tf_is_used_like_a_static_one(harness, relay):
+    harness.robot_on_tf(1.0, 1.0, 0.0)
+    harness.grid()
+    harness.perception('healthy')
+    time.sleep(1.0)
+    harness.click(4.0, 5.0)
+    assert harness.wait_for_statuses(1)[0] == 'accepted: going to (4.00, 5.00) in odom, heading 53 deg'
+    goal = only_goal(harness)
+    assert yaw_of_pose(goal) == pytest.approx(math.atan2(4.0, 3.0))
+
+
+def test_a_car_pose_that_stopped_arriving_is_not_ready(harness, relay):
+    harness.robot_on_tf(1.0, 1.0, 0.0)
+    harness.grid()
+    harness.perception('healthy')
+    time.sleep(1.0)
+    harness.stop_robot_on_tf()
+    time.sleep(2.5)   # longer than the relay keeps /tf
+    harness.click(4.0, 5.0)
+    assert harness.wait_for_statuses(1) == ['rejected: no recent transform from odom to base_footprint']
+    assert_no_goal_sent(harness)
 
 
 def test_a_pose_behaves_like_a_clicked_point(harness, relay):

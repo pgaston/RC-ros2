@@ -24,7 +24,7 @@ MIN_BEARING_DISTANCE_M = 0.05
 @dataclass(frozen=True)
 class Readiness:
     server_available: bool      # Nav2's navigate_to_pose action server is up
-    robot_pose_known: bool      # the transform from the global frame to the robot frame exists
+    robot_pose_known: bool      # a recent transform from the global frame to the robot frame exists
     grid_received: bool         # at least one occupancy grid has arrived
     perception_watched: bool    # the perception watchdog's status topic is configured
     perception_status: Optional[str]   # its latest status, None until one arrives
@@ -35,7 +35,7 @@ def refusal(r: Readiness, action: str, global_frame: str, robot_frame: str) -> O
     if not r.server_available:
         return f'{action} is not available'
     if not r.robot_pose_known:
-        return f'no transform from {global_frame} to {robot_frame} yet'
+        return f'no recent transform from {global_frame} to {robot_frame}'
     if not r.grid_received:
         return 'no occupancy grid received yet'
     if r.perception_watched:
