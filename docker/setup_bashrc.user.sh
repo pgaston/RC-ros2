@@ -1,9 +1,13 @@
 #!/bin/bash
 BASHRC="$HOME/.bashrc"
+touch "$BASHRC"   # a fresh container has none yet; the greps below need it
 
-# Clean up stale FastDDS shared memory files
-rm -f /dev/shm/fastrtps_*
-rm -f /dev/shm/sem.fastrtps_*
+# Clean up stale FastDDS shared memory files. /dev is the host's (issue #9),
+# so files left by a root process cannot be removed from here; that is fine,
+# the container's FastDDS profile disables shared memory anyway.
+for f in /dev/shm/fastrtps_* /dev/shm/sem.fastrtps_*; do
+    [ -e "$f" ] && [ -O "$f" ] && rm -f "$f"
+done
 
 if ! grep -q "export ROS_DOMAIN_ID=" "$BASHRC"; then
     echo "export ROS_DOMAIN_ID=47" >> "$BASHRC"
