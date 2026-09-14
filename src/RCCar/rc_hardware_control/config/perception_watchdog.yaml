@@ -21,7 +21,10 @@
 #     watchdog never copies 24 MB/s. Visual SLAM saw frame gaps up to 333 ms at
 #     start on the bench (2026-09-14); much shorter would hold the car for
 #     nothing.
-#   odometry 0.5 s: visual SLAM at 30 Hz. Without it the odom frame stops.
+#   odometry 0.5 s: visual SLAM at 15 Hz, since it gets only the emitter-off
+#     frames (issue #15), so about seven updates. Without it the odom frame
+#     stops. Depth camera_info comes from the camera, not the splitter; a
+#     dead splitter stops odometry and the grid, which hold the car.
 #   occupancy_grid 2.0 s: nvblox publishes about 5 Hz (4.9 Hz on the bench), so
 #     ten grids.
 #

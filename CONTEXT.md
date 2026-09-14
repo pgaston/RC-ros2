@@ -57,7 +57,7 @@ The only NavigateToPose client. Owns Goal admission, preemption, and outcome, an
 _Avoid_: Goal server, nav client, brain
 
 **Perception bring-up**:
-The launch module that starts the depth camera, visual SLAM, and nvblox together. Its interface is the camera profile, the obstacle band lower edge, and the robot frame. Run by the Perception watchdog in the full launch, and included by a camera-only launch.
+The launch module that starts the depth camera, the emitter splitter, visual SLAM, and nvblox together. Its interface is the camera profile, the obstacle band lower edge, and the robot frame. Run by the Perception watchdog in the full launch, and included by a camera-only launch.
 _Avoid_: Sensor stack, camera launch
 
 **Vehicle geometry**:

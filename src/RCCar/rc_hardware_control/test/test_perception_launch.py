@@ -28,15 +28,16 @@ def params_of(node):
     return evaluated
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def nodes():
+    # Built per test: a ComposableNode's remappings can be read only once.
     module = load_perception_module()
-    camera, vslam, nvblox = module.perception_nodes(
+    camera, splitter, vslam, nvblox = module.perception_nodes(
         camera_profile='640x480x15',
         obstacle_band_lower_edge=0.07,
         robot_frame='base_footprint',
     )
-    return {'camera': camera, 'vslam': vslam, 'nvblox': nvblox}
+    return {'camera': camera, 'splitter': splitter, 'vslam': vslam, 'nvblox': nvblox}
 
 
 def test_camera_profile_reaches_both_stereo_streams(nodes):
@@ -45,11 +46,39 @@ def test_camera_profile_reaches_both_stereo_streams(nodes):
     assert p['depth_module.infra_profile'] == '640x480x15'
 
 
+def remap_table(node):
+    def text(name):
+        return name if isinstance(name, str) else ''.join(s.perform(LaunchContext()) for s in name)
+    return {text(src): text(dst) for src, dst in node.remappings}
+
+
+def test_the_emitter_alternates_frame_by_frame(nodes):
+    p = params_of(nodes['camera'])
+    assert p['depth_module.emitter_enabled'] == 1
+    assert p['depth_module.emitter_on_off'] is True
+
+
+def test_visual_slam_tracks_emitter_off_infra_and_nvblox_maps_emitter_on_depth(nodes):
+    splitter = remap_table(nodes['splitter'])
+    vslam = remap_table(nodes['vslam'])
+    nvblox = remap_table(nodes['nvblox'])
+    assert vslam['visual_slam/image_0'] == splitter['/realsense_splitter_node/output/infra_1']
+    assert vslam['visual_slam/image_1'] == splitter['/realsense_splitter_node/output/infra_2']
+    assert nvblox['camera_0/depth/image'] == splitter['/realsense_splitter_node/output/depth']
+    # The splitter reads what the camera publishes, and each image with its own metadata.
+    camera = remap_table(nodes['camera'])
+    assert splitter['input/infra_1'] == camera['/camera/infra1/image_rect_raw']
+    assert splitter['input/infra_2'] == camera['/camera/infra2/image_rect_raw']
+    assert splitter['input/depth'] == camera['/camera/depth/image_rect_raw']
+    assert splitter['input/infra_1_metadata'] == '/camera/infra1/metadata'
+    assert splitter['input/infra_2_metadata'] == '/camera/infra2/metadata'
+    assert splitter['input/depth_metadata'] == '/camera/depth/metadata'
+
+
 def test_camera_remappings_name_the_driver_topics(nodes):
     # realsense2_camera 4.56.4 publishes under its node name; a rule written
     # for a relative name matches nothing and the stack silently gets no images.
-    sources = [''.join(s.perform(LaunchContext()) for s in src) if not isinstance(src, str) else src
-               for src, _ in nodes['camera'].remappings]
+    sources = list(remap_table(nodes['camera']))
     assert sources
     assert all(s.startswith('/camera/') for s in sources), sources
 

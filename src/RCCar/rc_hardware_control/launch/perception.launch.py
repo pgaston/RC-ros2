@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Perception bring-up: RealSense D435i, visual SLAM and nvblox in one container.
+"""Perception bring-up: RealSense D435i, emitter splitter, visual SLAM and nvblox in one container.
 
 Interface (launch arguments):
   camera_profile            stereo stream WxHxFPS, e.g. 848x480x30
@@ -44,9 +44,14 @@ DEFAULT_ROBOT_FRAME = 'base_footprint'
 # the fixed camera_info topic exists, so visual SLAM never sees the wrong frame.
 CONTAINER_START_DELAY_S = 4.0
 
+# The splitter's outputs (issue #15): what visual SLAM and nvblox read.
+EMITTER_OFF_INFRA1 = '/emitter_off/infra1/image_rect_raw'
+EMITTER_OFF_INFRA2 = '/emitter_off/infra2/image_rect_raw'
+EMITTER_ON_DEPTH = '/emitter_on/depth/image_rect_raw'
+
 
 def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
-    """The three composable nodes. Arguments may be plain values or substitutions."""
+    """The four composable nodes: camera, splitter, visual SLAM, nvblox. Arguments may be plain values or substitutions."""
     camera = ComposableNode(
         package='realsense2_camera',
         plugin='realsense2_camera::RealSenseNodeFactory',
@@ -102,11 +107,20 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             # does the same. The High Accuracy preset (3) raises the stereo
             # confidence threshold and removed every such return in 455 frames.
             # The temporal filter takes out single-frame outliers cheaply. The
-            # emitter stays off: its dot pattern lands in the infra images
-            # visual SLAM tracks, and it paints near returns on things close
-            # to the lens. The spatial filter stays off: too costly on the CPU.
+            # spatial filter stays off: too costly on the CPU.
+            #
+            # The IR emitter alternates frame by frame (issue #15). Passive
+            # stereo cannot range a plain wall, which stays a depth hole and so
+            # unknown in the costmap; the emitter's dot pattern gives it texture
+            # (valid depth 55% to 79% on the bench). The same dots in the infra
+            # images disturb visual SLAM's tracking, so the splitter below sends
+            # emitter-off infra frames to visual SLAM and emitter-on depth
+            # frames to nvblox, each at half the camera rate. On the bench the
+            # emitter also painted near returns on things close to the lens;
+            # recheck that with the glare test from #5.
             'depth_module.visual_preset': 3,
-            'depth_module.emitter_enabled': 0,
+            'depth_module.emitter_enabled': 1,
+            'depth_module.emitter_on_off': True,
             'temporal_filter.enable': True,
             'spatial_filter.enable': False,
             'depth_qos': 'SENSOR_DATA',
@@ -142,6 +156,32 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
         ],
     )
 
+    # Republishes infra images from emitter-off frames and depth from emitter-on
+    # frames, reading frame_emitter_mode from each frame's metadata. NVIDIA's
+    # node, vendored in src/RCCar/realsense_splitter. camera_info is not split:
+    # visual SLAM and nvblox take it from the camera, as in NVIDIA's examples.
+    splitter = ComposableNode(
+        name='realsense_splitter_node',
+        namespace='',
+        package='realsense_splitter',
+        plugin='nvblox::RealsenseSplitterNode',
+        parameters=[{
+            'input_qos': 'SENSOR_DATA',
+            'output_qos': 'SENSOR_DATA',
+        }],
+        remappings=[
+            ('input/infra_1', '/infra1/image_rect_raw'),
+            ('input/infra_1_metadata', '/camera/infra1/metadata'),
+            ('input/infra_2', '/infra2/image_rect_raw'),
+            ('input/infra_2_metadata', '/camera/infra2/metadata'),
+            ('input/depth', '/depth/image_rect_raw'),
+            ('input/depth_metadata', '/camera/depth/metadata'),
+            ('/realsense_splitter_node/output/infra_1', EMITTER_OFF_INFRA1),
+            ('/realsense_splitter_node/output/infra_2', EMITTER_OFF_INFRA2),
+            ('/realsense_splitter_node/output/depth', EMITTER_ON_DEPTH),
+        ],
+    )
+
     vslam = ComposableNode(
         name='visual_slam_node',
         package='isaac_ros_visual_slam',
@@ -167,7 +207,9 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             'accel_random_walk': 0.003,
             'calibration_frequency': 200.0,
 
-            'image_jitter_threshold_ms': 60.0,
+            # Visual SLAM gets every other camera frame (emitter-off only), so
+            # frames are 67 ms apart at 15 Hz; this allows one and a half periods.
+            'image_jitter_threshold_ms': 100.0,
             'sync_matching_threshold_ms': 5.0,
             'num_cameras': 2,
             'multicam_mode': 1,       # stereo
@@ -185,8 +227,8 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             'input_right_camera_frame': 'camera_infra2_optical_frame',
         }],
         remappings=[
-            ('visual_slam/image_0', '/infra1/image_rect_raw'),
-            ('visual_slam/image_1', '/infra2/image_rect_raw'),
+            ('visual_slam/image_0', EMITTER_OFF_INFRA1),
+            ('visual_slam/image_1', EMITTER_OFF_INFRA2),
             ('visual_slam/camera_info_0', '/infra1/camera_info'),
             # frame_rename.py's copy with frame_id camera_infra2_optical_frame
             ('visual_slam/camera_info_1', '/infra2/camera_info_fixed'),
@@ -248,13 +290,13 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             'transform_lookup_buffer_duration_sec': 0.5,
         }],
         remappings=[
-            ('camera_0/depth/image', '/depth/image_rect_raw'),
+            ('camera_0/depth/image', EMITTER_ON_DEPTH),
             ('camera_0/depth/camera_info', '/depth/camera_info'),
             ('pose', '/visual_slam/tracking/vo_pose'),
         ],
     )
 
-    return camera, vslam, nvblox
+    return camera, splitter, vslam, nvblox
 
 
 def generate_launch_description():
@@ -262,7 +304,7 @@ def generate_launch_description():
     obstacle_band_lower_edge = LaunchConfiguration('obstacle_band_lower_edge')
     robot_frame = LaunchConfiguration('robot_frame')
 
-    camera, vslam, nvblox = perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame)
+    camera, splitter, vslam, nvblox = perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame)
 
     # Republishes infra2's camera_info with the frame id visual SLAM expects.
     frame_rename_node = Node(
@@ -272,14 +314,14 @@ def generate_launch_description():
         output='screen',
     )
 
-    # One multi-threaded container so the three nodes share images zero-copy
+    # One multi-threaded container so the four nodes share images zero-copy
     # and cuVSLAM's stereo sync is not serialised behind other callbacks.
     container = ComposableNodeContainer(
         name='isaac_ros_container',
         namespace='',
         package='rclcpp_components',
         executable='component_container_mt',
-        composable_node_descriptions=[camera, vslam, nvblox],
+        composable_node_descriptions=[camera, splitter, vslam, nvblox],
         output='screen',
     )
 
