@@ -119,7 +119,10 @@ def generate_launch_description():
         parameters=[{
             'address': '0.0.0.0',
             'port': 8765,
-            'use_compression': True,
+            # Websocket compression costs a third of a core on the Orin Nano
+            # (bench, 2026-09-14) and starves the perception container. The
+            # image topics have /compressed variants; use those in Foxglove.
+            'use_compression': False,
             'topic_whitelist': [
                             '^/tf', 
                             '/tf_static',
