@@ -129,6 +129,8 @@ def generate_launch_description():
                             '/diagnostics.*',
                             '/color/image_raw/compressed',
                             '/infra1/image_rect_raw/compressed',
+                            '/depth/image_rect_raw/compressedDepth',   # light; if the panel cannot decode it use the raw one
+                            '/depth/image_rect_raw',                   # 24 MB/s at 30 Hz; only while debugging depth
                             '/plan',
                             '/local_plan',
                             '/cmd_vel',          # Nav2's output
