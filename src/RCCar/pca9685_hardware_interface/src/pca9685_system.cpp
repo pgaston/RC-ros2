@@ -68,6 +68,7 @@ PwmMotorController::Config parse_motor(const Params & p, std::set<std::string> &
   c.arming_pulse_output = read_param(p, "arming_pulse_output", c.arming_pulse_output, consumed);
   c.arming_settle_s = read_param(p, "arming_settle_s", c.arming_settle_s, consumed);
   c.reverse_brake_s = read_param(p, "reverse_brake_s", c.reverse_brake_s, consumed);
+  c.reverse_tap_output = read_param(p, "reverse_tap_output", c.reverse_tap_output, consumed);
   c.reverse_release_s = read_param(p, "reverse_release_s", c.reverse_release_s, consumed);
   c.reverse_settle_s = read_param(p, "reverse_settle_s", c.reverse_settle_s, consumed);
   c.forward_settle_s = read_param(p, "forward_settle_s", c.forward_settle_s, consumed);

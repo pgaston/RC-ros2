@@ -15,6 +15,7 @@ void PwmMotorController::configure(const Config & config)
   config_.max_output = std::clamp(std::abs(config_.max_output), 0.0, 1.0);
   config_.forward_offset = std::clamp(config_.forward_offset, 0.0, config_.max_output);
   config_.reverse_offset = std::clamp(config_.reverse_offset, -config_.max_output, 0.0);
+  config_.reverse_tap_output = std::clamp(config_.reverse_tap_output, 0.0, 1.0);
   state_ = MotorState::INITIALIZING;
   time_in_state_s_ = 0.0;
   time_since_command_s_ = 0.0;
@@ -120,7 +121,10 @@ void PwmMotorController::update(double dt)
       break;
 
     case MotorState::TO_REVERSE_PULSE:
-      current_duty_cycle_ = config_.neutral_pulse_ms;
+      // The tap the ESC needs before it will reverse. Sending neutral here
+      // (as the first rewrite did) leaves the ESC in forward mode and every
+      // reverse command does nothing.
+      current_duty_cycle_ = output_to_duty_cycle(config_.reverse_tap_output);
       if (time_in_state_s_ >= config_.reverse_release_s) { enter(MotorState::TO_REVERSE_NEUTRAL_2); }
       break;
 

@@ -286,9 +286,13 @@
       <param name="arming_pulse_s">0.5</param>
       <param name="arming_pulse_output">0.05</param>
       <param name="arming_settle_s">0.5</param>
+      <!-- Into reverse: neutral, a short forward tap, neutral, then reverse.
+           Found experimentally on the bench (TestPCA9685ESC.py: 0.2 s each,
+           tap at 0.1). Without the tap the ESC ignores reverse commands. -->
       <param name="reverse_brake_s">0.20</param>
+      <param name="reverse_tap_output">0.10</param>
       <param name="reverse_release_s">0.20</param>
-      <param name="reverse_settle_s">0.05</param>
+      <param name="reverse_settle_s">0.20</param>
       <param name="forward_settle_s">0.20</param>
     </joint>
   </ros2_control>

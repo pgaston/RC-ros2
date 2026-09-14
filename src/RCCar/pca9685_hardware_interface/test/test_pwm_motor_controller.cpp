@@ -108,7 +108,10 @@ TEST(Throttle, ReverseMirrorsForwardWithItsOwnOffset)
   EXPECT_DOUBLE_EQ(m.get_duty_cycle(), 1.5);
   EXPECT_DOUBLE_EQ(m.get_velocity(), 0.0);
 
-  step(m, 0.20 + 0.20 + 0.05 + 3 * kDt);
+  step(m, 0.20 + kDt);
+  EXPECT_EQ(m.get_state(), State::TO_REVERSE_PULSE);
+  EXPECT_NEAR(m.get_duty_cycle(), 1.5 + 0.10 * 0.5, 1e-9);  // the forward tap the ESC needs, not neutral
+  step(m, 0.20 + 0.20 + 2 * kDt);
   EXPECT_EQ(m.get_state(), State::REVERSE);
   EXPECT_NEAR(m.get_duty_cycle(), 1.5 - 0.29 * 0.5, 1e-9);  // -0.18 + (-0.5) * (0.40 - 0.18)
   EXPECT_DOUBLE_EQ(m.get_velocity(), -5.0);

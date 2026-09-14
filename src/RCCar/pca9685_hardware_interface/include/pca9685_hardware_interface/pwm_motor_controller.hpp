@@ -49,11 +49,13 @@ public:
     double arming_pulse_output = 0.05;  // fraction sent during arming_pulse_s
     double arming_settle_s = 0.5;
 
-    // Direction-change dwell: the ESC brakes on the first reverse pulse and
-    // only reverses after returning to neutral.
-    double reverse_brake_s = 0.20;
-    double reverse_release_s = 0.20;
-    double reverse_settle_s = 0.05;
+    // Direction change into reverse, found experimentally on the bench
+    // (TestPCA9685ESC.py): neutral, a short forward tap, neutral again, and
+    // only then does the ESC accept reverse commands as reverse.
+    double reverse_brake_s = 0.20;       // neutral before the tap
+    double reverse_tap_output = 0.10;    // fraction sent during the tap
+    double reverse_release_s = 0.20;     // tap length
+    double reverse_settle_s = 0.20;      // neutral after the tap
     double forward_settle_s = 0.20;
   };
 
