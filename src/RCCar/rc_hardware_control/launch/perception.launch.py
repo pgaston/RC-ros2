@@ -222,6 +222,19 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
 
             'static_mapper.projective_integrator_max_integration_distance_m': 5.0,
 
+            # Forgetting. nvblox decays unobserved voxels' weights but clamps
+            # them at tsdf_decayed_weight_threshold (0.001), which is above
+            # the ESDF's minimum weight for a surface (1e-4), so a removed
+            # obstacle whose background is a depth hole stayed an obstacle for
+            # ever (bench, 2026-09-14: a box held at 1 m never cleared in 90 s).
+            # With this flag a fully decayed voxel's distance is set to free.
+            # Decay 0.9 at 5 Hz clears a max-weight voxel in about 17 s; the
+            # cost is that an obstacle out of view for that long is forgotten
+            # as free, not unknown, until the camera sees it again. Read at
+            # start only; a param set at runtime has no effect.
+            'static_mapper.tsdf_set_free_distance_on_decayed': True,
+            'static_mapper.tsdf_decay_factor': 0.9,
+
             'transform_lookup_buffer_duration_sec': 0.5,
         }],
         remappings=[
