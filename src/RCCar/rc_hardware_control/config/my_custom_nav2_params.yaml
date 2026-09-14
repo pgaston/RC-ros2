@@ -85,7 +85,8 @@ bt_navigator_navigate_to_pose_rclcpp_node:
 controller_server:
   ros__parameters:
     use_sim_time: False
-    transform_tolerance: 1.0
+    # No transform_tolerance here: Humble's controller_server does not declare
+    # one. The Path follower has its own, FollowPath.transform_tolerance, below.
     enable_stamped_cmd_vel: false
     odom_topic: /visual_slam/tracking/odometry   # same source as bt_navigator
     controller_frequency: 20.0
@@ -136,10 +137,15 @@ controller_server:
       max_angular_accel: 2.0
       max_angular_decel: 2.0
       use_velocity_scaled_lookahead_dist: false
+      # Visual SLAM publishes odom at 15 Hz (67 ms); 0.3 s tolerates a few late
+      # updates without failing FollowPath. The controller_server-level 1.0 s
+      # this replaces was never read.
+      transform_tolerance: 0.3
       min_approach_linear_velocity: 0.05
       approach_velocity_scaling_dist: 0.6
       use_collision_detection: true
-      max_allowed_time_to_collision: 1.0
+      # Humble's name; the older max_allowed_time_to_collision was silently ignored.
+      max_allowed_time_to_collision_up_to_carrot: 1.0
       use_regulated_linear_velocity_scaling: true
       use_cost_regulated_linear_velocity_scaling: false
       cost_scaling_dist: 0.3
