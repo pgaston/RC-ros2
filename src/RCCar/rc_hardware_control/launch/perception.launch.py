@@ -98,15 +98,14 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame):
             # front of the car against nvblox's decay. Outdoors the sun or sky
             # does the same. The High Accuracy preset (3) raises the stereo
             # confidence threshold and removed every such return in 455 frames.
-            # The emitter fills the holes the stricter threshold leaves on plain
-            # surfaces (55% to 79% valid pixels indoors) and costs nothing in
-            # sunlight. The temporal and spatial filters take out single-frame
-            # outliers; depth drops from 30 to about 23 Hz, above nvblox's
-            # 10 Hz integration. The infra images visual SLAM uses are untouched.
+            # The temporal filter takes out single-frame outliers cheaply. The
+            # emitter stays off: its dot pattern lands in the infra images
+            # visual SLAM tracks, and it paints near returns on things close
+            # to the lens. The spatial filter stays off: too costly on the CPU.
             'depth_module.visual_preset': 3,
-            'depth_module.emitter_enabled': 1,
+            'depth_module.emitter_enabled': 0,
             'temporal_filter.enable': True,
-            'spatial_filter.enable': True,
+            'spatial_filter.enable': False,
             'depth_module.depth_qos': 'SENSOR_DATA',
             'depth_module.exposure_priority': False,   # constant FPS over exposure
 
