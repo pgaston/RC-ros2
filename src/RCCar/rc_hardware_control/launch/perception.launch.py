@@ -11,12 +11,15 @@ Interface (launch arguments):
                             voxel-row arithmetic behind the default.
   robot_frame               the frame visual SLAM tracks and nvblox clears around
 
-Included by rccarauto.launch.py (full stack) and perception_only.launch.py
+Run by the perception watchdog in rccarauto.launch.py (full stack), which
+restarts it when it stalls or exits, and included by perception_only.launch.py
 (camera bench). IMU fusion is pinned off: the D435i IMU is not streamed and
 cuVSLAM runs stereo-only, which is what produced the last working map.
 """
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, TimerAction
+from launch.actions import DeclareLaunchArgument, EmitEvent, RegisterEventHandler, TimerAction
+from launch.event_handlers import OnProcessExit
+from launch.events import Shutdown
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import ComposableNodeContainer, Node
 from launch_ros.descriptions import ComposableNode
@@ -280,6 +283,14 @@ def generate_launch_description():
         output='screen',
     )
 
+    # A container that dies ends the whole bring-up (a camera that never
+    # appears ends in a segfault), so the perception watchdog sees an exit and
+    # restarts at once instead of waiting for the streams to time out.
+    end_with_container = RegisterEventHandler(OnProcessExit(
+        target_action=container,
+        on_exit=[EmitEvent(event=Shutdown(reason='perception container exited'))],
+    ))
+
     return LaunchDescription([
         DeclareLaunchArgument('camera_profile', default_value=DEFAULT_CAMERA_PROFILE,
                               description='Stereo infra and depth profile, WxHxFPS'),
@@ -288,5 +299,6 @@ def generate_launch_description():
         DeclareLaunchArgument('robot_frame', default_value=DEFAULT_ROBOT_FRAME,
                               description='Frame visual SLAM tracks and nvblox clears around'),
         frame_rename_node,
+        end_with_container,
         TimerAction(period=CONTAINER_START_DELAY_S, actions=[container]),
     ])

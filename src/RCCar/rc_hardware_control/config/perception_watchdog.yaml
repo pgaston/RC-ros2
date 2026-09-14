@@ -1,0 +1,71 @@
+# Perception watchdog (scripts/perception_watchdog.py): runs the perception
+# bring-up (perception.launch.py) as its child, holds the car while perception
+# is unhealthy, and restarts the bring-up when it stalls (issue #14).
+#
+# Why it exists: the camera driver reconnects only on a USB remove or add
+# event. A stream that stops with the device still on the bus is never
+# noticed; on the bench the node did not recover after `usbreset` either
+# (4.51.1 and 4.56.4); and a container whose camera never appears segfaults
+# after wait_for_device_timeout.
+#
+# Topics
+#   /cmd_vel_hold       zero Twist at tick_rate_hz while perception is not
+#                       healthy; the velocity mux's hold source, which outranks
+#                       Nav2 and yields to teleop (config/velocity_mux.yaml)
+#   /perception/status  '<state>: <reason>' on every change, latched. States:
+#                       starting, healthy, stale, restarting, down
+#
+# Streams: silence longer than timeout_s is stale and holds the car.
+#   depth 0.5 s: the driver publishes depth camera_info with every frame at
+#     30 Hz, so fifteen frames. camera_info rather than the image, so the
+#     watchdog never copies 24 MB/s. Visual SLAM saw frame gaps up to 333 ms at
+#     start on the bench (2026-09-14); much shorter would hold the car for
+#     nothing.
+#   odometry 0.5 s: visual SLAM at 30 Hz. Without it the odom frame stops.
+#   occupancy_grid 2.0 s: nvblox publishes about 5 Hz (4.9 Hz on the bench), so
+#     ten grids.
+#
+# Restart
+#   restart_after_s 5.0: a stream that came up and then went silent this long.
+#     The car is already held after the stream's timeout; the rest is patience
+#     for a hiccup. Must not be shorter than any stream timeout.
+#   startup_grace_s 45.0: a stream not seen this long after a start. The
+#     container starts 4 s into the launch, the camera node waits up to 30 s
+#     for its device (wait_for_device_timeout), and visual SLAM and nvblox need
+#     a few seconds after the first frames.
+#   restart_delay_s 3.0: after the bring-up has exited, before the next start;
+#     time for a re-enumerating camera to settle.
+#   stop_timeout_s 10.0: SIGINT to the bring-up and everything it started,
+#     SIGKILL to whatever is still alive after this. ros2 launch escalates to
+#     SIGTERM after 5 s by itself; a container stuck in the driver may ignore
+#     both.
+#   Worst case from a stall to streaming again: 5 s to decide, up to 10 s to
+#   stop, 3 s delay, about 10 s to start: under 30 s.
+#
+# cancel_actions: Nav2 actions whose Goals are cancelled when perception is
+#   lost (a restart or an unexpected exit): visual SLAM restarts the odom frame
+#   at the origin, so a Goal in odom would then point somewhere else.
+perception_watchdog:
+  ros__parameters:
+    command: [ros2, launch, rc_hardware_control, perception.launch.py]
+    hold_topic: /cmd_vel_hold
+    status_topic: /perception/status
+    tick_rate_hz: 20.0
+    restart_after_s: 5.0
+    startup_grace_s: 45.0
+    restart_delay_s: 3.0
+    stop_timeout_s: 10.0
+    cancel_actions: [/navigate_to_pose]
+    streams: [depth, odometry, occupancy_grid]
+    depth:
+      topic: /depth/camera_info
+      type: sensor_msgs/msg/CameraInfo
+      timeout_s: 0.5
+    odometry:
+      topic: /visual_slam/tracking/odometry
+      type: nav_msgs/msg/Odometry
+      timeout_s: 0.5
+    occupancy_grid:
+      topic: /nvblox_node/static_occupancy_grid
+      type: nav_msgs/msg/OccupancyGrid
+      timeout_s: 2.0

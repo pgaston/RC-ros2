@@ -159,9 +159,14 @@ sudo nmcli radio wifi on
 nmcli radio wifi
 
 # RealSense recovery (camera "NOT found", "Cannot identify /dev/videoN", "RGB modules inconsistency")
+# In the full launch the perception watchdog recovers on its own: it holds the car while
+# depth, visual SLAM odometry or the occupancy grid is stale, and restarts the perception
+# bring-up after 5 s of silence or when it exits (issue #14). Watch /perception/status.
+# A running camera node does not recover from a re-enumeration by itself (4.51.1 or
+# 4.56.4); only a new start finds the camera. perception_only.launch.py has no watchdog.
 # The container bind-mounts /dev live (docker/.isaac_ros_dev-dockerargs), so a camera that
-# re-enumerates gets picked up by the camera node on its next retry. No unplug, no udev
-# reload, no container restart. The whole recovery, from the host, no sudo needed:
+# re-enumerated is found by the next start. No unplug, no udev reload, no container restart.
+# To force a re-enumeration, from the host, no sudo needed:
 usbreset 8086:0b3a
 # A container started before that mount was added (before 2026-09-13) must be restarted once.
 # Side effect of the live mount: the container sees the host's GPU device nodes with the

@@ -67,7 +67,7 @@ def generate_launch_description():
         ],
     )
 
-    # Velocity mux: teleop over Nav2, zero when neither is fresh.
+    # Velocity mux: teleop over the perception hold over Nav2, zero when none is fresh.
     velocity_mux_node = Node(
         package='rc_hardware_control',
         executable='velocity_mux.py',
@@ -99,16 +99,24 @@ def generate_launch_description():
 
 
 
-    # 2. Perception bring-up: camera, visual SLAM and nvblox (perception.launch.py).
-    # Its arguments (camera_profile, obstacle_band_lower_edge, robot_frame) keep
-    # their defaults here; pass them on the command line to override.
-    perception = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                FindPackageShare('rc_hardware_control'),
-                'launch', 'perception.launch.py'
-            ])
-        ),
+    # 2. Perception bring-up (perception.launch.py: camera, visual SLAM, nvblox),
+    # run by the perception watchdog as its child. The watchdog holds the car
+    # through the velocity mux while depth, visual SLAM odometry or the
+    # occupancy grid is stale, and restarts the bring-up when it stalls or
+    # exits (config/perception_watchdog.yaml, issue #14). Perception arguments
+    # (camera_profile, obstacle_band_lower_edge, robot_frame) keep their
+    # defaults; to override one, append name:=value to the watchdog's command.
+    # Respawned if it dies; the bring-up it ran is stopped with it.
+    perception_watchdog_node = Node(
+        package='rc_hardware_control',
+        executable='perception_watchdog.py',
+        name='perception_watchdog',
+        output='screen',
+        respawn=True,
+        respawn_delay=2.0,
+        parameters=[PathJoinSubstitution([
+            FindPackageShare('rc_hardware_control'), 'config', 'perception_watchdog.yaml'
+        ])],
     )
 
     # 6. Foxglove
@@ -139,6 +147,8 @@ def generate_launch_description():
                             '/cmd_vel',          # Nav2's output
                             '/cmd_vel_teleop',   # the Foxglove Teleop panel publishes here
                             '/cmd_vel_mux',      # what the Steering controller receives
+                            '/cmd_vel_hold',     # the perception watchdog's hold
+                            '/perception/status',
                             '/goal_pose',
                             '/clicked_point',
                             '^/local_costmap/.*',
@@ -209,7 +219,7 @@ def generate_launch_description():
         velocity_mux_node,
         jetson_stats_node,
         foxglove_bridge_node,
-        perception,
+        perception_watchdog_node,
 
         # Start Nav2 after the perception container (up at 4 s) so TFs are ready
         TimerAction(

@@ -57,7 +57,7 @@ The only NavigateToPose client. Owns Goal admission, preemption, and outcome, an
 _Avoid_: Goal server, nav client, brain
 
 **Perception bring-up**:
-The launch module that starts the depth camera, visual SLAM, and nvblox together. Its interface is the camera profile, the obstacle band lower edge, and the robot frame. Included by the full launch and by a camera-only launch.
+The launch module that starts the depth camera, visual SLAM, and nvblox together. Its interface is the camera profile, the obstacle band lower edge, and the robot frame. Run by the Perception watchdog in the full launch, and included by a camera-only launch.
 _Avoid_: Sensor stack, camera launch
 
 **Vehicle geometry**:
@@ -65,8 +65,12 @@ The measured dimensions in the URDF xacro properties, the single source for ever
 _Avoid_: Robot params, dimensions config
 
 **Velocity mux**:
-The only publisher the Steering controller listens to. Merges the teleop source and Nav2's command by priority: teleop always wins, a source that goes silent for longer than its timeout drops out, and with nothing fresh it publishes zero so the car stops. Its interface is the source topics, priorities and timeouts in its configuration.
+The only publisher the Steering controller listens to. Merges the teleop source, the Perception watchdog's hold, and Nav2's command by priority: teleop always wins, the hold outranks Nav2, a source that goes silent for longer than its timeout drops out, and with nothing fresh it publishes zero so the car stops. Its interface is the source topics, priorities and timeouts in its configuration.
 _Avoid_: Twist mux, cmd_vel mux, arbiter, deadman node
+
+**Perception watchdog**:
+The owner of the Perception bring-up in the full launch. Runs it as a child process, holds the car through the Velocity mux while depth, visual SLAM odometry or the occupancy grid is stale, and when a stream stalls or the bring-up exits it cancels the Goal and restarts the bring-up. Publishes starting, healthy, stale, restarting, and down on a status topic.
+_Avoid_: Camera watchdog, supervisor, heartbeat, perception monitor
 
 **Hardware interface**:
 The ros2_control plugin that turns a Steering joint angle and a Traction joint wheel speed into servo and ESC pulses. Its interface is the ros2_control block in the URDF; every parameter there is read and nothing else configures it. It has no feedback; the Steering controller runs open loop.

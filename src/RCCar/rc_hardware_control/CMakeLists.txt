@@ -28,6 +28,7 @@ install(
     scripts/cmd_vel_logger.py
     scripts/frame_rename.py
     scripts/goal_pose_relay.py
+    scripts/perception_watchdog.py
     scripts/test_bicycle.py
     scripts/velocity_mux.py
   DESTINATION lib/rc_hardware_control
@@ -44,6 +45,9 @@ if(BUILD_TESTING)
   ament_add_pytest_test(test_vehicle_geometry test/test_vehicle_geometry.py)
   # The car-like behaviour tree: reverse and pause only, three Recoveries.
   ament_add_pytest_test(test_behavior_tree test/test_behavior_tree.py)
+  ament_add_pytest_test(test_perception_watchdog_policy test/test_perception_watchdog_policy.py)
+  ament_add_pytest_test(test_supervised_process test/test_supervised_process.py)
+  ament_add_pytest_test(test_perception_watchdog_node test/test_perception_watchdog_node.py TIMEOUT 120)
 endif()
 
 ## EXPORTS

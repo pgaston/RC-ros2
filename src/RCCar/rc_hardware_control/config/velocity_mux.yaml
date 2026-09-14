@@ -5,6 +5,7 @@
 #   /cmd_vel          Nav2's output (nav2_bringup remaps the velocity smoother
 #                     onto it, so it is not renamed here)
 #   /cmd_vel_teleop   the Foxglove Teleop panel or teleop_twist_keyboard
+#   /cmd_vel_hold     the perception watchdog: zero while perception is not healthy
 #   /cmd_vel_mux      the mux output, TwistStamped; rccarauto.launch.py remaps
 #                     the Steering controller's stamped reference topic onto it
 #
@@ -26,15 +27,27 @@
 # 0.5 s plus one tick. If only the controller server dies the smoother keeps
 # running and zeroes its own output after its velocity_timeout (0.5 s in
 # my_custom_nav2_params.yaml), so either way the car stops inside a second.
+#
+# hold 0.5 s: the perception watchdog publishes zero at 20 Hz while depth,
+# visual SLAM odometry or the occupancy grid is stale, or perception is down
+# (config/perception_watchdog.yaml). It outranks Nav2, so Nav2 cannot drive a
+# car that cannot see, and yields to teleop, so a human can still drive it
+# home. Ten missed messages; once perception is healthy the hold drops out and
+# Nav2 has the car back within 0.5 s. If the watchdog itself dies the hold
+# drops out too; launch respawns the watchdog, which holds again at once.
 velocity_mux:
   ros__parameters:
     output_topic: /cmd_vel_mux
     publish_rate_hz: 20.0
-    sources: [teleop, nav]
+    sources: [teleop, hold, nav]
     teleop:
       topic: /cmd_vel_teleop
       priority: 100     # higher wins; a human always outranks Nav2
       timeout_s: 1.0
+    hold:
+      topic: /cmd_vel_hold
+      priority: 50      # above Nav2, below a human
+      timeout_s: 0.5    # the watchdog publishes at 20 Hz; ten missed messages
     nav:
       topic: /cmd_vel
       priority: 10

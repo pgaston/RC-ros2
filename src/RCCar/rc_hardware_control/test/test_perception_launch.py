@@ -7,7 +7,8 @@ import pathlib
 
 import pytest
 from launch import LaunchContext
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, RegisterEventHandler
+from launch.event_handlers import OnProcessExit
 from launch_ros.utilities import evaluate_parameters
 
 PACKAGE_DIR = pathlib.Path(__file__).resolve().parents[1]
@@ -84,6 +85,16 @@ def test_launch_declares_the_three_interface_arguments():
         if isinstance(e, DeclareLaunchArgument)
     }
     assert declared == {'camera_profile', 'obstacle_band_lower_edge', 'robot_frame'}
+
+
+def test_a_dead_container_ends_the_bring_up():
+    # The perception watchdog restarts the bring-up when it exits.
+    module = load_perception_module()
+    handlers = [
+        e.event_handler for e in module.generate_launch_description().entities
+        if isinstance(e, RegisterEventHandler)
+    ]
+    assert any(isinstance(h, OnProcessExit) for h in handlers)
 
 
 def test_composable_nodes_are_defined_in_exactly_one_file():
