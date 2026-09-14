@@ -20,6 +20,8 @@
   <depend>nav2_msgs</depend>
   <depend>isaac_ros_common</depend>
   <exec_depend>ros2launch</exec_depend>
+  <exec_depend>nav2_common</exec_depend>
+  <exec_depend>nav2_bringup</exec_depend>
   <exec_depend>xacro</exec_depend>
   <exec_depend>ros2controlcli</exec_depend>
   <exec_depend>controller_manager</exec_depend>

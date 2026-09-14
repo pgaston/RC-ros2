@@ -1,0 +1,47 @@
+<!--
+  Navigate to a Goal as a Car-like vehicle.
+
+  Planning replans at 1 Hz while the Path follower runs (PipelineSequence
+  keeps ticking the planner), so a Recovery is followed by a plan from the
+  new position without a separate replan step. Planning failure ends the
+  tree at once: a Goal in a wall is rejected within the planner's timeout
+  and never drives the car anywhere. Path-following failure, including the
+  progress checker declaring Stuck, runs one Recovery: a short straight
+  reverse and a pause. Three Recoveries, then abort. A planning failure
+  during a Recovery also aborts; the patio run decides whether that needs
+  a retry.
+
+  navigate_through_poses is pointed at this tree too, only because Nav2's
+  default through-poses tree needs the spin behaviour this stack no longer
+  loads, and trees load at activation. Nothing here calls through-poses.
+
+  No spin, no drive-on-heading, no assisted teleop: a car cannot turn in
+  place, and the reverse here is the only time it drives backwards. No
+  costmap clearing either: nvblox republishes the whole grid every second.
+-->
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <PipelineSequence name="NavigateWithReplanning">
+      <RateController hz="1.0">
+        <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased"/>
+      </RateController>
+      <RecoveryNode number_of_retries="3" name="FollowPathWithRecovery">
+        <FollowPath path="{path}" controller_id="FollowPath"/>
+        <ReactiveFallback name="RecoveryFallback">
+          <GoalUpdated/>
+          <Sequence name="Recovery">
+            <!-- The velocity smoother keeps publishing zeros on /cmd_vel for
+                 its 0.5 s timeout after the Path follower stops; a reverse
+                 started inside that window is chopped by them. Let it drain. -->
+            <Wait wait_duration="1"/>
+            <!-- backup_speed stays under the 0.26 m/s debugging cap; the
+                 behaviour publishes on /cmd_vel directly, not through the
+                 velocity smoother, so the cap here is the only one. -->
+            <BackUp backup_dist="0.25" backup_speed="0.10" time_allowance="10"/>
+            <Wait wait_duration="2"/>
+          </Sequence>
+        </ReactiveFallback>
+      </RecoveryNode>
+    </PipelineSequence>
+  </BehaviorTree>
+</root>

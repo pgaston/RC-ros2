@@ -7,6 +7,7 @@ from launch.substitutions import PathJoinSubstitution, Command
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
+from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     """The full stack: URDF, ros2_control, perception, Foxglove, Nav2, goal relay."""
@@ -146,11 +147,25 @@ def generate_launch_description():
     )
 
     # 7. Navigation2 (Nav2)
-    nav2_params_file = PathJoinSubstitution([
+    # The behaviour tree parameters need absolute paths, so the params file is
+    # rewritten with the installed location of the car-like tree. Both
+    # navigators get it; see the note in the params file.
+    car_like_tree = PathJoinSubstitution([
         FindPackageShare('rc_hardware_control'),
-        'config', 'my_custom_nav2_params.yaml'
+        'behavior_trees', 'navigate_to_pose_car_like.xml'
     ])
-    
+    nav2_params_file = RewrittenYaml(
+        source_file=PathJoinSubstitution([
+            FindPackageShare('rc_hardware_control'),
+            'config', 'my_custom_nav2_params.yaml'
+        ]),
+        param_rewrites={
+            'default_nav_to_pose_bt_xml': car_like_tree,
+            'default_nav_through_poses_bt_xml': car_like_tree,
+        },
+        convert_types=True,
+    )
+
     nav2_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([

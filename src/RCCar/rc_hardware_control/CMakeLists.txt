@@ -15,7 +15,7 @@ endforeach()
 
 
 install(
-  DIRECTORY launch config description scripts
+  DIRECTORY launch config description scripts behavior_trees
   DESTINATION share/rc_hardware_control
 )
 
@@ -42,6 +42,8 @@ if(BUILD_TESTING)
   ament_add_pytest_test(test_velocity_mux_policy test/test_velocity_mux_policy.py)
   # Every value derived from the xacro's vehicle geometry; pure Python plus PyYAML.
   ament_add_pytest_test(test_vehicle_geometry test/test_vehicle_geometry.py)
+  # The car-like behaviour tree: reverse and pause only, three Recoveries.
+  ament_add_pytest_test(test_behavior_tree test/test_behavior_tree.py)
 endif()
 
 ## EXPORTS

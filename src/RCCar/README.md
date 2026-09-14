@@ -21,11 +21,13 @@ rc_hardware_control/
   config/velocity_mux.yaml             velocity mux sources, priorities, timeouts
   config/my_custom_nav2_params.yaml    Nav2
   config/disable_shm.xml               FastDDS profile used inside the container
+  behavior_trees/navigate_to_pose_car_like.xml   Recovery: reverse, pause, replan; three then abort
   launch/rccarauto.launch.py           the full stack
   launch/perception.launch.py          Perception bring-up: camera, visual SLAM, nvblox
   launch/perception_only.launch.py     Perception bring-up alone, for the camera bench
   test/test_perception_launch.py       the Perception bring-up interface, under colcon test
   test/test_vehicle_geometry.py        every value derived from the xacro's Vehicle geometry
+  test/test_behavior_tree.py           the car-like tree's shape and limits
   scripts/                             see below
 ```
 
@@ -55,6 +57,10 @@ ros2 launch rc_hardware_control rccarauto.launch.py
 ```
 
 For camera work with the car still, `perception_only.launch.py` starts only the URDF and the Perception bring-up. Its arguments are `camera_profile` (848x480x30), `obstacle_band_lower_edge` in metres above the robot frame, and `robot_frame` (base_footprint); they can be given on either launch's command line.
+
+## Planning, Arrival, Stuck and Recovery
+
+The planner is Smac Hybrid with the DUBIN motion model, so every plan is forward only. Arrival is being within one car length of the Goal with heading ignored; the tolerance latches once met. The car is Stuck when it has not moved 10 cm in 15 s. Path-following failure, Stuck included, runs a Recovery from `behavior_trees/navigate_to_pose_car_like.xml`: settle for a second, reverse 25 cm at 0.10 m/s, pause two seconds, and carry on with the plan the tree has been recomputing at 1 Hz all along. Three Recoveries, then the Goal aborts. Planning failure aborts at once, so a Goal in a wall never moves the car. There is no spin, no drive-on-heading and no assisted teleop. `rccarauto.launch.py` rewrites the Nav2 params file so the behaviour tree parameter points at the installed tree.
 
 ## Velocity mux and teleop
 

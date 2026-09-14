@@ -10,10 +10,16 @@ bt_navigator:
     bt_loop_duration: 10
     default_server_timeout: 20
     wait_for_service_timeout: 1000
-    # 'default_nav_through_poses_bt_xml' and 'default_nav_to_pose_bt_xml' are use defaults:
-    # nav2_bt_navigator/navigate_to_pose_w_replanning_and_recovery.xml
-    # nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml
-    # They can be set here or via a RewrittenYaml remap from a parent launch file to Nav2.
+    # The car-like tree (behavior_trees/navigate_to_pose_car_like.xml): a
+    # straight reverse and a pause only, three Recoveries then abort. Needs an
+    # absolute path, so rccarauto.launch.py rewrites both values to the
+    # installed file. Through-poses gets the same tree because Nav2's default
+    # through-poses tree needs the spin behaviour this stack no longer loads,
+    # and trees load at activation, so bt_navigator would fail to come up.
+    # Nothing here calls through-poses. The placeholders fail loudly if the
+    # rewrite is ever skipped.
+    default_nav_to_pose_bt_xml: "set-by-rccarauto.launch.py"
+    default_nav_through_poses_bt_xml: "set-by-rccarauto.launch.py"
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
       - nav2_compute_path_through_poses_action_bt_node
@@ -86,7 +92,7 @@ controller_server:
     goal_checker_plugins: ["general_goal_checker"] # "precise_goal_checker"
     controller_plugins: ["FollowPath"]
 
-    # Progress checker parameters
+    # Stuck: no 10 cm of progress in 15 s fails FollowPath, which runs a Recovery.
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
       required_movement_radius: 0.1
@@ -216,6 +222,10 @@ planner_server:
       # gentle arcs far better. Lowering it is a tuning decision for the Path
       # follower ticket.
       minimum_turning_radius: 0.80
+      # Forward only. DUBIN is the Humble default; stated so the choice is
+      # visible in the planner's startup log. REEDS_SHEPP would allow reverse
+      # segments, which the ESC direction change makes unreliable mid-path.
+      motion_model_for_search: "DUBIN"
       tolerance: 0.20
       allow_unknown: true
       downsample_costmap: false
@@ -223,7 +233,6 @@ planner_server:
       max_on_lane_iterations: 2500
       max_planning_time: 2.0
       analytic_expansion_ratio: 3.5
-      reverse_penalty: 500.0            # Discourage reversing
       change_penalty: 5.0             # Discourage changing directions
 
       non_straight_penalty: 1.05
@@ -245,25 +254,19 @@ behavior_server:
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
-    behavior_plugins: ["spin", "backup", "drive_on_heading", "assisted_teleop", "wait"]
-    spin:
-      plugin: "nav2_behaviors/Spin"
+    # A car cannot spin in place, so the only behaviours are the Recovery
+    # pair the tree uses: a straight reverse and a pause. The reverse's
+    # distance and speed are ports on the BackUp node in the tree.
+    behavior_plugins: ["backup", "wait"]
     backup:
       plugin: "nav2_behaviors/BackUp"
-    drive_on_heading:
-      plugin: "nav2_behaviors/DriveOnHeading"
     wait:
       plugin: "nav2_behaviors/Wait"
-    assisted_teleop:
-      plugin: "nav2_behaviors/AssistedTeleop"
     global_frame: odom
     robot_base_frame: base_footprint
     transform_tolerance: 0.3
     use_sim_time: False
-    simulate_ahead_time: 2.0
-    max_rotational_vel: 1.0
-    min_rotational_vel: 0.4
-    rotational_acc_lim: 3.2
+    simulate_ahead_time: 2.0   # BackUp checks the local costmap this far ahead
 
 robot_state_publisher:
   ros__parameters:
