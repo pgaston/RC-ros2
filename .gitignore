@@ -2,7 +2,6 @@ build/
 install/
 log/
 src/isaac_ros_common
-src/realsense-ros
 
 __pycache__/
 
