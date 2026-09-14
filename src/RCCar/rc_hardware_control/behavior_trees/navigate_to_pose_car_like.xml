@@ -36,8 +36,15 @@
             <Wait wait_duration="1"/>
             <!-- backup_speed stays under the 0.26 m/s debugging cap; the
                  behaviour publishes on /cmd_vel directly, not through the
-                 velocity smoother, so the cap here is the only one. -->
-            <BackUp backup_dist="0.25" backup_speed="0.10" time_allowance="10"/>
+                 velocity smoother, so the cap here is the only one.
+                 The reverse is best effort: if it is cut short (something
+                 behind the car, or odometry not moving on the bench) the
+                 Recovery still counts and path following is retried; the
+                 three-round limit is what bounds it. Without ForceSuccess a
+                 failed reverse aborts the Goal on the spot. -->
+            <ForceSuccess>
+              <BackUp backup_dist="0.25" backup_speed="0.10" time_allowance="10"/>
+            </ForceSuccess>
             <Wait wait_duration="2"/>
           </Sequence>
         </ReactiveFallback>

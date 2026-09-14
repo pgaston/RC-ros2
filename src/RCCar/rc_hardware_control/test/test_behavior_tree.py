@@ -46,7 +46,16 @@ def test_planner_sits_outside_the_recovery(tree):
 
 def test_recovery_is_settle_reverse_then_pause(nodes):
     sequence = next(n for n in nodes if n.tag == 'Sequence')
-    assert [child.tag for child in sequence] == ['Wait', 'BackUp', 'Wait']
+    assert [child.tag for child in sequence] == ['Wait', 'ForceSuccess', 'Wait']
+    assert [child.tag for child in sequence[1]] == ['BackUp']
+
+
+def test_a_cut_short_reverse_still_counts_as_a_recovery(nodes):
+    # A failed recovery child makes Nav2's RecoveryNode abort the Goal at once;
+    # the reverse is best effort, so its failure is swallowed.
+    backup = next(n for n in nodes if n.tag == 'BackUp')
+    parent = next(n for n in nodes if backup in list(n))
+    assert parent.tag == 'ForceSuccess'
 
 
 def test_reverse_is_straight(nodes):
