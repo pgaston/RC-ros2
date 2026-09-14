@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import rclpy
+from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 
@@ -22,9 +23,13 @@ class CmdVelLogger(Node):
 def main(args=None):
     rclpy.init(args=args)
     cmd_vel_logger = CmdVelLogger()
-    rclpy.spin(cmd_vel_logger)
-    cmd_vel_logger.destroy_node()
-    rclpy.shutdown()
+    try:
+        rclpy.spin(cmd_vel_logger)
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass   # launch stops us with SIGINT; rclpy has already begun shutting down
+    finally:
+        cmd_vel_logger.destroy_node()
+        rclpy.try_shutdown()
 
 if __name__ == '__main__':
     main()

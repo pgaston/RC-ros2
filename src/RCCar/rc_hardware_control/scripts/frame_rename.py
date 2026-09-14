@@ -6,6 +6,7 @@
 # and republishes it to a new topic that VSLAM can use.
 
 import rclpy
+from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
 from sensor_msgs.msg import CameraInfo
@@ -37,9 +38,13 @@ class CameraInfoFixer(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = CameraInfoFixer()
-    rclpy.spin(node)
-    node.destroy_node()
-    rclpy.shutdown()
+    try:
+        rclpy.spin(node)
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass   # launch stops us with SIGINT; rclpy has already begun shutting down
+    finally:
+        node.destroy_node()
+        rclpy.try_shutdown()
 
 if __name__ == '__main__':
     main()
