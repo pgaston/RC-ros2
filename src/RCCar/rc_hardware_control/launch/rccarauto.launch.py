@@ -133,6 +133,9 @@ def generate_launch_description():
             # (bench, 2026-09-14) and starves the perception container. The
             # image topics have /compressed variants; use those in Foxglove.
             'use_compression': False,
+            # Drop messages once 1 MB is queued for a client. The 10 MB default
+            # is over 10 s of backlog on the car's ~7 Mbit/s wifi link (#10).
+            'send_buffer_limit': 1000000,
             'topic_whitelist': [
                             '^/tf', 
                             '/tf_static',

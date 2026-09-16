@@ -288,9 +288,9 @@ The Grid: I have set the global frame to map. If the grid looks like it's drifti
 Performance: If the 3D view is laggy, go to the 3D panel settings and toggle "Decay Time" for the /visual_slam/vis/landmarks_cloud to a lower value (e.g., 5 seconds).
 
 ##########
-# optimized, less laggy
+# optimized, less laggy: drop messages past 1 MB queued instead of lagging behind
 ros2 run foxglove_bridge foxglove_bridge --ros-args -p port:=8765 -p address:=0.0.0.0 \
-  -p send_buffer_limit:=100000000 \
+  -p send_buffer_limit:=1000000 \
   -p num_threads:=2
 #########################
 
@@ -372,9 +372,9 @@ ros2 launch rc_hardware_control perception_only.launch.py
 ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 address:=0.0.0.0
 
 ##########
-# optimized, less laggy
+# optimized, less laggy: drop messages past 1 MB queued instead of lagging behind
 ros2 run foxglove_bridge foxglove_bridge --ros-args -p port:=8765 -p address:=0.0.0.0 \
-  -p send_buffer_limit:=100000000 \
+  -p send_buffer_limit:=1000000 \
   -p num_threads:=2
 #########################
 
