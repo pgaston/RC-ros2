@@ -89,6 +89,10 @@ sudo jetson_clocks
 
 
 1. Pre-Docker, ON HOST  - after every reboot
+# Done at boot by rccar-host-setup.service, so start_workspace.sh needs no password.
+# Install once, and again after editing configure_system.sh:
+sudo scripts/install_host_setup.sh
+# Without the service, by hand (asks for the sudo password):
 ./configure_system.sh
 
 2. Launch Docker - then create 2 more windows or so with this - after - first is loaded

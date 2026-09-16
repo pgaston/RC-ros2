@@ -8,8 +8,15 @@ cd "$WORKSPACE_DIR"
 echo "=========================================="
 echo "    Running System Configuration..."
 echo "=========================================="
-if [ -f "./configure_system.sh" ]; then
-    sudo ./configure_system.sh
+if systemctl is-active --quiet rccar-host-setup.service; then
+    # Ran at boot (scripts/install_host_setup.sh), so no sudo here.
+    echo "Host setup already done at boot by rccar-host-setup.service."
+    if ! cmp -s ./configure_system.sh /usr/local/sbin/rccar-host-setup; then
+        echo "Warning: configure_system.sh differs from the installed copy;"
+        echo "         run 'sudo scripts/install_host_setup.sh' to apply the change."
+    fi
+elif [ -f "./configure_system.sh" ]; then
+    ./configure_system.sh
 else
     echo "Warning: ./configure_system.sh not found. Skipping."
 fi

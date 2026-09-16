@@ -1,0 +1,17 @@
+# Runs configure_system.sh once per boot, so start_workspace.sh needs no sudo.
+# Installed by scripts/install_host_setup.sh; it runs the root-owned copy in
+# /usr/local/sbin, never the workspace file, which the pg user can edit.
+[Unit]
+Description=RC car host setup (USB autosuspend, power mode, clocks, device permissions)
+After=nvpmodel.service systemd-modules-load.service systemd-udev-settle.service
+Wants=systemd-udev-settle.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+# The host user whose uid is the container's admin user; gets the GPU nodes.
+Environment=RCCAR_USER=pg
+ExecStart=/usr/local/sbin/rccar-host-setup
+
+[Install]
+WantedBy=multi-user.target
