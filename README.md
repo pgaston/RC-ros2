@@ -153,10 +153,29 @@ sudo modprobe hid-sensor-hub hid-sensor-accel-3d hid-sensor-gyro-3d
 rs-enumerate-devices -v
 
 
-# F1 - Remote-ssh: Open configuration
-# wired - 192.168.86.43
+# Network / ssh access (GL.iNet travel router)
+# The car carries a GL.iNet router, which reaches the outside network over wifi.
+# The Jetson plugs into the router's LAN by ethernet (enP8p1s0) and gets 192.168.8.100
+# (gateway 192.168.8.1). The router forwards its port 2222 to 192.168.8.100:22.
+#   on the router's LAN:            ssh pg@192.168.8.100
+#   from the network the router is on (router's WAN address):
+#                                   ssh -p 2222 pg@<router-wan-ip>
+# VS Code Remote-SSH (F1 - Remote-SSH: Open configuration), ~/.ssh/config:
+#   Host rc-car
+#     HostName <router-wan-ip>
+#     Port 2222
+#     User pg
+# Foxglove: the full launch's foxglove_bridge listens on 0.0.0.0:8765 (no auth).
+#   on the router's LAN:            ws://192.168.8.100:8765   (needs: sudo ufw allow 8765/tcp)
+#   from the router's WAN side, tunnel it through the 2222 forward (no extra port forward,
+#   no firewall change; don't forward 8765, anyone reaching it can drive the car):
+ssh -p 2222 -N -L 8765:localhost:8765 pg@<router-wan-ip>
+#   then open ws://localhost:8765 in Foxglove (or forward 8765 in VS Code's Ports tab).
+#   Use the /compressed image topics; the bridge's own compression is off (CPU cost).
+# Keep 192.168.8.100 fixed: set an address reservation for the Jetson in the router's
+# admin page (http://192.168.8.1), or the forward points at the wrong host after a new lease.
+# Older addresses (before the GL.iNet router): wired 192.168.86.43, wifi 192.168.86.245
 use usbc connection if this fails to find out ip address
-# wifi - 192.168.86.245
 
 # wifi off
 sudo nmcli radio wifi off
