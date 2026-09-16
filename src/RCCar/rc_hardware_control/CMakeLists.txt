@@ -59,6 +59,7 @@ if(BUILD_TESTING)
   ament_add_pytest_test(test_camera_preview test/test_camera_preview.py)
   ament_add_pytest_test(test_camera_preview_node test/test_camera_preview_node.py TIMEOUT 120)
   ament_add_pytest_test(test_full_launch test/test_full_launch.py)
+  ament_add_pytest_test(test_dds_profile test/test_dds_profile.py)
 endif()
 
 ## EXPORTS

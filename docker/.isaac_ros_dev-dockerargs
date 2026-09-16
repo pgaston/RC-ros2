@@ -12,3 +12,5 @@
 --device=/dev/bus/usb:/dev/bus/usb
 --gpus all
 --privileged
+--env ROS_LOCALHOST_ONLY=0
+--env FASTRTPS_DEFAULT_PROFILES_FILE=/workspaces/isaac_ros-dev/src/RCCar/rc_hardware_control/config/disable_shm.xml

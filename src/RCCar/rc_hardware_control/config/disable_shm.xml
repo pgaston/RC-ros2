@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Fast DDS profile for the container: UDP on loopback only, no shared memory.
+
+  The container runs with ROS_LOCALHOST_ONLY=0 and this file
+  (docker/.isaac_ros_dev-dockerargs). With ROS_LOCALHOST_ONLY=1, Humble's
+  rmw_fastrtps adds a shared-memory transport whatever this file says; with
+  the host's /dev/shm (issue #9) and a watchdog that kills whole containers
+  (issue #14), its listener thread spun at 80% of a core in foxglove_bridge
+  (issue #17). The whitelist below keeps DDS on loopback instead, which is
+  what ROS_LOCALHOST_ONLY was for.
+-->
 <profiles xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
     <transport_descriptors>
-        <!-- Define a UDP transport descriptor -->
         <transport_descriptor>
             <transport_id>udp_transport</transport_id>
             <type>UDPv4</type>
+            <interfaceWhiteList>
+                <address>127.0.0.1</address>
+            </interfaceWhiteList>
         </transport_descriptor>
     </transport_descriptors>
 

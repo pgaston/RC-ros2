@@ -189,6 +189,8 @@ ros2 run foxglove_bridge foxglove_bridge --ros-args -r __node:=foxglove_bridge_b
   -p port:=8766 -p address:=127.0.0.1 -p send_buffer_limit:=1000000 \
   -p "topic_whitelist:=['/camera/infra1/image_rect_raw/compressed', '/depth/image_rect_raw']"
 ssh -N -L 8766:localhost:8766 pg@192.168.8.100    # on the laptop; then ws://localhost:8766
+# ROS traffic (DDS) never leaves the Jetson: the container's Fast DDS profile keeps UDP on
+# 127.0.0.1 and turns shared memory off (config/disable_shm.xml, ROS_LOCALHOST_ONLY=0; #17).
 # Keep 192.168.8.100 fixed: set an address reservation for the Jetson in the router's
 # admin page (http://192.168.8.1), or the forward points at the wrong host after a new lease.
 # Older addresses (before the GL.iNet router): wired 192.168.86.43, wifi 192.168.86.245
