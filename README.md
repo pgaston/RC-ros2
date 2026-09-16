@@ -165,12 +165,18 @@ rs-enumerate-devices -v
 #     HostName <router-wan-ip>
 #     Port 2222
 #     User pg
-# Foxglove: the full launch's foxglove_bridge listens on 0.0.0.0:8765 (no auth).
-#   on the router's LAN:            ws://192.168.8.100:8765   (needs: sudo ufw allow 8765/tcp)
-#   from the router's WAN side, tunnel it through the 2222 forward (no extra port forward,
-#   no firewall change; don't forward 8765, anyone reaching it can drive the car):
+# Foxglove: foxglove_bridge listens on 0.0.0.0:8765, no auth. The full launch sets both;
+# standalone, pass port:=8765 address:=0.0.0.0 (also the launch file's defaults).
+# The router forwards its port 8765 to 192.168.8.100:8765. The Jetson's firewall must
+# allow it once:  sudo ufw allow 8765/tcp
+#   on the router's LAN:            ws://192.168.8.100:8765
+#   from the router's WAN side:     ws://<router-wan-ip>:8765
+#   Anyone who reaches 8765 can drive the car (/cmd_vel_teleop). On a network you don't
+#   trust, drop that forward and tunnel through the ssh forward instead:
 ssh -p 2222 -N -L 8765:localhost:8765 pg@<router-wan-ip>
 #   then open ws://localhost:8765 in Foxglove (or forward 8765 in VS Code's Ports tab).
+#   The tunnel shares the ssh connection, so heavy Foxglove traffic lags the terminal too.
+#   Over wifi, leave /nvblox_node/mesh (~30 Mbit/s) and the 30 Hz image out of Foxglove.
 #   Use the /compressed image topics; the bridge's own compression is off (CPU cost).
 # Keep 192.168.8.100 fixed: set an address reservation for the Jetson in the router's
 # admin page (http://192.168.8.1), or the forward points at the wrong host after a new lease.
@@ -256,7 +262,7 @@ ros2 run tf2_ros tf2_monitor base_link camera_infra1_optical_frame
 
 ##########
 
-ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 address:=0.0.0.0
 
 To see your 3D data, configure your 3D Panel as follows:
 
@@ -283,7 +289,7 @@ Performance: If the 3D view is laggy, go to the 3D panel settings and toggle "De
 
 ##########
 # optimized, less laggy
-ros2 run foxglove_bridge foxglove_bridge --ros-args \
+ros2 run foxglove_bridge foxglove_bridge --ros-args -p port:=8765 -p address:=0.0.0.0 \
   -p send_buffer_limit:=100000000 \
   -p num_threads:=2
 #########################
@@ -363,11 +369,11 @@ colcon build --packages-select rc_hardware_control
 source install/setup.bash
 ros2 launch rc_hardware_control perception_only.launch.py
 
-ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 address:=0.0.0.0
 
 ##########
 # optimized, less laggy
-ros2 run foxglove_bridge foxglove_bridge --ros-args \
+ros2 run foxglove_bridge foxglove_bridge --ros-args -p port:=8765 -p address:=0.0.0.0 \
   -p send_buffer_limit:=100000000 \
   -p num_threads:=2
 #########################
@@ -489,7 +495,7 @@ source install/setup.bash
 # Test ESS with RealSense D435i
 # (the ESS experiment launches were deleted in #12; the stack uses the D435i's own depth)
 
-ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 address:=0.0.0.0
 #########################
 ###########################
 
@@ -517,10 +523,10 @@ To use Foxglove Studio for visualization:
 
 ```bash
 # Launch Foxglove bridge
-ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 address:=0.0.0.0
 
 # Or run manually
-ros2 run foxglove_bridge foxglove_bridge --ros-args -p port:=8765
+ros2 run foxglove_bridge foxglove_bridge --ros-args -p port:=8765 -p address:=0.0.0.0
 
 # Then open Foxglove Studio and connect to:
 # ws://localhost:8765 (if running locally)
