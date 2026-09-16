@@ -134,7 +134,7 @@ ros2 topic echo (camera/vslam/nvblox...)
 ros2 topic topic echo /visual_slam/status --once
 /nvblox_node/mesh  -- camera needs to move
 
-foxglove - 3D nvblox_node/mesh, image - camera/infra1/rect_raw_whatever
+foxglove - 3D nvblox_node/mesh (bench only), image - /camera_preview/image/compressed
 
 6. rebuild as needed
 colcon build --packages-select rc_hardware_control  --symlink-install
@@ -180,8 +180,15 @@ rs-enumerate-devices -v
 ssh -p 2222 -N -L 8765:localhost:8765 pg@<router-wan-ip>
 #   then open ws://localhost:8765 in Foxglove (or forward 8765 in VS Code's Ports tab).
 #   The tunnel shares the ssh connection, so heavy Foxglove traffic lags the terminal too.
-#   Over wifi, leave /nvblox_node/mesh (~30 Mbit/s) and the 30 Hz image out of Foxglove.
-#   Use the /compressed image topics; the bridge's own compression is off (CPU cost).
+#   Camera view: an Image panel on /camera_preview/image/compressed (5 Hz, 424 px wide,
+#   emitter-off infra1; scripts/camera_preview.py, issue #16). The full launch's bridge
+#   passes no full-rate image. Over wifi, also leave /nvblox_node/mesh (~30 Mbit/s) out.
+#   Full-rate images on the bench (router LAN, not the house wifi): a second bridge that
+#   listens on the Jetson only, reached through ssh (no new open port):
+ros2 run foxglove_bridge foxglove_bridge --ros-args -r __node:=foxglove_bridge_bench \
+  -p port:=8766 -p address:=127.0.0.1 -p send_buffer_limit:=1000000 \
+  -p "topic_whitelist:=['/camera/infra1/image_rect_raw/compressed', '/depth/image_rect_raw']"
+ssh -N -L 8766:localhost:8766 pg@192.168.8.100    # on the laptop; then ws://localhost:8766
 # Keep 192.168.8.100 fixed: set an address reservation for the Jetson in the router's
 # admin page (http://192.168.8.1), or the forward points at the wrong host after a new lease.
 # Older addresses (before the GL.iNet router): wired 192.168.86.43, wifi 192.168.86.245

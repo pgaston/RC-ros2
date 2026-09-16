@@ -122,6 +122,9 @@ def generate_launch_description():
     )
 
     # 6. Foxglove
+    # Over the car's wifi link (~7 Mbit/s, issue #10) Foxglove gets only what
+    # fits: no full-rate image, and a 5 Hz half-width JPEG from the camera
+    # preview instead (issue #16).
     foxglove_bridge_node = Node(
         package='foxglove_bridge',
         executable='foxglove_bridge',
@@ -130,23 +133,22 @@ def generate_launch_description():
             'address': '0.0.0.0',
             'port': 8765,
             # Websocket compression costs a third of a core on the Orin Nano
-            # (bench, 2026-09-14) and starves the perception container. The
-            # image topics have /compressed variants; use those in Foxglove.
+            # (bench, 2026-09-14) and starves the perception container.
             'use_compression': False,
-            # Drop messages once 1 MB is queued for a client. The 10 MB default
-            # is over 10 s of backlog on the car's ~7 Mbit/s wifi link (#10).
+            # Per-client queue before the bridge drops messages. At 100 MB a
+            # bridge or link that fell behind queued seconds of data and the
+            # camera view ran 4 s late (2026-09-14); the 10 MB default is still
+            # over 10 s of backlog on the wifi link, so 1 MB.
             'send_buffer_limit': 1000000,
+            # Each pattern must match the whole topic name (std::regex_match).
+            # The full-rate images are left out: the infra stream alone is about
+            # 20 Mbit/s and raw depth 24 MB/s (2026-09-16). For those on the
+            # bench, run a second bridge by hand (README).
             'topic_whitelist': [
                             '^/tf', 
                             '/tf_static',
                             '/diagnostics.*',
-                            # image_transport's compressed variants stay under the
-                            # camera node's name; the remapping to the root topics
-                            # applies only to the raw images.
-                            '/camera/color/image_raw/compressed',
-                            '/camera/infra1/image_rect_raw/compressed',
-                            '/camera/depth/image_rect_raw/compressedDepth',   # light; if the panel cannot decode it use the raw one
-                            '/depth/image_rect_raw',                   # 24 MB/s at 30 Hz; only while debugging depth
+                            '/camera_preview/image/compressed',   # 5 Hz, 424 px wide
                             '/plan',
                             '/local_plan',
                             '/cmd_vel',          # Nav2's output
@@ -160,17 +162,29 @@ def generate_launch_description():
                             '^/local_costmap/.*',
                             '^/global_costmap/.*',
                             '^/visual_slam/.*',
-                            '^/nvblox_node/.*',
-                            '/nvblox_node/mesh',
-
+                            '^/nvblox_node/.*',   # includes the mesh, ~30 Mbit/s: leave it out of remote layouts
                         ],
-            # Per-client queue before the bridge drops messages. At 100 MB a
-            # bridge or link that falls behind queued seconds of data and the
-            # camera view ran 4 s late (2026-09-14); at 10 MB, the bridge's own
-            # default, it drops old messages and stays near real time.
-            'send_buffer_limit': 10000000,
             'min_qos_depth': 1,
             'max_qos_depth': 10
+        }],
+    )
+
+    # The camera view for Foxglove: visual SLAM's emitter-off infra1 stream,
+    # which has no IR dots, cut to 5 Hz and 424 px wide (estimated under
+    # 1 Mbit/s; measure on the car).
+    # Outside the perception bring-up, so the watchdog's restarts leave it be;
+    # it picks the stream up again when the camera returns.
+    camera_preview_node = Node(
+        package='rc_hardware_control',
+        executable='camera_preview.py',
+        name='camera_preview',
+        output='screen',
+        parameters=[{
+            'input_topic': '/emitter_off/infra1/image_rect_raw',
+            'output_topic': '/camera_preview/image/compressed',
+            'rate_hz': 5.0,
+            'max_width': 424,
+            'jpeg_quality': 60,
         }],
     )
 
@@ -235,6 +249,7 @@ def generate_launch_description():
         velocity_mux_node,
         jetson_stats_node,
         foxglove_bridge_node,
+        camera_preview_node,
         perception_watchdog_node,
 
         # Start Nav2 after the perception container (up at 4 s) so TFs are ready

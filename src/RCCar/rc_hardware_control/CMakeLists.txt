@@ -25,6 +25,7 @@ ament_python_install_package(${PROJECT_NAME})
 # Install Python scripts as executables so `ros2 run` and the launch find them
 install(
   PROGRAMS
+    scripts/camera_preview.py
     scripts/cmd_vel_logger.py
     scripts/frame_rename.py
     scripts/goal_pose_relay.py
@@ -55,6 +56,9 @@ if(BUILD_TESTING)
   ament_add_pytest_test(test_tracking_error test/test_tracking_error.py)
   ament_add_pytest_test(test_tracking_recorder_node test/test_tracking_recorder_node.py TIMEOUT 120)
   ament_add_pytest_test(test_jetson_health test/test_jetson_health.py)
+  ament_add_pytest_test(test_camera_preview test/test_camera_preview.py)
+  ament_add_pytest_test(test_camera_preview_node test/test_camera_preview_node.py TIMEOUT 120)
+  ament_add_pytest_test(test_full_launch test/test_full_launch.py)
 endif()
 
 ## EXPORTS
