@@ -67,12 +67,14 @@ def perception_nodes(camera_profile, obstacle_band_lower_edge, robot_frame, came
         # does not declare, without a warning: check `ros2 param dump /camera`.
         parameters=[{
             'camera_name': 'camera',
-            # Force ROS time instead of hardware timestamps, on every module.
-            # Stamps stay in ROS time even though the driver warns that the
-            # frames' time domain is HARDWARE_CLOCK.
-            'depth_module.global_time_enabled': False,
-            'motion_module.global_time_enabled': False,
-            'rgb_camera.global_time_enabled': False,
+            # Map the camera's hardware clock to host time, on every module.
+            # Off, the stamps are the hardware clock plus one offset taken at
+            # start: they drift ~5 ms a minute and jump back ~4295 s when the
+            # camera's 32-bit microsecond counter wraps, which stops visual
+            # SLAM every 71.6 minutes (issue #18, recorded 2026-09-16).
+            'depth_module.global_time_enabled': True,
+            'motion_module.global_time_enabled': True,
+            'rgb_camera.global_time_enabled': True,
 
             # TF comes from the URDF, not the driver.
             'publish_tf': False,

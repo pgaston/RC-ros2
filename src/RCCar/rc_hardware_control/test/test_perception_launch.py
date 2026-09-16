@@ -52,6 +52,15 @@ def remap_table(node):
     return {text(src): text(dst) for src, dst in node.remappings}
 
 
+def test_camera_stamps_are_mapped_to_host_time_on_every_module(nodes):
+    # Without it the stamps follow the camera's 32-bit microsecond clock: they
+    # drift ~5 ms a minute and jump back ~4295 s when it wraps, and visual SLAM
+    # stops (issue #18).
+    p = params_of(nodes['camera'])
+    for module in ('depth_module', 'motion_module', 'rgb_camera'):
+        assert p[f'{module}.global_time_enabled'] is True, module
+
+
 def test_the_emitter_alternates_frame_by_frame(nodes):
     p = params_of(nodes['camera'])
     assert p['depth_module.emitter_enabled'] == 1
