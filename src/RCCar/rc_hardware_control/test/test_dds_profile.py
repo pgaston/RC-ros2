@@ -22,14 +22,27 @@ WORKSPACE = PACKAGE_DIR.parents[2]
 PROFILE = PACKAGE_DIR / 'config' / 'disable_shm.xml'
 CONTAINER_PROFILE = '/workspaces/isaac_ros-dev/src/RCCar/rc_hardware_control/config/disable_shm.xml'
 PARTICIPANT = '''
-import time, rclpy
+import os, socket, time, rclpy
 from std_msgs.msg import String
 rclpy.init()
 node = rclpy.create_node('dds_profile_probe')
 node.create_publisher(String, '/dds_profile_probe', 10)
-print('ready', flush=True)
+# The receive buffer of each UDP socket this process listens on: the ones in
+# the domain's RTPS port range, not the ephemeral ports it only sends from.
+base = 7400 + 250 * int(os.environ['ROS_DOMAIN_ID'])
+buffers = []
+for fd in map(int, os.listdir('/proc/self/fd')):
+    try:
+        s = socket.socket(fileno=os.dup(fd))
+    except OSError:
+        continue
+    if s.type == socket.SOCK_DGRAM and base <= s.getsockname()[1] < base + 250:
+        buffers.append(s.getsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF))
+    s.close()
+print('ready', *buffers, flush=True)
 time.sleep(30)
 '''
+MIN_RECEIVE_BUFFER = 4 * 1024 * 1024
 
 
 def udp_addresses(pid):
@@ -55,24 +68,35 @@ def participant():
     process = subprocess.Popen([sys.executable, '-c', PARTICIPANT], env=env,
                                stdout=subprocess.PIPE, text=True)
     try:
-        assert process.stdout.readline().strip() == 'ready'
+        ready, *buffers = process.stdout.readline().split()
+        assert ready == 'ready'
         time.sleep(1.0)
-        yield process.pid
+        yield process.pid, [int(b) for b in buffers]
     finally:
         process.kill()
         process.wait()
 
 
 def test_the_profile_uses_no_shared_memory(participant):
-    maps = pathlib.Path(f'/proc/{participant}/maps').read_text()
+    pid, _ = participant
+    maps = pathlib.Path(f'/proc/{pid}/maps').read_text()
     assert '/dev/shm/fastrtps' not in maps
 
 
 def test_the_profile_keeps_udp_on_loopback(participant):
-    addresses = udp_addresses(participant)
+    pid, _ = participant
+    addresses = udp_addresses(pid)
     assert addresses, 'the participant opened no UDP sockets'
     # 239.255.0.1 is the discovery multicast group, joined on loopback only.
     assert addresses <= {'127.0.0.1', '239.255.0.1'}
+
+
+def test_the_profile_asks_for_large_receive_buffers(participant):
+    # The 212 KB kernel default overflowed on every node; the bridge's losses
+    # turned into a heartbeat storm at 60% of a core (issue #17).
+    _, buffers = participant
+    assert buffers, 'the participant listens on no UDP port'
+    assert min(buffers) >= MIN_RECEIVE_BUFFER, buffers
 
 
 def docker_run_args():
