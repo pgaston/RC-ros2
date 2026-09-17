@@ -18,6 +18,7 @@
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>nav2_msgs</depend>
+  <depend>action_msgs</depend>
   <depend>isaac_ros_common</depend>
   <exec_depend>ros2launch</exec_depend>
   <exec_depend>nav2_common</exec_depend>

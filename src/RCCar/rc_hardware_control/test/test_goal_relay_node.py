@@ -18,11 +18,11 @@ rclpy = pytest.importorskip('rclpy')
 from geometry_msgs.msg import PointStamped, PoseStamped, TransformStamped  # noqa: E402
 from nav2_msgs.action import NavigateToPose  # noqa: E402
 from nav_msgs.msg import OccupancyGrid, Path  # noqa: E402
-from rclpy.action import ActionServer, CancelResponse, GoalResponse  # noqa: E402
+from rclpy.action import ActionClient, ActionServer, CancelResponse, GoalResponse  # noqa: E402
 from rclpy.callback_groups import ReentrantCallbackGroup  # noqa: E402
 from rclpy.executors import MultiThreadedExecutor  # noqa: E402
 from rclpy.qos import QoSDurabilityPolicy, QoSProfile  # noqa: E402
-from std_msgs.msg import String  # noqa: E402
+from std_msgs.msg import Empty, String  # noqa: E402
 from tf2_ros import StaticTransformBroadcaster, TransformBroadcaster  # noqa: E402
 
 from rc_hardware_control.goal_relay_policy import quaternion_of_yaw, yaw_of  # noqa: E402
@@ -111,6 +111,7 @@ class Harness:
         self._plan = self.node.create_publisher(Path, '/plan', 10)
         self.points = self.node.create_publisher(PointStamped, '/clicked_point', 10)
         self.poses = self.node.create_publisher(PoseStamped, '/goal_pose', 10)
+        self.cancels = self.node.create_publisher(Empty, '/goal_relay/cancel', 10)
         self._tf = StaticTransformBroadcaster(self.node)
         self._tf_dynamic = TransformBroadcaster(self.node)
         self._robot_on_tf = False
@@ -176,6 +177,9 @@ class Harness:
         q.x, q.y, q.z, q.w = quaternion_of_yaw(yaw)
         self.poses.publish(msg)
 
+    def cancel(self):
+        self.cancels.publish(Empty())
+
     def ready(self, x=0.0, y=0.0, yaw=0.0):
         self.robot_at(x, y, yaw)
         self.grid()
@@ -215,6 +219,7 @@ def relay(harness):
     try:
         wait_until(lambda: harness.points.get_subscription_count() > 0
                    and harness.poses.get_subscription_count() > 0
+                   and harness.cancels.get_subscription_count() > 0
                    and harness.node.count_subscribers('/navigate_to_pose/_action/feedback') > 0,
                    20.0, 'the relay to come up')
         time.sleep(0.5)
@@ -378,3 +383,36 @@ def test_nav2_refusing_the_goal_is_a_rejection(harness, relay):
     harness.nav.accept = False
     harness.click(3.0, 0.0)
     assert harness.wait_for_statuses(1) == ['rejected: navigate_to_pose refused the Goal']
+
+
+def test_stop_cancels_the_goal_and_reports_it_once(harness, relay):
+    harness.ready()
+    harness.click(3.0, 0.0)
+    harness.wait_for_statuses(1)
+    time.sleep(0.3)   # Nav2 is executing the Goal
+    harness.cancel()
+    assert harness.wait_for_statuses(2)[1] == 'aborted: cancelled by the operator'
+    wait_until(lambda: harness.nav.cancelled == [0], 5.0, 'the goal to be cancelled')
+    time.sleep(0.5)
+    assert len(harness.statuses) == 2   # the cancellation's result is not reported again
+
+
+def test_stop_cancels_a_goal_sent_around_the_relay(harness, relay):
+    client = ActionClient(harness.node, NavigateToPose, 'navigate_to_pose')
+    assert client.wait_for_server(timeout_sec=5.0)
+    client.send_goal_async(NavigateToPose.Goal())
+    wait_until(lambda: harness.nav.goals, 5.0, 'the goal at the fake Nav2')
+    time.sleep(0.3)
+    harness.cancel()
+    wait_until(lambda: harness.nav.cancelled == [0], 5.0, 'the goal to be cancelled')
+    time.sleep(0.3)
+    assert harness.statuses == []   # not the relay's Goal, so no status
+    client.destroy()
+
+
+def test_a_goal_after_a_stop_is_sent_as_usual(harness, relay):
+    harness.ready()
+    harness.cancel()
+    time.sleep(0.3)
+    harness.click(3.0, 0.0)
+    assert harness.wait_for_statuses(1)[0].startswith('accepted: going to (3.00, 0.00)')

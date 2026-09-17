@@ -11,6 +11,11 @@ admitted Goal is transformed into odom, faces along the bearing from the car
 replaces the current one: the current one is reported aborted and cancelled,
 then the new one is sent.
 
+Stop: any message on /goal_relay/cancel (std_msgs/Empty; a Foxglove Publish
+panel makes it a button) cancels every navigate_to_pose Goal, the relay's and
+any other client's, and reports the relay's current Goal aborted. Holding
+teleop at zero only pauses a Goal; this ends it.
+
 Status topic, for Foxglove and for any program that sends the car somewhere
 (the future VLM brain):
   /goal_relay/status  std_msgs/String, reliable, transient local with depth 1
@@ -22,8 +27,9 @@ Status topic, for Foxglove and for any program that sends the car somewhere
             Nav2 refused it, or Nav2 found no path to it (a Goal in a wall)
   arrived   within the Arrival tolerance
   stuck     Nav2 gave up after at least one Recovery
-  aborted   ended any other way: preempted by a new Goal, perception lost,
-            cancelled outside the relay, or aborted by Nav2
+  aborted   ended any other way: preempted by a new Goal, cancelled by the
+            operator, perception lost, cancelled outside the relay, or
+            aborted by Nav2
 Each Goal gets either rejected alone, or accepted followed by one of arrived,
 stuck, aborted or rejected. A caller that publishes a Goal takes the messages
 that follow as that Goal's answers.
@@ -35,7 +41,7 @@ received, never decoded.
 
 Parameters: global_frame, robot_frame, action_name, status_topic,
 occupancy_grid_topic, perception_status_topic ('' to admit without the
-perception watchdog), plan_topic, pose_topic, point_topic.
+perception watchdog), plan_topic, pose_topic, point_topic, cancel_topic.
 """
 import math
 import time
@@ -52,7 +58,8 @@ from rclpy.node import Node
 from rclpy.qos import QoSDurabilityPolicy, QoSProfile, qos_profile_sensor_data
 from rclpy.serialization import deserialize_message
 from rclpy.time import Time
-from std_msgs.msg import String
+from action_msgs.srv import CancelGoal
+from std_msgs.msg import Empty, String
 from tf2_geometry_msgs import do_transform_point
 from tf2_msgs.msg import TFMessage
 
@@ -128,8 +135,10 @@ class GoalRelay(Node):
         plan_topic = self._parameter('plan_topic', '/plan')
         pose_topic = self._parameter('pose_topic', '/goal_pose')
         point_topic = self._parameter('point_topic', '/clicked_point')
+        cancel_topic = self._parameter('cancel_topic', '/goal_relay/cancel')
 
         self._client = ActionClient(self, NavigateToPose, self._action)
+        self._cancel_all = self.create_client(CancelGoal, f'{self._action}/_action/cancel_goal')
         self._tf = TfOnDemand(self)
         latched = QoSProfile(depth=1, durability=QoSDurabilityPolicy.TRANSIENT_LOCAL)
         self._status_publisher = self.create_publisher(String, status_topic, latched)
@@ -149,9 +158,10 @@ class GoalRelay(Node):
             PoseStamped, pose_topic, lambda m: self._on_request(m.header.frame_id, m.pose.position), 10)
         self.create_subscription(
             PointStamped, point_topic, lambda m: self._on_request(m.header.frame_id, m.point), 10)
+        self.create_subscription(Empty, cancel_topic, self._on_cancel, 10)
         self.get_logger().info(
             f'Goals from {pose_topic} and {point_topic} to {self._action} in {self._global_frame}; '
-            f'status on {status_topic}')
+            f'stop on {cancel_topic}; status on {status_topic}')
 
     def _parameter(self, name, default):
         self.declare_parameter(name, default)
@@ -226,6 +236,22 @@ class GoalRelay(Node):
         if current.handle is not None:
             current.handle.cancel_goal_async()
         # A Goal Nav2 has not answered yet is cancelled when the answer comes.
+
+    def _on_cancel(self, _msg):
+        current = self._current
+        if current is not None and not current.finished:
+            current.finished = True
+            self._report('aborted', 'cancelled by the operator')
+            # A Goal Nav2 has not answered yet is cancelled when the answer comes.
+        else:
+            self.get_logger().info('stop requested with no Goal of ours running; cancelling any other')
+        # An all-zero goal id and stamp cancels every Goal on the server, so a
+        # Goal sent around the relay (ros2 action send_goal) stops too. This
+        # also cancels the relay's own, so its handle needs no separate cancel.
+        if self._cancel_all.service_is_ready():
+            self._cancel_all.call_async(CancelGoal.Request())
+        else:
+            self.get_logger().error(f'cannot stop: {self._action} cancel service is not available')
 
     def _on_feedback(self, sent: SentGoal):
         def callback(msg):

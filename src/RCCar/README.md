@@ -78,6 +78,16 @@ To drive the car from a script on the bench, publish to the teleop topic so the 
 ros2 run rc_hardware_control test_bicycle.py     # scripted forward, turns, reverse, stop
 ```
 
+## Stopping a Goal, and watching the plan
+
+Teleop only pauses a Goal: while it is held the mux ignores Nav2, and once it is released Nav2 drives on. To end the Goal, publish anything on `/goal_relay/cancel` (`std_msgs/Empty`). The Goal relay cancels every `navigate_to_pose` Goal, including ones sent around it, and reports `aborted: cancelled by the operator` on `/goal_relay/status`. In Foxglove, a Publish panel with topic `/goal_relay/cancel`, schema `std_msgs/msg/Empty` and message `{}` is the stop button. Without Foxglove:
+
+```bash
+ros2 topic pub --once /goal_relay/cancel std_msgs/msg/Empty
+```
+
+To watch the plan in Foxglove, use a 3D panel with display frame `odom` and turn on `/global_costmap/costmap` and `/local_costmap/costmap` (colour mode Costmap, partly transparent), then `/plan` (`nav_msgs/Path`, replanned at 1 Hz) and `/goal_pose` above them. Leave `/nvblox_node/*` off over Wi-Fi.
+
 Tests run without hardware: gtests for the mapping code, pytest for the perception launch interface.
 
 ```bash
@@ -92,7 +102,7 @@ colcon test --packages-select pca9685_hardware_interface rc_hardware_control
 | `cmd_vel_logger.py` | Prints every `/cmd_vel` message, for watching what Nav2 sends. Remap it to watch another topic. |
 | `velocity_mux.py` | The velocity mux: Twist in from teleop and Nav2, TwistStamped out. Started by the launch with `config/velocity_mux.yaml`. |
 | `frame_rename.py` | Republishes the infra2 camera info with the frame id visual SLAM expects. Started by the launch. |
-| `goal_pose_relay.py` | The Goal relay. Forwards `/goal_pose` and `/clicked_point` to Nav2's NavigateToPose action. |
+| `goal_pose_relay.py` | The Goal relay. Forwards `/goal_pose` and `/clicked_point` to Nav2's NavigateToPose action; `/goal_relay/cancel` stops it. |
 | `rs-imu-calibration.py` | Intel's RealSense IMU calibration tool, kept for bench use. Not a ROS node. |
 
 ## Troubleshooting
