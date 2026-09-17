@@ -66,3 +66,12 @@ def test_the_bridge_still_passes_what_driving_needs(nodes):
                   '/cmd_vel_teleop', '/local_costmap/costmap', '/global_costmap/costmap',
                   '/perception/status'):
         assert bridge_passes(bridge, topic), topic
+
+
+def test_the_bridge_takes_tf_best_effort_and_tf_static_reliably(nodes):
+    # A reliable /tf reader in the bridge that stalls makes both /tf writers
+    # resend to it and heartbeat every /tf reader, ~85k packets a second
+    # (issue #17). /tf_static is latched and rare, so it stays reliable.
+    patterns = params_of(nodes['foxglove_bridge'])['best_effort_qos_topic_whitelist']
+    assert any(re.fullmatch(p, '/tf') for p in patterns)
+    assert not any(re.fullmatch(p, '/tf_static') for p in patterns)

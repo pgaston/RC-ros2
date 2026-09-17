@@ -164,6 +164,14 @@ def generate_launch_description():
                             '^/visual_slam/.*',
                             '^/nvblox_node/.*',   # includes the mesh, ~30 Mbit/s: leave it out of remote layouts
                         ],
+            # /tf best effort. With a reliable /tf reader here, both /tf writers
+            # (robot_state_publisher, visual SLAM) at times kept resending to
+            # the bridge, ~5000 samples a second each, and heartbeating every
+            # /tf reader: ~85k packets a second, 60% of a core here and 45%
+            # more in perception (issue #17, captured 2026-09-16). A best-effort
+            # reader gets no resends. A lost /tf sample is replaced ~20 ms
+            # later. /tf_static is latched and rare, so it stays reliable.
+            'best_effort_qos_topic_whitelist': ['/tf'],
             'min_qos_depth': 1,
             'max_qos_depth': 10
         }],
