@@ -101,7 +101,7 @@ cd ${ISAAC_ROS_WS}/src/isaac_ros_common/scripts
 
 Note: key files at:
 - ${ISAAC_ROS_WS}/docker/.isaac_ros_dev-dockerargs (run_dev.sh reads only ~/.isaac_ros_dev-dockerargs or a copy beside itself; start_workspace.sh keeps the home file a symlink to the repo copy)
-- ~/.isaac_ros_common-config
+- ${ISAAC_ROS_WS}/docker/.isaac_ros_common-config (sourced on the host by run_dev.sh as ~/.isaac_ros_common-config; start_workspace.sh keeps that a symlink too)
 - ${ISAAC_ROS_WS}/docker 
 
 3. Inside Docker

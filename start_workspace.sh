@@ -27,19 +27,25 @@ fi
 SETUP_BASHRC="$WORKSPACE_DIR/docker/setup_bashrc.user.sh"
 
 # run_dev.sh reads ~/.isaac_ros_dev-dockerargs (falling back to a copy next to
-# itself, never to docker/), so keep the home file a symlink to the repo copy.
-ARGS_FILE="$HOME/.isaac_ros_dev-dockerargs"
-REPO_ARGS_FILE="$(readlink -f "$WORKSPACE_DIR/docker/.isaac_ros_dev-dockerargs")"
-if [ "$(readlink -f "$ARGS_FILE" 2>/dev/null)" != "$REPO_ARGS_FILE" ]; then
-    if [ -e "$ARGS_FILE" ] || [ -L "$ARGS_FILE" ]; then
-        mv --backup=numbered "$ARGS_FILE" "$ARGS_FILE.bak"
+# itself, never to docker/) and ~/.isaac_ros_common-config, so keep both home
+# files symlinks to the repo copies.
+link_home_file() {
+    local home_file="$HOME/$1"
+    local repo_file
+    repo_file="$(readlink -f "$WORKSPACE_DIR/docker/$1")"
+    if [ "$(readlink -f "$home_file" 2>/dev/null)" != "$repo_file" ]; then
+        if [ -e "$home_file" ] || [ -L "$home_file" ]; then
+            mv --backup=numbered "$home_file" "$home_file.bak"
+        fi
+        if ln -s "$repo_file" "$home_file"; then
+            echo "Linked $home_file -> $repo_file"
+        else
+            echo "Warning: could not link $home_file to $repo_file; run_dev.sh may use a stale copy"
+        fi
     fi
-    if ln -s "$REPO_ARGS_FILE" "$ARGS_FILE"; then
-        echo "Linked $ARGS_FILE -> $REPO_ARGS_FILE"
-    else
-        echo "Warning: could not link $ARGS_FILE to $REPO_ARGS_FILE; run_dev.sh may use stale docker args"
-    fi
-fi
+}
+link_home_file .isaac_ros_dev-dockerargs
+link_home_file .isaac_ros_common-config
 
 echo "=========================================="
 echo "    Launching Isaac ROS Docker..."
