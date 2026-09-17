@@ -80,10 +80,10 @@ ros2 run rc_hardware_control test_bicycle.py     # scripted forward, turns, reve
 
 ## Stopping a Goal, and watching the plan
 
-Teleop only pauses a Goal: while it is held the mux ignores Nav2, and once it is released Nav2 drives on. To end the Goal, publish anything on `/goal_relay/cancel` (`std_msgs/Empty`). The Goal relay cancels every `navigate_to_pose` Goal, including ones sent around it, and reports `aborted: cancelled by the operator` on `/goal_relay/status`. In Foxglove, a Publish panel with topic `/goal_relay/cancel`, schema `std_msgs/msg/Empty` and message `{}` is the stop button. Without Foxglove:
+Teleop only pauses a Goal: while it is held the mux ignores Nav2, and once it is released Nav2 drives on. To end the Goal, publish any `std_msgs/String` on `/goal_relay/cancel` (the text is ignored). The Goal relay cancels every `navigate_to_pose` Goal, including ones sent around it, and reports `aborted: cancelled by the operator` on `/goal_relay/status`. In Foxglove, a Publish panel with topic `/goal_relay/cancel`, schema `std_msgs/msg/String` and message `{"data": "stop"}` is the stop button. Not `std_msgs/Empty`: foxglove_bridge 3.2.4 accepts that from Foxglove but never publishes it. Without Foxglove:
 
 ```bash
-ros2 topic pub --once /goal_relay/cancel std_msgs/msg/Empty
+ros2 topic pub --once /goal_relay/cancel std_msgs/msg/String "{data: stop}"
 ```
 
 To watch the plan in Foxglove, use a 3D panel with display frame `odom` and turn on `/global_costmap/costmap` and `/local_costmap/costmap` (colour mode Costmap, partly transparent), then `/plan` (`nav_msgs/Path`, replanned at 1 Hz) and `/goal_pose` above them. Leave `/nvblox_node/*` off over Wi-Fi.

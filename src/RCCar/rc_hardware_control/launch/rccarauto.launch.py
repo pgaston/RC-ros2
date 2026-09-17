@@ -157,7 +157,7 @@ def generate_launch_description():
                             '/cmd_vel_hold',     # the perception watchdog's hold
                             '/perception/status',
                             '/goal_relay/status',
-                            '/goal_relay/cancel',   # the stop button (Publish panel, std_msgs/Empty)
+                            '/goal_relay/cancel',   # the stop button (Publish panel, std_msgs/String)
                             '/goal_pose',
                             '/clicked_point',
                             '^/local_costmap/.*',

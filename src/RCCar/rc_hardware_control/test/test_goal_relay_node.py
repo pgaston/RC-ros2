@@ -22,7 +22,7 @@ from rclpy.action import ActionClient, ActionServer, CancelResponse, GoalRespons
 from rclpy.callback_groups import ReentrantCallbackGroup  # noqa: E402
 from rclpy.executors import MultiThreadedExecutor  # noqa: E402
 from rclpy.qos import QoSDurabilityPolicy, QoSProfile  # noqa: E402
-from std_msgs.msg import Empty, String  # noqa: E402
+from std_msgs.msg import String  # noqa: E402
 from tf2_ros import StaticTransformBroadcaster, TransformBroadcaster  # noqa: E402
 
 from rc_hardware_control.goal_relay_policy import quaternion_of_yaw, yaw_of  # noqa: E402
@@ -111,7 +111,7 @@ class Harness:
         self._plan = self.node.create_publisher(Path, '/plan', 10)
         self.points = self.node.create_publisher(PointStamped, '/clicked_point', 10)
         self.poses = self.node.create_publisher(PoseStamped, '/goal_pose', 10)
-        self.cancels = self.node.create_publisher(Empty, '/goal_relay/cancel', 10)
+        self.cancels = self.node.create_publisher(String, '/goal_relay/cancel', 10)
         self._tf = StaticTransformBroadcaster(self.node)
         self._tf_dynamic = TransformBroadcaster(self.node)
         self._robot_on_tf = False
@@ -178,7 +178,7 @@ class Harness:
         self.poses.publish(msg)
 
     def cancel(self):
-        self.cancels.publish(Empty())
+        self.cancels.publish(String(data='stop'))
 
     def ready(self, x=0.0, y=0.0, yaw=0.0):
         self.robot_at(x, y, yaw)

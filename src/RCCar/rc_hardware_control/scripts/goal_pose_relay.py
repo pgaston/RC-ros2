@@ -11,10 +11,12 @@ admitted Goal is transformed into odom, faces along the bearing from the car
 replaces the current one: the current one is reported aborted and cancelled,
 then the new one is sent.
 
-Stop: any message on /goal_relay/cancel (std_msgs/Empty; a Foxglove Publish
-panel makes it a button) cancels every navigate_to_pose Goal, the relay's and
+Stop: any message on /goal_relay/cancel (std_msgs/String, text ignored; a
+Foxglove Publish panel makes it a button) cancels every navigate_to_pose Goal, the relay's and
 any other client's, and reports the relay's current Goal aborted. Holding
-teleop at zero only pauses a Goal; this ends it.
+teleop at zero only pauses a Goal; this ends it. Not std_msgs/Empty:
+foxglove_bridge 3.2.4 accepts an Empty channel from Foxglove but never
+publishes its messages (bench, 2026-09-17).
 
 Status topic, for Foxglove and for any program that sends the car somewhere
 (the future VLM brain):
@@ -59,7 +61,7 @@ from rclpy.qos import QoSDurabilityPolicy, QoSProfile, qos_profile_sensor_data
 from rclpy.serialization import deserialize_message
 from rclpy.time import Time
 from action_msgs.srv import CancelGoal
-from std_msgs.msg import Empty, String
+from std_msgs.msg import String
 from tf2_geometry_msgs import do_transform_point
 from tf2_msgs.msg import TFMessage
 
@@ -158,7 +160,7 @@ class GoalRelay(Node):
             PoseStamped, pose_topic, lambda m: self._on_request(m.header.frame_id, m.pose.position), 10)
         self.create_subscription(
             PointStamped, point_topic, lambda m: self._on_request(m.header.frame_id, m.point), 10)
-        self.create_subscription(Empty, cancel_topic, self._on_cancel, 10)
+        self.create_subscription(String, cancel_topic, self._on_cancel, 10)
         self.get_logger().info(
             f'Goals from {pose_topic} and {point_topic} to {self._action} in {self._global_frame}; '
             f'stop on {cancel_topic}; status on {status_topic}')
