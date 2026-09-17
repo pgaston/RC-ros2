@@ -80,9 +80,10 @@ ros2 run rc_hardware_control test_bicycle.py     # scripted forward, turns, reve
 
 ## Stopping a Goal, and watching the plan
 
-Teleop only pauses a Goal: while it is held the mux ignores Nav2, and once it is released Nav2 drives on. To end the Goal, publish any `std_msgs/String` on `/goal_relay/cancel` (the text is ignored). The Goal relay cancels every `navigate_to_pose` Goal, including ones sent around it, and reports `aborted: cancelled by the operator` on `/goal_relay/status`. In Foxglove, a Publish panel with topic `/goal_relay/cancel`, schema `std_msgs/msg/String` and message `{"data": "stop"}` is the stop button. Not `std_msgs/Empty`: foxglove_bridge 3.2.4 accepts that from Foxglove but never publishes it. Without Foxglove:
+Teleop only pauses a Goal: while it is held the mux ignores Nav2, and once it is released Nav2 drives on. To end the Goal, call `/goal_relay/stop` (`std_srvs/Trigger`). The Goal relay cancels every `navigate_to_pose` Goal, including ones sent around it, reports `aborted: cancelled by the operator` on `/goal_relay/status`, and answers with what it did. In Foxglove, a Call Service panel on `/goal_relay/stop` with request `{}` is the stop button; the bridge supplies the request type. Any `std_msgs/String` on `/goal_relay/cancel` does the same, for scripts; a Foxglove Publish panel on that topic did not work on the car (2026-09-17), and `std_msgs/Empty` cannot be used there because foxglove_bridge 3.2.4 never publishes it. Without Foxglove:
 
 ```bash
+ros2 service call /goal_relay/stop std_srvs/srv/Trigger
 ros2 topic pub --once /goal_relay/cancel std_msgs/msg/String "{data: stop}"
 ```
 
@@ -102,7 +103,7 @@ colcon test --packages-select pca9685_hardware_interface rc_hardware_control
 | `cmd_vel_logger.py` | Prints every `/cmd_vel` message, for watching what Nav2 sends. Remap it to watch another topic. |
 | `velocity_mux.py` | The velocity mux: Twist in from teleop and Nav2, TwistStamped out. Started by the launch with `config/velocity_mux.yaml`. |
 | `frame_rename.py` | Republishes the infra2 camera info with the frame id visual SLAM expects. Started by the launch. |
-| `goal_pose_relay.py` | The Goal relay. Forwards `/goal_pose` and `/clicked_point` to Nav2's NavigateToPose action; `/goal_relay/cancel` stops it. |
+| `goal_pose_relay.py` | The Goal relay. Forwards `/goal_pose` and `/clicked_point` to Nav2's NavigateToPose action; `/goal_relay/stop` stops it. |
 | `rs-imu-calibration.py` | Intel's RealSense IMU calibration tool, kept for bench use. Not a ROS node. |
 
 ## Troubleshooting

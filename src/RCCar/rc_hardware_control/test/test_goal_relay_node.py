@@ -23,6 +23,7 @@ from rclpy.callback_groups import ReentrantCallbackGroup  # noqa: E402
 from rclpy.executors import MultiThreadedExecutor  # noqa: E402
 from rclpy.qos import QoSDurabilityPolicy, QoSProfile  # noqa: E402
 from std_msgs.msg import String  # noqa: E402
+from std_srvs.srv import Trigger  # noqa: E402
 from tf2_ros import StaticTransformBroadcaster, TransformBroadcaster  # noqa: E402
 
 from rc_hardware_control.goal_relay_policy import quaternion_of_yaw, yaw_of  # noqa: E402
@@ -112,6 +113,7 @@ class Harness:
         self.points = self.node.create_publisher(PointStamped, '/clicked_point', 10)
         self.poses = self.node.create_publisher(PoseStamped, '/goal_pose', 10)
         self.cancels = self.node.create_publisher(String, '/goal_relay/cancel', 10)
+        self.stop_client = self.node.create_client(Trigger, '/goal_relay/stop')
         self._tf = StaticTransformBroadcaster(self.node)
         self._tf_dynamic = TransformBroadcaster(self.node)
         self._robot_on_tf = False
@@ -179,6 +181,13 @@ class Harness:
 
     def cancel(self):
         self.cancels.publish(String(data='stop'))
+
+    def stop(self):
+        """Call the stop service; its response."""
+        assert self.stop_client.wait_for_service(timeout_sec=5.0)
+        future = self.stop_client.call_async(Trigger.Request())
+        wait_until(future.done, 5.0, 'the stop service to answer')
+        return future.result()
 
     def ready(self, x=0.0, y=0.0, yaw=0.0):
         self.robot_at(x, y, yaw)
@@ -416,3 +425,23 @@ def test_a_goal_after_a_stop_is_sent_as_usual(harness, relay):
     time.sleep(0.3)
     harness.click(3.0, 0.0)
     assert harness.wait_for_statuses(1)[0].startswith('accepted: going to (3.00, 0.00)')
+
+
+def test_the_stop_service_cancels_the_goal_and_says_so(harness, relay):
+    harness.ready()
+    harness.click(3.0, 0.0)
+    harness.wait_for_statuses(1)
+    time.sleep(0.3)
+    response = harness.stop()
+    assert (response.success, response.message) == (True, 'cancelled the Goal')
+    assert harness.wait_for_statuses(2)[1] == 'aborted: cancelled by the operator'
+    wait_until(lambda: harness.nav.cancelled == [0], 5.0, 'the goal to be cancelled')
+
+
+def test_the_stop_service_with_no_goal_succeeds_and_says_so(harness, relay):
+    harness.ready()
+    response = harness.stop()
+    assert (response.success, response.message) == (
+        True, 'no Goal of ours was running; cancelled any other')
+    time.sleep(0.3)
+    assert harness.statuses == []
