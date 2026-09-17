@@ -14,3 +14,11 @@
 --privileged
 --env ROS_LOCALHOST_ONLY=0
 --env FASTRTPS_DEFAULT_PROFILES_FILE=/workspaces/isaac_ros-dev/src/RCCar/rc_hardware_control/config/disable_shm.xml
+# Run evidence out of the container. run_dev.sh uses --rm, and /home/admin is
+# not otherwise mounted, so everything under ~/.ros dies with the container:
+# node and launch logs, the tracking recorder's goals_*.csv and samples_*.csv,
+# and the soak recorder's soak_*.csv and events_*.csv. A field run that ends in
+# a crash then leaves nothing to debug. ISAAC_ROS_WS is exported in the host
+# ~/.bashrc; start_workspace.sh creates the directory so docker cannot create it
+# as root, which would leave the container's admin user unable to write.
+-v $ISAAC_ROS_WS/runs:/home/admin/.ros

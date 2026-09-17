@@ -47,6 +47,12 @@ link_home_file() {
 link_home_file .isaac_ros_dev-dockerargs
 link_home_file .isaac_ros_common-config
 
+# The container's ~/.ros is bind-mounted here (docker/.isaac_ros_dev-dockerargs),
+# so node logs, launch logs and the tracking and soak CSVs outlive the --rm
+# container. Create it as this user: if docker creates it, it is owned by root
+# and the container's admin user cannot write, which silently loses every log.
+mkdir -p "$WORKSPACE_DIR/runs"
+
 echo "=========================================="
 echo "    Launching Isaac ROS Docker..."
 echo "=========================================="

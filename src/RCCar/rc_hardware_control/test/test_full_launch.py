@@ -75,3 +75,11 @@ def test_the_bridge_takes_tf_best_effort_and_tf_static_reliably(nodes):
     patterns = params_of(nodes['foxglove_bridge'])['best_effort_qos_topic_whitelist']
     assert any(re.fullmatch(p, '/tf') for p in patterns)
     assert not any(re.fullmatch(p, '/tf_static') for p in patterns)
+
+
+def test_the_flight_recorder_runs_in_every_session(nodes):
+    # The run that needs the recorder is the one nobody expected to need it, so
+    # it is not a second window the operator has to remember. Its ~/.ros output
+    # is bind-mounted out of the --rm container by
+    # docker/.isaac_ros_dev-dockerargs.
+    assert params_of(nodes['soak_recorder.py'])['period_s'] == 30.0

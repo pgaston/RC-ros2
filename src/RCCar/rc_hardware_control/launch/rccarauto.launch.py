@@ -197,6 +197,27 @@ def generate_launch_description():
         }],
     )
 
+    # The flight recorder. Always on, because the run that needs it is the one
+    # nobody expected to need it: a field session that ends in a knock leaves
+    # nothing to debug afterwards otherwise. One CSV row every 30 s with the
+    # depth, odometry and occupancy-grid rates, the Perception watchdog's
+    # status, power, throttle events and temperatures, and the camera's USB
+    # address -- which changes when the camera re-enumerates, so an
+    # intermittent camera drop is visible after the fact. Status changes also
+    # go to events_*.csv as they happen. ~/.ros is bind-mounted to
+    # $ISAAC_ROS_WS/runs (docker/.isaac_ros_dev-dockerargs), so this outlives
+    # the --rm container.
+    # 30 s rather than the soak test's 10 s: this runs every session, and the
+    # rates it reports are window averages, not a stall detector -- the
+    # watchdog owns stall detection and its status changes are timestamped.
+    soak_recorder_node = Node(
+        package='rc_hardware_control',
+        executable='soak_recorder.py',
+        name='soak_recorder',
+        output='log',
+        parameters=[{'period_s': 30.0}],
+    )
+
     # 7. Navigation2 (Nav2)
     # The behaviour tree parameters need absolute paths, so the params file is
     # rewritten with the installed location of the car-like tree. Both
@@ -260,6 +281,7 @@ def generate_launch_description():
         foxglove_bridge_node,
         camera_preview_node,
         perception_watchdog_node,
+        soak_recorder_node,
 
         # Start Nav2 after the perception container (up at 4 s) so TFs are ready
         TimerAction(

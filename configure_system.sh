@@ -58,4 +58,26 @@ for node in /dev/nvhost-*gpu* /dev/nvgpu/igpu0/* /dev/tegra-soc-hwpm /dev/dri/re
     [ -e "$node" ] && setfacl -m "u:${CONTAINER_USER}:rw" "$node"
 done
 
+# 7. Persistent system journal. Without /var/log/journal, journald keeps the log
+# in /run and a reboot erases it, so a USB drop, an ethernet link flap, a
+# thermal event or an OOM kill during a run leaves no trace to debug afterwards
+# -- which is exactly what a field session ending in a knock and a reboot needs.
+# Capped so the log cannot fill the SSD; 500 MB holds weeks of these sessions.
+if [ ! -d /var/log/journal ]; then
+    echo "Enabling the persistent system journal..."
+    mkdir -p /etc/systemd/journald.conf.d
+    cat > /etc/systemd/journald.conf.d/rccar-persistent.conf <<'JOURNALD'
+# Installed by configure_system.sh. Keep the log across reboots so a run that
+# ends in a crash can still be debugged, and bound its size.
+[Journal]
+Storage=persistent
+SystemMaxUse=500M
+JOURNALD
+    mkdir -p /var/log/journal
+    systemd-tmpfiles --create --prefix /var/log/journal 2>/dev/null || true
+    systemctl restart systemd-journald
+    journalctl --flush 2>/dev/null || true
+    echo "Journal now persists across reboots (journalctl --list-boots)."
+fi
+
 echo "System configuration complete. Ready for Docker."
