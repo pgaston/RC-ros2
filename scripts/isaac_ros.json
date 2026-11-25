@@ -45,7 +45,12 @@
       "cameraTopic": "/camera/camera/color/image_raw"
     },
     "Teleop!4k2l8v": {
-      "topic": "/cmd_vel"
+      "topic": "/cmd_vel_teleop",
+      "publishRate": 10,
+      "upButton": { "field": "linear-x", "value": 0.115 },
+      "downButton": { "field": "linear-x", "value": -0.084 },
+      "leftButton": { "field": "angular-z", "value": 1 },
+      "rightButton": { "field": "angular-z", "value": -1 }
     }
   },
   "Diagnostics!gpu_monitor": {

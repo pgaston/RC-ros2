@@ -230,7 +230,7 @@ def motor_test():
         # Deadbands - wheels just barely move when off the ground
         # forward: 0.271
         # backward: -0.0405
-        for speed in [0.1, -0.1]:
+        for speed in [0.3, -0.1]:
             print(f"Testing movement...   {speed}")
             motors.set_Drivespeed(speed)
             time.sleep(3)

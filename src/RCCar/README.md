@@ -69,8 +69,11 @@ The Steering controller (`bicycle_steering_controller`) listens only to `/cmd_ve
 Teleop is the Foxglove Teleop panel publishing `geometry_msgs/Twist` on `/cmd_vel_teleop`; its 5 Hz default works, 10 Hz tolerates more Wi-Fi loss. Over ssh, the keyboard fallback is:
 
 ```bash
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/cmd_vel_teleop
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/cmd_vel_teleop \
+  -p speed:=0.115
 ```
+
+Teleop sends m/s, and the hardware plugin turns that into ESC throttle with the traction calibration in `description/description.urdf.xacro`. The panel's default ±1 m/s lands on the 0.40 cap both ways. For a gentle 0.3 forward and −0.1 reverse throttle, the up button sends 0.115 m/s and the down button −0.084 m/s; `scripts/isaac_ros.json` (workspace root) is a Foxglove layout with those values. Recompute them if `forward_offset`, `reverse_offset`, `max_output` or `max_wheel_speed_rad_s` change. The keyboard has one speed for both directions, so with `speed:=0.115` reverse is about −0.12 throttle.
 
 To drive the car from a script on the bench, publish to the teleop topic so the mux passes it through:
 
