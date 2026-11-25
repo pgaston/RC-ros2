@@ -157,33 +157,47 @@ sudo modprobe hid-sensor-hub hid-sensor-accel-3d hid-sensor-gyro-3d
 rs-enumerate-devices -v
 
 
-# Network / ssh access (GL.iNet travel router)
-# The car carries a GL.iNet router, which reaches the outside network over wifi.
-# The Jetson plugs into the router's LAN by ethernet (enP8p1s0) and gets 192.168.8.100
-# (gateway 192.168.8.1). The router forwards its port 2222 to 192.168.8.100:22.
-#   on the router's LAN:            ssh pg@192.168.8.100
-#   from the network the router is on (router's WAN address):
-#                                   ssh -p 2222 pg@<router-wan-ip>
+# Network / ssh access (GL.iNet router, off the car)
+#   car: Jetson --wifi "rccar-net"--> GL.iNet (192.168.8.1) --repeater--> house wifi "Tomato" <-- laptop
+# The GL.iNet no longer rides on the car: it stays put near where the car runs, and
+# nothing on the car is cabled to it. The car's only link is the
+# Jetson's own wifi. The GL.iNet serves rccar-net and reaches Tomato as a repeater client.
+# The Jetson joins rccar-net (wlP1p1s0; NetworkManager connection "rccar-net",
+# priority 100, power save off) with a static 192.168.8.100, gateway and DNS 192.168.8.1.
+# The router's DHCP pool starts at .150, so .100 never clashes; no reservation needed.
+# Ethernet (enP8p1s0) is not used.
+# The GL.iNet's address on Tomato (its WAN side) is 192.168.86.40 (2026-11-25), a DHCP
+# lease from Tomato: reserve it in Tomato's admin page, or update the lines below if it
+# changes. The laptop is on Tomato, so it reaches the Jetson only through the router's
+# forwards: 2222 -> 192.168.8.100:22 and 8765 -> 192.168.8.100:8765.
+# Range: the car stays in reach of the GL.iNet, not of Tomato. Check the link from the car:
+#   iw dev wlP1p1s0 link     # signal -33 dBm next to the router; worry below about -70
+# Fallback: if rccar-net is out of range the Jetson joins Tomato directly (priority 0,
+# DHCP address from the house router); then ssh/Foxglove go straight to that address.
+#   on rccar-net (router's LAN):    ssh pg@192.168.8.100
+#   from Tomato (router's WAN):     ssh -p 2222 pg@192.168.86.40
 # VS Code Remote-SSH (F1 - Remote-SSH: Open configuration), ~/.ssh/config:
 #   Host rc-car
-#     HostName <router-wan-ip>
+#     HostName 192.168.86.40
 #     Port 2222
 #     User pg
 # Foxglove: foxglove_bridge listens on 0.0.0.0:8765, no auth. The full launch sets both;
 # standalone, pass port:=8765 address:=0.0.0.0 (also the launch file's defaults).
 # The router forwards its port 8765 to 192.168.8.100:8765. The Jetson's firewall must
 # allow it once:  sudo ufw allow 8765/tcp
-#   on the router's LAN:            ws://192.168.8.100:8765
-#   from the router's WAN side:     ws://<router-wan-ip>:8765
+#   on rccar-net (router's LAN):    ws://192.168.8.100:8765
+#   from Tomato (router's WAN):     ws://192.168.86.40:8765
+#   In Foxglove: Open connection -> Foxglove WebSocket. After the bridge restarts,
+#   Foxglove shows "no data source" until the connection is opened again.
 #   Anyone who reaches 8765 can drive the car (/cmd_vel_teleop). On a network you don't
 #   trust, drop that forward and tunnel through the ssh forward instead:
-ssh -p 2222 -N -L 8765:localhost:8765 pg@<router-wan-ip>
+ssh -p 2222 -N -L 8765:localhost:8765 pg@192.168.86.40
 #   then open ws://localhost:8765 in Foxglove (or forward 8765 in VS Code's Ports tab).
 #   The tunnel shares the ssh connection, so heavy Foxglove traffic lags the terminal too.
 #   Camera view: an Image panel on /camera_preview/image/compressed (5 Hz, 424 px wide,
 #   emitter-off infra1; scripts/camera_preview.py, issue #16). The full launch's bridge
 #   passes no full-rate image. Over wifi, also leave /nvblox_node/mesh (~30 Mbit/s) out.
-#   Full-rate images on the bench (router LAN, not the house wifi): a second bridge that
+#   Full-rate images on the bench (laptop on rccar-net, not Tomato): a second bridge that
 #   listens on the Jetson only, reached through ssh (no new open port):
 ros2 run foxglove_bridge foxglove_bridge --ros-args -r __node:=foxglove_bridge_bench \
   -p port:=8766 -p address:=127.0.0.1 -p send_buffer_limit:=1000000 \
@@ -191,9 +205,10 @@ ros2 run foxglove_bridge foxglove_bridge --ros-args -r __node:=foxglove_bridge_b
 ssh -N -L 8766:localhost:8766 pg@192.168.8.100    # on the laptop; then ws://localhost:8766
 # ROS traffic (DDS) never leaves the Jetson: the container's Fast DDS profile keeps UDP on
 # 127.0.0.1 and turns shared memory off (config/disable_shm.xml, ROS_LOCALHOST_ONLY=0; #17).
-# Keep 192.168.8.100 fixed: set an address reservation for the Jetson in the router's
-# admin page (http://192.168.8.1), or the forward points at the wrong host after a new lease.
-# Older addresses (before the GL.iNet router): wired 192.168.86.43, wifi 192.168.86.245
+# 192.168.8.100 is set on the Jetson itself (static, outside the router's .150+ pool),
+# so the forwards always point at it. Older setups: the GL.iNet on the car with the
+# Jetson cabled to it (enP8p1s0, 192.168.8.100); before the GL.iNet, wired
+# 192.168.86.43, wifi 192.168.86.245.
 use usbc connection if this fails to find out ip address
 
 # wifi off
