@@ -34,7 +34,7 @@
                  its 0.5 s timeout after the Path follower stops; a reverse
                  started inside that window is chopped by them. Let it drain. -->
             <Wait wait_duration="1"/>
-            <!-- backup_speed stays under the 0.26 m/s debugging cap; the
+            <!-- backup_speed stays under the 0.115 m/s debugging cap; the
                  behaviour publishes on /cmd_vel directly, not through the
                  velocity smoother, so the cap here is the only one.
                  The reverse is best effort: if it is cut short (something
