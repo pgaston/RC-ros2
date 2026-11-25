@@ -206,6 +206,18 @@ hardware_interface::CallbackReturn Pca9685SystemHardware::on_activate(
 hardware_interface::CallbackReturn Pca9685SystemHardware::on_deactivate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
+  // The PCA9685 keeps sending the last pulse after this process stops, so a
+  // car stopped mid-drive would keep driving. Leave every ESC at neutral.
+  for (auto i = 0u; i < joint_configs_.size(); i++) {
+    const JointConfig & cfg = joint_configs_[i];
+    if (cfg.interface_type != hardware_interface::HW_IF_VELOCITY) { continue; }
+    try {
+      pca->set_pwm_ms(cfg.channel, cfg.motor.neutral_pulse_ms);
+      RCLCPP_INFO(logger(), "ESC on channel %d set to neutral.", cfg.channel);
+    } catch (const std::exception & e) {
+      RCLCPP_ERROR(logger(), "Could not set ESC on channel %d to neutral: %s", cfg.channel, e.what());
+    }
+  }
   RCLCPP_INFO(logger(), "Successfully deactivated!");
   return hardware_interface::CallbackReturn::SUCCESS;
 }

@@ -13,6 +13,10 @@ public:
 
   void WriteRegisterByte(const uint8_t register_address, const uint8_t value);
 
+  // Writes len bytes starting at register_address in one I2C transaction.
+  // The peripheral must auto-increment its register pointer.
+  void WriteRegisterBlock(const uint8_t register_address, const uint8_t* values, const uint8_t len);
+
   uint8_t ReadRegisterByte(const uint8_t register_address);
 
 private:

@@ -7,6 +7,7 @@ extern "C" {
 #include <linux/i2c-dev.h>
 #include <i2c/smbus.h>
 }
+#include <stdexcept>
 #include <system_error>
 
 namespace PiPCA9685 {
@@ -27,6 +28,22 @@ void I2CPeripheral::WriteRegisterByte(const uint8_t register_address, const uint
   if(err) {
     const auto msg = "Could not write value (" + std::to_string(value) + ") to register " + std::to_string(register_address);
     throw std::system_error(errno, std::system_category(), msg);
+  }
+}
+
+void I2CPeripheral::WriteRegisterBlock(const uint8_t register_address, const uint8_t* values, const uint8_t len) {
+  if (len > I2C_SMBUS_BLOCK_MAX) {
+    throw std::invalid_argument("I2C block write longer than " + std::to_string(I2C_SMBUS_BLOCK_MAX) + " bytes");
+  }
+  i2c_smbus_data data;
+  data.block[0] = len;
+  for (uint8_t i = 0; i < len; ++i) {
+    data.block[i + 1] = values[i];
+  }
+  const auto err = i2c_smbus_access(bus_fd, I2C_SMBUS_WRITE, register_address, I2C_SMBUS_I2C_BLOCK_DATA, &data);
+  if(err) {
+    const auto msg = "Could not write " + std::to_string(len) + " bytes from register " + std::to_string(register_address);
+    throw std::system_error(-err, std::system_category(), msg);
   }
 }
 

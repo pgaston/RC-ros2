@@ -9,10 +9,18 @@ namespace PiPCA9685 {
 
 PCA9685::PCA9685(const std::string &device, int address) {
   i2c_dev = std::make_unique<I2CPeripheral>(device, address);
-  
+
+  // Auto-increment first, so every channel update below is one I2C
+  // transaction. Outputs change on each I2C STOP (MODE2 OCH = 0); written a
+  // byte at a time, a channel shows a half-updated pulse width between bytes
+  // (e.g. 1.25 ms, half reverse, while a 1.5 ms neutral is being cleared).
+  // RESTART is masked so this write cannot restart the PWM channels.
+  const auto mode1_initial = i2c_dev->ReadRegisterByte(MODE1);
+  i2c_dev->WriteRegisterByte(MODE1, (mode1_initial & ~RESTART) | AI);
+
   set_all_pwm(0,0);
   i2c_dev->WriteRegisterByte(MODE2, OUTDRV);
-  i2c_dev->WriteRegisterByte(MODE1, ALLCALL);
+  i2c_dev->WriteRegisterByte(MODE1, ALLCALL | AI);
   usleep(5'000);
   auto mode1_val = i2c_dev->ReadRegisterByte(MODE1);
   mode1_val &= ~SLEEP;
@@ -44,18 +52,17 @@ void PCA9685::set_pwm_freq(const double freq_hz) {
 }
 
 void PCA9685::set_pwm(const int channel, const uint16_t on, const uint16_t off) {
-  const auto channel_offset = 4 * channel;
-  i2c_dev->WriteRegisterByte(LED0_ON_L+channel_offset, on & 0xFF);
-  i2c_dev->WriteRegisterByte(LED0_ON_H+channel_offset, on >> 8);
-  i2c_dev->WriteRegisterByte(LED0_OFF_L+channel_offset, off & 0xFF);
-  i2c_dev->WriteRegisterByte(LED0_OFF_H+channel_offset, off >> 8);
+  const uint8_t bytes[4] = {
+    static_cast<uint8_t>(on & 0xFF), static_cast<uint8_t>(on >> 8),
+    static_cast<uint8_t>(off & 0xFF), static_cast<uint8_t>(off >> 8)};
+  i2c_dev->WriteRegisterBlock(LED0_ON_L + 4 * channel, bytes, 4);
 }
 
 void PCA9685::set_all_pwm(const uint16_t on, const uint16_t off) {
-  i2c_dev->WriteRegisterByte(ALL_LED_ON_L, on & 0xFF);
-  i2c_dev->WriteRegisterByte(ALL_LED_ON_H, on >> 8);
-  i2c_dev->WriteRegisterByte(ALL_LED_OFF_L, off & 0xFF);
-  i2c_dev->WriteRegisterByte(ALL_LED_OFF_H, off >> 8);
+  const uint8_t bytes[4] = {
+    static_cast<uint8_t>(on & 0xFF), static_cast<uint8_t>(on >> 8),
+    static_cast<uint8_t>(off & 0xFF), static_cast<uint8_t>(off >> 8)};
+  i2c_dev->WriteRegisterBlock(ALL_LED_ON_L, bytes, 4);
 }
 
 void PCA9685::set_pwm_ms(const int channel, const double ms) {
