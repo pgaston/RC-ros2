@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
+import time
+
 from launch import LaunchDescription
-from launch.actions import GroupAction, IncludeLaunchDescription, TimerAction, RegisterEventHandler
+from launch.actions import ExecuteProcess, GroupAction, IncludeLaunchDescription, TimerAction, RegisterEventHandler
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution, Command
@@ -224,6 +226,38 @@ def generate_launch_description():
         parameters=[{'period_s': 30.0}],
     )
 
+    # The drive recorder: a rosbag of what the car was told and what it
+    # thought it was doing, every session, beside the soak recorder's CSVs.
+    # The floor test of 2026-11-25 needed one after the fact twice: odometry
+    # froze at speed and Nav2 drove on (#25), and /visual_slam/status had not
+    # been kept, so whether tracking was lost could not be told.
+    # Small topics only (a few MB an hour). No images. No /tf: a reliable
+    # /tf reader made both /tf writers resend at ~5000 samples a second
+    # (#17); odometry carries the pose. Ctrl-C closes the bag cleanly.
+    SESSION_BAG_TOPICS = [
+        '/visual_slam/tracking/odometry',
+        '/visual_slam/status',
+        '/perception/status',
+        '/cmd_vel_teleop',
+        '/cmd_vel_nav',
+        '/cmd_vel',
+        '/cmd_vel_hold',
+        '/cmd_vel_mux',
+        '/joint_states',
+        '/goal_pose',
+        '/clicked_point',
+        '/goal_relay/status',
+        '/plan',
+    ]
+    session_bag = '~/.ros/bags/session_' + time.strftime('%Y%m%d-%H%M%S')
+    session_bag_recorder = ExecuteProcess(
+        name='session_bag',
+        cmd=['bash', '-c',
+             f'mkdir -p ~/.ros/bags && exec ros2 bag record -o {session_bag} '
+             + ' '.join(SESSION_BAG_TOPICS)],
+        output='log',
+    )
+
     # 7. Navigation2 (Nav2)
     # The behaviour tree parameters need absolute paths, so the params file is
     # rewritten with the installed location of the car-like tree. Both
@@ -298,6 +332,7 @@ def generate_launch_description():
         camera_preview_node,
         perception_watchdog_node,
         soak_recorder_node,
+        session_bag_recorder,
 
         # Start Nav2 after the perception container (up at 4 s) so TFs are ready
         TimerAction(

@@ -104,3 +104,20 @@ def test_only_the_goal_relay_hears_goal_pose():
     relays = [a for t in timers for a in t.actions
               if isinstance(a, Node) and a.node_executable == 'goal_pose_relay.py']
     assert relays, 'the relay starts beside Nav2, outside its remap scope'
+
+
+def test_every_session_records_a_bag_with_the_slam_status_and_no_tf():
+    # #25: whether visual SLAM had lost tracking when odometry froze could not
+    # be told afterwards. /tf stays out: a reliable /tf reader caused #17.
+    from launch.actions import ExecuteProcess
+    description = load('rccarauto.launch.py').generate_launch_description()
+    def script_of(process):
+        return ''.join(x.perform(LaunchContext()) for x in process.cmd[-1])
+    (script,) = [script_of(e) for e in description.entities
+                 if isinstance(e, ExecuteProcess) and not isinstance(e, Node)
+                 and ' bag record ' in script_of(e)]
+    topics = script.split(' bag record -o ')[1].split()[1:]
+    for wanted in ('/visual_slam/tracking/odometry', '/visual_slam/status',
+                   '/cmd_vel_nav', '/cmd_vel_mux', '/goal_relay/status'):
+        assert wanted in topics, wanted
+    assert '/tf' not in topics and not any('image' in t for t in topics)
