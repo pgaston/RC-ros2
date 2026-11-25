@@ -29,6 +29,7 @@ install(
     scripts/cmd_vel_logger.py
     scripts/frame_rename.py
     scripts/goal_pose_relay.py
+    scripts/kill_after.sh
     scripts/perception_watchdog.py
     scripts/soak_recorder.py
     scripts/test_bicycle.py

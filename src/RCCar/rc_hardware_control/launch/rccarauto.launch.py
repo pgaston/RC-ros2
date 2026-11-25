@@ -5,7 +5,7 @@ from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution, Command
 from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
+from launch_ros.substitutions import FindPackagePrefix, FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
 from nav2_common.launch import RewrittenYaml
 
@@ -125,10 +125,16 @@ def generate_launch_description():
     # Over the car's wifi link (~7 Mbit/s, issue #10) Foxglove gets only what
     # fits: no full-rate image, and a 5 Hz half-width JPEG from the camera
     # preview instead (issue #16).
+    # foxglove_bridge 3.2.4 can hang on Ctrl-C with a client connected, and
+    # launch then waited on it for minutes without escalating (2026-11-25).
+    # kill_after.sh passes the Ctrl-C on and SIGKILLs the bridge 3 s later.
     foxglove_bridge_node = Node(
         package='foxglove_bridge',
         executable='foxglove_bridge',
         name='foxglove_bridge',
+        prefix=[PathJoinSubstitution([
+            FindPackagePrefix('rc_hardware_control'), 'lib', 'rc_hardware_control', 'kill_after.sh'
+        ]), ' 3'],
         parameters=[{
             'address': '0.0.0.0',
             'port': 8765,
