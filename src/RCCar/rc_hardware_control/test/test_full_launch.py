@@ -83,3 +83,24 @@ def test_the_flight_recorder_runs_in_every_session(nodes):
     # is bind-mounted out of the --rm container by
     # docker/.isaac_ros_dev-dockerargs.
     assert params_of(nodes['soak_recorder.py'])['period_s'] == 30.0
+
+
+def test_only_the_goal_relay_hears_goal_pose():
+    # bt_navigator subscribes to /goal_pose on its own; the launch remaps it
+    # away inside a scoped group around the Nav2 include, outside of which the
+    # relay keeps /goal_pose.
+    from launch.actions import GroupAction, IncludeLaunchDescription, TimerAction
+    from launch_ros.actions import SetRemap
+    description = load('rccarauto.launch.py').generate_launch_description()
+    timers = [e for e in description.entities if isinstance(e, TimerAction)]
+    groups = [a for t in timers for a in t.actions if isinstance(a, GroupAction)]
+    (nav2,) = [g for g in groups
+               if any(isinstance(a, IncludeLaunchDescription) for a in g.get_sub_entities())]
+    context = LaunchContext()
+    remaps = [(a._SetRemap__src, a._SetRemap__dst) for a in nav2.get_sub_entities()
+              if isinstance(a, SetRemap)]
+    resolved = [tuple(''.join(x.perform(context) for x in part) for part in r) for r in remaps]
+    assert ('/goal_pose', '/bt_navigator/goal_pose_unused') in resolved
+    relays = [a for t in timers for a in t.actions
+              if isinstance(a, Node) and a.node_executable == 'goal_pose_relay.py']
+    assert relays, 'the relay starts beside Nav2, outside its remap scope'

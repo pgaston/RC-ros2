@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, TimerAction, RegisterEventHandler
+from launch.actions import GroupAction, IncludeLaunchDescription, TimerAction, RegisterEventHandler
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution, Command
-from launch_ros.actions import Node
+from launch_ros.actions import Node, SetRemap
 from launch_ros.substitutions import FindPackagePrefix, FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
 from nav2_common.launch import RewrittenYaml
@@ -244,7 +244,13 @@ def generate_launch_description():
         convert_types=True,
     )
 
-    nav2_launch = IncludeLaunchDescription(
+    # Nav2's bt_navigator subscribes to /goal_pose itself (Humble hard-codes
+    # it) and would start its own NavigateToPose Goal, skipping the relay's
+    # admission checks and heading; the relay then preempts it. Move that
+    # subscription out of the way so the relay stays the only client
+    # (found on the floor 2026-11-25). Scoped: the remap reaches only Nav2.
+    NAV2_GOAL_POSE_UNUSED = '/bt_navigator/goal_pose_unused'
+    nav2_include = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
                 FindPackageShare('nav2_bringup'),
@@ -257,6 +263,10 @@ def generate_launch_description():
             'use_bond': 'False',
             'log_level': 'WARN'
         }.items()
+    )
+    nav2_launch = GroupAction(
+        scoped=True,
+        actions=[SetRemap(src='/goal_pose', dst=NAV2_GOAL_POSE_UNUSED), nav2_include],
     )
 
     goal_pose_relay_node = Node(
