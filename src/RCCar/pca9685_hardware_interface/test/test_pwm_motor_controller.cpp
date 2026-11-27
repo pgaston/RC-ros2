@@ -288,3 +288,70 @@ TEST(Brake, ConfigureSanitisesBrakeOutputSign)
   m.configure(c);
   EXPECT_DOUBLE_EQ(m.config().brake_output, 0.0);
 }
+
+// The ESC ignores forward after power-up until it has seen one below-neutral
+// pulse (#26). Arming ends with that pulse when arming_reverse_output < 0.
+namespace
+{
+PwmMotorController::Config unlock_config()
+{
+  PwmMotorController::Config c;
+  c.arming_reverse_output = -0.10;
+  c.arming_reverse_s = 0.20;
+  c.arming_reverse_settle_s = 0.30;
+  return c;
+}
+}  // namespace
+
+TEST(ArmingUnlock, DisabledByDefaultSoArmingGoesStraightToForward)
+{
+  PwmMotorController m;
+  m.configure({});
+  step(m, 2.5 + 0.5 + 0.5 + 2 * kDt);
+  EXPECT_EQ(m.get_state(), State::FORWARD);
+}
+
+TEST(ArmingUnlock, ForwardTapThenBelowNeutralPulseThenNeutralBeforeForward)
+{
+  PwmMotorController m;
+  m.configure(unlock_config());
+  m.set_command(5.0);  // still ignored until FORWARD
+
+  step(m, 2.5 + 0.5 + 0.5 + 2 * kDt);
+  // The tap comes first: without it the fresh ESC drives the pulse as reverse.
+  EXPECT_EQ(m.get_state(), State::ARMING_TAP);
+  m.update(kDt);
+  EXPECT_NEAR(m.get_duty_cycle(), 1.5 + 0.10 * 0.5, 1e-9);
+  EXPECT_DOUBLE_EQ(m.get_velocity(), 0.0);
+
+  step(m, 0.20);
+  EXPECT_EQ(m.get_state(), State::ARMING_TAP_NEUTRAL);
+  EXPECT_DOUBLE_EQ(m.get_duty_cycle(), 1.5);
+
+  step(m, 0.20);
+  EXPECT_EQ(m.get_state(), State::ARMING_REVERSE_PULSE);
+  m.update(kDt);
+  EXPECT_NEAR(m.get_duty_cycle(), 1.5 - 0.10 * 0.5, 1e-9);
+  EXPECT_DOUBLE_EQ(m.get_velocity(), 0.0);
+
+  step(m, 0.20);
+  EXPECT_EQ(m.get_state(), State::ARMING_NEUTRAL_3);
+  EXPECT_DOUBLE_EQ(m.get_duty_cycle(), 1.5);
+  EXPECT_DOUBLE_EQ(m.get_velocity(), 0.0);
+
+  step(m, 0.30);
+  EXPECT_EQ(m.get_state(), State::FORWARD);
+  m.update(kDt);
+  EXPECT_GT(m.get_duty_cycle(), 1.5);  // forward accepted straight after
+}
+
+TEST(ArmingUnlock, ConfigureSanitisesPulseSign)
+{
+  PwmMotorController::Config c = unlock_config();
+  c.arming_reverse_output = 0.10;  // above neutral would be throttle, not the unlock
+  PwmMotorController m;
+  m.configure(c);
+  EXPECT_DOUBLE_EQ(m.config().arming_reverse_output, 0.0);
+  step(m, 2.5 + 0.5 + 0.5 + 2 * kDt);
+  EXPECT_EQ(m.get_state(), State::FORWARD);
+}

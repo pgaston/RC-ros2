@@ -16,6 +16,7 @@ void PwmMotorController::configure(const Config & config)
   config_.forward_offset = std::clamp(config_.forward_offset, 0.0, config_.max_output);
   config_.reverse_offset = std::clamp(config_.reverse_offset, -config_.max_output, 0.0);
   config_.reverse_tap_output = std::clamp(config_.reverse_tap_output, 0.0, 1.0);
+  config_.arming_reverse_output = std::clamp(config_.arming_reverse_output, -1.0, 0.0);
   config_.brake_output = std::clamp(config_.brake_output, -1.0, 0.0);
   config_.brake_max_s = std::max(config_.brake_max_s, 0.0);
   config_.brake_release_s = std::max(config_.brake_release_s, 0.0);
@@ -114,7 +115,35 @@ void PwmMotorController::update(double dt)
 
     case MotorState::ARMING_NEUTRAL_2:
       current_duty_cycle_ = config_.neutral_pulse_ms;
-      if (time_in_state_s_ >= config_.arming_settle_s) { enter(MotorState::FORWARD); }
+      if (time_in_state_s_ >= config_.arming_settle_s) {
+        const bool unlock = config_.arming_reverse_output < 0.0 && config_.arming_reverse_s > 0.0;
+        enter(unlock ? MotorState::ARMING_TAP : MotorState::FORWARD);
+      }
+      break;
+
+    case MotorState::ARMING_TAP:
+      // Same tap as the direction change into reverse. arming_pulse_output
+      // (0.05) is too weak to count; without a tap the ESC fresh from
+      // power-up drives the next below-neutral pulse as reverse.
+      current_duty_cycle_ = output_to_duty_cycle(config_.reverse_tap_output);
+      if (time_in_state_s_ >= config_.reverse_release_s) { enter(MotorState::ARMING_TAP_NEUTRAL); }
+      break;
+
+    case MotorState::ARMING_TAP_NEUTRAL:
+      current_duty_cycle_ = config_.neutral_pulse_ms;
+      if (time_in_state_s_ >= config_.reverse_settle_s) { enter(MotorState::ARMING_REVERSE_PULSE); }
+      break;
+
+    case MotorState::ARMING_REVERSE_PULSE:
+      // The below-neutral pulse the ESC needs once per power-up before it
+      // accepts forward (#26). After the tap the ESC reads it as a brake.
+      current_duty_cycle_ = output_to_duty_cycle(config_.arming_reverse_output);
+      if (time_in_state_s_ >= config_.arming_reverse_s) { enter(MotorState::ARMING_NEUTRAL_3); }
+      break;
+
+    case MotorState::ARMING_NEUTRAL_3:
+      current_duty_cycle_ = config_.neutral_pulse_ms;
+      if (time_in_state_s_ >= config_.arming_reverse_settle_s) { enter(MotorState::FORWARD); }
       break;
 
     case MotorState::FORWARD:

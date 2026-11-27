@@ -15,6 +15,10 @@ public:
     ARMING_NEUTRAL_1,
     ARMING_PULSE,
     ARMING_NEUTRAL_2,
+    ARMING_TAP,
+    ARMING_TAP_NEUTRAL,
+    ARMING_REVERSE_PULSE,
+    ARMING_NEUTRAL_3,
     FORWARD,
     REVERSE,
     TO_REVERSE_NEUTRAL_1,
@@ -50,6 +54,16 @@ public:
     double arming_pulse_s = 0.5;
     double arming_pulse_output = 0.05;  // fraction sent during arming_pulse_s
     double arming_settle_s = 0.5;
+    // After a power-up the ESC ignores forward until it has been through the
+    // reverse sequence once (#26). Arming replays it: the forward tap
+    // (reverse_tap_output for reverse_release_s, then reverse_settle_s of
+    // neutral), one below-neutral pulse, and a neutral settle. The tap
+    // matters: without it the ESC reads the pulse as reverse and the wheels
+    // twitch backward; after it the pulse is a brake and the ESC only beeps.
+    // arming_reverse_output = 0 skips the whole step.
+    double arming_reverse_output = 0.0;    // fraction in [-1, 0]
+    double arming_reverse_s = 0.20;
+    double arming_reverse_settle_s = 0.30;
 
     // Direction change into reverse, found experimentally on the bench
     // (TestPCA9685ESC.py): neutral, a short forward tap, neutral again, and

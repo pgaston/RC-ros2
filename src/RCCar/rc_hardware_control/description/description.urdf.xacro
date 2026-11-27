@@ -286,6 +286,16 @@
       <param name="arming_pulse_s">0.5</param>
       <param name="arming_pulse_output">0.05</param>
       <param name="arming_settle_s">0.5</param>
+      <!-- After an ESC power-up, forward does nothing until the ESC has seen
+           one below-neutral pulse; it beeps, does not move, and then forward
+           and reverse both work (#26, seen 2026-11-25 and 2026-11-27).
+           Arming replays what teleop reverse did: the forward tap
+           (reverse_tap_output / reverse_release_s / reverse_settle_s below),
+           this pulse, then a neutral settle. The pulse alone, without the
+           tap, twitched the wheels backward. 0.0 skips the whole step. -->
+      <param name="arming_reverse_output">-0.02</param>   <!-- on blocks: -0.10 twitched the wheels backward, -0.03 about 1/10 turn -->
+      <param name="arming_reverse_s">0.20</param>
+      <param name="arming_reverse_settle_s">0.30</param>
       <!-- Into reverse: neutral, a short forward tap, neutral, then reverse.
            Found experimentally on the bench (TestPCA9685ESC.py: 0.2 s each,
            tap at 0.1). Without the tap the ESC ignores reverse commands. -->
