@@ -16,11 +16,16 @@ void PwmMotorController::configure(const Config & config)
   config_.forward_offset = std::clamp(config_.forward_offset, 0.0, config_.max_output);
   config_.reverse_offset = std::clamp(config_.reverse_offset, -config_.max_output, 0.0);
   config_.reverse_tap_output = std::clamp(config_.reverse_tap_output, 0.0, 1.0);
+  config_.brake_output = std::clamp(config_.brake_output, -1.0, 0.0);
+  config_.brake_max_s = std::max(config_.brake_max_s, 0.0);
+  config_.brake_release_s = std::max(config_.brake_release_s, 0.0);
   state_ = MotorState::INITIALIZING;
   time_in_state_s_ = 0.0;
   time_since_command_s_ = 0.0;
   target_command_ = 0.0;
   current_duty_cycle_ = config_.neutral_pulse_ms;
+  last_forward_command_ = 0.0;
+  brake_duration_s_ = 0.0;
 }
 
 void PwmMotorController::set_command(double wheel_speed_rad_s)
@@ -37,6 +42,12 @@ bool PwmMotorController::is_command_forward() const
 bool PwmMotorController::is_command_reverse() const
 {
   return target_command_ <= -config_.input_deadband_rad_s;
+}
+
+bool PwmMotorController::should_brake() const
+{
+  return config_.brake_output < 0.0 && config_.brake_max_s > 0.0 &&
+         last_forward_command_ >= config_.brake_min_speed_rad_s;
 }
 
 void PwmMotorController::enter(MotorState next)
@@ -107,11 +118,46 @@ void PwmMotorController::update(double dt)
       break;
 
     case MotorState::FORWARD:
-      if (is_command_reverse()) {
+      if (is_command_forward()) {
+        last_forward_command_ = target_command_;
+        current_duty_cycle_ = compute_duty_cycle(target_command_);
+      } else if (should_brake()) {
+        // Stop or reverse requested while moving forward: brake first.
+        const double fraction =
+          std::clamp(last_forward_command_ / config_.max_wheel_speed_rad_s, 0.0, 1.0);
+        brake_duration_s_ = config_.brake_max_s * fraction;
+        last_forward_command_ = 0.0;
+        enter(MotorState::BRAKING);
+        current_duty_cycle_ = output_to_duty_cycle(config_.brake_output);
+      } else if (is_command_reverse()) {
+        last_forward_command_ = 0.0;
         enter(MotorState::TO_REVERSE_NEUTRAL_1);
         current_duty_cycle_ = config_.neutral_pulse_ms;
       } else {
+        last_forward_command_ = 0.0;
+        current_duty_cycle_ = config_.neutral_pulse_ms;
+      }
+      break;
+
+    case MotorState::BRAKING:
+      if (is_command_forward()) {
+        // Forward throttle is accepted straight out of brake.
+        enter(MotorState::FORWARD);
+        last_forward_command_ = target_command_;
         current_duty_cycle_ = compute_duty_cycle(target_command_);
+      } else if (time_in_state_s_ >= brake_duration_s_) {
+        enter(MotorState::BRAKE_RELEASE);
+        current_duty_cycle_ = config_.neutral_pulse_ms;
+      } else {
+        current_duty_cycle_ = output_to_duty_cycle(config_.brake_output);
+      }
+      break;
+
+    case MotorState::BRAKE_RELEASE:
+      current_duty_cycle_ = config_.neutral_pulse_ms;
+      if (time_in_state_s_ >= config_.brake_release_s) {
+        // Into reverse via the bench-proven tap sequence; otherwise stay stopped in FORWARD.
+        enter(is_command_reverse() ? MotorState::TO_REVERSE_NEUTRAL_1 : MotorState::FORWARD);
       }
       break;
 

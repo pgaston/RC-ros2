@@ -20,7 +20,9 @@ public:
     TO_REVERSE_NEUTRAL_1,
     TO_REVERSE_PULSE,
     TO_REVERSE_NEUTRAL_2,
-    TO_FORWARD_NEUTRAL
+    TO_FORWARD_NEUTRAL,
+    BRAKING,
+    BRAKE_RELEASE
   };
 
   // ESC calibration. Every field is read from the traction joint's <param>
@@ -57,6 +59,17 @@ public:
     double reverse_release_s = 0.20;     // tap length
     double reverse_settle_s = 0.20;      // neutral after the tap
     double forward_settle_s = 0.20;
+
+    // Active brake when a forward command drops to zero or flips to reverse.
+    // The ESC (forward/brake/reverse mode) reads a below-neutral pulse while
+    // the motor is spinning forward as brake, not reverse. The pulse is held
+    // for brake_max_s scaled by the last forward speed as a fraction of
+    // max_wheel_speed_rad_s, so a slow car gets a short brake and never runs
+    // into the ESC's reverse. brake_output = 0 disables braking (coast).
+    double brake_output = 0.0;             // fraction in [-1, 0]; deeper = harder on a proportional-brake ESC
+    double brake_max_s = 0.40;             // brake length from max_wheel_speed_rad_s
+    double brake_min_speed_rad_s = 1.0;    // slower forward commands just coast to neutral
+    double brake_release_s = 0.10;         // neutral after the brake before anything else
   };
 
   PwmMotorController() = default;
@@ -82,12 +95,15 @@ private:
   double time_since_command_s_ = 0.0;
   double target_command_ = 0.0;
   double current_duty_cycle_ = 1.5;
+  double last_forward_command_ = 0.0;  // most recent forward command while driving; sizes the brake
+  double brake_duration_s_ = 0.0;
 
   bool is_command_forward() const;
   bool is_command_reverse() const;
   void enter(MotorState next);
   double output_to_duty_cycle(double output) const;
   double compute_duty_cycle(double command) const;
+  bool should_brake() const;
 };
 
 }  // namespace pca9685_hardware_interface

@@ -187,3 +187,104 @@ TEST(Configure, SanitisesImpossibleValues)
   EXPECT_DOUBLE_EQ(m.config().forward_offset, 0.9);
   EXPECT_DOUBLE_EQ(m.config().reverse_offset, 0.0);
 }
+
+namespace
+{
+PwmMotorController::Config braking_config()
+{
+  PwmMotorController::Config c;
+  c.brake_output = -0.30;
+  c.brake_max_s = 0.40;
+  c.brake_min_speed_rad_s = 1.0;
+  c.brake_release_s = 0.10;
+  return c;
+}
+}  // namespace
+
+TEST(Brake, DisabledByDefaultSoStoppingCoasts)
+{
+  PwmMotorController m = armed();
+  duty_for(m, 10.0);
+  EXPECT_DOUBLE_EQ(duty_for(m, 0.0), 1.5);
+  EXPECT_EQ(m.get_state(), State::FORWARD);
+}
+
+TEST(Brake, StopFromFullSpeedBrakesForBrakeMaxThenReleases)
+{
+  PwmMotorController m = armed(braking_config());
+  duty_for(m, 10.0);
+  EXPECT_NEAR(duty_for(m, 0.0), 1.5 - 0.30 * 0.5, 1e-9);  // below neutral: brake, not reverse
+  EXPECT_EQ(m.get_state(), State::BRAKING);
+  EXPECT_DOUBLE_EQ(m.get_velocity(), 0.0);
+
+  step(m, 0.40 - 2 * kDt);
+  EXPECT_EQ(m.get_state(), State::BRAKING);
+  step(m, 2 * kDt);
+  EXPECT_EQ(m.get_state(), State::BRAKE_RELEASE);
+  EXPECT_DOUBLE_EQ(m.get_duty_cycle(), 1.5);
+
+  step(m, 0.10 + kDt);
+  EXPECT_EQ(m.get_state(), State::FORWARD);
+  EXPECT_DOUBLE_EQ(m.get_duty_cycle(), 1.5);
+
+  // Already stopped: holding zero must not brake again (that would be reverse on a stopped motor).
+  step(m, 0.5);
+  EXPECT_EQ(m.get_state(), State::FORWARD);
+  EXPECT_DOUBLE_EQ(m.get_duty_cycle(), 1.5);
+}
+
+TEST(Brake, BrakeLengthScalesWithLastSpeed)
+{
+  PwmMotorController m = armed(braking_config());
+  duty_for(m, 5.0);   // half of max_wheel_speed -> 0.20 s of brake
+  duty_for(m, 0.0);
+  EXPECT_EQ(m.get_state(), State::BRAKING);
+  step(m, 0.20 + kDt);
+  EXPECT_EQ(m.get_state(), State::BRAKE_RELEASE);
+}
+
+TEST(Brake, SlowCommandsJustCoast)
+{
+  PwmMotorController m = armed(braking_config());
+  duty_for(m, 0.5);   // below brake_min_speed_rad_s
+  EXPECT_DOUBLE_EQ(duty_for(m, 0.0), 1.5);
+  EXPECT_EQ(m.get_state(), State::FORWARD);
+}
+
+TEST(Brake, ForwardCommandDuringBrakeResumesImmediately)
+{
+  PwmMotorController m = armed(braking_config());
+  duty_for(m, 10.0);
+  duty_for(m, 0.0);
+  EXPECT_EQ(m.get_state(), State::BRAKING);
+  EXPECT_NEAR(duty_for(m, 5.0), 1.5 + 0.29 * 0.5, 1e-9);
+  EXPECT_EQ(m.get_state(), State::FORWARD);
+  EXPECT_DOUBLE_EQ(m.get_velocity(), 5.0);
+}
+
+TEST(Brake, ReverseFromForwardBrakesThenUsesTheTapSequence)
+{
+  PwmMotorController m = armed(braking_config());
+  duty_for(m, 10.0);
+  EXPECT_NEAR(duty_for(m, -5.0), 1.5 - 0.30 * 0.5, 1e-9);
+  EXPECT_EQ(m.get_state(), State::BRAKING);
+  step(m, 0.40 + kDt);
+  EXPECT_EQ(m.get_state(), State::BRAKE_RELEASE);
+  step(m, 0.10 + kDt);
+  EXPECT_EQ(m.get_state(), State::TO_REVERSE_NEUTRAL_1);
+  step(m, 0.20 + kDt);
+  EXPECT_EQ(m.get_state(), State::TO_REVERSE_PULSE);
+  step(m, 0.40 + 2 * kDt);
+  EXPECT_EQ(m.get_state(), State::REVERSE);
+  m.update(kDt);
+  EXPECT_NEAR(m.get_duty_cycle(), 1.5 - 0.29 * 0.5, 1e-9);
+}
+
+TEST(Brake, ConfigureSanitisesBrakeOutputSign)
+{
+  PwmMotorController::Config c = braking_config();
+  c.brake_output = 0.3;  // positive would be throttle, not brake
+  PwmMotorController m;
+  m.configure(c);
+  EXPECT_DOUBLE_EQ(m.config().brake_output, 0.0);
+}

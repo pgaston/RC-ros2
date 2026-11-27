@@ -72,6 +72,10 @@ PwmMotorController::Config parse_motor(const Params & p, std::set<std::string> &
   c.reverse_release_s = read_param(p, "reverse_release_s", c.reverse_release_s, consumed);
   c.reverse_settle_s = read_param(p, "reverse_settle_s", c.reverse_settle_s, consumed);
   c.forward_settle_s = read_param(p, "forward_settle_s", c.forward_settle_s, consumed);
+  c.brake_output = read_param(p, "brake_output", c.brake_output, consumed);
+  c.brake_max_s = read_param(p, "brake_max_s", c.brake_max_s, consumed);
+  c.brake_min_speed_rad_s = read_param(p, "brake_min_speed_rad_s", c.brake_min_speed_rad_s, consumed);
+  c.brake_release_s = read_param(p, "brake_release_s", c.brake_release_s, consumed);
   return c;
 }
 }  // namespace

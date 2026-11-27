@@ -294,6 +294,16 @@
       <param name="reverse_release_s">0.20</param>
       <param name="reverse_settle_s">0.20</param>
       <param name="forward_settle_s">0.20</param>
+      <!-- Active brake when a forward command drops to zero or flips to reverse:
+           a below-neutral pulse for brake_max_s x (last speed / max_wheel_speed_rad_s),
+           then brake_release_s of neutral. Forward commands below
+           brake_min_speed_rad_s just coast. brake_output 0.0 turns braking off.
+           Starting values, NOT yet bench-tested on the Rlaarlo 45A ESC: if the
+           car jerks backward at the end of a stop, shorten brake_max_s. -->
+      <param name="brake_output">-0.30</param>
+      <param name="brake_max_s">0.40</param>
+      <param name="brake_min_speed_rad_s">1.0</param>
+      <param name="brake_release_s">0.10</param>
     </joint>
   </ros2_control>
 </robot>
